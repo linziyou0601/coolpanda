@@ -1,3 +1,5 @@
 line-bot-sdk
 flask
 Flask-SQLAlchemy
+Flask-Migrate
+Flask-Script
