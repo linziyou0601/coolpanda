@@ -20,10 +20,7 @@ class UserData(db.Model):
     KeyWord = db.Column(db.String(256))
     Description = db.Column(db.String(256))
 
-    def __init__(self
-                 , KeyWord
-                 , Description
-                 ):
+    def __init__(self, KeyWord, Description):
         self.KeyWord = KeyWord
         self.Description = Description
 
