@@ -65,14 +65,14 @@ def handle_message(event):
                 event.reply_token,
                 TextSendMessage(text=content))
             return 0
-    if lineMessage[0:2] == "刪除":
+    elif lineMessage[0:2] == "刪除":
         lineMes = lineMessage.split(';')
         keymessage = lineMes[1]
         if excludeWord(keymessage, event) == 1:
             conn = psycopg2.connect(database="d6tkud0mtknjov", user="ifvbkjtshpsxqj", password="4972b22ed367ed7346b0107d3c3e97db14fac1dde628cd6d7f08cf502c927ee1", host="ec2-50-16-197-244.compute-1.amazonaws.com", port="5432")
             for message in lineMes[2:]:
                 cur = conn.cursor()
-                sql = "DELETE FROM userdata WHERE (KeyWord='%s' AND Description='%s');"
+                sql = "DELETE FROM userdata WHERE KeyWord='%s' AND Description='%s';"
                 cur.execute(sql, (keymessage, message))
                 conn.commit()
             conn.close()
