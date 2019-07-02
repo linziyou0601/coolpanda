@@ -41,6 +41,9 @@ def handle_message(event):
     if lineMessage[0:4] == "加入選項":
         lineMes = lineMessage.split(';')
         keymessage = lineMes[1]
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text=keymessage))
         excludeWord = ['目錄', '吃什麼']
         if keymessage in excludeWord:
             content = "這句話不能說，很可怕！"
@@ -49,11 +52,16 @@ def handle_message(event):
                 TextSendMessage(text=content))
             return 0
         message = lineMes[2]
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text=message))
         add_data = UserData(keymessage, message)
         db.session.add(add_data)
         db.session.commit()
         db.session.close()
-
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text="SUCCESS"))
         content = "我知道但我不想說"
         line_bot_api.reply_message(
             event.reply_token,
