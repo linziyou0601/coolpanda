@@ -17,8 +17,8 @@ class UserData(db.Model):
     __tablename__ = 'UserData'
 	
     Id = db.Column(db.Integer, primary_key=True)
-    KeyWord = db.Column(db.text)
-    Description = db.Column(db.text)
+    KeyWord = db.Column(db.Text)
+    Description = db.Column(db.Text)
 
     def __init__(self, KeyWord, Description):
         self.KeyWord = KeyWord
