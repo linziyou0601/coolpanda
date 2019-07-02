@@ -59,7 +59,7 @@ def handle_message(event):
         conn.close()
         content = ""
         for row in keyList:
-            content = content + row + "\n"
+            content = content + row[0] + "\n"
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text=content))
