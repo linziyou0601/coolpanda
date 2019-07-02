@@ -9,7 +9,7 @@ from linebot.exceptions import (
 from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage,
 )
-from dModel import UserData
+import dModel
 
 app = Flask(__name__)
 
