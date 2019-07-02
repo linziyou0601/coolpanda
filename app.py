@@ -53,7 +53,7 @@ def handle_message(event):
             return 0
         message = lineMes[2]
         cur = conn.cursor()
-        cur.execute("INSERT INTO userdata (KeyWord, Description) VALUES(%s, %s)", (keymessage, message))
+        cur.execute("INSERT INTO userdata (KeyWord, Description) VALUES(%s, %s);", (keymessage, message))
         conn.commit()
         cur.close()
         conn.close()
