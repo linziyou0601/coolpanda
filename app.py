@@ -55,7 +55,7 @@ def handle_message(event):
         cur = conn.cursor()
         cur.execute("INSERT INTO userdata (KeyWord, Description) VALUES(%s, %s)", (keymessage, message))
         conn.commit()
-        cursor.close()
+        cur.close()
         conn.close()
         content = "我知道但我不想說"
         line_bot_api.reply_message(
