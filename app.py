@@ -12,8 +12,6 @@ from linebot.models import (
 import os
 import psycopg2
 
-conn = psycopg2.connect(database="d6tkud0mtknjov", user="ifvbkjtshpsxqj", password="4972b22ed367ed7346b0107d3c3e97db14fac1dde628cd6d7f08cf502c927ee1", host="ec2-50-16-197-244.compute-1.amazonaws.com", port="5432")
-
 app = Flask(__name__)
 
 line_bot_api = LineBotApi('HRWbC4w2S3J3JvFAQQkQnp4gxXVWtCwLWgrdanU72Y26+hwAoZvdiwhjyLPuIPdYLaqqy4ZDIC48EDGEo9FDp0VhS453OJfXEfFCwoFhZxhIFy6ESVLFr7fPuythQb4WA4gvEHkCjJ+yuMJDgzeR8gdB04t89/1O/w1cDnyilFU=')
@@ -52,6 +50,7 @@ def handle_message(event):
                 TextSendMessage(text=content))
             return 0
         message = lineMes[2]
+        conn = psycopg2.connect(database="d6tkud0mtknjov", user="ifvbkjtshpsxqj", password="4972b22ed367ed7346b0107d3c3e97db14fac1dde628cd6d7f08cf502c927ee1", host="ec2-50-16-197-244.compute-1.amazonaws.com", port="5432")
         cur = conn.cursor()
         cur.execute("INSERT INTO userdata (KeyWord, Description) VALUES(%s, %s);", (keymessage, message))
         conn.commit()
