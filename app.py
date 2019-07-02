@@ -52,6 +52,9 @@ def handle_message(event):
                 TextSendMessage(text=content))
             return 0
         message = lineMes[2]
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text=message))
         cur = conn.cursor()
         cur.execute("INSERT INTO userdata ('KeyWord', 'Description') VALUES(%s, %s)", (keymessage, message))
         conn.commit()
