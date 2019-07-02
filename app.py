@@ -10,7 +10,6 @@ from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage,
 )
 from dModel import *
-import psycopg2
 
 app = Flask(__name__)
 
