@@ -25,7 +25,7 @@ class UserData(db.Model):
         self.Description = Description
 
     def __repr__(self):
-        return '<UserData %r>' % self.KeyWord
+        return "<UserData('%s', '%s')>" % (self.KeyWord, self.Description)
 
 
 if __name__ == '__main__':
