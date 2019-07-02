@@ -24,10 +24,8 @@ class UserData(db.Model):
                  , KeyWord
                  , Description
                  ):
-        self.Name = Name
         self.KeyWord = KeyWord
         self.Description = Description
-        self.CreateDate = CreateDate
 
 
 if __name__ == '__main__':
