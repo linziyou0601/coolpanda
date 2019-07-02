@@ -15,10 +15,6 @@ manager.add_command('db', MigrateCommand)
 
 class UserData(db.Model):
     __tablename__ = 'UserData'
-	
-    Id = db.Column(db.Integer, primary_key=True)
-    KeyWord = db.Column(db.String(256))
-    Description = db.Column(db.String(256))
 
     def __init__(self, KeyWord, Description):
         self.KeyWord = KeyWord
