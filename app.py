@@ -72,7 +72,7 @@ def handle_message(event):
             conn = psycopg2.connect(database="d6tkud0mtknjov", user="ifvbkjtshpsxqj", password="4972b22ed367ed7346b0107d3c3e97db14fac1dde628cd6d7f08cf502c927ee1", host="ec2-50-16-197-244.compute-1.amazonaws.com", port="5432")
             cur = conn.cursor()
             sql = "DELETE FROM userdata WHERE KeyWord=%s;"
-            cur.execute(sql, (keymessage))
+            cur.execute(sql, keymessage)
             conn.commit()
             conn.close()
             content = "我把這些垃圾給全吃了"
