@@ -10,7 +10,6 @@ from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage,
 )
 from dModel import UserData
-import datetime
 
 app = Flask(__name__)
 
@@ -54,10 +53,8 @@ def handle_message(event):
             return 0
         message = lineMes[2]
         add_data = UserData(
-            Name=room,
             KeyWord=keymessage,
-            Description=message,
-            CreateDate=datetime.now()
+            Description=message
         )
         db.session.add(add_data)
         db.session.commit()
