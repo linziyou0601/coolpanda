@@ -49,10 +49,7 @@ def handle_message(event):
                 TextSendMessage(text=content))
             return 0
         message = lineMes[2]
-        add_data = UserData(
-            KeyWord=keymessage,
-            Description=message
-        )
+        add_data = UserData(keymessage, message)
         db.session.add(add_data)
         db.session.commit()
         db.session.close()
