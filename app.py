@@ -42,28 +42,31 @@ def handle_message(event):
         lineMes = lineMessage.split(';')
         keymessage = lineMes[1]
         excludeWord = ['目錄', '吃什麼']
-    if keymessage in excludeWord:
-        content = "這句話不能說，很可怕！"
+        if keymessage in excludeWord:
+            content = "這句話不能說，很可怕！"
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text=content))
+            return 0
+        message = lineMes[2]
+        add_data = UserData(
+            Name=room,
+            KeyWord=keymessage,
+            Description=message,
+            CreateDate=datetime.now()
+        )
+        db.session.add(add_data)
+        db.session.commit()
+        db.session.close()
+
+        content = "我知道但我不想說"
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text=content))
         return 0
-    message = lineMes[2]
-    add_data = UserData(
-        Name=room,
-        KeyWord=keymessage,
-        Description=message,
-        CreateDate=datetime.now()
-    )
-    db.session.add(add_data)
-    db.session.commit()
-    db.session.close()
-
-    content = "我知道但我不想說"
-    line_bot_api.reply_message(
-        event.reply_token,
-        TextSendMessage(text=content))
-    return 0
+    else:
+        message = TextSendMessage(text=event.message.text)
+        line_bot_api.reply_message(event.reply_token, message)
     
 #@handler.add(MessageEvent, message=TextMessage)
 #def handle_message(event):
