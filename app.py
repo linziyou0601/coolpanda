@@ -49,13 +49,10 @@ def handle_message(event):
                 TextSendMessage(text=content))
             return 0
         message = lineMes[2]
-        add_data = UserData(keymessage, message)
+        add_data = UserData(KeyWord=keymessage, Description=message)
         db.session.add(add_data)
         db.session.commit()
         db.session.close()
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text="SUCCESS"))
         content = "我知道但我不想說"
         line_bot_api.reply_message(
             event.reply_token,
