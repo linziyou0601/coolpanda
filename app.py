@@ -48,16 +48,18 @@ def excludeWord(msg, event):
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
+    conn = psycopg2.connect(database="d6tkud0mtknjov", user="ifvbkjtshpsxqj", password="4972b22ed367ed7346b0107d3c3e97db14fac1dde628cd6d7f08cf502c927ee1", host="ec2-50-16-197-244.compute-1.amazonaws.com", port="5432")
     lineMessage = event.message.text
     if lineMessage[0:4] == "所有主題":
         lineMes = lineMessage.split(';')
         sql = "SELECT KeyWord from userdata;"
+        cur = conn.cursor()
         cur.execute(sql)
         keyList = cur.fetchall()
         conn.commit()
         conn.close()
         content = ""
-        for row in mobile_records:
+        for row in keyList:
             content = content + row + "\n"
         line_bot_api.reply_message(
             event.reply_token,
@@ -67,7 +69,6 @@ def handle_message(event):
         lineMes = lineMessage.split(';')
         keymessage = lineMes[1]
         if excludeWord(keymessage, event) == 1:
-            conn = psycopg2.connect(database="d6tkud0mtknjov", user="ifvbkjtshpsxqj", password="4972b22ed367ed7346b0107d3c3e97db14fac1dde628cd6d7f08cf502c927ee1", host="ec2-50-16-197-244.compute-1.amazonaws.com", port="5432")
             for message in lineMes[2:]:
                 cur = conn.cursor()
                 sql = "INSERT INTO userdata (KeyWord, Description) VALUES(%s, %s);"
@@ -83,7 +84,6 @@ def handle_message(event):
         lineMes = lineMessage.split(';')
         keymessage = lineMes[1]
         if excludeWord(keymessage, event) == 1:
-            conn = psycopg2.connect(database="d6tkud0mtknjov", user="ifvbkjtshpsxqj", password="4972b22ed367ed7346b0107d3c3e97db14fac1dde628cd6d7f08cf502c927ee1", host="ec2-50-16-197-244.compute-1.amazonaws.com", port="5432")
             cur = conn.cursor()
             sql = "DELETE FROM userdata WHERE KeyWord=%s;"
             cur.execute(sql, (keymessage,))
@@ -98,7 +98,6 @@ def handle_message(event):
         lineMes = lineMessage.split(';')
         keymessage = lineMes[1]
         if excludeWord(keymessage, event) == 1:
-            conn = psycopg2.connect(database="d6tkud0mtknjov", user="ifvbkjtshpsxqj", password="4972b22ed367ed7346b0107d3c3e97db14fac1dde628cd6d7f08cf502c927ee1", host="ec2-50-16-197-244.compute-1.amazonaws.com", port="5432")
             for message in lineMes[2:]:
                 cur = conn.cursor()
                 sql = "DELETE FROM userdata WHERE KeyWord=%s AND Description=%s;"
