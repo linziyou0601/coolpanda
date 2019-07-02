@@ -12,8 +12,7 @@ from linebot.models import (
 import os
 import psycopg2
 
-DATABASE_URL = os.environ['ec2-50-16-197-244.compute-1.amazonaws.com']
-conn = psycopg2.connect(DATABASE_URL, sslmode='require')
+conn = psycopg2.connect(database="d6tkud0mtknjov", user="ifvbkjtshpsxqj", password="4972b22ed367ed7346b0107d3c3e97db14fac1dde628cd6d7f08cf502c927ee1", host="ec2-50-16-197-244.compute-1.amazonaws.com", port="5432")
 
 app = Flask(__name__)
 
@@ -53,10 +52,10 @@ def handle_message(event):
                 TextSendMessage(text=content))
             return 0
         message = lineMes[2]
-        add_data = UserData(KeyWord=keymessage, Description=message)
-        db.session.add(add_data)
-        db.session.commit()
-        db.session.close()
+        cur = conn.cursor()
+        cur.execute("INSERT INTO userdata ('KeyWord', 'Description') VALUES(%s, %s)", (keymessage, message))
+        conn.commit()
+        conn.close()
         content = "我知道但我不想說"
         line_bot_api.reply_message(
             event.reply_token,
