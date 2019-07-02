@@ -9,7 +9,7 @@ from linebot.exceptions import (
 from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage,
 )
-from dModel import UserData
+from dModel import *
 
 app = Flask(__name__)
 
@@ -49,9 +49,6 @@ def handle_message(event):
                 TextSendMessage(text=content))
             return 0
         message = lineMes[2]
-        line_bot_api.reply_message(
-                event.reply_token,
-                TextSendMessage(text=message))
         add_data = UserData(
             KeyWord=keymessage,
             Description=message
