@@ -10,6 +10,7 @@ from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage,
 )
 from dModel import UserData
+import datetime
 
 app = Flask(__name__)
 
@@ -37,7 +38,7 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    lineMessage = event.message.text
+    lineMessage = TextSendMessage(text=event.message.text)
     if lineMessage[0:4] == "加入選項":
         lineMes = lineMessage.split(';')
         keymessage = lineMes[1]
