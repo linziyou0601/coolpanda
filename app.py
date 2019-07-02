@@ -9,7 +9,11 @@ from linebot.exceptions import (
 from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage,
 )
-from Model.dModel import *
+import os
+import psycopg2
+
+DATABASE_URL = os.environ['ec2-50-16-197-244.compute-1.amazonaws.com']
+conn = psycopg2.connect(DATABASE_URL, sslmode='require')
 
 app = Flask(__name__)
 
@@ -68,7 +72,6 @@ def handle_message(event):
 #    line_bot_api.reply_message(event.reply_token, message)
 
 
-import os
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port)
