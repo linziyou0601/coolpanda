@@ -41,9 +41,6 @@ def handle_message(event):
     if lineMessage[0:4] == "加入選項":
         lineMes = lineMessage.split(';')
         keymessage = lineMes[1]
-        line_bot_api.reply_message(
-                event.reply_token,
-                TextSendMessage(text=keymessage))
         excludeWord = ['目錄', '吃什麼']
         if keymessage in excludeWord:
             content = "這句話不能說，很可怕！"
