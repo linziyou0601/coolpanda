@@ -17,12 +17,15 @@ class UserData(db.Model):
     __tablename__ = 'UserData'
 	
     Id = db.Column(db.Integer, primary_key=True)
-    KeyWord = db.Column(db.String(256))
-    Description = db.Column(db.String(256))
+    KeyWord = db.Column(db.Text)
+    Description = db.Column(db.Text)
 
     def __init__(self, KeyWord, Description):
         self.KeyWord = KeyWord
         self.Description = Description
+
+    def __repr__(self):
+        return '<UserData %r>' % self.KeyWord
 
 
 if __name__ == '__main__':
