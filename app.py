@@ -36,39 +36,38 @@ def callback():
 
     return 'OK'
 
-@handler.add(MessageEvent, message=TextMessage)
-def handle_message(event):
-    lineMessage = event.message.text
-    if lineMessage[0:4] == "加入選項":
-        lineMes = lineMessage.split(';')
-        keymessage = lineMes[1]
-        excludeWord = ['目錄', '吃什麼']
-        if keymessage in excludeWord:
-            content = "這句話不能說，很可怕！"
-            line_bot_api.reply_message(
-                event.reply_token,
-                TextSendMessage(text=content))
-            return 0
-        message = lineMes[2]
-        conn = psycopg2.connect(database="d6tkud0mtknjov", user="ifvbkjtshpsxqj", password="4972b22ed367ed7346b0107d3c3e97db14fac1dde628cd6d7f08cf502c927ee1", host="ec2-50-16-197-244.compute-1.amazonaws.com", port="5432")
-        cur = conn.cursor()
-        cur.execute("INSERT INTO userdata (KeyWord, Description) VALUES(%s, %s);", (keymessage, message))
-        conn.commit()
-        conn.close()
-        content = "我知道但我不想說"
+def excludeWord(msg):
+    exList = ['目錄', '吃什麼']
+    if msg in excludeWord:
+        content = "這句話不能說，很可怕！"
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text=content))
         return 0
+    return 1
+
+@handler.add(MessageEvent, message=TextMessage)
+def handle_message(event):
+    lineMessage = event.message.text
+    if lineMessage[0:2] == "新增":
+        lineMes = lineMessage.split(';')
+        keymessage = lineMes[1]
+        if excludeWord(keymessage) == 1:
+            message = lineMes[2]
+            conn = psycopg2.connect(database="d6tkud0mtknjov", user="ifvbkjtshpsxqj", password="4972b22ed367ed7346b0107d3c3e97db14fac1dde628cd6d7f08cf502c927ee1", host="ec2-50-16-197-244.compute-1.amazonaws.com", port="5432")
+            cur = conn.cursor()
+            sql = "INSERT INTO userdata (KeyWord, Description) VALUES(%s, %s);"
+            cur.execute(sql, (keymessage, message))
+            conn.commit()
+            conn.close()
+            content = "我知道但我不想說"
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text=content))
+            return 0
     else:
         message = TextSendMessage(text=event.message.text)
         line_bot_api.reply_message(event.reply_token, message)
-    
-#@handler.add(MessageEvent, message=TextMessage)
-#def handle_message(event):
-#    message = TextSendMessage(text=event.message.text)
-#    line_bot_api.reply_message(event.reply_token, message)
-
 
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 5000))
