@@ -37,7 +37,7 @@ def callback():
     return 'OK'
 
 def excludeWord(msg, event):
-    exList = ['目錄', '吃什麼', '新增', '刪除', '刪除主題']
+    exList = ['目錄', '吃什麼', '所有主題', '新增', '刪除', '刪除主題']
     if msg in exList:
         content = "這句話不能說，很可怕！"
         line_bot_api.reply_message(
@@ -49,7 +49,21 @@ def excludeWord(msg, event):
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     lineMessage = event.message.text
-    if lineMessage[0:2] == "新增":
+    if lineMessage[0:4] == "所有主題":
+        lineMes = lineMessage.split(';')
+        sql = "SELECT KeyWord from userdata;"
+        cur.execute(sql)
+        keyList = cur.fetchall()
+        conn.commit()
+        conn.close()
+        content = ""
+        for row in mobile_records:
+            content = content + row + "\n"
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text=content))
+        return 0
+    elif lineMessage[0:2] == "新增":
         lineMes = lineMessage.split(';')
         keymessage = lineMes[1]
         if excludeWord(keymessage, event) == 1:
