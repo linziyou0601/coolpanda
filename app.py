@@ -130,9 +130,12 @@ def handle_message(event):
                 event.reply_token,
                 TextSendMessage(text=content))
         else:
+            user_id = event['source']['userId']
+            response = line.get_profile(user_id)
+            user = JSON.parse(response.body)['displayName']
             line_bot_api.reply_message(
                 event.reply_token,
-                TextSendMessage(text=event.user.userId))
+                TextSendMessage(text=user))
             
         return 0
 
