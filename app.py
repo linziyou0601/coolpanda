@@ -31,6 +31,100 @@ app = Flask(__name__)
 line_bot_api = LineBotApi('HRWbC4w2S3J3JvFAQQkQnp4gxXVWtCwLWgrdanU72Y26+hwAoZvdiwhjyLPuIPdYLaqqy4ZDIC48EDGEo9FDp0VhS453OJfXEfFCwoFhZxhIFy6ESVLFr7fPuythQb4WA4gvEHkCjJ+yuMJDgzeR8gdB04t89/1O/w1cDnyilFU=')
 handler = WebhookHandler('4abb8726ea0ae9dc4a91154ce6fecb60')
 
+bot = LineChatBOT()
+
+def msgFunc(stri):
+    if stri=="main":
+        return BubbleContainer(
+                    direction='ltr',
+                    hero=ImageComponent(
+                        url='https://scdn.line-apps.com/n/channel_devcenter/img/fx/01_1_cafe.png',
+                        size='full',
+                        aspect_ratio='20:13',
+                        aspect_mode='cover',
+                        action=URIAction(uri='http://linecorp.com/', label='label')
+                    ),
+                    body=BoxComponent(
+                        layout='vertical',
+                        contents=[
+                            # title
+                            TextComponent(text='本大貓主選單', weight='bold', size='xl'),
+                            # info
+                            BoxComponent(
+                                layout='vertical',
+                                margin='lg',
+                                spacing='sm',
+                                contents=[
+                                    BoxComponent(
+                                        layout='baseline',
+                                        spacing='sm',
+                                        contents=[
+                                            TextComponent(
+                                                text='功能',
+                                                color='#aaaaaa',
+                                                size='sm',
+                                                flex=2
+                                            ),
+                                            TextComponent(
+                                                text='簡易聊天機器人、抽籤',
+                                                wrap=True,
+                                                color='#666666',
+                                                size='sm',
+                                                flex=4
+                                            )
+                                        ],
+                                    ),
+                                    BoxComponent(
+                                        layout='baseline',
+                                        spacing='sm',
+                                        contents=[
+                                            TextComponent(
+                                                text='維護時間',
+                                                color='#aaaaaa',
+                                                size='sm',
+                                                flex=2
+                                            ),
+                                            TextComponent(
+                                                text="我爽就維護(◕ܫ◕)",
+                                                wrap=True,
+                                                color='#666666',
+                                                size='sm',
+                                                flex=4,
+                                            ),
+                                        ],
+                                    ),
+                                ],
+                            )
+                        ],
+                    ),
+                    footer=BoxComponent(
+                        layout='vertical',
+                        spacing='sm',
+                        contents=[
+                            ButtonComponent(
+                                style='link',
+                                height='sm',
+                                action=MessageAction(
+                                    label='所有籤桶',
+                                    text='所有籤桶'
+                                ),
+                            ),
+                            #SeparatorComponent(),
+                            ButtonComponent(
+                                style='link',
+                                height='sm',
+                                action=MessageAction(
+                                    label='查看抽籤教學',
+                                    text='抽籤教學'
+                                ),
+                            ),
+                            SpacerComponent(size='sm')
+                        ],
+                        flex=0
+                    ),
+                )
+    
+
 
 @app.route("/callback", methods=['POST'])
 def callback():
@@ -53,119 +147,7 @@ def callback():
 @handler.add(FollowEvent)
 def handle_follow(event):
     #profile = line_bot_api.get_profile(event.source.user_id)
-    bubble = BubbleContainer(
-        {
-            "type": "bubble",
-            "hero": {
-                "type": "image",
-                "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/01_1_cafe.png",
-                "size": "full",
-                "aspectRatio": "20:13",
-                "aspectMode": "cover",
-                "action": {
-                "type": "uri",
-                "uri": "http://linecorp.com/"
-                }
-            },
-            "body": {
-                "type": "box",
-                "layout": "vertical",
-                "contents": [
-                {
-                    "type": "text",
-                    "text": "本大貓主選單",
-                    "weight": "bold",
-                    "size": "xl"
-                },
-                {
-                    "type": "box",
-                    "layout": "vertical",
-                    "margin": "lg",
-                    "spacing": "sm",
-                    "contents": [
-                    {
-                        "type": "box",
-                        "layout": "baseline",
-                        "spacing": "sm",
-                        "contents": [
-                        {
-                            "type": "text",
-                            "text": "功能",
-                            "color": "#aaaaaa",
-                            "size": "sm",
-                            "flex": 2
-                        },
-                        {
-                            "type": "text",
-                            "text": "簡易聊天機器人、抽籤",
-                            "wrap": true,
-                            "color": "#666666",
-                            "size": "sm",
-                            "flex": 4
-                        }
-                        ]
-                    },
-                    {
-                        "type": "box",
-                        "layout": "baseline",
-                        "spacing": "sm",
-                        "contents": [
-                        {
-                            "type": "text",
-                            "text": "維護時間",
-                            "color": "#aaaaaa",
-                            "size": "sm",
-                            "flex": 2
-                        },
-                        {
-                            "type": "text",
-                            "text": "不定期，我爽就維護(◕ܫ◕)",
-                            "wrap": true,
-                            "color": "#666666",
-                            "size": "sm",
-                            "flex": 4
-                        }
-                        ]
-                    }
-                    ]
-                }
-                ]
-            },
-            "footer": {
-                "type": "box",
-                "layout": "vertical",
-                "spacing": "sm",
-                "contents": [
-                {
-                    "type": "button",
-                    "style": "link",
-                    "height": "sm",
-                    "action": {  
-                    "type":"message",
-                    "label":"所有籤桶",
-                    "text":"所有籤桶"
-                    }
-                },
-                {
-                    "type": "button",
-                    "style": "link",
-                    "height": "sm",
-                    "action": {  
-                    "type":"message",
-                    "label":"查看抽籤教學",
-                    "text":"查看抽籤教學"
-                    }
-                },
-                {
-                    "type": "spacer",
-                    "size": "sm"
-                }
-                ],
-                "flex": 0
-            }
-        }
-    )
-    message = FlexSendMessage(alt_text="hello", contents=bubble)
+    message = FlexSendMessage(alt_text="hello", contents=msgFunc("main"))
     line_bot_api.reply_message(
         event.reply_token,
         message
@@ -182,14 +164,19 @@ def excludeWord(msg, event):
         return 0
     return 1
 
-bot = LineChatBOT()
-
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     global bot
     conn = psycopg2.connect(database="d6tkud0mtknjov", user="ifvbkjtshpsxqj", password="4972b22ed367ed7346b0107d3c3e97db14fac1dde628cd6d7f08cf502c927ee1", host="ec2-50-16-197-244.compute-1.amazonaws.com", port="5432")
     lineMessage = event.message.text
-    if lineMessage[0:4] == "所有籤桶" or lineMessage[0:4] == "所有籤筒":
+    if lineMessage == "主選單":
+        message = FlexSendMessage(alt_text="hello", contents=msgFunc("main"))
+        line_bot_api.reply_message(
+            event.reply_token,
+            message
+        )
+        return 0
+    elif lineMessage[0:4] == "所有籤桶" or lineMessage[0:4] == "所有籤筒":
         sql = "SELECT KeyWord from userdata;"
         cur = conn.cursor()
         cur.execute(sql)
