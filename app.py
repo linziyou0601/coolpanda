@@ -37,7 +37,7 @@ def callback():
     return 'OK'
 
 def excludeWord(msg, event):
-    exList = ['目錄', '吃什麼', '所有主題', '新增', '刪除', '刪除主題']
+    exList = ['目錄', '所有主題', '新增', '刪除', '刪除主題']
     if msg in exList:
         content = "這句話不能說，很可怕！"
         line_bot_api.reply_message(
@@ -132,7 +132,7 @@ def handle_message(event):
         else:
             line_bot_api.reply_message(
                 event.reply_token,
-                TextSendMessage(text=lineMessage))
+                TextSendMessage(text=event.source.userID))
             
         return 0
 
