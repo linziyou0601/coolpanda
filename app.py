@@ -133,7 +133,7 @@ def handle_message(event):
                 content = content + row[0] + "\n"
             line_bot_api.reply_message(
                 event.reply_token,
-                TextSendMessage(text=content))
+                TextSendMessage(text=DescList))
         return 0
 
 if __name__ == "__main__":
