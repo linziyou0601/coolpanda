@@ -12,7 +12,8 @@ from linebot.models import (
 import os
 import psycopg2
 import random
-from chatbot import LineChatBOT
+from chatterbot import ChatBot
+from chatterbot.trainers import ChatterBotCorpusTrainer
 
 app = Flask(__name__)
 
@@ -49,7 +50,20 @@ def excludeWord(msg, event):
     return 1
 
 prevSend = ""
-bot = LineChatBOT()
+bot = ChatBot(
+    "LineChatBOT",
+    storage_adapter = "chatterbot.storage.JsonFileStorageAdapter",
+    database = "./LineChatBOT_DB.json"
+)
+bot.set_trainer(ChatterBotCorpusTrainer)
+# 基於英文的自動學習套件
+#chatbot.train("chatterbot.corpus.english")
+# 載入(簡體)中文的基本語言庫
+bot.train("chatterbot.corpus.chinese")
+# 載入(簡體)中文的問候語言庫
+#chatbot.train("chatterbot.corpus.chinese.greetings")
+# 載入(簡體)中文的對話語言庫
+#chatbot.train("chatterbot.corpus.chinese.conversations")
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
