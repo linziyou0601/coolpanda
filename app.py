@@ -129,7 +129,7 @@ def handle_message(event):
             conn.close()
             line_bot_api.reply_message(
                 event.reply_token,
-                TextSendMessage(text=temp))
+                TextSendMessage(text=content))
         else:
             line_bot_api.reply_message(
                 event.reply_token,
