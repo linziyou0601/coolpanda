@@ -163,7 +163,7 @@ def handle_message(event):
         else:
             #profile = line_bot_api.get_profile(event.source.user_id)
             #prevSend = lineMessage
-            content = bot.getResponse(lineMessage)
+            content = bot.get_response(lineMessage)
             prevSend = content
             line_bot_api.reply_message(
                 event.reply_token,
