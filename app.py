@@ -117,7 +117,7 @@ def handle_message(event):
             if row[0] in lineMessage:
                 temp.append(row[0])
         
-        if not temp:
+        if temp:
             content = ""
             for item in temp:
                 sql = "SELECT Description from userdata where KeyWord=%s;"
