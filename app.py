@@ -39,7 +39,7 @@ def callback():
     return 'OK'
 
 def excludeWord(msg, event):
-    exList = ['目錄', '所有主題', '新增', '刪除', '刪除主題']
+    exList = ['目錄', '所有籤桶', '所有籤筒', '籤桶', '籤筒', '刪除', '刪除籤桶', '刪除籤筒']
     if msg in exList:
         content = "這句話不能說，很可怕！"
         line_bot_api.reply_message(
@@ -48,22 +48,19 @@ def excludeWord(msg, event):
         return 0
     return 1
 
-prevSend = ""
 bot = LineChatBOT()
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    global prevSend
     global bot
     conn = psycopg2.connect(database="d6tkud0mtknjov", user="ifvbkjtshpsxqj", password="4972b22ed367ed7346b0107d3c3e97db14fac1dde628cd6d7f08cf502c927ee1", host="ec2-50-16-197-244.compute-1.amazonaws.com", port="5432")
     lineMessage = event.message.text
-    if lineMessage[0:4] == "所有主題":
+    if lineMessage[0:4] == "所有籤桶" or lineMessage[0:4] == "所有籤筒":
         sql = "SELECT KeyWord from userdata;"
         cur = conn.cursor()
         cur.execute(sql)
         keyList = list(dict.fromkeys([record[0] for record in cur.fetchall()]))
         conn.close()
-        prevSend = ""
         content = ""
         for row in keyList:
             content = content + row + "\n"
@@ -71,7 +68,7 @@ def handle_message(event):
             event.reply_token,
             TextSendMessage(text=content))
         return 0
-    elif lineMessage[0:2] == "新增":
+    elif lineMessage[0:2] == "籤桶" or lineMessage[0:2] == "籤筒":
         lineMes = lineMessage.split(';')
         keymessage = lineMes[1]
         if excludeWord(keymessage, event) == 1:
@@ -81,13 +78,12 @@ def handle_message(event):
                 cur.execute(sql, (keymessage, message))
                 conn.commit()
             conn.close()
-            prevSend = ""
-            content = "我知道但我不想說"
+            content = "我拿到了新的籤"
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text=content))
             return 0
-    elif lineMessage[0:4] == "刪除主題":
+    elif lineMessage[0:4] == "刪除籤桶" or lineMessage[0:4] == "刪除籤筒":
         lineMes = lineMessage.split(';')
         keymessage = lineMes[1]
         if excludeWord(keymessage, event) == 1:
@@ -96,8 +92,7 @@ def handle_message(event):
             cur.execute(sql, (keymessage,))
             conn.commit()
             conn.close()
-            prevSend = ""
-            content = "我把這些垃圾給全吃了"
+            content = "我把這桶籤給全吃了"
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text=content))
@@ -112,47 +107,30 @@ def handle_message(event):
                 cur.execute(sql, (keymessage, message))
                 conn.commit()
             conn.close()
-            prevSend = ""
-            content = "我把這些垃圾給吃了"
+            content = "我把籤給仍了"
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text=content))
             return 0
-    else:
-        #if prevSend != "":
-        #    cur = conn.cursor()
-        #    sql = "INSERT INTO userdata (KeyWord, Description) VALUES(%s, %s);"
-        #    cur.execute(sql, (prevSend, lineMessage))
-        #    conn.commit()
-
+    elif lineMessage[0:2] == "抽籤":
+        lineMes = lineMessage.split(';')
+        keymessage = lineMes[1]
         cur = conn.cursor()
-        sql = "SELECT KeyWord from userdata;"
-        cur.execute(sql)
-        keyList = list(dict.fromkeys([record[0] for record in cur.fetchall()]))
-        temp = ""
-        for row in keyList:
-            if row in lineMessage and len(row) >= len(temp):
-                temp = row if row == lineMessage or len(row) > len(temp) else temp
-        
-        if temp != "":
-            cur = conn.cursor()
-            sql = "SELECT Description from userdata where KeyWord=%s;"
-            cur.execute(sql, (temp,))
-            DescList = [record[0] for record in cur.fetchall()]
-            content = random.choice(DescList)
-            prevSend = content
-            line_bot_api.reply_message(
-                event.reply_token,
-                TextSendMessage(text=content))
-        else:
-            #profile = line_bot_api.get_profile(event.source.user_id)
-            #prevSend = lineMessage
-            content = str(bot.getResponse(lineMessage))
-            prevSend = content
-            line_bot_api.reply_message(
-                event.reply_token,
-                TextSendMessage(text=content))
-        conn.close()   
+        sql = "SELECT Description from userdata where KeyWord=%s;"
+        cur.execute(sql, (keymessage,))
+        DescList = [record[0] for record in cur.fetchall()]
+        conn.close() 
+        content = random.choice(DescList)
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text=content))
+        return 0
+    else:
+        #profile = line_bot_api.get_profile(event.source.user_id)
+        content = str(bot.getResponse(lineMessage))
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text=content))  
         return 0
 
 if __name__ == "__main__":
