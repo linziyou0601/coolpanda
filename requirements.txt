@@ -2,4 +2,5 @@ line-bot-sdk
 flask
 psycopg2
 chatterbot
+chatterbot-corpus
 nltk
