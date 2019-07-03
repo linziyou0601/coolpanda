@@ -132,7 +132,7 @@ def handle_message(event):
         else:
             line_bot_api.reply_message(
                 event.reply_token,
-                TextSendMessage(text=event.source.userID))
+                TextSendMessage(text=event.source.userId))
             
         return 0
 
