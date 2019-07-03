@@ -55,114 +55,114 @@ def handle_follow(event):
     #profile = line_bot_api.get_profile(event.source.user_id)
     bubble = BubbleContainer(
         {
-        "type": "bubble",
-        "hero": {
-            "type": "image",
-            "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/01_1_cafe.png",
-            "size": "full",
-            "aspectRatio": "20:13",
-            "aspectMode": "cover",
-            "action": {
-            "type": "uri",
-            "uri": "http://linecorp.com/"
-            }
-        },
-        "body": {
-            "type": "box",
-            "layout": "vertical",
-            "contents": [
-            {
-                "type": "text",
-                "text": "本大貓主選單",
-                "weight": "bold",
-                "size": "xl"
+            "type": "bubble",
+            "hero": {
+                "type": "image",
+                "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/01_1_cafe.png",
+                "size": "full",
+                "aspectRatio": "20:13",
+                "aspectMode": "cover",
+                "action": {
+                "type": "uri",
+                "uri": "http://linecorp.com/"
+                }
             },
-            {
+            "body": {
                 "type": "box",
                 "layout": "vertical",
-                "margin": "lg",
-                "spacing": "sm",
                 "contents": [
                 {
-                    "type": "box",
-                    "layout": "baseline",
-                    "spacing": "sm",
-                    "contents": [
-                    {
-                        "type": "text",
-                        "text": "功能",
-                        "color": "#aaaaaa",
-                        "size": "sm",
-                        "flex": 2
-                    },
-                    {
-                        "type": "text",
-                        "text": "簡易聊天機器人、抽籤",
-                        "wrap": True,
-                        "color": "#666666",
-                        "size": "sm",
-                        "flex": 4
-                    }
-                    ]
+                    "type": "text",
+                    "text": "本大貓主選單",
+                    "weight": "bold",
+                    "size": "xl"
                 },
                 {
                     "type": "box",
-                    "layout": "baseline",
+                    "layout": "vertical",
+                    "margin": "lg",
                     "spacing": "sm",
                     "contents": [
                     {
-                        "type": "text",
-                        "text": "維護時間",
-                        "color": "#aaaaaa",
-                        "size": "sm",
-                        "flex": 2
+                        "type": "box",
+                        "layout": "baseline",
+                        "spacing": "sm",
+                        "contents": [
+                        {
+                            "type": "text",
+                            "text": "功能",
+                            "color": "#aaaaaa",
+                            "size": "sm",
+                            "flex": 2
+                        },
+                        {
+                            "type": "text",
+                            "text": "簡易聊天機器人、抽籤",
+                            "wrap": true,
+                            "color": "#666666",
+                            "size": "sm",
+                            "flex": 4
+                        }
+                        ]
                     },
                     {
-                        "type": "text",
-                        "text": "我爽就維護(◕ܫ◕)",
-                        "wrap": True,
-                        "color": "#666666",
-                        "size": "sm",
-                        "flex": 4
+                        "type": "box",
+                        "layout": "baseline",
+                        "spacing": "sm",
+                        "contents": [
+                        {
+                            "type": "text",
+                            "text": "維護時間",
+                            "color": "#aaaaaa",
+                            "size": "sm",
+                            "flex": 2
+                        },
+                        {
+                            "type": "text",
+                            "text": "不定期，我爽就維護(◕ܫ◕)",
+                            "wrap": true,
+                            "color": "#666666",
+                            "size": "sm",
+                            "flex": 4
+                        }
+                        ]
                     }
                     ]
                 }
                 ]
-            }
-            ]
-        },
-        "footer": {
-            "type": "box",
-            "layout": "vertical",
-            "spacing": "sm",
-            "contents": [
-            {
-                "type": "button",
-                "style": "link",
-                "height": "sm",
-                "action": {
-                "type": "uri",
-                "label": "CALL",
-                "uri": "https://linecorp.com"
-                }
             },
-            {
-                "type": "button",
-                "style": "link",
-                "height": "sm",
-                "action": {
-                "type": "uri",
-                "label": "WEBSITE",
-                "uri": "https://linecorp.com"
+            "footer": {
+                "type": "box",
+                "layout": "vertical",
+                "spacing": "sm",
+                "contents": [
+                {
+                    "type": "button",
+                    "style": "link",
+                    "height": "sm",
+                    "action": {  
+                    "type":"message",
+                    "label":"所有籤桶",
+                    "text":"所有籤桶"
+                    }
+                },
+                {
+                    "type": "button",
+                    "style": "link",
+                    "height": "sm",
+                    "action": {  
+                    "type":"message",
+                    "label":"查看抽籤教學",
+                    "text":"查看抽籤教學"
+                    }
+                },
+                {
+                    "type": "spacer",
+                    "size": "sm"
                 }
-            },
-            {
-                "type": "spacer",
-                "size": "sm"
+                ],
+                "flex": 0
             }
-            ],
-            "flex": 0
-        }
         }
     )
     message = FlexSendMessage(alt_text="hello", contents=bubble)
