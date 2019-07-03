@@ -21,10 +21,7 @@ from linebot.models import (
     TextComponent, SpacerComponent, IconComponent, ButtonComponent,
     SeparatorComponent, QuickReply, QuickReplyButton
 )
-import os
-import psycopg2
-import json
-import random
+import os, psycopg2, json, codecs, random
 from chatbot import LineChatBOT
 
 app = Flask(__name__)
@@ -238,11 +235,13 @@ def callback():
 
     return 'OK'
 
+def sticon(unic):
+    return codecs.decode(json.dumps(unic).strip('"'), 'unicode_escape')
 
 @handler.add(FollowEvent)
 def handle_follow(event):
     profile = line_bot_api.get_profile(event.source.user_id)
-    content = TextSendMessage(text=profile.display_name + "，歡迎您成為本熊貓的好友" + json.dumps(u"\U00100097").strip('"'))
+    content = TextSendMessage(text=profile.display_name + "，歡迎您成為本熊貓的好友" + sticon(u"\U00100097"))
     message = FlexSendMessage(alt_text="hello", contents=msgFunc("main"))
     line_bot_api.reply_message(
         event.reply_token,
