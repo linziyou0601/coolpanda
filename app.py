@@ -112,28 +112,29 @@ def handle_message(event):
         cur = conn.cursor()
         cur.execute(sql)
         keyList = cur.fetchall()
-        temp = ""
+        temp = []
         for row in keyList:
             if row[0] in lineMessage:
-                temp = row[0]
-                break
+                temp.append(row[0])
         
-        if temp == "":
+        if not temp:
+            content = ""
+            for item in temp:
+                sql = "SELECT Description from userdata where KeyWord=%s;"
+                cur = conn.cursor()
+                cur.execute(sql, (temp,))
+                DescList = cur.fetchall()
+                for row in DescList:
+                    content = content + row[0] + "\n"
+            conn.close()
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text=temp))
+        else:
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text=lineMessage))
-        else:
-            sql = "SELECT Description from userdata where KeyWord=%s;"
-            cur = conn.cursor()
-            cur.execute(sql, (temp))
-            DescList = cur.fetchall()
-            conn.close()
-            content = ""
-            for row in DescList:
-                content = content + row[0] + "\n"
-            line_bot_api.reply_message(
-                event.reply_token,
-                TextSendMessage(text=content))
+            
         return 0
 
 if __name__ == "__main__":
