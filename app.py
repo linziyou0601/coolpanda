@@ -111,7 +111,7 @@ def handle_message(event):
         sql = "SELECT KeyWord from userdata;"
         cur = conn.cursor()
         cur.execute(sql)
-        keyList = zip(*cur.fetchall())
+        keyList = [record[0] for record in cur.fetchall()]
         temp = []
         for row in keyList:
             if row in lineMessage:
