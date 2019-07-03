@@ -1,7 +1,6 @@
 import os
 import psycopg2
 import random
-from nltk.downloader import download, download_shell 
 from chatterbot import ChatBot
 from chatterbot.trainers import ChatterBotCorpusTrainer
 
@@ -167,13 +166,13 @@ class LineChatBOT:
     def __init__(self):
         self.chatbot.set_trainer(ChatterBotCorpusTrainer)
         # 基於英文的自動學習套件
-        self.chatbot.train("chatterbot.corpus.english")
+        #self.chatbot.train("chatterbot.corpus.english")
         # 載入(簡體)中文的基本語言庫
         self.chatbot.train("chatterbot.corpus.chinese")
         # 載入(簡體)中文的問候語言庫
-        self.chatbot.train("chatterbot.corpus.chinese.greetings")
+        #self.chatbot.train("chatterbot.corpus.chinese.greetings")
         # 載入(簡體)中文的對話語言庫
-        self.chatbot.train("chatterbot.corpus.chinese.conversations")
+        #self.chatbot.train("chatterbot.corpus.chinese.conversations")
 
     def getResponse(self, message=""):
         return self.chatbot.get_response(message)
