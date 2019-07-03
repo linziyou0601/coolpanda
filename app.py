@@ -52,8 +52,9 @@ def excludeWord(msg, event):
 prevSend = ""
 bot = ChatBot(
     "LineChatBOT",
-    storage_adapter = "chatterbot.storage.JsonFileStorageAdapter",
-    database = "./LineChatBOT_DB.json"
+    storage_adapter = "chatterbot.storage.SQLStorageAdapter",
+    database = 'd6tkud0mtknjov',
+    database_uri = 'postgres://ifvbkjtshpsxqj:4972b22ed367ed7346b0107d3c3e97db14fac1dde628cd6d7f08cf502c927ee1@ec2-50-16-197-244.compute-1.amazonaws.com:5432/d6tkud0mtknjov'
 )
 bot.set_trainer(ChatterBotCorpusTrainer)
 # 基於英文的自動學習套件
