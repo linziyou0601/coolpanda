@@ -123,6 +123,99 @@ def msgFunc(stri):
                         flex=0
                     ),
                 )
+    elif stri=="teach":
+        return BubbleContainer(
+                    direction='ltr',
+                    hero=ImageComponent(
+                        url='https://scdn.line-apps.com/n/channel_devcenter/img/fx/01_1_cafe.png',
+                        size='full',
+                        aspect_ratio='20:13',
+                        aspect_mode='cover',
+                        action=URIAction(uri='http://linecorp.com/', label='label')
+                    ),
+                    body=BoxComponent(
+                        layout='vertical',
+                        contents=[
+                            # title
+                            TextComponent(text='抽籤教學', weight='bold', size='xl'),
+                            # info
+                            BoxComponent(
+                                layout='vertical',
+                                margin='lg',
+                                spacing='sm',
+                                contents=[
+                                    BoxComponent(
+                                        layout='baseline',
+                                        spacing='sm',
+                                        contents=[
+                                            TextComponent(
+                                                text='注意',
+                                                color='#aaaaaa',
+                                                size='sm',
+                                                flex=1
+                                            ),
+                                            TextComponent(
+                                                text='其他聊天室新增的籤也會顯示！',
+                                                wrap=True,
+                                                color='#666666',
+                                                size='sm',
+                                                flex=5
+                                            )
+                                        ],
+                                    )
+                                ],
+                            )
+                        ],
+                    ),
+                    footer=BoxComponent(
+                        layout='vertical',
+                        spacing='sm',
+                        contents=[
+                            ButtonComponent(
+                                style='link',
+                                height='sm',
+                                action=MessageAction(
+                                    label='① 加入籤',
+                                    text='籤桶;籤桶名稱;甲子籤;乙丑籤;丙寅籤;丁卯籤;戊辰籤'
+                                ),
+                            ),
+                            ButtonComponent(
+                                style='link',
+                                height='sm',
+                                action=MessageAction(
+                                    label='② 抽一支籤',
+                                    text='抽籤;籤桶名稱'
+                                ),
+                            ),
+                            ButtonComponent(
+                                style='link',
+                                height='sm',
+                                action=MessageAction(
+                                    label='③ 刪除籤',
+                                    text='刪除;籤桶名稱;甲子籤;丁卯籤'
+                                ),
+                            ),
+                            ButtonComponent(
+                                style='link',
+                                height='sm',
+                                action=MessageAction(
+                                    label='④ 刪除籤桶',
+                                    text='刪除籤桶;籤桶名稱'
+                                ),
+                            ),
+                            ButtonComponent(
+                                style='link',
+                                height='sm',
+                                action=MessageAction(
+                                    label='主選單',
+                                    text='主選單'
+                                ),
+                            ),
+                            SpacerComponent(size='sm')
+                        ],
+                        flex=0
+                    ),
+                )
     
 
 
@@ -155,7 +248,7 @@ def handle_follow(event):
     return 0
 
 def excludeWord(msg, event):
-    exList = ['目錄', '所有籤桶', '所有籤筒', '籤桶', '籤筒', '刪除', '刪除籤桶', '刪除籤筒']
+    exList = ['主選單', '所有籤桶', '所有籤筒', '籤桶', '籤筒', '刪除', '刪除籤桶', '刪除籤筒', '抽籤教學']
     if msg in exList:
         content = "這句話不能說，很可怕！"
         line_bot_api.reply_message(
@@ -171,6 +264,13 @@ def handle_message(event):
     lineMessage = event.message.text
     if lineMessage == "主選單":
         message = FlexSendMessage(alt_text="hello", contents=msgFunc("main"))
+        line_bot_api.reply_message(
+            event.reply_token,
+            message
+        )
+        return 0
+    elif lineMessage == "抽籤教學":
+        message = FlexSendMessage(alt_text="hello", contents=msgFunc("teach"))
         line_bot_api.reply_message(
             event.reply_token,
             message
