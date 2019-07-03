@@ -11,6 +11,7 @@ from linebot.models import (
 )
 import os
 import psycopg2
+import random
 
 app = Flask(__name__)
 
@@ -119,7 +120,7 @@ def handle_message(event):
             sql = "INSERT INTO userdata (KeyWord, Description) VALUES(%s, %s);"
             cur.execute(sql, (prevSend, lineMessage))
             conn.commit()
-            
+
         cur = conn.cursor()
         sql = "SELECT KeyWord from userdata;"
         cur.execute(sql)
@@ -134,10 +135,7 @@ def handle_message(event):
             sql = "SELECT Description from userdata where KeyWord=%s;"
             cur.execute(sql, (temp,))
             DescList = [record[0] for record in cur.fetchall()]
-            conn.close()
-            content = ""
-            for row in DescList:
-                content = content + row + "\n"
+            content = random.choice(DescList)
             prevSend = content
             line_bot_api.reply_message(
                 event.reply_token,
@@ -148,7 +146,7 @@ def handle_message(event):
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text=profile.display_name+" 曰：\n"+lineMessage))
-            
+        conn.close()   
         return 0
 
 if __name__ == "__main__":
