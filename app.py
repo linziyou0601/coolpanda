@@ -126,7 +126,7 @@ def handle_message(event):
             content = ""
             for row in DescList:
                 content = content + row + "\n"
-            content = content + event.source.userId
+            content = content + event[0].source.userId
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text=content))
