@@ -1,8 +1,7 @@
 import os
 import psycopg2
 import random
-from chatterbot import ChatBot
-from chatterbot.trainers import ChatterBotCorpusTrainer
+from chatbot import LineChatBOT
 
 from flask import Flask, request, abort
 from linebot import (LineBotApi, WebhookHandler)
@@ -44,10 +43,12 @@ def excludeWord(msg, event):
     return 1
 
 prevSend = ""
+bot = LineChatBOT()
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     global prevSend
+    global bot
     conn = psycopg2.connect(database="d6tkud0mtknjov", user="ifvbkjtshpsxqj", password="4972b22ed367ed7346b0107d3c3e97db14fac1dde628cd6d7f08cf502c927ee1", host="ec2-50-16-197-244.compute-1.amazonaws.com", port="5432")
     lineMessage = event.message.text
     if lineMessage[0:4] == "所有主題":
@@ -112,7 +113,6 @@ def handle_message(event):
                 TextSendMessage(text=content))
             return 0
     else:
-        bot = LineChatBOT()
         #if prevSend != "":
         #    cur = conn.cursor()
         #    sql = "INSERT INTO userdata (KeyWord, Description) VALUES(%s, %s);"
@@ -151,28 +151,3 @@ def handle_message(event):
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port)
-
-
-class LineChatBOT:
-    # 建立一個 ChatBot
-    chatbot = ChatBot(
-        # 這個 ChatBot 的名字叫做 KantaiBOT
-        "LineChatBOT",
-        storage_adapter = "chatterbot.storage.JsonFileStorageAdapter",
-        # 設定訓練的資料庫輸出於根目錄，並命名為 KantaiBOT_DB.json
-        database = "./LineChatBOT_DB.json"    
-    )
-
-    def __init__(self):
-        self.chatbot.set_trainer(ChatterBotCorpusTrainer)
-        # 基於英文的自動學習套件
-        #self.chatbot.train("chatterbot.corpus.english")
-        # 載入(簡體)中文的基本語言庫
-        self.chatbot.train("chatterbot.corpus.chinese")
-        # 載入(簡體)中文的問候語言庫
-        #self.chatbot.train("chatterbot.corpus.chinese.greetings")
-        # 載入(簡體)中文的對話語言庫
-        #self.chatbot.train("chatterbot.corpus.chinese.conversations")
-
-    def getResponse(self, message=""):
-        return self.chatbot.get_response(message)
