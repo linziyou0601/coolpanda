@@ -2,5 +2,5 @@ line-bot-sdk
 flask
 psycopg2
 chatterbot
-git+git://github.com/gunthercox/chatterbot-corpus.git
+chatterbot-corpus
 nltk
