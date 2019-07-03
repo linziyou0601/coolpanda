@@ -143,7 +143,7 @@ def handle_message(event):
                 TextSendMessage(text=content))
         else:
             profile = line_bot_api.get_profile(event.source.user_id)
-            prevSend = ""
+            prevSend = lineMessage
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text=profile.display_name+" 曰：\n"+lineMessage))
