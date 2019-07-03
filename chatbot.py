@@ -8,7 +8,7 @@ class LineChatBOT:
         "LineChatBOT",
         storage_adapter = "chatterbot.storage.JsonFileStorageAdapter",
         # 設定訓練的資料庫輸出於根目錄，並命名為 LineChatBOT_DB.json
-        database = "./LineChatBOT_DB.json"    
+        database = "./LineChatBOT_DB.json"
     )
 
     def __init__(self):
@@ -24,6 +24,3 @@ class LineChatBOT:
 
     def getResponse(self, message=""):
         return self.chatbot.get_response(message)
-
-if __name__ == "__main__":
-    bot = LineChatBOT()

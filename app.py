@@ -12,6 +12,7 @@ from linebot.models import (
 import os
 import psycopg2
 import random
+from chatbot import LineChatBOT
 
 app = Flask(__name__)
 
@@ -48,10 +49,12 @@ def excludeWord(msg, event):
     return 1
 
 prevSend = ""
+bot = LineChatBOT()
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     global prevSend
+    global bot
     conn = psycopg2.connect(database="d6tkud0mtknjov", user="ifvbkjtshpsxqj", password="4972b22ed367ed7346b0107d3c3e97db14fac1dde628cd6d7f08cf502c927ee1", host="ec2-50-16-197-244.compute-1.amazonaws.com", port="5432")
     lineMessage = event.message.text
     if lineMessage[0:4] == "所有主題":
@@ -142,11 +145,13 @@ def handle_message(event):
                 event.reply_token,
                 TextSendMessage(text=content))
         else:
-            profile = line_bot_api.get_profile(event.source.user_id)
-            prevSend = lineMessage
+            #profile = line_bot_api.get_profile(event.source.user_id)
+            #prevSend = lineMessage
+            content = bot.getResponse(lineMessage)
+            prevSend = content
             line_bot_api.reply_message(
                 event.reply_token,
-                TextSendMessage(text=profile.display_name+" 曰：\n"+lineMessage))
+                TextSendMessage(text=content))
         conn.close()   
         return 0
 
