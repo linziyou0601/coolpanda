@@ -239,12 +239,15 @@ def callback():
 
 @handler.add(FollowEvent)
 def handle_follow(event):
-    #profile = line_bot_api.get_profile(event.source.user_id)
+    profile = line_bot_api.get_profile(event.source.user_id)
+    content = profile.display_name + "，歡迎您成為本熊貓的好友(hmph)"
+    line_bot_api.reply_message(
+        event.reply_token,
+        TextSendMessage(text=content))
     message = FlexSendMessage(alt_text="hello", contents=msgFunc("main"))
     line_bot_api.reply_message(
         event.reply_token,
-        message
-    )
+        message)
     return 0
 
 def excludeWord(msg, event):
@@ -266,15 +269,13 @@ def handle_message(event):
         message = FlexSendMessage(alt_text="hello", contents=msgFunc("main"))
         line_bot_api.reply_message(
             event.reply_token,
-            message
-        )
+            message)
         return 0
     elif lineMessage == "抽籤教學":
         message = FlexSendMessage(alt_text="hello", contents=msgFunc("teach"))
         line_bot_api.reply_message(
             event.reply_token,
-            message
-        )
+            message)
         return 0
     elif lineMessage[0:4] == "所有籤桶" or lineMessage[0:4] == "所有籤筒":
         sql = "SELECT KeyWord from userdata;"
@@ -285,6 +286,7 @@ def handle_message(event):
         content = ""
         for row in keyList:
             content = content + row + "\n"
+        content = "唉呀，沒有籤桶！" if content == "" else content
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text=content))
