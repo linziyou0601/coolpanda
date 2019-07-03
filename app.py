@@ -241,7 +241,7 @@ def callback():
 @handler.add(FollowEvent)
 def handle_follow(event):
     profile = line_bot_api.get_profile(event.source.user_id)
-    content = TextSendMessage(text=profile.display_name + "，歡迎您成為本熊貓的好友" + "\\u0000\\u0010\\u0000\\u0097")
+    content = TextSendMessage(text=profile.display_name + "，歡迎您成為本熊貓的好友" + bytes.fromhex('100097').decode('utf-8','ignore'))
     message = FlexSendMessage(alt_text="hello", contents=msgFunc("main"))
     line_bot_api.reply_message(
         event.reply_token,
