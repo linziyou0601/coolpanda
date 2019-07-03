@@ -15,4 +15,6 @@ class LineChatBOT:
         trainer.train("chatterbot.corpus.chinese")
 
     def getResponse(self, message=""):
-        return self.chatbot.get_response(message)
+        response = self.chatbot.get_response(message)
+        response_data = response.serialize()
+        return JsonResponse(response_data, status=200)
