@@ -122,7 +122,7 @@ def handle_message(event):
             for item in temp:
                 sql = "SELECT Description from userdata where KeyWord=%s;"
                 cur = conn.cursor()
-                cur.execute(sql, (temp,))
+                cur.execute(sql, (item,))
                 DescList = cur.fetchall()
                 for row in DescList:
                     content = content + row[0] + "\n"
