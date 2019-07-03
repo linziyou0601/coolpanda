@@ -133,7 +133,7 @@ def handle_message(event):
             profile = line_bot_api.get_profile(event.source.user_id)
             line_bot_api.reply_message(
                 event.reply_token,
-                TextSendMessage(text=profile.displayName))
+                TextSendMessage(text=profile.display_name))
             
         return 0
 
