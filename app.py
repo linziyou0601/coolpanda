@@ -115,12 +115,6 @@ def handle_message(event):
                 TextSendMessage(text=content))
             return 0
     else:
-        if prevSend != "":
-            cur = conn.cursor()
-            sql = "INSERT INTO userdata (KeyWord, Description) VALUES(%s, %s);"
-            cur.execute(sql, (prevSend, lineMessage))
-            conn.commit()
-
         cur = conn.cursor()
         sql = "SELECT KeyWord from userdata;"
         cur.execute(sql)
