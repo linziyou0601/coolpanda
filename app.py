@@ -1,6 +1,7 @@
 import os
 import psycopg2
 import random
+from nltk.downloader import download, download_shell 
 from chatterbot import ChatBot
 from chatterbot.trainers import ChatterBotCorpusTrainer
 
