@@ -12,8 +12,7 @@ from linebot.models import (
 import os
 import psycopg2
 import random
-from chatterbot import ChatBot
-from chatterbot.trainers import ChatterBotCorpusTrainer
+from chatbot import LineChatBOT
 
 app = Flask(__name__)
 
@@ -50,22 +49,7 @@ def excludeWord(msg, event):
     return 1
 
 prevSend = ""
-bot = ChatBot(
-    "LineChatBOT",
-    storage_adapter = "chatterbot.storage.SQLStorageAdapter",
-    database = 'd6tkud0mtknjov',
-    database_uri = 'postgres://ifvbkjtshpsxqj:4972b22ed367ed7346b0107d3c3e97db14fac1dde628cd6d7f08cf502c927ee1@ec2-50-16-197-244.compute-1.amazonaws.com:5432/d6tkud0mtknjov'
-)
-trainer = ChatterBotCorpusTrainer(bot)
-trainer.train("chatterbot.corpus.chinese")
-# 基於英文的自動學習套件
-#chatbot.train("chatterbot.corpus.english")
-# 載入(簡體)中文的基本語言庫
-#bot.train("chatterbot.corpus.chinese")
-# 載入(簡體)中文的問候語言庫
-#chatbot.train("chatterbot.corpus.chinese.greetings")
-# 載入(簡體)中文的對話語言庫
-#chatbot.train("chatterbot.corpus.chinese.conversations")
+bot = LineChatBOT()
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
@@ -163,7 +147,7 @@ def handle_message(event):
         else:
             #profile = line_bot_api.get_profile(event.source.user_id)
             #prevSend = lineMessage
-            content = bot.get_response(lineMessage)
+            content = bot.getResponse(lineMessage)
             prevSend = content
             line_bot_api.reply_message(
                 event.reply_token,
