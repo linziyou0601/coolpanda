@@ -112,7 +112,7 @@ def handle_message(event):
                 TextSendMessage(text=content))
             return 0
     else:
-        bot = KantaiBOT()
+        bot = LineChatBOT()
         #if prevSend != "":
         #    cur = conn.cursor()
         #    sql = "INSERT INTO userdata (KeyWord, Description) VALUES(%s, %s);"
