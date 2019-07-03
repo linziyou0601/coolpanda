@@ -12,7 +12,7 @@ class LineChatBOT:
 
     def __init__(self):
         trainer = ChatterBotCorpusTrainer(self.chatbot)
-        trainer.train("chatterbot.corpus.tchinese ")
+        trainer.train("chatterbot.corpus.tchinese")
 
     def getResponse(self, message=""):
         response = self.chatbot.get_response(message)
