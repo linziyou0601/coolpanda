@@ -1,5 +1,6 @@
 from chatterbot import ChatBot
 from chatterbot.trainers import ChatterBotCorpusTrainer
+import psycopg2
 
 class LineChatBOT:
     chatbot = ChatBot(
