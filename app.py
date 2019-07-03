@@ -1,12 +1,17 @@
+from flask import Flask, request, abort
+
+from linebot import (
+    LineBotApi, WebhookHandler
+)
+from linebot.exceptions import (
+    InvalidSignatureError
+)
+from linebot.models import (
+    MessageEvent, TextMessage, TextSendMessage,
+)
 import os
 import psycopg2
 import random
-from chatbot import LineChatBOT
-
-from flask import Flask, request, abort
-from linebot import (LineBotApi, WebhookHandler)
-from linebot.exceptions import (InvalidSignatureError)
-from linebot.models import (MessageEvent, TextMessage, TextSendMessage,)
 
 app = Flask(__name__)
 
@@ -43,12 +48,10 @@ def excludeWord(msg, event):
     return 1
 
 prevSend = ""
-bot = LineChatBOT()
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     global prevSend
-    global bot
     conn = psycopg2.connect(database="d6tkud0mtknjov", user="ifvbkjtshpsxqj", password="4972b22ed367ed7346b0107d3c3e97db14fac1dde628cd6d7f08cf502c927ee1", host="ec2-50-16-197-244.compute-1.amazonaws.com", port="5432")
     lineMessage = event.message.text
     if lineMessage[0:4] == "所有主題":
@@ -113,11 +116,11 @@ def handle_message(event):
                 TextSendMessage(text=content))
             return 0
     else:
-        #if prevSend != "":
-        #    cur = conn.cursor()
-        #    sql = "INSERT INTO userdata (KeyWord, Description) VALUES(%s, %s);"
-        #    cur.execute(sql, (prevSend, lineMessage))
-        #    conn.commit()
+        if prevSend != "":
+            cur = conn.cursor()
+            sql = "INSERT INTO userdata (KeyWord, Description) VALUES(%s, %s);"
+            cur.execute(sql, (prevSend, lineMessage))
+            conn.commit()
 
         cur = conn.cursor()
         sql = "SELECT KeyWord from userdata;"
@@ -139,12 +142,11 @@ def handle_message(event):
                 event.reply_token,
                 TextSendMessage(text=content))
         else:
-            content = bot.getResponse(lineMessage)
-            #profile = line_bot_api.get_profile(event.source.user_id)
+            profile = line_bot_api.get_profile(event.source.user_id)
             prevSend = lineMessage
             line_bot_api.reply_message(
                 event.reply_token,
-                TextSendMessage(text=content))
+                TextSendMessage(text=profile.display_name+" 曰：\n"+lineMessage))
         conn.close()   
         return 0
 
