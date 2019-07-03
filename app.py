@@ -8,6 +8,18 @@ from linebot.exceptions import (
 )
 from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage,
+    SourceUser, SourceGroup, SourceRoom,
+    TemplateSendMessage, ConfirmTemplate, MessageAction,
+    ButtonsTemplate, ImageCarouselTemplate, ImageCarouselColumn, URIAction,
+    PostbackAction, DatetimePickerAction,
+    CameraAction, CameraRollAction, LocationAction,
+    CarouselTemplate, CarouselColumn, PostbackEvent,
+    StickerMessage, StickerSendMessage, LocationMessage, LocationSendMessage,
+    ImageMessage, VideoMessage, AudioMessage, FileMessage,
+    UnfollowEvent, FollowEvent, JoinEvent, LeaveEvent, BeaconEvent,
+    FlexSendMessage, BubbleContainer, ImageComponent, BoxComponent,
+    TextComponent, SpacerComponent, IconComponent, ButtonComponent,
+    SeparatorComponent, QuickReply, QuickReplyButton
 )
 import os
 import psycopg2
@@ -37,6 +49,128 @@ def callback():
         abort(400)
 
     return 'OK'
+
+@handler.add(FollowEvent)
+def handle_follow(event):
+    #profile = line_bot_api.get_profile(event.source.user_id)
+    bubble = BubbleContainer(
+        {
+        "type": "bubble",
+        "hero": {
+            "type": "image",
+            "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/01_1_cafe.png",
+            "size": "full",
+            "aspectRatio": "20:13",
+            "aspectMode": "cover",
+            "action": {
+            "type": "uri",
+            "uri": "http://linecorp.com/"
+            }
+        },
+        "body": {
+            "type": "box",
+            "layout": "vertical",
+            "contents": [
+            {
+                "type": "text",
+                "text": "本大貓主選單",
+                "weight": "bold",
+                "size": "xl"
+            },
+            {
+                "type": "box",
+                "layout": "vertical",
+                "margin": "lg",
+                "spacing": "sm",
+                "contents": [
+                {
+                    "type": "box",
+                    "layout": "baseline",
+                    "spacing": "sm",
+                    "contents": [
+                    {
+                        "type": "text",
+                        "text": "功能",
+                        "color": "#aaaaaa",
+                        "size": "sm",
+                        "flex": 2
+                    },
+                    {
+                        "type": "text",
+                        "text": "簡易聊天機器人、抽籤",
+                        "wrap": True,
+                        "color": "#666666",
+                        "size": "sm",
+                        "flex": 4
+                    }
+                    ]
+                },
+                {
+                    "type": "box",
+                    "layout": "baseline",
+                    "spacing": "sm",
+                    "contents": [
+                    {
+                        "type": "text",
+                        "text": "維護時間",
+                        "color": "#aaaaaa",
+                        "size": "sm",
+                        "flex": 2
+                    },
+                    {
+                        "type": "text",
+                        "text": "我爽就維護(◕ܫ◕)",
+                        "wrap": True,
+                        "color": "#666666",
+                        "size": "sm",
+                        "flex": 4
+                    }
+                    ]
+                }
+                ]
+            }
+            ]
+        },
+        "footer": {
+            "type": "box",
+            "layout": "vertical",
+            "spacing": "sm",
+            "contents": [
+            {
+                "type": "button",
+                "style": "link",
+                "height": "sm",
+                "action": {
+                "type": "uri",
+                "label": "CALL",
+                "uri": "https://linecorp.com"
+                }
+            },
+            {
+                "type": "button",
+                "style": "link",
+                "height": "sm",
+                "action": {
+                "type": "uri",
+                "label": "WEBSITE",
+                "uri": "https://linecorp.com"
+                }
+            },
+            {
+                "type": "spacer",
+                "size": "sm"
+            }
+            ],
+            "flex": 0
+        }
+        }
+    )
+    message = FlexSendMessage(alt_text="hello", contents=bubble)
+    line_bot_api.reply_message(
+        event.reply_token,
+        message
+    )
+    return 0
 
 def excludeWord(msg, event):
     exList = ['目錄', '所有籤桶', '所有籤筒', '籤桶', '籤筒', '刪除', '刪除籤桶', '刪除籤筒']
@@ -126,7 +260,6 @@ def handle_message(event):
             TextSendMessage(text=content))
         return 0
     else:
-        #profile = line_bot_api.get_profile(event.source.user_id)
         content = str(bot.getResponse(lineMessage))
         line_bot_api.reply_message(
             event.reply_token,
