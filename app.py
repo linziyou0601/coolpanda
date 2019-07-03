@@ -51,6 +51,7 @@ prevSend = ""
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
+    global prevSend
     conn = psycopg2.connect(database="d6tkud0mtknjov", user="ifvbkjtshpsxqj", password="4972b22ed367ed7346b0107d3c3e97db14fac1dde628cd6d7f08cf502c927ee1", host="ec2-50-16-197-244.compute-1.amazonaws.com", port="5432")
     lineMessage = event.message.text
     if lineMessage[0:4] == "所有主題":
@@ -115,6 +116,12 @@ def handle_message(event):
                 TextSendMessage(text=content))
             return 0
     else:
+        if prevSend != "":
+            cur = conn.cursor()
+            sql = "INSERT INTO userdata (KeyWord, Description) VALUES(%s, %s);"
+            cur.execute(sql, (prevSend, lineMessage))
+            conn.commit()
+
         cur = conn.cursor()
         sql = "SELECT KeyWord from userdata;"
         cur.execute(sql)
