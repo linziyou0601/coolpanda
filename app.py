@@ -157,10 +157,10 @@ class LineChatBOT:
     # 建立一個 ChatBot
     chatbot = ChatBot(
         # 這個 ChatBot 的名字叫做 KantaiBOT
-        "KantaiBOT",
+        "LineChatBOT",
         storage_adapter = "chatterbot.storage.JsonFileStorageAdapter",
         # 設定訓練的資料庫輸出於根目錄，並命名為 KantaiBOT_DB.json
-        database = "./KantaiBOT_DB.json"    
+        database = "./LineChatBOT_DB.json"    
     )
 
     def __init__(self):
