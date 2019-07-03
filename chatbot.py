@@ -17,4 +17,4 @@ class LineChatBOT:
     def getResponse(self, message=""):
         response = self.chatbot.get_response(message)
         response_data = response.serialize()
-        return JsonResponse(response_data, status=200)
+        return response_data
