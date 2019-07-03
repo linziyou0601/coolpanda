@@ -10,8 +10,8 @@ class LineChatBOT:
     )
 
     def __init__(self):
-        self.chatbot.trainer = ChatterBotCorpusTrainer(bot)
-        self.chatbot.trainer.train("chatterbot.corpus.chinese")
+        trainer = ChatterBotCorpusTrainer(self.chatbot)
+        trainer.train("chatterbot.corpus.chinese")
 
     def getResponse(self, message=""):
         return self.chatbot.get_response(message)
