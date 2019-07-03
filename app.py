@@ -54,11 +54,11 @@ def handle_message(event):
         sql = "SELECT KeyWord from userdata;"
         cur = conn.cursor()
         cur.execute(sql)
-        keyList = cur.fetchall()
+        keyList = list(dict.fromkeys([record[0] for record in cur.fetchall()]))
         conn.close()
         content = ""
         for row in keyList:
-            content = content + row[0] + "\n"
+            content = content + row + "\n"
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text=content))
@@ -111,7 +111,7 @@ def handle_message(event):
         sql = "SELECT KeyWord from userdata;"
         cur = conn.cursor()
         cur.execute(sql)
-        keyList = [record[0] for record in cur.fetchall()]
+        keyList = list(dict.fromkeys([record[0] for record in cur.fetchall()]))
         temp = []
         for row in keyList:
             if row in lineMessage:
@@ -123,9 +123,9 @@ def handle_message(event):
                 sql = "SELECT Description from userdata where KeyWord=%s;"
                 cur = conn.cursor()
                 cur.execute(sql, (item,))
-                DescList = cur.fetchall()
+                DescList = [record[0] for record in cur.fetchall()]
                 for row in DescList:
-                    content = content + row[0] + "\n"
+                    content = content + row + "\n"
             conn.close()
             line_bot_api.reply_message(
                 event.reply_token,
