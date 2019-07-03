@@ -56,11 +56,12 @@ bot = ChatBot(
     database = 'd6tkud0mtknjov',
     database_uri = 'postgres://ifvbkjtshpsxqj:4972b22ed367ed7346b0107d3c3e97db14fac1dde628cd6d7f08cf502c927ee1@ec2-50-16-197-244.compute-1.amazonaws.com:5432/d6tkud0mtknjov'
 )
-bot.set_trainer(ChatterBotCorpusTrainer)
+trainer = ChatterBotCorpusTrainer(bot)
+trainer.train("chatterbot.corpus.chinese")
 # 基於英文的自動學習套件
 #chatbot.train("chatterbot.corpus.english")
 # 載入(簡體)中文的基本語言庫
-bot.train("chatterbot.corpus.chinese")
+#bot.train("chatterbot.corpus.chinese")
 # 載入(簡體)中文的問候語言庫
 #chatbot.train("chatterbot.corpus.chinese.greetings")
 # 載入(簡體)中文的對話語言庫
