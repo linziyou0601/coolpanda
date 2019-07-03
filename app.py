@@ -125,8 +125,7 @@ def handle_message(event):
         else:
             sql = "SELECT Description from userdata where KeyWord=%s;"
             cur = conn.cursor()
-            cur.execute(sql, (temp,))
-            conn.commit()
+            cur.execute(sql, (temp))
             DescList = cur.fetchall()
             conn.close()
             content = ""
