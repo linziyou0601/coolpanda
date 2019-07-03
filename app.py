@@ -114,7 +114,7 @@ def handle_message(event):
         keyList = zip(*cur.fetchall())
         temp = []
         for row in keyList:
-            if row[0] in lineMessage:
+            if row in lineMessage:
                 temp.append(row)
         
         if temp:
