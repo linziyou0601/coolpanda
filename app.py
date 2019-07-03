@@ -46,6 +46,8 @@ def excludeWord(msg, event):
         return 0
     return 1
 
+prevSend = ""
+
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     conn = psycopg2.connect(database="d6tkud0mtknjov", user="ifvbkjtshpsxqj", password="4972b22ed367ed7346b0107d3c3e97db14fac1dde628cd6d7f08cf502c927ee1", host="ec2-50-16-197-244.compute-1.amazonaws.com", port="5432")
@@ -56,6 +58,7 @@ def handle_message(event):
         cur.execute(sql)
         keyList = list(dict.fromkeys([record[0] for record in cur.fetchall()]))
         conn.close()
+        prevSend = ""
         content = ""
         for row in keyList:
             content = content + row + "\n"
@@ -73,6 +76,7 @@ def handle_message(event):
                 cur.execute(sql, (keymessage, message))
                 conn.commit()
             conn.close()
+            prevSend = ""
             content = "我知道但我不想說"
             line_bot_api.reply_message(
                 event.reply_token,
@@ -87,6 +91,7 @@ def handle_message(event):
             cur.execute(sql, (keymessage,))
             conn.commit()
             conn.close()
+            prevSend = ""
             content = "我把這些垃圾給全吃了"
             line_bot_api.reply_message(
                 event.reply_token,
@@ -102,14 +107,21 @@ def handle_message(event):
                 cur.execute(sql, (keymessage, message))
                 conn.commit()
             conn.close()
+            prevSend = ""
             content = "我把這些垃圾給吃了"
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text=content))
             return 0
     else:
-        sql = "SELECT KeyWord from userdata;"
+        if prevSend != "":
+            cur = conn.cursor()
+            sql = "INSERT INTO userdata (KeyWord, Description) VALUES(%s, %s);"
+            cur.execute(sql, (prevSend, lineMessage))
+            conn.commit()
+            
         cur = conn.cursor()
+        sql = "SELECT KeyWord from userdata;"
         cur.execute(sql)
         keyList = list(dict.fromkeys([record[0] for record in cur.fetchall()]))
         temp = ""
@@ -118,19 +130,21 @@ def handle_message(event):
                 temp = row if row == lineMessage or len(row) > len(temp) else temp
         
         if temp != "":
-            sql = "SELECT Description from userdata where KeyWord=%s;"
             cur = conn.cursor()
+            sql = "SELECT Description from userdata where KeyWord=%s;"
             cur.execute(sql, (temp,))
             DescList = [record[0] for record in cur.fetchall()]
             conn.close()
             content = ""
             for row in DescList:
                 content = content + row + "\n"
+            prevSend = content
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text=content))
         else:
             profile = line_bot_api.get_profile(event.source.user_id)
+            prevSend = ""
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text=profile.display_name+" 曰：\n"+lineMessage))
