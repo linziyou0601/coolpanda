@@ -1,17 +1,13 @@
-from flask import Flask, request, abort
-
-from linebot import (
-    LineBotApi, WebhookHandler
-)
-from linebot.exceptions import (
-    InvalidSignatureError
-)
-from linebot.models import (
-    MessageEvent, TextMessage, TextSendMessage,
-)
 import os
 import psycopg2
 import random
+from chatterbot import ChatBot
+from chatterbot.trainers import ChatterBotCorpusTrainer
+
+from flask import Flask, request, abort
+from linebot import (LineBotApi, WebhookHandler)
+from linebot.exceptions import (InvalidSignatureError)
+from linebot.models import (MessageEvent, TextMessage, TextSendMessage,)
 
 app = Flask(__name__)
 
@@ -116,11 +112,12 @@ def handle_message(event):
                 TextSendMessage(text=content))
             return 0
     else:
-        if prevSend != "":
-            cur = conn.cursor()
-            sql = "INSERT INTO userdata (KeyWord, Description) VALUES(%s, %s);"
-            cur.execute(sql, (prevSend, lineMessage))
-            conn.commit()
+        bot = KantaiBOT()
+        #if prevSend != "":
+        #    cur = conn.cursor()
+        #    sql = "INSERT INTO userdata (KeyWord, Description) VALUES(%s, %s);"
+        #    cur.execute(sql, (prevSend, lineMessage))
+        #    conn.commit()
 
         cur = conn.cursor()
         sql = "SELECT KeyWord from userdata;"
@@ -142,14 +139,40 @@ def handle_message(event):
                 event.reply_token,
                 TextSendMessage(text=content))
         else:
-            profile = line_bot_api.get_profile(event.source.user_id)
+            content = bot.getResponse(lineMessage)
+            #profile = line_bot_api.get_profile(event.source.user_id)
             prevSend = lineMessage
             line_bot_api.reply_message(
                 event.reply_token,
-                TextSendMessage(text=profile.display_name+" 曰：\n"+lineMessage))
+                TextSendMessage(text=content))
         conn.close()   
         return 0
 
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port)
+
+
+class LineChatBOT:
+    # 建立一個 ChatBot
+    chatbot = ChatBot(
+        # 這個 ChatBot 的名字叫做 KantaiBOT
+        "KantaiBOT",
+        storage_adapter = "chatterbot.storage.JsonFileStorageAdapter",
+        # 設定訓練的資料庫輸出於根目錄，並命名為 KantaiBOT_DB.json
+        database = "./KantaiBOT_DB.json"    
+    )
+
+    def __init__(self):
+        self.chatbot.set_trainer(ChatterBotCorpusTrainer)
+        # 基於英文的自動學習套件
+        self.chatbot.train("chatterbot.corpus.english")
+        # 載入(簡體)中文的基本語言庫
+        self.chatbot.train("chatterbot.corpus.chinese")
+        # 載入(簡體)中文的問候語言庫
+        self.chatbot.train("chatterbot.corpus.chinese.greetings")
+        # 載入(簡體)中文的對話語言庫
+        self.chatbot.train("chatterbot.corpus.chinese.conversations")
+
+    def getResponse(self, message=""):
+        return self.chatbot.get_response(message)
