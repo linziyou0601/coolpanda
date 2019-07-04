@@ -1,1 +1,1 @@
-web: (python -m simpleHTTPServer $PORT &) && python app.py 
+web: gunicorn app:app
