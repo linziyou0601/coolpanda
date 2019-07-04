@@ -261,7 +261,7 @@ def excludeWord(msg, event):
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     global bot
-    conn = psycopg2.connect(database="d6tkud0mtknjov", user="ifvbkjtshpsxqj", password="4972b22ed367ed7346b0107d3c3e97db14fac1dde628cd6d7f08cf502c927ee1", host="ec2-50-16-197-244.compute-1.amazonaws.com", port="5432")
+    conn = psycopg2.connect(database="linebotMain", user="postgres", password="Mm552288369", host="35.229.229.112", port="5432")
     lineMessage = event.message.text
     if lineMessage == "主選單":
         message = FlexSendMessage(alt_text="hello", contents=msgFunc("main"))
@@ -276,7 +276,7 @@ def handle_message(event):
             message)
         return 0
     elif lineMessage[0:4] == "所有籤桶" or lineMessage[0:4] == "所有籤筒":
-        sql = "SELECT KeyWord from userdata;"
+        sql = "SELECT KeyWord from rndtopic;"
         cur = conn.cursor()
         cur.execute(sql)
         keyList = list(dict.fromkeys([record[0] for record in cur.fetchall()]))
@@ -295,7 +295,7 @@ def handle_message(event):
         if excludeWord(keymessage, event) == 1:
             for message in lineMes[2:]:
                 cur = conn.cursor()
-                sql = "INSERT INTO userdata (KeyWord, Description) VALUES(%s, %s);"
+                sql = "INSERT INTO rndtopic (KeyWord, Description) VALUES(%s, %s);"
                 cur.execute(sql, (keymessage, message))
                 conn.commit()
             conn.close()
@@ -309,7 +309,7 @@ def handle_message(event):
         keymessage = lineMes[1]
         if excludeWord(keymessage, event) == 1:
             cur = conn.cursor()
-            sql = "DELETE FROM userdata WHERE KeyWord=%s;"
+            sql = "DELETE FROM rndtopic WHERE KeyWord=%s;"
             cur.execute(sql, (keymessage,))
             conn.commit()
             conn.close()
@@ -324,7 +324,7 @@ def handle_message(event):
         if excludeWord(keymessage, event) == 1:
             for message in lineMes[2:]:
                 cur = conn.cursor()
-                sql = "DELETE FROM userdata WHERE KeyWord=%s AND Description=%s;"
+                sql = "DELETE FROM rndtopic WHERE KeyWord=%s AND Description=%s;"
                 cur.execute(sql, (keymessage, message))
                 conn.commit()
             conn.close()
@@ -337,7 +337,7 @@ def handle_message(event):
         lineMes = lineMessage.split(';')
         keymessage = lineMes[1]
         cur = conn.cursor()
-        sql = "SELECT Description from userdata where KeyWord=%s;"
+        sql = "SELECT Description from rndtopic where KeyWord=%s;"
         cur.execute(sql, (keymessage,))
         DescList = [record[0] for record in cur.fetchall()]
         conn.close() 
