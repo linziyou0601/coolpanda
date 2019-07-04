@@ -1,4 +1,5 @@
 line-bot-sdk
+gunicorn
 flask
 psycopg2
 chatterbot
