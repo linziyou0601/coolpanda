@@ -1,1 +1,1 @@
-web: python app.py
+web: (python -m simpleHTTPServer $PORT &) && python app.py 
