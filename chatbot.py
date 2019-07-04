@@ -7,7 +7,7 @@ class LineChatBOT:
         "LineChatBOT",
         storage_adapter = "chatterbot.storage.SQLStorageAdapter",
         database = 'postgres',
-        database_uri = 'postgres://postgres:Mm552288369@localhost:5432/postgres'
+        database_uri = 'postgres://postgres:Mm552288369@35.229.229.112:5432/postgres'
     )
 
     def __init__(self):
