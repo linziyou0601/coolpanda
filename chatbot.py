@@ -8,7 +8,14 @@ class LineChatBOT:
         storage_adapter = "chatterbot.storage.SQLStorageAdapter",
         database = 'postgres',
         logic_adapters=[
-            "chatterbot.logic.BestMatch",
+            {
+            'import_path': 'chatterbot.logic.BestMatch'
+            },
+            {
+                'import_path': 'chatterbot.logic.LowConfidenceAdapter',
+                'threshold': 0.65,
+                'default_response': '講人話好嗎？'
+            },
             "chatterbot.logic.MathematicalEvaluation",
             "chatterbot.logic.TimeLogicAdapter"
         ],
