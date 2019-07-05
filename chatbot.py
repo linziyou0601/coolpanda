@@ -1,5 +1,6 @@
 from chatterbot import ChatBot
 from chatterbot.trainers import ChatterBotCorpusTrainer
+from chatterbot.response_selection import *
 import psycopg2
 
 class LineChatBOT:
@@ -10,8 +11,8 @@ class LineChatBOT:
         logic_adapters=[
             {
                 "import_path": "chatterbot.logic.BestMatch",
-                "statement_comparison_function": "chatterbot.comparisons.levenshtein_distance",
-                "response_selection_method": "chatterbot.response_selection.get_first_response"
+                "statement_comparison_function": levenshtein_distance,
+                "response_selection_method": get_first_response
             },
             "chatterbot.logic.MathematicalEvaluation"
         ],
