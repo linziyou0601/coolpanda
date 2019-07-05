@@ -11,7 +11,7 @@ class LineChatBOT:
             {
                 'import_path': 'chatterbot.logic.BestMatch',
                 'default_response': '講人話好嗎？',
-                'maximum_similarity_threshold': 0.4
+                'maximum_similarity_threshold': 0.1
             },
             "chatterbot.logic.MathematicalEvaluation",
             "chatterbot.logic.TimeLogicAdapter"
@@ -23,7 +23,7 @@ class LineChatBOT:
 
     def __init__(self):
         trainer = ChatterBotCorpusTrainer(self.chatbot)
-        trainer.train("chatterbot.corpus.traditionalchinese")
+        #trainer.train("chatterbot.corpus.traditionalchinese")
 
     def getResponse(self, message=""):
         response = self.chatbot.get_response(message)
