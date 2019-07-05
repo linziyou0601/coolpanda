@@ -260,7 +260,7 @@ def excludeWord(msg, event):
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     global bot
-    conn = psycopg2.connect(database="linebotMain", user="postgres", password="Mm552288369", host="35.229.229.112", port="5432")
+    conn = psycopg2.connect(database="d6tkud0mtknjov", user="ifvbkjtshpsxqj", password="4972b22ed367ed7346b0107d3c3e97db14fac1dde628cd6d7f08cf502c927ee1", host="ec2-50-16-197-244.compute-1.amazonaws.com", port="5432")
     lineMessage = event.message.text
     if lineMessage == "主選單":
         message = FlexSendMessage(alt_text="hello", contents=msgFunc("main"))
