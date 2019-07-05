@@ -354,6 +354,7 @@ def handle_message(event):
         return 0
     else:
         content = str(bot.getResponse(lineMessage))
+        content = content.replace("The current time is ", "現在時間 (UTC)：") if "The current time is " in content else content
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text=content))  
