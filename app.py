@@ -23,7 +23,7 @@ from linebot.models import (
 )
 import os, psycopg2, json, codecs, random
 from chatbot import LineChatBOT
-from datetime import *
+from datetime import datetime, timedelta
 
 app = Flask(__name__)
 
