@@ -13,8 +13,7 @@ class LineChatBOT:
                 'default_response': '講人話好嗎？',
                 'maximum_similarity_threshold': 0.1
             },
-            "chatterbot.logic.MathematicalEvaluation",
-            "chatterbot.logic.TimeLogicAdapter"
+            "chatterbot.logic.MathematicalEvaluation"
         ],
         input_adapter="chatterbot.input.VariableInputTypeAdapter",
         output_adapter="chatterbot.output.OutputAdapter",
@@ -26,5 +25,6 @@ class LineChatBOT:
         #trainer.train("chatterbot.corpus.traditionalchinese")
 
     def getResponse(self, message=""):
-        response = self.chatbot.get_response(message)
+        timeKey = ['What time', 'what time', 'now', '時間', '幾點', '時刻']
+        response = "現在時間" if any(s in message for s in timeKey) else self.chatbot.get_response(message)
         return response
