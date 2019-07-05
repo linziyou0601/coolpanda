@@ -260,7 +260,16 @@ def excludeWord(msg, event):
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     global bot
+    userId = roomId = groupId = ""
+    if event.source.type == "room":
+        roomId = event.source.room_id
+    if event.source.type == "group":
+        groupId = event.source.group_id
+    userId = event.source.user_id
+
     conn = psycopg2.connect(database="d6tkud0mtknjov", user="ifvbkjtshpsxqj", password="4972b22ed367ed7346b0107d3c3e97db14fac1dde628cd6d7f08cf502c927ee1", host="ec2-50-16-197-244.compute-1.amazonaws.com", port="5432")
+    cur = conn.cursor()
+    
     lineMessage = event.message.text
     if lineMessage == "主選單":
         message = FlexSendMessage(alt_text="hello", contents=msgFunc("main"))
@@ -275,8 +284,7 @@ def handle_message(event):
             message)
         return 0
     elif lineMessage[0:4] == "所有籤桶" or lineMessage[0:4] == "所有籤筒":
-        sql = "SELECT KeyWord from rndtopic;"
-        cur = conn.cursor()
+        sql = "SELECT topic from rndtopic;"
         cur.execute(sql)
         keyList = list(dict.fromkeys([record[0] for record in cur.fetchall()]))
         conn.close()
@@ -293,10 +301,12 @@ def handle_message(event):
         keymessage = lineMes[1]
         if excludeWord(keymessage, event) == 1:
             for message in lineMes[2:]:
-                cur = conn.cursor()
-                sql = "INSERT INTO rndtopic (KeyWord, Description) VALUES(%s, %s);"
-                cur.execute(sql, (keymessage, message))
-                conn.commit()
+                sql = "SELECT topic from rndtopic where topic=%s and lottery=%s;"
+                cur.execute(sql,(keymessage, message))
+                if not cur.rowcount:
+                    sql = "INSERT INTO rndtopic (topic, lottery, userId, roomId, groupId) VALUES(%s, %s, %s, %s, %s);"
+                    cur.execute(sql, (keymessage, message, userId, roomId, groupId))
+                    conn.commit()
             conn.close()
             content = "我拿到了新的籤"
             line_bot_api.reply_message(
@@ -307,8 +317,7 @@ def handle_message(event):
         lineMes = lineMessage.split(';')
         keymessage = lineMes[1]
         if excludeWord(keymessage, event) == 1:
-            cur = conn.cursor()
-            sql = "DELETE FROM rndtopic WHERE KeyWord=%s;"
+            sql = "DELETE FROM rndtopic WHERE topic=%s;"
             cur.execute(sql, (keymessage,))
             conn.commit()
             conn.close()
@@ -322,8 +331,7 @@ def handle_message(event):
         keymessage = lineMes[1]
         if excludeWord(keymessage, event) == 1:
             for message in lineMes[2:]:
-                cur = conn.cursor()
-                sql = "DELETE FROM rndtopic WHERE KeyWord=%s AND Description=%s;"
+                sql = "DELETE FROM rndtopic WHERE topic=%s AND lottery=%s;"
                 cur.execute(sql, (keymessage, message))
                 conn.commit()
             conn.close()
@@ -335,8 +343,7 @@ def handle_message(event):
     elif lineMessage[0:2] == "抽籤":
         lineMes = lineMessage.split(';')
         keymessage = lineMes[1]
-        cur = conn.cursor()
-        sql = "SELECT Description from rndtopic where KeyWord=%s;"
+        sql = "SELECT lottery from rndtopic where topic=%s;"
         cur.execute(sql, (keymessage,))
         DescList = [record[0] for record in cur.fetchall()]
         conn.close() 
