@@ -117,6 +117,22 @@ def msgFunc(stri):
                                     text='抽籤教學'
                                 ),
                             ),
+                            ButtonComponent(
+                                style='link',
+                                height='sm',
+                                action=MessageAction(
+                                    label='目前時間',
+                                    text='現在幾點'
+                                ),
+                            ),
+                            ButtonComponent(
+                                style='link',
+                                height='sm',
+                                action=MessageAction(
+                                    label='四則運算',
+                                    text='98 * 87 + 6 + ( 4 ^ 2 ) '
+                                ),
+                            ),
                             SpacerComponent(size='sm')
                         ],
                         flex=0
