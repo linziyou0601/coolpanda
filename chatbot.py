@@ -9,9 +9,9 @@ class LineChatBOT:
         database = 'postgres',
         logic_adapters=[
             {
-                'import_path': 'chatterbot.logic.BestMatch',
-                'default_response': '講人話好嗎？',
-                'maximum_similarity_threshold': 0.9
+                "import_path": "chatterbot.logic.BestMatch",
+                "statement_comparison_function": "chatterbot.comparisons.levenshtein_distance",
+                "response_selection_method": "chatterbot.response_selection.get_first_response"
             },
             "chatterbot.logic.MathematicalEvaluation"
         ],
