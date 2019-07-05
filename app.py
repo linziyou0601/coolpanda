@@ -29,7 +29,7 @@ app = Flask(__name__)
 line_bot_api = LineBotApi('HRWbC4w2S3J3JvFAQQkQnp4gxXVWtCwLWgrdanU72Y26+hwAoZvdiwhjyLPuIPdYLaqqy4ZDIC48EDGEo9FDp0VhS453OJfXEfFCwoFhZxhIFy6ESVLFr7fPuythQb4WA4gvEHkCjJ+yuMJDgzeR8gdB04t89/1O/w1cDnyilFU=')
 handler = WebhookHandler('4abb8726ea0ae9dc4a91154ce6fecb60')
 
-bot = None
+bot = LineChatBOT()
 
 def msgFunc(stri):
     if stri=="main":
@@ -224,8 +224,6 @@ def callback():
     # get request body as text
     body = request.get_data(as_text=True)
     app.logger.info("Request body: " + body)
-    if bot == None:
-        bot = LineChatBOT()
 
     # handle webhook body
     try:
