@@ -8,6 +8,7 @@ class LineChatBOT:
         storage_adapter = "chatterbot.storage.SQLStorageAdapter",
         database = 'postgres',
         logic_adapters=[
+            "chatterbot.logic.BestMatch",
             "chatterbot.logic.MathematicalEvaluation",
             "chatterbot.logic.TimeLogicAdapter"
         ],
