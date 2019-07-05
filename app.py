@@ -221,6 +221,8 @@ def callback():
     # get request body as text
     body = request.get_data(as_text=True)
     app.logger.info("Request body: " + body)
+    if bot == None:
+        bot = LineChatBOT()
 
     # handle webhook body
     try:
@@ -230,8 +232,6 @@ def callback():
         abort(400)
 
     return 'OK'
-
-bot = LineChatBOT()
 
 def sticon(unic):
     return codecs.decode(json.dumps(unic).strip('"'), 'unicode_escape')
