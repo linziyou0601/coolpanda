@@ -371,7 +371,7 @@ def handle_message(event):
         return 0
     else:
         dt = datetime.now() + timedelta(hours = 8)
-        content = str(bot.getResponse(lineMessage))
+        content = bot.getResponse(lineMessage)
         content = "現在時間：" + str(dt.hour) + ":" + str(dt.minute) if "現在時間" in content else content
         line_bot_api.reply_message(
             event.reply_token,
