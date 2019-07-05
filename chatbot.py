@@ -1,5 +1,6 @@
 from chatterbot import ChatBot
 from chatterbot.trainers import ChatterBotCorpusTrainer
+from chatterbot.response_selection import get_first_response
 import psycopg2
 
 class LineChatBOT:
@@ -8,7 +9,11 @@ class LineChatBOT:
         storage_adapter = "chatterbot.storage.SQLStorageAdapter",
         database = 'postgres',
         logic_adapters=[
-            "chatterbot.logic.BestMatch",
+            {
+            'import_path': 'chatterbot.logic.BestMatch',
+            'statement_comparison_function': 'chatterbot.comparisons.levenshtein_distance',
+            'response_selection_method': get_first_response
+            },
             "chatterbot.logic.MathematicalEvaluation"
         ],
         input_adapter="chatterbot.input.VariableInputTypeAdapter",
