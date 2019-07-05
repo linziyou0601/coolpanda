@@ -242,7 +242,7 @@ def sticon(unic):
 def handle_follow(event):
     profile = line_bot_api.get_profile(event.source.user_id)
     content = TextSendMessage(text=profile.display_name + "，歡迎您成為本熊貓的好友" + sticon(u"\U00100097"))
-    message = FlexSendMessage(alt_text="hello", contents=msgFunc("main"))
+    message = FlexSendMessage(alt_text="主選單", contents=msgFunc("main"))
     line_bot_api.reply_message(
         event.reply_token,
         [content, message])
@@ -273,13 +273,13 @@ def handle_message(event):
     
     lineMessage = event.message.text
     if lineMessage == "主選單":
-        message = FlexSendMessage(alt_text="hello", contents=msgFunc("main"))
+        message = FlexSendMessage(alt_text="主選單", contents=msgFunc("main"))
         line_bot_api.reply_message(
             event.reply_token,
             message)
         return 0
     elif lineMessage == "抽籤教學":
-        message = FlexSendMessage(alt_text="hello", contents=msgFunc("teach"))
+        message = FlexSendMessage(alt_text="抽籤教學", contents=msgFunc("teach"))
         line_bot_api.reply_message(
             event.reply_token,
             message)
