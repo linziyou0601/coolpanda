@@ -11,7 +11,7 @@ class LineChatBOT:
             {
                 'import_path': 'chatterbot.logic.BestMatch',
                 'default_response': '講人話好嗎？',
-                'maximum_similarity_threshold': 0
+                'maximum_similarity_threshold': 0.9
             },
             "chatterbot.logic.MathematicalEvaluation"
         ],
