@@ -109,7 +109,7 @@ def handle_message(event):
         if cur.rowcount:
             keyList = list(dict.fromkeys([record[0] for record in cur.fetchall()]))
             conn.close()
-            content = ""
+            content = "【籤桶列表】\n"
             for row in keyList:
                 content = content + row + "\n"
         else:
