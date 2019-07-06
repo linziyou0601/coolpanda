@@ -307,7 +307,7 @@ def handle_message(event):
             event.reply_token,
             message)
         return 0
-    elif lineMessage[0:4] == "所有籤桶" or lineMessage[0:4] == "所有籤筒":
+    elif lineMessage == "所有籤桶" or lineMessage == "所有籤筒":
         content = ""
         sql = "SELECT topic from rndtopic;"
         cur.execute(sql)
@@ -323,7 +323,7 @@ def handle_message(event):
             event.reply_token,
             TextSendMessage(text=content))
         return 0
-    elif lineMessage[0:2] == "籤桶" or lineMessage[0:2] == "籤筒":
+    elif lineMessage[0:3] == "籤桶;" or lineMessage[0:3] == "籤筒;":
         lineMes = lineMessage.split(';')
         keymessage = lineMes[1]
         if excludeWord(keymessage, event) == 1:
@@ -340,7 +340,7 @@ def handle_message(event):
                 event.reply_token,
                 TextSendMessage(text=content))
             return 0
-    elif lineMessage[0:4] == "刪除籤桶" or lineMessage[0:4] == "刪除籤筒":
+    elif lineMessage[0:5] == "刪除籤桶;" or lineMessage[0:4] == "刪除籤筒;":
         lineMes = lineMessage.split(';')
         keymessage = lineMes[1]
         if excludeWord(keymessage, event) == 1:
@@ -353,7 +353,7 @@ def handle_message(event):
                 event.reply_token,
                 TextSendMessage(text=content))
             return 0
-    elif lineMessage[0:2] == "刪除":
+    elif lineMessage[0:3] == "刪除;":
         lineMes = lineMessage.split(';')
         keymessage = lineMes[1]
         if excludeWord(keymessage, event) == 1:
@@ -367,7 +367,7 @@ def handle_message(event):
                 event.reply_token,
                 TextSendMessage(text=content))
             return 0
-    elif lineMessage[0:2] == "抽籤":
+    elif lineMessage[0:3] == "抽籤;":
         lineMes = lineMessage.split(';')
         keymessage = lineMes[1]
         content = ""
@@ -379,6 +379,15 @@ def handle_message(event):
             content = random.choice(DescList)
         else:
             content = "唉呀，沒有這桶籤！"
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text=content))
+        return 0
+    elif lineMessage[0:4] == "學說話;":
+        lineMes = lineMessage.split(';')
+        keymessage = lineMes[1:]
+        bot.trainerList.train(keymessage)
+        content = "好哦的喵～"
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text=content))

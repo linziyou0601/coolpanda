@@ -1,5 +1,5 @@
 from chatterbot import ChatBot
-from chatterbot.trainers import ChatterBotCorpusTrainer
+from chatterbot.trainers import ChatterBotCorpusTrainer, ListTrainer
 from chatterbot.response_selection import get_most_frequent_response
 import psycopg2
 from datetime import datetime, timedelta
@@ -23,8 +23,9 @@ class LineChatBOT:
     )
 
     def __init__(self):
-        trainer = ChatterBotCorpusTrainer(self.chatbot)
-        #trainer.train("chatterbot.corpus.traditionalchinese")
+        self.trainer = ChatterBotCorpusTrainer(self.chatbot)
+        self.trainerList = ListTrainer(self.chatbot)
+        #self.trainer.train("chatterbot.corpus.traditionalchinese")
 
     def getResponse(self, message=""):
         response = ""
