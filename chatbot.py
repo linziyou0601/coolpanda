@@ -34,7 +34,7 @@ class LineChatBOT:
         dt = datetime.now() + timedelta(hours = 8)
         if any(s in message for s in timeKey):
             response = "現在時間 (UTC+8)：" + str(dt.hour) + ":" + str(dt.minute)
-        elif  any(s in message for s in dateKey):
+        elif  any(s in message for s in dateKey) or any(s == message for s in ["前天", "昨天", "今天", "明天", "後天"]):
             tmp = "今"
             if "明天" in message:
                 dt += timedelta(days = 1)
