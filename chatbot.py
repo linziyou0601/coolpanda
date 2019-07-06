@@ -48,7 +48,7 @@ class LineChatBOT:
             elif "前天" in message:
                 dt -= timedelta(days = 2)
                 tmp = "前"
-            response = tmp + "天是 " + str(dt.year) + "年" + str(dt.month) + "月" + str(dt.minute) + "日 " + weekDay[dt.weekday)]
+            response = tmp + "天是 " + str(dt.year) + "年" + str(dt.month) + "月" + str(dt.minute) + "日 " + weekDay[dt.weekday]
         else:
             response = self.chatbot.get_response(message)
         return response
