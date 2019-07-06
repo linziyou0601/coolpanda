@@ -99,14 +99,6 @@ def msgFunc(stri):
                         layout='vertical',
                         spacing='sm',
                         contents=[
-                            ButtonComponent(
-                                style='link',
-                                height='sm',
-                                action=MessageAction(
-                                    label='所有籤桶',
-                                    text='所有籤桶'
-                                ),
-                            ),
                             #SeparatorComponent(),
                             ButtonComponent(
                                 style='link',
@@ -213,7 +205,15 @@ def msgFunc(stri):
                                 style='link',
                                 height='sm',
                                 action=MessageAction(
-                                    label='② 抽一支籤',
+                                    label='② 查看所有籤桶',
+                                    text='所有籤桶'
+                                ),
+                            ),
+                            ButtonComponent(
+                                style='link',
+                                height='sm',
+                                action=MessageAction(
+                                    label='③ 抽一支籤',
                                     text='抽籤;籤桶名稱'
                                 ),
                             ),
@@ -221,7 +221,7 @@ def msgFunc(stri):
                                 style='link',
                                 height='sm',
                                 action=MessageAction(
-                                    label='③ 刪除籤',
+                                    label='④ 刪除籤',
                                     text='刪除;籤桶名稱;甲子籤;丁卯籤'
                                 ),
                             ),
@@ -229,7 +229,7 @@ def msgFunc(stri):
                                 style='link',
                                 height='sm',
                                 action=MessageAction(
-                                    label='④ 刪除籤桶',
+                                    label='⑤ 刪除籤桶',
                                     text='刪除籤桶;籤桶名稱'
                                 ),
                             ),
