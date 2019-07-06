@@ -112,6 +112,14 @@ def msgFunc(stri):
                                 style='link',
                                 height='sm',
                                 action=MessageAction(
+                                    label='查看說話教學',
+                                    text='如何學說話'
+                                ),
+                            ),
+                            ButtonComponent(
+                                style='link',
+                                height='sm',
+                                action=MessageAction(
                                     label='查看抽籤教學',
                                     text='抽籤教學'
                                 ),
@@ -238,6 +246,80 @@ def msgFunc(stri):
                         flex=0
                     ),
                 )
+    elif stri=="howToTrain":
+        return BubbleContainer(
+                    direction='ltr',
+                    body=BoxComponent(
+                        layout='vertical',
+                        contents=[
+                            # title
+                            TextComponent(text='如何教我說話', weight='bold', size='xl'),
+                            TextComponent(text='回答時會從所有已學習的資料裡隨機挑選其中一個答案回應！', wrap=True, color='#aaaaaa', size='sm'),
+                            TextComponent(text='指令', weight='bold', color='#825d5c', margin='lg', size='md'),
+                            # info
+                            BoxComponent(
+                                layout='vertical',
+                                margin='md',
+                                spacing='sm',
+                                contents=[
+                                    BoxComponent(
+                                        layout='baseline',
+                                        spacing='sm',
+                                        contents=[
+                                            TextComponent(
+                                                text='單句對話',
+                                                color='#aaaaaa',
+                                                size='sm',
+                                                flex=1
+                                            ),
+                                            TextComponent(
+                                                text='學說話;內容;回答',
+                                                wrap=True,
+                                                color='#825d5c',
+                                                size='sm',
+                                                flex=3
+                                            )
+                                        ],
+                                    ),
+                                    BoxComponent(
+                                        layout='baseline',
+                                        spacing='sm',
+                                        contents=[
+                                            TextComponent(
+                                                text='連續對話',
+                                                color='#aaaaaa',
+                                                size='sm',
+                                                flex=1
+                                            ),
+                                            TextComponent(
+                                                text='學說話;對話1;對話2;對話N',
+                                                wrap=True,
+                                                color='#825d5c',
+                                                size='sm',
+                                                flex=3
+                                            )
+                                        ],
+                                    )
+                                ],
+                            )
+                        ],
+                    ),
+                    footer=BoxComponent(
+                        layout='vertical',
+                        spacing='sm',
+                        contents=[
+                            ButtonComponent(
+                                style='link',
+                                height='sm',
+                                action=MessageAction(
+                                    label='查看範例',
+                                    text='學說話;牛批牛批;本喵真牛批！'
+                                ),
+                            )
+                        ],
+                        flex=0
+                    ),
+                )
     
 @app.route("/callback", methods=['POST'])
 def callback():
@@ -303,6 +385,12 @@ def handle_message(event):
         return 0
     elif lineMessage == "抽籤教學":
         message = FlexSendMessage(alt_text="抽籤教學", contents=msgFunc("teach"))
+        line_bot_api.reply_message(
+            event.reply_token,
+            message)
+        return 0
+    elif lineMessage == "如何學說話":
+        message = FlexSendMessage(alt_text="如何教我說話", contents=msgFunc("howToTrain"))
         line_bot_api.reply_message(
             event.reply_token,
             message)
