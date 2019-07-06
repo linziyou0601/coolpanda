@@ -18,7 +18,7 @@ from linebot.models import (
 )
 import os, psycopg2, json, codecs, random
 from chatbot import LineChatBOT
-from flexMsg import msgFunc
+from MsgFunc import msgFunc
 
 app = Flask(__name__)
 

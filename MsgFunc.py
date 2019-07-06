@@ -1,13 +1,30 @@
+from linebot import (LineBotApi, WebhookHandler)
+from linebot.exceptions import (InvalidSignatureError)
+from linebot.models import (
+    MessageEvent, TextMessage, TextSendMessage,
+    SourceUser, SourceGroup, SourceRoom,
+    TemplateSendMessage, ConfirmTemplate, MessageAction,
+    ButtonsTemplate, ImageCarouselTemplate, ImageCarouselColumn, URIAction,
+    PostbackAction, DatetimePickerAction,
+    CameraAction, CameraRollAction, LocationAction,
+    CarouselTemplate, CarouselColumn, PostbackEvent,
+    StickerMessage, StickerSendMessage, LocationMessage, LocationSendMessage,
+    ImageMessage, VideoMessage, AudioMessage, FileMessage,
+    UnfollowEvent, FollowEvent, JoinEvent, LeaveEvent, BeaconEvent,
+    FlexSendMessage, BubbleContainer, ImageComponent, BoxComponent,
+    TextComponent, SpacerComponent, IconComponent, ButtonComponent,
+    SeparatorComponent, QuickReply, QuickReplyButton
+)
+
 def msgFunc(stri):
     if stri=="main":
         return BubbleContainer(
                     direction='ltr',
                     hero=ImageComponent(
-                        url='https://scdn.line-apps.com/n/channel_devcenter/img/fx/01_1_cafe.png',
+                        url='img/mainFlex.png',
                         size='full',
                         aspect_ratio='20:13',
-                        aspect_mode='cover',
-                        action=URIAction(uri='http://linecorp.com/', label='label')
+                        aspect_mode='cover'
                     ),
                     body=BoxComponent(
                         layout='vertical',
@@ -66,7 +83,6 @@ def msgFunc(stri):
                         layout='vertical',
                         spacing='sm',
                         contents=[
-                            #SeparatorComponent(),
                             ButtonComponent(
                                 style='link',
                                 height='sm',
@@ -115,18 +131,12 @@ def msgFunc(stri):
     elif stri=="teach":
         return BubbleContainer(
                     direction='ltr',
-                    hero=ImageComponent(
-                        url='https://scdn.line-apps.com/n/channel_devcenter/img/fx/01_1_cafe.png',
-                        size='full',
-                        aspect_ratio='20:13',
-                        aspect_mode='cover',
-                        action=URIAction(uri='http://linecorp.com/', label='label')
-                    ),
                     body=BoxComponent(
                         layout='vertical',
                         contents=[
                             # title
-                            TextComponent(text='抽籤教學', weight='bold', size='xl'),
+                            TextComponent(text='教學', weight='bold', size='sm', color="#1DB446"),
+                            TextComponent(text='抽籤教學', weight='bold', size='xxl', margin='md'),
                             # info
                             BoxComponent(
                                 layout='vertical',
@@ -151,6 +161,25 @@ def msgFunc(stri):
                                                 flex=5
                                             )
                                         ],
+                                    ),
+                                    BoxComponent(
+                                        layout='baseline',
+                                        spacing='sm',
+                                        contents=[
+                                            TextComponent(
+                                                text='說明',
+                                                color='#aaaaaa',
+                                                size='sm',
+                                                flex=1
+                                            ),
+                                            TextComponent(
+                                                text='點擊下方按鈕呈現各功能範例！',
+                                                wrap=True,
+                                                color='#666666',
+                                                size='sm',
+                                                flex=5
+                                            )
+                                        ],
                                     )
                                 ],
                             )
@@ -160,6 +189,7 @@ def msgFunc(stri):
                         layout='vertical',
                         spacing='sm',
                         contents=[
+                            SeparatorComponent(margin='xxl'),
                             ButtonComponent(
                                 style='link',
                                 height='sm',
@@ -220,7 +250,8 @@ def msgFunc(stri):
                         layout='vertical',
                         contents=[
                             # title
-                            TextComponent(text='如何教我說話', weight='bold', size='xl'),
+                            TextComponent(text='教學', weight='bold', size='sm', color="#1DB446"),
+                            TextComponent(text='如何教我說話', weight='bold', size='xxl', margin='md'),
                             TextComponent(text='回答時會從所有已學習的資料裡隨機挑選其中一個答案回應！', wrap=True, color='#aaaaaa', size='sm'),
                             TextComponent(text='指令', weight='bold', color='#825d5c', margin='lg', size='md'),
                             # info
@@ -275,12 +306,21 @@ def msgFunc(stri):
                         layout='vertical',
                         spacing='sm',
                         contents=[
+                            SeparatorComponent(margin='xxl'),
                             ButtonComponent(
                                 style='link',
                                 height='sm',
                                 action=MessageAction(
                                     label='查看範例',
                                     text='學說話;牛批牛批;本喵真牛批！'
+                                ),
+                            ),
+                            ButtonComponent(
+                                style='link',
+                                height='sm',
+                                action=MessageAction(
+                                    label='主選單',
+                                    text='主選單'
                                 ),
                             )
                         ],
