@@ -128,7 +128,7 @@ def handle_message(event):
                 sql = "SELECT topic from rndtopic where topic=%s and lottery=%s;"
                 cur.execute(sql,(keymessage, message))
                 if not cur.rowcount:
-                    sql = "INSERT INTO rndtopic (topic, lottery, channelId) VALUES(%s, %s, %s, %s, %s);"
+                    sql = "INSERT INTO rndtopic (topic, lottery, channelId) VALUES(%s, %s, %s);"
                     cur.execute(sql, (keymessage, message, channelId))
                     conn.commit()
             conn.close()
