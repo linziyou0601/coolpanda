@@ -308,14 +308,17 @@ def handle_message(event):
             message)
         return 0
     elif lineMessage[0:4] == "所有籤桶" or lineMessage[0:4] == "所有籤筒":
+        content = ""
         sql = "SELECT topic from rndtopic;"
         cur.execute(sql)
-        keyList = list(dict.fromkeys([record[0] for record in cur.fetchall()]))
-        conn.close()
-        content = ""
-        for row in keyList:
-            content = content + row + "\n"
-        content = "唉呀，沒有籤桶！" if content == "" else content
+        if cur.rowcount:
+            keyList = list(dict.fromkeys([record[0] for record in cur.fetchall()]))
+            conn.close()
+            content = ""
+            for row in keyList:
+                content = content + row + "\n"
+        else:
+            content = "唉呀，沒有任何籤桶！"
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text=content))
@@ -367,11 +370,15 @@ def handle_message(event):
     elif lineMessage[0:2] == "抽籤":
         lineMes = lineMessage.split(';')
         keymessage = lineMes[1]
+        content = ""
         sql = "SELECT lottery from rndtopic where topic=%s;"
         cur.execute(sql, (keymessage,))
-        DescList = [record[0] for record in cur.fetchall()]
-        conn.close() 
-        content = random.choice(DescList)
+        if cur.rowcount:
+            DescList = [record[0] for record in cur.fetchall()]
+            conn.close() 
+            content = random.choice(DescList)
+        else:
+            content = "唉呀，沒有這桶籤！"
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text=content))
