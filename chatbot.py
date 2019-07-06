@@ -28,7 +28,7 @@ class LineChatBOT:
 
     def getResponse(self, message=""):
         timeKey = ['hat time', 'now', '時間', '幾點', '時刻']
-        dateKey = ['hat day', 'eekday', '天日期', '天幾號', '星期幾']
+        dateKey = ['hat day', 'eekday', '天日期', '天幾號', '星期幾', '幾月幾']
         weekDay = ['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日']
         dt = datetime.now() + timedelta(hours = 8)
         if any(s in message for s in timeKey):
@@ -47,7 +47,7 @@ class LineChatBOT:
             elif "前天" in message:
                 dt -= timedelta(days = 2)
                 tmp = "前"
-            response = tmp + "天是 " + str(dt.year) + "年" + str(dt.month) + "月" + str(dt.minute) + "日 " + weekDay(dt.weekday) 
+            response = tmp + "天是 " + str(dt.year) + "年" + str(dt.month) + "月" + str(dt.minute) + "日 " + weekDay[dt.weekday)]
         else:
             response = self.chatbot.get_response(message)
         return response

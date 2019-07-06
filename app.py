@@ -64,7 +64,7 @@ def msgFunc(stri):
                                                 flex=2
                                             ),
                                             TextComponent(
-                                                text='簡易聊天機器人、抽籤',
+                                                text='胡言亂語、抽籤、算數、查詢時間',
                                                 wrap=True,
                                                 color='#666666',
                                                 size='sm',
@@ -122,6 +122,14 @@ def msgFunc(stri):
                                 action=MessageAction(
                                     label='目前時間',
                                     text='現在幾點'
+                                ),
+                            ),
+                            ButtonComponent(
+                                style='link',
+                                height='sm',
+                                action=MessageAction(
+                                    label='今天日期',
+                                    text='今天幾月幾號'
                                 ),
                             ),
                             ButtonComponent(
