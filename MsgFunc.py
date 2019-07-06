@@ -21,7 +21,7 @@ def msgFunc(stri):
         return BubbleContainer(
                     direction='ltr',
                     hero=ImageComponent(
-                        url='img/mainFlex.png',
+                        url='./img/mainFlex.png',
                         size='full',
                         aspect_ratio='20:13',
                         aspect_mode='cover'
