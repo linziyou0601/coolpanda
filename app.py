@@ -23,7 +23,6 @@ from linebot.models import (
 )
 import os, psycopg2, json, codecs, random
 from chatbot import LineChatBOT
-from datetime import datetime, timedelta
 
 app = Flask(__name__)
 
@@ -370,9 +369,7 @@ def handle_message(event):
             TextSendMessage(text=content))
         return 0
     else:
-        dt = datetime.now() + timedelta(hours = 8)
         content = str(bot.getResponse(lineMessage))
-        content = "現在時間：" + str(dt.hour) + ":" + str(dt.minute) if "現在時間" in content else content
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text=content))  

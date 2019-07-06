@@ -2,6 +2,7 @@ from chatterbot import ChatBot
 from chatterbot.trainers import ChatterBotCorpusTrainer
 from chatterbot.response_selection import get_most_frequent_response
 import psycopg2
+from datetime import datetime, timedelta
 
 class LineChatBOT:
     chatbot = ChatBot(
@@ -26,6 +27,27 @@ class LineChatBOT:
         #trainer.train("chatterbot.corpus.traditionalchinese")
 
     def getResponse(self, message=""):
-        timeKey = ['What time', 'what time', 'now', '時間', '幾點', '時刻']
-        response = "現在時間" if any(s in message for s in timeKey) else self.chatbot.get_response(message)
+        timeKey = ['hat time', 'now', '時間', '幾點', '時刻']
+        dateKey = ['hat day', 'eekday', '天日期', '天幾號', '星期幾']
+        weekDay = ['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日']
+        dt = datetime.now() + timedelta(hours = 8)
+        if any(s in message for s in timeKey):
+            response = "現在時間 (UTC+8)：" + str(dt.hour) + ":" + str(dt.minute)
+        elif  any(s in message for s in dateKey):
+            tmp = "今"
+            if "明天" in message:
+                dt += timedelta(days = 1)
+                tmp = "明"
+            elif "昨天" in message:
+                dt -= timedelta(days = 1)
+                tmp = "昨"
+            elif "後天" in message:
+                dt += timedelta(days = 2)
+                tmp = "後"
+            elif "前天" in message:
+                dt -= timedelta(days = 2)
+                tmp = "前"
+            response = tmp + "天是 " + str(dt.year) + "年" + str(dt.month) + "月" + str(dt.minute) + "日 " + weekDay(dt.weekday) 
+        else:
+            response = self.chatbot.get_response(message)
         return response
