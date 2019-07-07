@@ -3,3 +3,4 @@ pros_cons
 reuters
 stopwords
 averaged_perceptron_tagger
+punkt
