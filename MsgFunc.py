@@ -21,7 +21,7 @@ def msgFunc(stri):
         return BubbleContainer(
                     direction='ltr',
                     hero=ImageComponent(
-                        url='https://i.imgur.com/u7x8Tks.png',
+                        url='https://i.imgur.com/kW0Fr2H.png',
                         size='full',
                         aspect_ratio='20:13',
                         aspect_mode='cover'
