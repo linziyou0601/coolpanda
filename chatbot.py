@@ -29,7 +29,7 @@ class LineChatBOT:
 
     def getResponse(self, message=""):
         response = ""
-        timeKey = ['hat time', 'now', '時間', '幾點', '時刻']
+        timeKey = ['hat time', 'now', '時間', '幾點', '時刻', '現在']
         dateKey = ['hat day', 'eekday', '天日期', '天幾號', '星期幾', '幾月幾']
         weekDay = ['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日']
         dt = datetime.now() + timedelta(hours = 8)

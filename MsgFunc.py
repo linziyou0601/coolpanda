@@ -16,7 +16,7 @@ from linebot.models import (
     SeparatorComponent, QuickReply, QuickReplyButton
 )
 
-def msgFunc(stri):
+def msgFunc(stri, arg=[]):
     if stri=="main":
         return BubbleContainer(
                     direction='ltr',
@@ -30,7 +30,7 @@ def msgFunc(stri):
                         layout='vertical',
                         contents=[
                             # title
-                            TextComponent(text='本大貓主選單', weight='bold', size='xl'),
+                            TextComponent(text='牛批熊貓主選單', weight='bold', size='xl'),
                             # info
                             BoxComponent(
                                 layout='vertical',
@@ -75,6 +75,8 @@ def msgFunc(stri):
                                             ),
                                         ],
                                     ),
+                                    TextComponent(text=arg[0], wrap=True, color='#aaaaaa', size='sm'),
+                                    TextComponent(text=arg[1], wrap=True, color='#aaaaaa', size='sm')
                                 ],
                             )
                         ],

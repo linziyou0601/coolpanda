@@ -82,7 +82,7 @@ def handle_message(event):
     lineMessage = event.message.text
     ####功能型回覆
     if lineMessage == "主選單":
-        message = FlexSendMessage(alt_text="主選單", contents=msgFunc("main"))
+        message = FlexSendMessage(alt_text="主選單", contents=msgFunc("main", [bot.getResponse("今天日期"), bot.getResponse("現在時間")]))
         line_bot_api.reply_message(
             event.reply_token,
             message)
