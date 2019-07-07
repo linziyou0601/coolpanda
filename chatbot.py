@@ -1,6 +1,6 @@
 from chatterbot import ChatBot
 from chatterbot.trainers import ChatterBotCorpusTrainer, ListTrainer
-from chatterbot.response_selection import get_random_response
+from chatterbot.response_selection import get_most_frequent_response
 import psycopg2
 from datetime import datetime, timedelta
 
@@ -13,7 +13,7 @@ class LineChatBOT:
             {
             'import_path': 'chatterbot.logic.BestMatch',
             'statement_comparison_function': 'chatterbot.comparisons.levenshtein_distance',
-            'response_selection_method': get_random_response
+            'response_selection_method': get_most_frequent_response
             },
             "chatterbot.logic.MathematicalEvaluation"
         ],
