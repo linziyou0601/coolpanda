@@ -11,9 +11,9 @@ class LineChatBOT:
         logic_adapters=[
             {
             'import_path': 'chatterbot.logic.BestMatch',
-            'statement_comparison_function': 'chatterbot.comparisons.SynsetDistance',
+            'statement_comparison_function': 'chatterbot.comparisons.JaccardSimilarity',
             'default_response': '可以講貓話嗎？我聽了霧撒撒！',
-            'maximum_similarity_threshold': 0.3
+            'maximum_similarity_threshold': 0.1
             },
             "chatterbot.logic.MathematicalEvaluation"
         ],
