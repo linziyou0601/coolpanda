@@ -13,7 +13,7 @@ class LineChatBOT:
             'import_path': 'chatterbot.logic.BestMatch',
             'statement_comparison_function': 'chatterbot.comparisons.JaccardSimilarity',
             'default_response': '可以講貓話嗎？我聽了霧撒撒！',
-            'maximum_similarity_threshold': 0.1
+            'maximum_similarity_threshold': 0.85
             },
             "chatterbot.logic.MathematicalEvaluation"
         ],

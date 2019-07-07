@@ -254,7 +254,7 @@ def msgFunc(stri, arg=[]):
                             # title
                             TextComponent(text='教學', weight='bold', size='sm', color="#1DB446"),
                             TextComponent(text='如何教我說話', weight='bold', size='xxl', margin='md'),
-                            TextComponent(text='回答時會從所有已學習的資料裡隨機挑選其中一個答案回應！', wrap=True, color='#aaaaaa', size='sm'),
+                            TextComponent(text='本熊貓也會學習其他聊天室的語料！', wrap=True, color='#aaaaaa', size='sm'),
                             TextComponent(text='指令', weight='bold', color='#825d5c', margin='lg', size='md'),
                             # info
                             BoxComponent(
