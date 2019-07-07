@@ -1,6 +1,5 @@
 from chatterbot import ChatBot
 from chatterbot.trainers import ChatterBotCorpusTrainer, ListTrainer
-from chatterbot.response_selection import get_random_response
 import psycopg2
 from datetime import datetime, timedelta
 
@@ -12,8 +11,9 @@ class LineChatBOT:
         logic_adapters=[
             {
             'import_path': 'chatterbot.logic.BestMatch',
-            'statement_comparison_function': 'chatterbot.comparisons.levenshtein_distance',
-            'response_selection_method': get_random_response
+            'statement_comparison_function': 'chatterbot.comparisons.JaccardSimilarity',
+            'default_response': '可以講貓話嗎？我聽了霧撒撒！',
+            'maximum_similarity_threshold': 0.3
             },
             "chatterbot.logic.MathematicalEvaluation"
         ],
