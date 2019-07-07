@@ -120,8 +120,8 @@ def handle_message(event):
         return 0
 
     #新增籤桶內容
-    elif lineMessage[0:3] == "籤桶;" or lineMessage[0:3] == "籤筒;":
-        lineMes = lineMessage.split(';')
+    elif lineMessage.replace("；",";")[0:3] == "籤桶;" or lineMessage.replace("；",";")[0:3] == "籤筒;":
+        lineMes = lineMessage.replace("；",";").split(';')
         keymessage = lineMes[1]
         if excludeWord(keymessage, event) == 1:
             for message in lineMes[2:]:
@@ -139,8 +139,8 @@ def handle_message(event):
             return 0
 
     #刪除籤桶內容
-    elif lineMessage[0:5] == "刪除籤桶;" or lineMessage[0:4] == "刪除籤筒;":
-        lineMes = lineMessage.split(';')
+    elif lineMessage.replace("；",";")[0:5] == "刪除籤桶;" or lineMessage.replace("；",";")[0:4] == "刪除籤筒;":
+        lineMes = lineMessage.replace("；",";").split(';')
         keymessage = lineMes[1]
         if excludeWord(keymessage, event) == 1:
             sql = "DELETE FROM rndtopic WHERE topic=%s;"
@@ -154,8 +154,8 @@ def handle_message(event):
             return 0
 
     #刪除籤桶
-    elif lineMessage[0:3] == "刪除;":
-        lineMes = lineMessage.split(';')
+    elif lineMessage.replace("；",";")[0:3] == "刪除;":
+        lineMes = lineMessage.replace("；",";").split(';')
         keymessage = lineMes[1]
         if excludeWord(keymessage, event) == 1:
             for message in lineMes[2:]:
@@ -170,8 +170,8 @@ def handle_message(event):
             return 0
 
     #抽一支籤
-    elif lineMessage[0:3] == "抽籤;":
-        lineMes = lineMessage.split(';')
+    elif lineMessage.replace("；",";")[0:3] == "抽籤;":
+        lineMes = lineMessage.replace("；",";").split(';')
         keymessage = lineMes[1]
         content = ""
         sql = "SELECT lottery from rndtopic where topic=%s;"
@@ -188,8 +188,8 @@ def handle_message(event):
         return 0
 
     #ChatterBot ListTrainer
-    elif lineMessage[0:4] == "學說話;":
-        lineMes = lineMessage.split(';')
+    elif lineMessage.replace("；",";")[0:4] == "學說話;":
+        lineMes = lineMessage.replace("；",";").split(';')
         keymessage = lineMes[1:]
         bot.trainerList.train(keymessage)
         content = "好哦的喵～"
