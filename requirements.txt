@@ -1,5 +1,5 @@
 line-bot-sdk
 flask
 psycopg2
-chatterbot==1.1.0a4
+chatterbot
 chatterbot-corpus
