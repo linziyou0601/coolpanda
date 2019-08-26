@@ -90,7 +90,6 @@ def handle_message(event):
         replyList.append(FlexSendMessage(alt_text="如何教我說話", contents=teachChat()))
     else:
 
-        
         content=""
         ##功能開關
         if "說別人教的話" in lineMessage:
