@@ -113,8 +113,8 @@ def handle_message(event):
             validReply(lineMessage, content, channelId) #若有詞條資料，則回覆時權重+1
         ##儲存訊息
         replyList.append(TextSendMessage(text=content)) #本次要回的話
-        storeReceived(lineMessage, channelId) #儲存本次語句
         storeReply(content, channelId) #記錄機器人本次回的話
+        storeReceived(lineMessage, channelId) #儲存本次語句
     
     #回傳給LINE
     line_bot_api.reply_message(
