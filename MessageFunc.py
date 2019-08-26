@@ -403,14 +403,14 @@ def statusMenu(arg=[]):
                                             text='說話模式',
                                             color='#aaaaaa',
                                             size='sm',
-                                            flex=1
+                                            flex=2
                                         ),
                                         TextComponent(
                                             text=arg[0],
                                             wrap=True,
                                             color='#666666',
                                             size='sm',
-                                            flex=5
+                                            flex=4
                                         )
                                     ],
                                 ),
@@ -422,14 +422,14 @@ def statusMenu(arg=[]):
                                             text='目前狀態',
                                             color='#aaaaaa',
                                             size='sm',
-                                            flex=1
+                                            flex=2
                                         ),
                                         TextComponent(
                                             text=arg[1],
                                             wrap=True,
                                             color='#666666',
                                             size='sm',
-                                            flex=5
+                                            flex=4
                                         )
                                     ],
                                 )

@@ -94,7 +94,7 @@ def handle_message(event):
     elif "說別人教的話" in lineMessage: #回話資料庫開關
         replyList.append(TextSendMessage(text=globaltalk(lineMessage, channelId)))
     elif any(s == lineMessage for s in ["牛批貓說話","牛批貓講話","牛批貓安靜", "牛批貓閉嘴"]): #安靜開關
-        replyList.append(TextSendMessage(text=globaltalk(lineMessage, channelId)))
+        replyList.append(TextSendMessage(text=mute(lineMessage, channelId)))
     else:
         ##聊天功能
         content=""
