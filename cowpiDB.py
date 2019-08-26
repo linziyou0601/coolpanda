@@ -115,15 +115,14 @@ def insStatement(key, msg, channelId, type):
     createTable()
     with sqlite3.connect('db/cowpi.db') as conn:
         c = conn.cursor()
-        c.execute('SELECT * FROM statements Where keyword=? and response=? and channel_id=?', [key, msg, channelId])
-        #若詞條存在於當前聊天室，則權重+1
-        if len(c.fetchall())!=0:
-            adjustPrio(key, msg, 1, channelId)
-        #若詞條不存在，則新增詞條
-        else:
-            for res in msg:
-                sql = 'INSERT INTO statements(keyword, response, create_at, channel_id, channel_type) VALUES(?,?,?,?,?)'
-                c.execute(sql, [key, res, str(datetime.now()), channelId, type])
+        for res in msg:
+            c.execute('SELECT * FROM statements Where keyword=? and response=? and channel_id=?', [key, res, channelId])
+            #若詞條存在於當前聊天室，則權重+1
+            if len(c.fetchall())!=0:
+                adjustPrio(key, res, 1, channelId)
+            else:
+                c.execute('INSERT INTO statements(keyword, response, create_at, channel_id, channel_type) VALUES(?,?,?,?,?)',
+                          [key, res, str(datetime.now()), channelId, type])
 ##刪除詞條
 def delStatement(key, msg, channelId):
     createTable()
