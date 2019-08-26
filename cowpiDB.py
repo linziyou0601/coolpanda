@@ -6,6 +6,14 @@ def createTable():
     with sqlite3.connect('db/cowpi.db') as conn:
         c = conn.cursor()
         c.execute('''
+            CREATE TABLE IF NOT EXISTS "users" (
+                "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+                "channel_id" TEXT NOT NULL,
+                "globaltalk" INTEGER NOT NULL DEFAULT 0,
+                "mute" INTEGER NOT NULL DEFAULT 0
+            )
+        ''')
+        c.execute('''
             CREATE TABLE IF NOT EXISTS "statements" (
                 "id" INTEGER PRIMARY KEY AUTOINCREMENT,
                 "keyword" TEXT NOT NULL,
@@ -30,6 +38,32 @@ def createTable():
                 "channel_id" TEXT NOT NULL
             )
         ''')
+
+##########[建立, 刪除, 更新]: [聊天窗頻道資料]##########
+def newChannel(channelId):
+    createTable()
+    with sqlite3.connect('db/cowpi.db') as conn:
+        c = conn.cursor()
+        sql = 'INSERT INTO users(channel_id) VALUES(?)'
+        c.execute(sql, [channelId])
+def delChannel(channelId):
+    createTable()
+    with sqlite3.connect('db/cowpi.db') as conn:
+        c = conn.cursor()
+        sql = 'DELETE FROM users Where channel_id=?'
+        c.execute(sql, [channelId])
+def editChannelGlobalTalk(channelId, value):
+    createTable()
+    with sqlite3.connect('db/cowpi.db') as conn:
+        c = conn.cursor()
+        sql = 'UPDATE users SET globaltalk=? Where channel_id=?'
+        c.execute(sql, [value, channelId])
+def editChannelMute(channelId, value):
+    createTable()
+    with sqlite3.connect('db/cowpi.db') as conn:
+        c = conn.cursor()
+        sql = 'UPDATE users SET mute=? Where channel_id=?'
+        c.execute(sql, [value, channelId])
 
 ##########[儲存, 查詢]: [收到的訊息, 回覆]##########
 def storeReceived(msg, channelId):
@@ -65,8 +99,8 @@ def insStatement(key, msg, channelId, type):
     with sqlite3.connect('db/cowpi.db') as conn:
         c = conn.cursor()
         for res in msg:
-            sql = 'INSERT INTO statements(keyword, response, create_at, creator_id, channel_type, priority) VALUES(?,?,?,?,?,?)'
-            c.execute(sql, [key, res, str(datetime.now()), channelId, type, 5])
+            sql = 'INSERT INTO statements(keyword, response, create_at, creator_id, channel_type) VALUES(?,?,?,?,?)'
+            c.execute(sql, [key, res, str(datetime.now()), channelId, type])
 def delStatement(key, msg, channelId):
     createTable()
     with sqlite3.connect('db/cowpi.db') as conn:
