@@ -74,9 +74,7 @@ def msgFunc(stri, arg=[]):
                                                 flex=4,
                                             ),
                                         ],
-                                    ),
-                                    TextComponent(text=arg[0], wrap=True, color='#aaaaaa', size='sm'),
-                                    TextComponent(text=arg[1], wrap=True, color='#aaaaaa', size='sm')
+                                    )
                                 ],
                             )
                         ],
