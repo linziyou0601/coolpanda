@@ -90,14 +90,14 @@ def handle_message(event):
     elif lineMessage == "目前狀態":
         replyList.append(FlexSendMessage(alt_text="目前狀態", contents=statusMenu(currentStatus(channelId))))
     elif lineMessage=="牛批貓會說什麼": #本聊天窗所有教過的東西
-        replyList.append(TextSendMessage(text=allLearn(channelId)))
+        replyList.append(TextSendMessage(text=allLearn(channelId)[0]))
     elif "說別人教的話" in lineMessage: #回話資料庫開關
-        replyList.append(TextSendMessage(text=globaltalk(lineMessage, channelId)))
+        replyList.append(TextSendMessage(text=globaltalk(lineMessage, channelId)[0]))
     elif any(s == lineMessage for s in ["牛批貓說話","牛批貓講話","牛批貓安靜", "牛批貓閉嘴"]): #安靜開關
-        replyList.append(TextSendMessage(text=mute(lineMessage, channelId)))
+        replyList.append(TextSendMessage(text=mute(lineMessage, channelId)[0]))
     else:
         ##聊天功能
-        content=""
+        content=[]
         if lineMessage == "壞壞": #名詞拉黑
             content = bad(channelId)
         elif lineMessage.replace("；",";")[0:4] == "學說話;": #學說話
@@ -110,15 +110,12 @@ def handle_message(event):
             content = echo2(lineMessage, channelId)
         
         ##自動學習
-        listA=[lineMessage, content[1:4], content[0:12]] #自動學習關鍵字排除對應
-        listB=["牛批貓會說什麼", "天是 ", "現在時間 (UTC+8)："] #自動學習關鍵字排除列表
-        if queryReply(channelId, 1)[0] not in ["好哦的喵～","窩聽不懂啦！"] and all([i!=j for i, j in zip(listA, listB)]):
+        if content[1]:
             autolearn(queryReply(channelId, 1)[0], lineMessage, channelId, e_source) #順序性對話自動加入詞條
-        if content!="窩聽不懂啦！":
             validReply(lineMessage, content, channelId) #若有詞條資料，則回覆時權重+1
         
         ##儲存訊息
-        replyList.append(TextSendMessage(text=content)) #本次要回的話
+        replyList.append(TextSendMessage(text=content[0])) #本次要回的話
         storeReply(content, channelId) #記錄機器人本次回的話
         storeReceived(lineMessage, channelId) #儲存本次語句
     
