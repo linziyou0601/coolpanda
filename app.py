@@ -108,11 +108,12 @@ def handle_message(event):
             content = chat(lineMessage, channelId) #回話
         ##齊推
         if echo2(lineMessage, channelId)!="" and content=="窩聽不懂啦！": content = echo2(lineMessage, channelId)
-        replyList.append(TextSendMessage(text=content)) #本次要回的話
-        storeReply(content, channelId) #記錄機器人本次回的話
         ##自動學習
         if all(s != queryReply(channelId, 1)[0] for s in ["好哦的喵～","窩聽不懂啦！"]):
             autolearn(queryReply(channelId, 1)[0], lineMessage, channelId, e_source)
+        ##儲存訊息
+        replyList.append(TextSendMessage(text=content)) #本次要回的話
+        storeReply(content, channelId) #記錄機器人本次回的話
 
     ##抽籤
     #所有籤桶
