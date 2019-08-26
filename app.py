@@ -103,7 +103,7 @@ def handle_message(event):
         elif lineMessage.replace("；",";")[0:3] == "忘記;": #刪詞
             content = forget(lineMessage, channelId)
         else: #回覆(隨機回覆)
-            content = chat(lineMessage, channelId) if !queryUser(channelId)[3] else ""
+            content = "" if queryUser(channelId)[3] else chat(lineMessage, channelId)
         if echo2(lineMessage, channelId)!="" and content=="窩聽不懂啦！": #齊推
             content = echo2(lineMessage, channelId)
         ##自動學習
