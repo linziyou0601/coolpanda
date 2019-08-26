@@ -115,7 +115,7 @@ def insStatement(key, msg, channelId, type):
     createTable()
     with sqlite3.connect('db/cowpi.db') as conn:
         c = conn.cursor()
-        c.execute('SELECT * FROM statements where keyword=?, response=?, channel_id=?', [key, msg, channelId])
+        c.execute('SELECT * FROM statements Where keyword=? and response=? and channel_id=?', [key, msg, channelId])
         #若詞條存在於當前聊天室，則權重+1
         if len(c.fetchall())!=0:
             adjustPrio(key, msg, 1, channelId)
