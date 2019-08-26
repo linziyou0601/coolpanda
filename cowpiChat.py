@@ -5,7 +5,7 @@ def createTable():
     with sqlite3.connect('db/cowpi.db') as conn:
         c = conn.cursor()
         c.execute('''
-            CREATE TABLE "statements" (
+            CREATE TABLE if not exist "statements" (
                 "id" INTEGER PRIMARY KEY AUTOINCREMENT,
                 "keyword" TEXT NOT NULL,
                 "response" TEXT NOT NULL,
