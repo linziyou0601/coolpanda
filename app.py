@@ -46,10 +46,14 @@ def callback():
 
 def sticon(unic):
     return codecs.decode(json.dumps(unic).strip('"'), 'unicode_escape')
+def getChannelId(event):
+    e_source = event.source
+    return e_source.room_id if e_source.type == "room" else e_source.group_id if e_source.type == "group" else e_source.user_id 
 
+####################[加入, 退出]: [好友, 聊天窗]####################
 @handler.add(FollowEvent)
 def handle_follow(event):
-    newChannel(event.source.user_id)
+    newChannel(channelId = getChannelId(event))
     profile = line_bot_api.get_profile(event.source.user_id)
     content = TextSendMessage(text=profile.display_name + "，歡迎您成為本熊貓的好友" + sticon(u"\U00100097"))
     message = FlexSendMessage(alt_text="主選單", contents=mainMenu("main"))
@@ -57,23 +61,39 @@ def handle_follow(event):
         event.reply_token,
         [content, message])
     return 0
+@handler.add(JoinEvent)
+def handle_join(event):
+    newChannel(channelId = getChannelId(event))
+    content = TextSendMessage(text="大家好我叫牛批熊貓" + sticon(u"\U00100097"))
+    message = FlexSendMessage(alt_text="主選單", contents=mainMenu("main"))
+    line_bot_api.reply_message(
+        event.reply_token,
+        [content, message])
+    return 0
+@handler.add(UnfollowEvent)
+def handle_unfollow(event):
+    delChannel(channelId = getChannelId(event))
+    return 0
+@handler.add(LeaveEvent)
+def handle_leave(event):
+    delChannel(channelId = getChannelId(event))
+    return 0
 
 #關鍵保留字
-def excludeWord(msg, event):
-    exList = ['主選單', '所有籤桶', '所有籤筒', '籤桶', '籤筒', '刪除', '刪除籤桶', '刪除籤筒', '抽籤教學']
-    if msg in exList:
-        content = "這句話不能說，很可怕！"
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text=content))
-        return 0
-    return 1
+# def excludeWord(msg, event):
+#     exList = ['主選單', '所有籤桶', '所有籤筒', '籤桶', '籤筒', '刪除', '刪除籤桶', '刪除籤筒', '抽籤教學']
+#     if msg in exList:
+#         content = "這句話不能說，很可怕！"
+#         line_bot_api.reply_message(
+#             event.reply_token,
+#             TextSendMessage(text=content))
+#         return 0
+#     return 1
 
 ####################訊息接收及回覆區####################
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    e_source = event.source
-    channelId = e_source.room_id if e_source.type == "room" else e_source.group_id if e_source.type == "group" else e_source.user_id
+    channelId = getChannelId(event)
     
     ##取得收到的訊息
     lineMessage = event.message.text
@@ -101,7 +121,7 @@ def handle_message(event):
         if lineMessage == "壞壞": #名詞拉黑
             content = bad(channelId)
         elif lineMessage.replace("；",";")[0:4] == "學說話;": #學說話
-            content = learn(lineMessage, channelId, e_source)
+            content = learn(lineMessage, channelId, event.source)
         elif lineMessage.replace("；",";")[0:3] == "忘記;": #刪詞
             content = forget(lineMessage, channelId)
         else: #回覆(或隨機回覆)
@@ -111,7 +131,7 @@ def handle_message(event):
         
         ##自動學習
         if queryReply(channelId, 1)[1]: #若上一句是從資料庫撈出來的回覆，則順序性對話自動加入詞條
-            autolearn(queryReply(channelId, 1)[0], lineMessage, channelId, e_source)
+            autolearn(queryReply(channelId, 1)[0], lineMessage, channelId, event.source)
         if content[1]: #若有詞條資料，則回覆時權重+1
             validReply(lineMessage, content, channelId)
         
