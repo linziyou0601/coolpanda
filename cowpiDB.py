@@ -150,9 +150,9 @@ def resStatement(key, channelId, rand):
     with sqlite3.connect('db/cowpi.db') as conn:
         c = conn.cursor()
         #若關閉可以說其他人教過的話的功能，則以限制channelId的方式查詢
-        strGlobaltalk = '' if queryUser(channelId)[1] else ' and channel_id=?'
+        strGlobaltalk = '' if queryUser(channelId)[2] else ' and channel_id=?'
         strRandomreply = ' and priority>=5 ORDER BY RANDOM() limit 1' if rand else ' ORDER BY priority DESC, id DESC limit 1'
         c.execute('SELECT response FROM statements Where keyword=?' + strGlobaltalk + strRandomreply,
-                  [key] if queryUser(channelId)[1] else [key, channelId])
+                  [key] if queryUser(channelId)[2] else [key, channelId])
         data = c.fetchall()
         return data[0][0] if len(data) else "窩聽不懂啦！"

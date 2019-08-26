@@ -52,7 +52,7 @@ def chat(lineMessage, channelId):
     return response
 ##成功回話時增加權重
 def validReply(lineMessage, reply, channelId):
-    adjustPrio(lineMessage, reply, 1, "" if queryUser(channelId)[1] else channelId)
+    adjustPrio(lineMessage, reply, 1, "" if queryUser(channelId)[2] else channelId)
 ##齊推
 def echo2(lineMessage, channelId):
     if queryReceived(channelId, 5).count(lineMessage) < 2: return ""
@@ -70,4 +70,4 @@ def mute(lineMessage, channelId):
     return "好哦的喵～"
 def currentStatus(channelId):
     status = queryUser(channelId)
-    return "說話模式："+("" if status[1] else "不")+"可以說別人教的話\n"+"說話狀態："+("安靜" if status[2] else "可以說話")
+    return "說話模式："+("" if status[2] else "不")+"可以說別人教的話\n"+"說話狀態："+("安靜" if status[3] else "可以說話")
