@@ -94,7 +94,7 @@ def handle_message(event):
         ##功能開關、聊天
         if "說別人教的話" in lineMessage:
             content = globaltalk(lineMessage, channelId) #回話資料庫開關，回傳好哦
-        elif "牛批貓" in lineMessage:
+        elif any(s == lineMessage for s in ["牛批貓說話","牛批貓講話","牛批貓安靜", "牛批貓閉嘴"]):
             content = mute(lineMessage, channelId) #安靜開關，回傳好哦
         elif lineMessage == "目前狀態":
             content = currentStatus(channelId) #回傳目前狀態
