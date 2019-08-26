@@ -49,7 +49,7 @@ def chat(lineMessage, channelId):
     else:
         rand = 1 if lineMessage[0:3]=='牛批貓' or lineMessage[0:2]=='抽籤' else 0
         firstIndex = 0 if not rand else 3 if lineMessage[0:3]=='牛批貓' else 2
-        response = resStatement(lineMessage, channelId, rand)
+        response = resStatement(lineMessage[0:], channelId, rand)
     return response
 ##成功回話時增加權重
 def validReply(lineMessage, reply, channelId):
