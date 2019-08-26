@@ -18,8 +18,8 @@ from linebot.models import (
 )
 import os, psycopg2, json, codecs, random
 from MessageFunc import *
+from chatterFunc import *
 from cowpiDB import *
-from cowpiFunc import *
 
 app = Flask(__name__)
 

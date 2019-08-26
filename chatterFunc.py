@@ -21,7 +21,8 @@ def forget(lineMessage, channelId):
 #壞壞
 def bad(channelId):
     last_reply_text = queryReply(channelId, 1)[0]
-    return adjustPrio(last_reply_text, -1)
+    adjustPrio(last_reply_text, -1)
+    return  "好哦的喵～"
 
 #回覆
 def chat(lineMessage):

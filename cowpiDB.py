@@ -80,7 +80,7 @@ def adjustPrio(msg, case):
         c.execute('SELECT keyword, response, priority FROM statements Where response=?', [msg])
         data = c.fetchall()
         for x in data:
-            c.execute('UPDATE statements SET priority=? Where keyword=? and response=?', [int(x[2])+case, x[0], [1]])
+            c.execute('UPDATE statements SET priority=? Where keyword=? and response=?', [int(x[2])+int(case), x[0], [1]])
 def resStatement(key):
     createTable()
     with sqlite3.connect('db/cowpi.db') as conn:
