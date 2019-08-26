@@ -28,6 +28,7 @@ def createTable():
             CREATE TABLE IF NOT EXISTS "received" (
                 "id" INTEGER PRIMARY KEY AUTOINCREMENT,
                 "message" TEXT NOT NULL,
+                "valid" INTEGER DEFAULT 0,
                 "channel_id" TEXT NOT NULL,
                 "create_at" TEXT NOT NULL
             )
@@ -86,11 +87,11 @@ def storeReceived(msg, channelId):
         c = conn.cursor()
         c.execute('INSERT INTO received(message, channel_id, create_at) VALUES(?,?,?)', [msg, channelId, str(datetime.utcnow())])
 ##儲存機器人回覆
-def storeReply(msg, channelId):
+def storeReply(msg, valid, channelId):
     createTable()
     with sqlite3.connect('db/cowpi.db') as conn:
         c = conn.cursor()
-        c.execute('INSERT INTO reply(message, channel_id, create_at) VALUES(?,?,?)', [msg, channelId, str(datetime.utcnow())])
+        c.execute('INSERT INTO reply(message, valid, channel_id, create_at) VALUES(?,?,?,?)', [msg, valid, channelId, str(datetime.utcnow())])
 ##查詢收到的訊息
 def queryReceived(channelId, num):
     createTable()

@@ -110,13 +110,14 @@ def handle_message(event):
             content = echo2(lineMessage, channelId)
         
         ##自動學習
-        if content[1]:
+        if queryReply(channelId, 1)[1]:
             autolearn(queryReply(channelId, 1)[0], lineMessage, channelId, e_source) #順序性對話自動加入詞條
+        if content!="窩聽不懂啦！":
             validReply(lineMessage, content, channelId) #若有詞條資料，則回覆時權重+1
         
         ##儲存訊息
         replyList.append(TextSendMessage(text=content[0])) #本次要回的話
-        storeReply(content, channelId) #記錄機器人本次回的話
+        storeReply(content[0], content[1], channelId) #記錄機器人本次回的話
         storeReceived(lineMessage, channelId) #儲存本次語句
     
     
