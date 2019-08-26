@@ -91,7 +91,7 @@ def handle_message(event):
         ##聊天型
         content=""
         if lineMessage == "壞壞":
-            bad(channelId)
+            content = bad(channelId)
         elif lineMessage.replace("；",";")[0:4] == "學說話;":
             content = learn(lineMessage, channelId, e_source)
         elif lineMessage.replace("；",";")[0:3] == "忘記;":

@@ -2,8 +2,8 @@ from cowpiDB import *
 
 #學說話
 def learn(lineMessage, channelId, e_source):
-    lineMes = lineMessage.replace("；",";").split(';')
-    if(len(lineMes)<2):
+    lineMes = [x for x in lineMessage.replace("；",";").split(';') if x != ""]
+    if(len(lineMes)<3):
         return "窩聽不懂啦！"
     else:
         insStatement(lineMes[1], lineMes[2:], channelId, e_source.type)
@@ -11,8 +11,8 @@ def learn(lineMessage, channelId, e_source):
 
 #忘記
 def forget(lineMessage, channelId):
-    lineMes = lineMessage.replace("；",";").split(';')
-    if(len(lineMes)<2):
+    lineMes = [x for x in lineMessage.replace("；",";").split(';') if x != ""]
+    if(len(lineMes)<3):
         return "窩聽不懂啦！"
     else:
         delStatement(lineMes[1], lineMes[2:], channelId)

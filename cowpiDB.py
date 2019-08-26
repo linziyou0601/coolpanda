@@ -1,7 +1,7 @@
 import sqlite3
 from datetime import datetime
 
-##########[建立資料表]: [對話, 收到的訊息, 回覆]
+##########[建立資料表]: [對話, 收到的訊息, 回覆]##########
 def createTable():
     with sqlite3.connect('db/cowpi.db') as conn:
         c = conn.cursor()
@@ -31,7 +31,7 @@ def createTable():
             )
         ''')
 
-##########[儲存, 查詢]: [收到的訊息, 回覆]
+##########[儲存, 查詢]: [收到的訊息, 回覆]##########
 def storeReceived(msg, channelId):
     createTable()
     with sqlite3.connect('db/cowpi.db') as conn:
@@ -59,7 +59,7 @@ def queryReply(channelId, num):
         data = c.fetchall()
         return [x[0] for x in data] if len(data) else [""]
 
-##########[學說話, 刪除, 壞壞, 取得回覆]
+##########[學說話, 刪除, 壞壞, 取得回覆]##########
 def insStatement(key, msg, channelId, type):
     createTable()
     with sqlite3.connect('db/cowpi.db') as conn:
