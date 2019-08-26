@@ -17,7 +17,6 @@ from linebot.models import (
     SeparatorComponent, QuickReply, QuickReplyButton
 )
 import os, psycopg2, json, codecs, random
-from createSqlite import createDB
 from MsgFunc import msgFunc
 from cowpiChat import insStatement
 
