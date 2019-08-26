@@ -2,7 +2,7 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
-
+from flask import Flask
 app = Flask(__name__)
 
 def main():
