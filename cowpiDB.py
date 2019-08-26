@@ -81,10 +81,13 @@ def adjustPrio(msg, case):
         data = c.fetchall()
         for x in data:
             c.execute('UPDATE statements SET priority=? Where keyword=? and response=?', [int(x[2])+case, x[0], x[1]])
-def resStatement(key):
+def resStatement(key, channelId):
     createTable()
     with sqlite3.connect('db/cowpi.db') as conn:
         c = conn.cursor()
-        c.execute('SELECT response FROM statements Where keyword=? ORDER BY priority DESC, id DESC limit 1', [key])
+        c.execute('SELECT response FROM statements Where keyword=? and creator_id=? ORDER BY priority DESC, id DESC limit 1', [key, channelId])
         data = c.fetchall()
+        if len(data)==0:
+            c.execute('SELECT response FROM statements Where keyword=? ORDER BY priority DESC, id DESC limit 1', [key])
+            data = c.fetchall()
         return data[0][0] if len(data) else "窩聽不懂啦！"

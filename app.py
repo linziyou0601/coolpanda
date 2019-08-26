@@ -97,7 +97,7 @@ def handle_message(event):
         elif lineMessage.replace("；",";")[0:3] == "忘記;":
             content = forget(lineMessage, channelId)
         else:
-            content = chat(lineMessage)
+            content = chat(lineMessage, channelId)
         ##齊推
         if echo2(lineMessage, channelId)!="" and content=="窩聽不懂啦！": content = echo2(lineMessage, channelId)
         replyList.append(TextSendMessage(text=content))

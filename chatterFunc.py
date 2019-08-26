@@ -25,8 +25,8 @@ def bad(channelId):
     return  "好哦的喵～"
 
 #回覆
-def chat(lineMessage):
-    return resStatement(lineMessage)
+def chat(lineMessage, channelId):
+    return resStatement(lineMessage, channelId)
 
 #齊推
 def echo2(lineMessage, channelId):
