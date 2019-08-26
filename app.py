@@ -86,21 +86,19 @@ def handle_message(event):
         replyList.append(FlexSendMessage(alt_text="抽籤教學", contents=teachLottery()))
     elif lineMessage == "如何學說話":
         replyList.append(FlexSendMessage(alt_text="如何教我說話", contents=teachChat()))
-
-    ##聊天型
-    elif lineMessage.replace("；",";")[0:4] == "學說話;":
-        content = learn(lineMessage, channelId, e_source)
-        replyList.append(TextSendMessage(text=content))
-        storeReply(content, channelId)
     else:
-        content = chat(lineMessage)
-        replyList.append(TextSendMessage(text=content))
-        storeReply(content, channelId)
-    
-    if echo2(lineMessage, channelId)!="":
-        content = echo2(lineMessage, channelId)
-        replyList.append(TextSendMessage(text=content))
-        storeReply(content, channelId)
+
+        ##聊天型
+        if lineMessage.replace("；",";")[0:4] == "學說話;":
+            content = learn(lineMessage, channelId, e_source)
+            replyList.append(TextSendMessage(text=content))
+            storeReply(content, channelId)
+        else:
+            content = chat(lineMessage)
+            ##齊推
+            if echo2(lineMessage, channelId)!="" and content=="窩聽不懂啦！": content = echo2(lineMessage, channelId)
+            replyList.append(TextSendMessage(text=content))
+            storeReply(content, channelId)
 
     ##抽籤
     #所有籤桶
