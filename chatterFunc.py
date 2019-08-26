@@ -66,7 +66,7 @@ def allLearn(channelId):
 
 ####功能開關
 def globaltalk(lineMessage, channelId):
-    if "可以說別人教的話" in lineMessage: editChannelGlobalTalk(channelId, 1)
+    if lineMessage=="可以說別人教的話": editChannelGlobalTalk(channelId, 1)
     elif any(s in lineMessage for s in ["不可以說別人教的話", "不能說別人教的話"]): editChannelGlobalTalk(channelId, 0)
     return "好哦的喵～"
 def mute(lineMessage, channelId):
