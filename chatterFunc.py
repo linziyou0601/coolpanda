@@ -56,7 +56,7 @@ def validReply(lineMessage, reply, channelId):
     adjustPrio(lineMessage, reply, 1, "" if queryUser(channelId)[2] else channelId)
 ##齊推
 def echo2(lineMessage, channelId):
-    if queryReceived(channelId, 5).count(lineMessage) < 2: return ""
+    if not lineMessage in queryReceived(channelId, 5): return ""
     elif queryReply(channelId, 1)[0]==lineMessage: return ""
     else: return lineMessage
 
