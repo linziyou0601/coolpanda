@@ -59,7 +59,7 @@ def queryReply(channelId, num):
         data = c.fetchall()
         return [x[0] for x in data] if len(data) else [""]
 
-##[學說話, 取得回覆]
+##[學說話, 刪除, 壞壞, 取得回覆]
 def insStatement(key, msg, channelId, type):
     createTable()
     with sqlite3.connect('db/cowpi.db') as conn:
@@ -67,6 +67,13 @@ def insStatement(key, msg, channelId, type):
         for res in msg:
             sql = 'INSERT INTO statements(keyword, response, create_at, creator_id, channel_type, priority) VALUES(?,?,?,?,?,?)'
             c.execute(sql, [key, res, str(datetime.now()), channelId, type, 5])
+def delStatement(key, msg, channelId):
+    createTable()
+    with sqlite3.connect('db/cowpi.db') as conn:
+        c = conn.cursor()
+        for res in msg:
+            sql = 'DELETE FROM Where keyword=? and response=? and creator_id=?'
+            c.execute(sql, [key, res, channelId])
 def adjustPrio(msg, case):
     with sqlite3.connect('db/cowpi.db') as conn:
         c = conn.cursor()
@@ -78,6 +85,6 @@ def resStatement(key):
     createTable()
     with sqlite3.connect('db/cowpi.db') as conn:
         c = conn.cursor()
-        c.execute('SELECT response FROM statements Where keyword=? ORDER BY id DESC limit 1', [key])
+        c.execute('SELECT response FROM statements Where keyword=? ORDER BY priority DESC, id DESC limit 1', [key])
         data = c.fetchall()
         return data[0][0] if len(data) else "窩聽不懂啦！"

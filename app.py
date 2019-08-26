@@ -89,18 +89,19 @@ def handle_message(event):
     else:
 
         ##聊天型
+        content=""
         if lineMessage == "壞壞":
-            bad()
+            bad(channelId)
         elif lineMessage.replace("；",";")[0:4] == "學說話;":
             content = learn(lineMessage, channelId, e_source)
-            replyList.append(TextSendMessage(text=content))
-            storeReply(content, channelId)
+        elif lineMessage.replace("；",";")[0:3] == "忘記;":
+            content = forget(lineMessage, channelId)
         else:
             content = chat(lineMessage)
-            ##齊推
-            if echo2(lineMessage, channelId)!="" and content=="窩聽不懂啦！": content = echo2(lineMessage, channelId)
-            replyList.append(TextSendMessage(text=content))
-            storeReply(content, channelId)
+        ##齊推
+        if echo2(lineMessage, channelId)!="" and content=="窩聽不懂啦！": content = echo2(lineMessage, channelId)
+        replyList.append(TextSendMessage(text=content))
+        storeReply(content, channelId)
 
     ##抽籤
     #所有籤桶

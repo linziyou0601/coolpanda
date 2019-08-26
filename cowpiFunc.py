@@ -4,15 +4,24 @@ from cowpiDB import *
 def learn(lineMessage, channelId, e_source):
     lineMes = lineMessage.replace("；",";").split(';')
     if(len(lineMes)<2):
-        return "聽不懂啦～"
+        return "窩聽不懂啦！"
     else:
-        insStatement(lineMes[1], lineMes[2:], channelId, e_source.type) #插入資料庫
+        insStatement(lineMes[1], lineMes[2:], channelId, e_source.type)
+        return "好哦的喵～"
+
+#忘記
+def forget(lineMessage, channelId):
+    lineMes = lineMessage.replace("；",";").split(';')
+    if(len(lineMes)<2):
+        return "窩聽不懂啦！"
+    else:
+        delStatement(lineMes[1], lineMes[2:], channelId)
         return "好哦的喵～"
 
 #壞壞
 def bad(channelId):
     last_reply_text = queryReply(channelId, 1)[0]
-    return adjustPrio(last_reply_text, channelId, -1)
+    return adjustPrio(last_reply_text, -1)
 
 #回覆
 def chat(lineMessage):
@@ -22,6 +31,6 @@ def chat(lineMessage):
 def echo2(lineMessage, channelId):
     recent_received_texts = queryReceived(channelId, 5)
     last_reply_text = queryReply(channelId, 1)
-    if recent_received_texts.count(lineMessage) < 2: return "" # 如果在 channel_id 最近沒人講過 received_text，就不回應
-    elif last_reply_text[0]==lineMessage: return ""  # 如果在 channel_id 上一句回應是 received_text，就不回應
+    if recent_received_texts.count(lineMessage) < 2: return ""
+    elif last_reply_text[0]==lineMessage: return ""
     else: return lineMessage
