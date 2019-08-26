@@ -1,7 +1,7 @@
 from cowpiDB import *
 
 
-##主聊天功能
+####主聊天功能
 #自動學習
 def autolearn(my, lineMessage, channelId, e_source):
     insStatement(my, [lineMessage], channelId, e_source.type)
@@ -23,8 +23,9 @@ def forget(lineMessage, channelId):
         return "好哦的喵～"
 #壞壞
 def bad(channelId):
+    recent_received_texts = queryReceived(channelId, 1)[0]
     last_reply_text = queryReply(channelId, 1)[0]
-    adjustPrio(last_reply_text, -1)
+    adjustPrio(recent_received_texts, last_reply_text, -1)
     return  "好哦的喵～"
 #回覆
 def chat(lineMessage, channelId):
@@ -37,7 +38,7 @@ def echo2(lineMessage, channelId):
     elif last_reply_text[0]==lineMessage: return ""
     else: return lineMessage
 
-##功能開關
+####功能開關
 def globaltalk(lineMessage, channelId):
     if "可以說別人教的話" in lineMessage: editChannelGlobalTalk(channelId, 1)
     elif any(s in lineMessage for s in ["不可以說別人教的話", "不能說別人教的話"]): editChannelGlobalTalk(channelId, 0)

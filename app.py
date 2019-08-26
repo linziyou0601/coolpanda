@@ -91,19 +91,18 @@ def handle_message(event):
     elif lineMessage == "目前狀態":
         replyList.append(TextSendMessage(text=currentStatus(channelId)))
     else:
-
-        content=""
         ##功能開關、聊天
+        content=""
         if "說別人教的話" in lineMessage:
-            content = globaltalk(lineMessage, channelId) #回話資料庫開關，回傳好哦
+            content = globaltalk(lineMessage, channelId) #回話資料庫開關
         elif any(s == lineMessage for s in ["牛批貓說話","牛批貓講話","牛批貓安靜", "牛批貓閉嘴"]):
-            content = mute(lineMessage, channelId) #安靜開關，回傳好哦
+            content = mute(lineMessage, channelId) #安靜開關
         elif lineMessage == "壞壞":
-            content = bad(channelId) #名詞拉黑，回傳好哦
+            content = bad(channelId) #名詞拉黑
         elif lineMessage.replace("；",";")[0:4] == "學說話;":
-            content = learn(lineMessage, channelId, e_source) #學說話，回傳好哦
+            content = learn(lineMessage, channelId, e_source) #學說話
         elif lineMessage.replace("；",";")[0:3] == "忘記;":
-            content = forget(lineMessage, channelId) #刪詞，回傳好哦
+            content = forget(lineMessage, channelId) #刪詞
         else:
             content = chat(lineMessage, channelId) #回話
         ##齊推
