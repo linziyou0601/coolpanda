@@ -6,7 +6,7 @@ def insStatement(key, res, id, type):
         c = conn.cursor()
         c.execute('''
             CREATE TABLE if not exists statements(
-                id INTEGER AUTOINCREMENT,
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
                 keyword TEXT NOT NULL,
                 response TEXT NOT NULL,
                 create_at TEXT NOT NULL,
