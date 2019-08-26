@@ -16,7 +16,7 @@ from linebot.models import (
     TextComponent, SpacerComponent, IconComponent, ButtonComponent,
     SeparatorComponent, QuickReply, QuickReplyButton
 )
-import os, psycopg2, json, codecs, random
+import os
 from MessageFunc import *
 from chatterFunc import *
 from cowpiDB import *
@@ -104,13 +104,13 @@ def handle_message(event):
             content = forget(lineMessage, channelId)
         else: #回覆(隨機回覆)
             content = chat(lineMessage, channelId) if !queryUser(channelId)[3] else ""
-        ##齊推
-        if echo2(lineMessage, channelId)!="" and content=="窩聽不懂啦！": content = echo2(lineMessage, channelId)
+        if echo2(lineMessage, channelId)!="" and content=="窩聽不懂啦！": #齊推
+            content = echo2(lineMessage, channelId)
         ##自動學習
-        if all(s != queryReply(channelId, 1)[0] for s in ["好哦的喵～","窩聽不懂啦！"]): #順序性對話自動加入詞條
-            autolearn(queryReply(channelId, 1)[0], lineMessage, channelId, e_source)
-        if content!="窩聽不懂啦！": #若有詞條資料，則回覆時權重+1
-            validReply(lineMessage, content, channelId)
+        if all(s != queryReply(channelId, 1)[0] for s in ["好哦的喵～","窩聽不懂啦！"]) and content[1:4]!="天是 " and content[0:12]!="現在時間 (UTC+8)：":
+            autolearn(queryReply(channelId, 1)[0], lineMessage, channelId, e_source) #順序性對話自動加入詞條
+        if content!="窩聽不懂啦！":
+            validReply(lineMessage, content, channelId) #若有詞條資料，則回覆時權重+1
         ##儲存訊息
         replyList.append(TextSendMessage(text=content)) #本次要回的話
         storeReceived(lineMessage, channelId) #儲存本次語句
