@@ -120,6 +120,7 @@ def insStatement(key, msg, channelId, type):
             #若詞條存在於當前聊天室，則權重+1
             if len(c.fetchall())!=0:
                 adjustPrio(key, res, 1, channelId)
+            #若詞條不存在於當前聊天室，才新增詞條
             else:
                 c.execute('INSERT INTO statements(keyword, response, create_at, channel_id, channel_type) VALUES(?,?,?,?,?)',
                           [key, res, str(datetime.now()), channelId, type])
@@ -143,12 +144,14 @@ def adjustPrio(key, msg, case, channelId=""):
             c.execute('UPDATE statements SET priority=? Where keyword=? and response=?' + ' and channel_id=?' if channelId!="" else '',
                       [int(x[0])+case, key, msg, channelId] if channelId!="" else [int(x[0])+case, key, msg])
 ##取得詞條回覆
-def resStatement(key, channelId):
+def resStatement(key, channelId, rand):
     createTable()
     with sqlite3.connect('db/cowpi.db') as conn:
         c = conn.cursor()
         #若關閉可以說其他人教過的話的功能，則以限制channelId的方式查詢
-        c.execute('SELECT response FROM statements Where keyword=?' + '' if queryUser(channelId)[1] else ' and channel_id=?' + ' ORDER BY priority DESC, id DESC limit 1',
+        strGlobaltalk = '' if queryUser(channelId)[1] else ' and channel_id=?'
+        strRandomreply = ' and priority>=5 ORDER BY RANDOM() limit 1' if queryUser(channelId)[1] else ' ORDER BY priority DESC, id DESC limit 1'
+        c.execute('SELECT response FROM statements Where keyword=?' + strGlobaltalk + strRandomreply,
                   [key] if queryUser(channelId)[1] else [key, channelId])
         data = c.fetchall()
         return data[0][0] if len(data) else "窩聽不懂啦！"

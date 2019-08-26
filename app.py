@@ -92,18 +92,18 @@ def handle_message(event):
     else:
         ##功能開關、聊天
         content=""
-        if "說別人教的話" in lineMessage:
-            content = globaltalk(lineMessage, channelId) #回話資料庫開關
-        elif any(s == lineMessage for s in ["牛批貓說話","牛批貓講話","牛批貓安靜", "牛批貓閉嘴"]):
-            content = mute(lineMessage, channelId) #安靜開關
-        elif lineMessage == "壞壞":
-            content = bad(channelId) #名詞拉黑
-        elif lineMessage.replace("；",";")[0:4] == "學說話;":
-            content = learn(lineMessage, channelId, e_source) #學說話
-        elif lineMessage.replace("；",";")[0:3] == "忘記;":
-            content = forget(lineMessage, channelId) #刪詞
-        else:
-            content = chat(lineMessage, channelId) #回話
+        if "說別人教的話" in lineMessage: #回話資料庫開關
+            content = globaltalk(lineMessage, channelId)
+        elif any(s == lineMessage for s in ["牛批貓說話","牛批貓講話","牛批貓安靜", "牛批貓閉嘴"]): #安靜開關
+            content = mute(lineMessage, channelId)
+        elif lineMessage == "壞壞": #名詞拉黑
+            content = bad(channelId)
+        elif lineMessage.replace("；",";")[0:4] == "學說話;": #學說話
+            content = learn(lineMessage, channelId, e_source)
+        elif lineMessage.replace("；",";")[0:3] == "忘記;": #刪詞
+            content = forget(lineMessage, channelId)
+        else: #回覆(隨機回覆)
+            content = chat(lineMessage, channelId)
         ##齊推
         if echo2(lineMessage, channelId)!="" and content=="窩聽不懂啦！": content = echo2(lineMessage, channelId)
         ##自動學習
@@ -115,93 +115,6 @@ def handle_message(event):
         replyList.append(TextSendMessage(text=content)) #本次要回的話
         storeReceived(lineMessage, channelId) #儲存本次語句
         storeReply(content, channelId) #記錄機器人本次回的話
-
-    ##抽籤
-    #所有籤桶
-    # elif lineMessage == "所有籤桶" or lineMessage == "所有籤筒":
-    #     content = ""
-    #     sql = "SELECT topic from rndtopic;"
-    #     cur.execute(sql)
-    #     if cur.rowcount:
-    #         keyList = list(dict.fromkeys([record[0] for record in cur.fetchall()]))
-    #         conn.close()
-    #         content = "【籤桶列表】\n"
-    #         for row in keyList:
-    #             content = content + row + "\n"
-    #     else:
-    #         content = "唉呀，沒有任何籤桶！"
-    #     line_bot_api.reply_message(
-    #         event.reply_token,
-    #         TextSendMessage(text=content))
-    #     return 0
-
-    # #新增籤桶內容
-    # elif lineMessage.replace("；",";")[0:3] == "籤桶;" or lineMessage.replace("；",";")[0:3] == "籤筒;":
-    #     lineMes = lineMessage.replace("；",";").split(';')
-    #     keymessage = lineMes[1]
-    #     if excludeWord(keymessage, event) == 1:
-    #         for message in lineMes[2:]:
-    #             sql = "SELECT topic from rndtopic where topic=%s and lottery=%s;"
-    #             cur.execute(sql,(keymessage, message))
-    #             if not cur.rowcount:
-    #                 sql = "INSERT INTO rndtopic (topic, lottery, channelId) VALUES(%s, %s, %s);"
-    #                 cur.execute(sql, (keymessage, message, channelId))
-    #                 conn.commit()
-    #         conn.close()
-    #         content = "我拿到了新的籤"
-    #         line_bot_api.reply_message(
-    #             event.reply_token,
-    #             TextSendMessage(text=content))
-    #         return 0
-
-    # #刪除籤桶內容
-    # elif lineMessage.replace("；",";")[0:5] == "刪除籤桶;" or lineMessage.replace("；",";")[0:4] == "刪除籤筒;":
-    #     lineMes = lineMessage.replace("；",";").split(';')
-    #     keymessage = lineMes[1]
-    #     if excludeWord(keymessage, event) == 1:
-    #         sql = "DELETE FROM rndtopic WHERE topic=%s;"
-    #         cur.execute(sql, (keymessage,))
-    #         conn.commit()
-    #         conn.close()
-    #         content = "我把這桶籤給全吃了"
-    #         line_bot_api.reply_message(
-    #             event.reply_token,
-    #             TextSendMessage(text=content))
-    #         return 0
-
-    # #刪除籤桶
-    # elif lineMessage.replace("；",";")[0:3] == "刪除;":
-    #     lineMes = lineMessage.replace("；",";").split(';')
-    #     keymessage = lineMes[1]
-    #     if excludeWord(keymessage, event) == 1:
-    #         for message in lineMes[2:]:
-    #             sql = "DELETE FROM rndtopic WHERE topic=%s AND lottery=%s;"
-    #             cur.execute(sql, (keymessage, message))
-    #             conn.commit()
-    #         conn.close()
-    #         content = "我把籤給仍了"
-    #         line_bot_api.reply_message(
-    #             event.reply_token,
-    #             TextSendMessage(text=content))
-    #         return 0
-
-    # #抽一支籤
-    # elif lineMessage.replace("；",";")[0:3] == "抽籤;":
-    #     lineMes = lineMessage.replace("；",";").split(';')
-    #     keymessage = lineMes[1]
-    #     content = ""
-    #     sql = "SELECT lottery from rndtopic where topic=%s;"
-    #     cur.execute(sql, (keymessage,))
-    #     if cur.rowcount:
-    #         DescList = [record[0] for record in cur.fetchall()]
-    #         conn.close() 
-    #         content = random.choice(DescList)
-    #     else:
-    #         content = "唉呀，沒有這桶籤！"
-    #     line_bot_api.reply_message(
-    #         event.reply_token,
-    #         TextSendMessage(text=content))
-    #     return 0
     
     #回傳給LINE
     line_bot_api.reply_message(

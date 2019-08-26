@@ -28,9 +28,10 @@ def bad(channelId):
     #批次降低資料庫內本次回話的關鍵字權重
     adjustPrio(queryReceived(channelId, 1)[0], queryReply(channelId, 1)[0], -1)
     return  "好哦的喵～"
-##回覆
+##回覆(隨機回覆)
 def chat(lineMessage, channelId):
-    return resStatement(lineMessage, channelId)
+    rand = 1 if lineMessage[0:3]=='牛批貓' or lineMessage[0:2]=='抽籤' else 0
+    return resStatement(lineMessage[3:] if rand else lineMessage, channelId, rand)
 ##成功回話時增加權重
 def validReply(lineMessage, reply, channelId):
     adjustPrio(lineMessage, reply, 1, "" if queryUser(channelId)[1] else channelId)
