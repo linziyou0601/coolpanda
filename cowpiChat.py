@@ -15,8 +15,5 @@ def insStatement(key, res, id, type):
             )
         ''')
         for v in res:
-            sql = '''
-                INSERT INTO statements(keyword, response, create_at, creator_id, channel_type)
-                VALUES('''+ key +''','''+ v +''','''+ str(datetime.now()) +''','''+ id +''','''+ type +''')
-            '''
+            sql = 'INSERT INTO statements(keyword, response, create_at, creator_id, channel_type) VALUES('+ key +','+ v +','+ str(datetime.now()) +','+ id +','+ type +')'
             c.execute(sql)
