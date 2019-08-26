@@ -32,41 +32,48 @@ def createTable():
         ''')
 
 ##[儲存, 查詢]: [收到的訊息, 回覆]
-def storeReceived(msg, channelID):
+def storeReceived(msg, channelId):
     createTable()
     with sqlite3.connect('db/cowpi.db') as conn:
         c = conn.cursor()
         sql = 'INSERT INTO received(message, channel_id) VALUES(?,?)'
-        c.execute(sql, [msg, channelID])
-def storeReply(msg, channelID):
+        c.execute(sql, [msg, channelId])
+def storeReply(msg, channelId):
     createTable()
     with sqlite3.connect('db/cowpi.db') as conn:
         c = conn.cursor()
         sql = 'INSERT INTO reply(message, channel_id) VALUES(?,?)'
-        c.execute(sql, [msg, channelID])
-def queryReceived(channelID, num):
+        c.execute(sql, [msg, channelId])
+def queryReceived(channelId, num):
     createTable()
     with sqlite3.connect('db/cowpi.db') as conn:
         c = conn.cursor()
-        c.execute('SELECT message FROM received Where channel_id=? ORDER BY id DESC limit ?', [channelID, num])
+        c.execute('SELECT message FROM received Where channel_id=? ORDER BY id DESC limit ?', [channelId, num])
         data = c.fetchall()
-        return [x[0] for x in data]
-def queryReply(channelID, num):
+        return [x[0] for x in data] if len(data) else [""]
+def queryReply(channelId, num):
     createTable()
     with sqlite3.connect('db/cowpi.db') as conn:
         c = conn.cursor()
-        c.execute('SELECT message FROM reply Where channel_id=? ORDER BY id DESC limit ?', [channelID, num])
+        c.execute('SELECT message FROM reply Where channel_id=? ORDER BY id DESC limit ?', [channelId, num])
         data = c.fetchall()
-        return [x[0] for x in data]
+        return [x[0] for x in data] if len(data) else [""]
 
 ##[學說話, 取得回覆]
-def insStatement(key, res, id, type):
+def insStatement(key, msg, channelId, type):
     createTable()
     with sqlite3.connect('db/cowpi.db') as conn:
         c = conn.cursor()
-        for v in res:
+        for res in msg:
             sql = 'INSERT INTO statements(keyword, response, create_at, creator_id, channel_type, priority) VALUES(?,?,?,?,?,?)'
-            c.execute(sql, [key, v, str(datetime.now()), id, type, 5])
+            c.execute(sql, [key, res, str(datetime.now()), channelId, type, 5])
+def adjustPrio(msg, case):
+    with sqlite3.connect('db/cowpi.db') as conn:
+        c = conn.cursor()
+        c.execute('SELECT keyword, response, priority FROM statements Where response=?', [msg])
+        data = c.fetchall()
+        for x in data:
+            c.execute('UPDATE statements SET priority=? Where keyword=? and response=?', [int(x[2])+case, x[0], [1]])
 def resStatement(key):
     createTable()
     with sqlite3.connect('db/cowpi.db') as conn:

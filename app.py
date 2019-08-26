@@ -89,7 +89,9 @@ def handle_message(event):
     else:
 
         ##聊天型
-        if lineMessage.replace("；",";")[0:4] == "學說話;":
+        if lineMessage == "壞壞":
+            bad()
+        elif lineMessage.replace("；",";")[0:4] == "學說話;":
             content = learn(lineMessage, channelId, e_source)
             replyList.append(TextSendMessage(text=content))
             storeReply(content, channelId)
