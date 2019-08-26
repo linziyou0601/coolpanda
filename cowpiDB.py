@@ -45,7 +45,7 @@ def newChannel(channelId):
     with sqlite3.connect('db/cowpi.db') as conn:
         c = conn.cursor()
         c.execute('SELECT * FROM users Where channel_id=?', [channelId])
-        if len(c.fetchall())>0:
+        if len(c.fetchall())==0:
             sql = 'INSERT INTO users(channel_id) VALUES(?)'
             c.execute(sql, [channelId])
 def delChannel(channelId):

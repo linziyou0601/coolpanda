@@ -16,6 +16,7 @@ from linebot.models import (
     SeparatorComponent, QuickReply, QuickReplyButton
 )
 
+##主戰單
 def mainMenu(arg=[]):
     return BubbleContainer(
                 direction='ltr',
@@ -128,6 +129,7 @@ def mainMenu(arg=[]):
                 ),
             )
 
+##抽籤教學
 def teachLottery(arg=[]):
     return BubbleContainer(
                 direction='ltr',
@@ -244,6 +246,7 @@ def teachLottery(arg=[]):
                 ),
             )
 
+##聊天教學
 def teachChat(arg=[]):
     return BubbleContainer(
                 direction='ltr',
