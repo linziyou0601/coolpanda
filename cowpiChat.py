@@ -26,6 +26,6 @@ def insStatement(key, res, id, type):
 def resStatement(key):
     with sqlite3.connect('db/cowpi.db') as conn:
         c = conn.cursor()
-        c.execute('SELECT response FROM statements Where keyword=%s limit 1', key)
+        c.execute('SELECT response FROM statements Where keyword=? limit 1', (key,))
         data = c.fetchall()
         return data[0][0]
