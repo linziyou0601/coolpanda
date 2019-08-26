@@ -102,7 +102,7 @@ def queryReply(channelId, num):
         data = c.fetchall()
         return [x[0] for x in data] if len(data) else [""]
 
-##########[學說話, 刪除, 壞壞, 取得回覆]##########
+##########[新增, 刪除, 拉黑, 取得回覆]: [語料庫]##########
 def insStatement(key, msg, channelId, type):
     createTable()
     with sqlite3.connect('db/cowpi.db') as conn:
