@@ -79,23 +79,14 @@ def handle_message(event):
     replyList = []
     ####功能型回覆
     if lineMessage == "主選單":
-        message = FlexSendMessage(alt_text="主選單", contents=msgFunc("main"))
-        line_bot_api.reply_message(
-            event.reply_token,
-            message)
-        return 0
+        content = FlexSendMessage(alt_text="主選單", contents=msgFunc("main"))
+        replyList.append(content)
     elif lineMessage == "抽籤教學":
-        message = FlexSendMessage(alt_text="抽籤教學", contents=msgFunc("teach"))
-        line_bot_api.reply_message(
-            event.reply_token,
-            message)
-        return 0
+        content = FlexSendMessage(alt_text="抽籤教學", contents=msgFunc("teach"))
+        replyList.append(content)
     elif lineMessage == "如何學說話":
-        message = FlexSendMessage(alt_text="如何教我說話", contents=msgFunc("howToTrain"))
-        line_bot_api.reply_message(
-            event.reply_token,
-            message)
-        return 0
+        content = FlexSendMessage(alt_text="如何教我說話", contents=msgFunc("howToTrain"))
+        replyList.append(content)
 
     ###抽籤
     #所有籤桶
