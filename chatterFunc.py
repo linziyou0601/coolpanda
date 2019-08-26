@@ -35,3 +35,14 @@ def echo2(lineMessage, channelId):
     if recent_received_texts.count(lineMessage) < 2: return ""
     elif last_reply_text[0]==lineMessage: return ""
     else: return lineMessage
+
+#功能開關
+def globaltalk(lineMessage, channelId):
+    if "可以說別人教的話" in lineMessage: editChannelGlobalTalk(channelId, 1)
+    elif any(s in lineMessage for s in ["不可以說別人教的話", "不能說別人教的話"]): editChannelGlobalTalk(channelId, 0)
+def mute(lineMessage, channelId):
+    if "牛批貓說話" in lineMessage: editChannelMute(channelId, 1)
+    elif any(s in lineMessage for s in ["牛批貓安靜", "牛批貓閉嘴"]): editChannelMute(channelId, 0)
+def currentStatus(channelId):
+    status = queryUser(channelId);
+    return "說話模式："+("" if status[1] else "不")+"可以說別人教的話/n"+"說話狀態："+("可以說話" if status[2] else "安靜")

@@ -49,6 +49,7 @@ def sticon(unic):
 
 @handler.add(FollowEvent)
 def handle_follow(event):
+    newChannel(event.source.user_id)
     profile = line_bot_api.get_profile(event.source.user_id)
     content = TextSendMessage(text=profile.display_name + "，歡迎您成為本熊貓的好友" + sticon(u"\U00100097"))
     message = FlexSendMessage(alt_text="主選單", contents=mainMenu("main"))
@@ -78,6 +79,7 @@ def handle_message(event):
     lineMessage = event.message.text
     replyList = []
     storeReceived(lineMessage, channelId)
+    newChannel(channelId)
 
     ##功能型
     if lineMessage == "主選單":
@@ -88,8 +90,19 @@ def handle_message(event):
         replyList.append(FlexSendMessage(alt_text="如何教我說話", contents=teachChat()))
     else:
 
-        ##聊天型
+        
         content=""
+        ##功能開關
+        if "說別人教的話" in lineMessage:
+            globaltalk(lineMessage, channelId)
+            content = "好哦的喵～"
+        if "牛批貓" in lineMessage:
+            mute(lineMessage, channelId)
+            content = "好哦的喵～"
+        if lineMessage == "目前狀態":
+            content = currentStatus(channelId)
+            
+        ##聊天型
         if lineMessage == "壞壞":
             content = bad(channelId)
         elif lineMessage.replace("；",";")[0:4] == "學說話;":

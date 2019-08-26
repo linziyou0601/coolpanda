@@ -39,13 +39,15 @@ def createTable():
             )
         ''')
 
-##########[建立, 刪除, 更新]: [聊天窗頻道資料]##########
+##########[建立, 刪除, 更新, 查詢]: [聊天頻道資料]##########
 def newChannel(channelId):
     createTable()
     with sqlite3.connect('db/cowpi.db') as conn:
         c = conn.cursor()
-        sql = 'INSERT INTO users(channel_id) VALUES(?)'
-        c.execute(sql, [channelId])
+        c.execute('SELECT * FROM users Where channel_id=?', [channelId])
+        if len(c.fetchall())>0:
+            sql = 'INSERT INTO users(channel_id) VALUES(?)'
+            c.execute(sql, [channelId])
 def delChannel(channelId):
     createTable()
     with sqlite3.connect('db/cowpi.db') as conn:
@@ -64,6 +66,13 @@ def editChannelMute(channelId, value):
         c = conn.cursor()
         sql = 'UPDATE users SET mute=? Where channel_id=?'
         c.execute(sql, [value, channelId])
+def queryUser(channelId):
+    createTable()
+    with sqlite3.connect('db/cowpi.db') as conn:
+        c = conn.cursor()
+        c.execute('SELECT * FROM users Where channel_id=?', [channelId])
+        data = c.fetchall()
+        return data[0] if len(data) else []
 
 ##########[儲存, 查詢]: [收到的訊息, 回覆]##########
 def storeReceived(msg, channelId):
@@ -121,7 +130,7 @@ def resStatement(key, channelId):
         c = conn.cursor()
         c.execute('SELECT response FROM statements Where keyword=? and creator_id=? ORDER BY priority DESC, id DESC limit 1', [key, channelId])
         data = c.fetchall()
-        if len(data)==0:
+        if len(data)==0 and queryUser(channelId)[1]:
             c.execute('SELECT response FROM statements Where keyword=? ORDER BY priority DESC, id DESC limit 1', [key])
             data = c.fetchall()
         return data[0][0] if len(data) else "窩聽不懂啦！"
