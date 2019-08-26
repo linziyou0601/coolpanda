@@ -165,5 +165,5 @@ def allStatement(channelId):
         data = c.fetchall()
         strRes="【這裡教我說】\n"
         for x in data:
-            strRes=x[0]+"→"+x[1]+"\n"
+            strRes+=x[0]+"→"+x[1]+"\n"
         return strRes
