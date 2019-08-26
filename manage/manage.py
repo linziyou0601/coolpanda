@@ -3,6 +3,7 @@
 import os
 import sys
 
+app = Flask(__name__)
 
 def main():
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'manage.settings')
