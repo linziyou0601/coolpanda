@@ -150,7 +150,7 @@ def resStatement(key, channelId, rand):
         c = conn.cursor()
         #若關閉可以說其他人教過的話的功能，則以限制channelId的方式查詢
         strGlobaltalk = '' if queryUser(channelId)[1] else ' and channel_id=?'
-        strRandomreply = ' and priority>=5 ORDER BY RANDOM() limit 1' if queryUser(channelId)[1] else ' ORDER BY priority DESC, id DESC limit 1'
+        strRandomreply = ' and priority>=5 ORDER BY RANDOM() limit 1' if rand else ' ORDER BY priority DESC, id DESC limit 1'
         c.execute('SELECT response FROM statements Where keyword=?' + strGlobaltalk + strRandomreply,
                   [key] if queryUser(channelId)[1] else [key, channelId])
         data = c.fetchall()

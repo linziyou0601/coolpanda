@@ -1,6 +1,5 @@
 from cowpiDB import *
 
-
 ####主聊天功能
 ##自動學習
 def autolearn(my, lineMessage, channelId, e_source):
@@ -27,7 +26,7 @@ def forget(lineMessage, channelId):
 def bad(channelId):
     #批次降低資料庫內本次回話的關鍵字權重
     adjustPrio(queryReceived(channelId, 1)[0], queryReply(channelId, 1)[0], -1)
-    return  "好哦的喵～"
+    return "好哦的喵～"
 ##回覆(隨機回覆)
 def chat(lineMessage, channelId):
     rand = 1 if lineMessage[0:3]=='牛批貓' or lineMessage[0:2]=='抽籤' else 0
