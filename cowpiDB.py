@@ -72,4 +72,4 @@ def resStatement(key):
         c = conn.cursor()
         c.execute('SELECT response FROM statements Where keyword=? ORDER BY id DESC limit 1', [key])
         data = c.fetchall()
-        return data[0][0] if c.rowcount else "窩聽不懂啦！"
+        return data[0][0] if c.rowcount>0 else "窩聽不懂啦！"
