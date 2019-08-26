@@ -107,7 +107,7 @@ def queryReply(channelId, num):
         c = conn.cursor()
         c.execute('SELECT message FROM reply Where channel_id=? ORDER BY id DESC limit ?', [channelId, num])
         data = c.fetchall()
-        return [x[0] for x in data] if len(data) else ["",0]
+        return [[x[0],x[1]] for x in data] if len(data) else ["",0]
 
 
 ##########[新增, 刪除, 調整權重, 取得回覆]: [詞條]##########
