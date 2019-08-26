@@ -161,7 +161,9 @@ def allStatement(channelId):
     createTable()
     with sqlite3.connect('db/cowpi.db') as conn:
         c = conn.cursor()
-        #若關閉可以說其他人教過的話的功能，則以限制channelId的方式查詢
-        c.execute('SELECT keyword, response FROM statements Where channel_id=?', [channelId])
+        c.execute('SELECT keyword, response FROM statements Where channel_id=? ORDER BY keyword', [channelId])
         data = c.fetchall()
-        return data[0][0] if len(data) else "窩聽不懂啦！"
+        strRes="【這裡教我說】\n"
+        for x in data:
+            strRes=x[0]+"→"+x[1]+"\n"
+        return strRes

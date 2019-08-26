@@ -119,8 +119,16 @@ def mainMenu(arg=[]):
                             style='link',
                             height='sm',
                             action=MessageAction(
-                                label='四則運算',
-                                text='98 * 87 + 6 + ( 4 ^ 2 ) '
+                                label='你會說什麼',
+                                text='牛批貓會說什麼'
+                            ),
+                        ),
+                        ButtonComponent(
+                            style='link',
+                            height='sm',
+                            action=MessageAction(
+                                label='目前狀態',
+                                text='目前狀態'
                             ),
                         ),
                         SpacerComponent(size='sm')
@@ -366,6 +374,99 @@ def teachChat(arg=[]):
                                 text='主選單'
                             ),
                         )
+                    ],
+                    flex=0
+                ),
+            )
+
+##狀態選單
+def statusMenu(arg=[]):
+    return BubbleContainer(
+                direction='ltr',
+                body=BoxComponent(
+                    layout='vertical',
+                    contents=[
+                        # title
+                        TextComponent(text='狀態', weight='bold', size='sm', color="#1DB446"),
+                        TextComponent(text='抽籤教學', weight='bold', size='xxl', margin='md'),
+                        # info
+                        BoxComponent(
+                            layout='vertical',
+                            margin='lg',
+                            spacing='sm',
+                            contents=[
+                                BoxComponent(
+                                    layout='baseline',
+                                    spacing='sm',
+                                    contents=[
+                                        TextComponent(
+                                            text='說話模式',
+                                            color='#aaaaaa',
+                                            size='sm',
+                                            flex=1
+                                        ),
+                                        TextComponent(
+                                            text=arg[0],
+                                            wrap=True,
+                                            color='#666666',
+                                            size='sm',
+                                            flex=5
+                                        )
+                                    ],
+                                ),
+                                BoxComponent(
+                                    layout='baseline',
+                                    spacing='sm',
+                                    contents=[
+                                        TextComponent(
+                                            text='目前狀態',
+                                            color='#aaaaaa',
+                                            size='sm',
+                                            flex=1
+                                        ),
+                                        TextComponent(
+                                            text=arg[1],
+                                            wrap=True,
+                                            color='#666666',
+                                            size='sm',
+                                            flex=5
+                                        )
+                                    ],
+                                )
+                            ],
+                        )
+                    ],
+                ),
+                footer=BoxComponent(
+                    layout='vertical',
+                    spacing='sm',
+                    contents=[
+                        SeparatorComponent(margin='xxl'),
+                        ButtonComponent(
+                            style='link',
+                            height='sm',
+                            action=MessageAction(
+                                label='切換說話模式',
+                                text='不可以說別人教的話' if arg[2] else '可以說別人教的話'
+                            ),
+                        ),
+                        ButtonComponent(
+                            style='link',
+                            height='sm',
+                            action=MessageAction(
+                                label='切換目前狀態',
+                                text='牛批貓講話' if arg[3] else '牛批貓安靜'
+                            ),
+                        ),
+                        ButtonComponent(
+                            style='link',
+                            height='sm',
+                            action=MessageAction(
+                                label='主選單',
+                                text='主選單'
+                            ),
+                        ),
+                        SpacerComponent(size='sm')
                     ],
                     flex=0
                 ),

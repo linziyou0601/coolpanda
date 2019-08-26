@@ -88,11 +88,11 @@ def handle_message(event):
     elif lineMessage == "如何學說話":
         replyList.append(FlexSendMessage(alt_text="如何教我說話", contents=teachChat()))
     elif lineMessage == "目前狀態":
-        replyList.append(TextSendMessage(text=currentStatus(channelId)))
+        replyList.append(FlexSendMessage(alt_text="目前狀態", contents=statusMenu(currentStatus(channelId))))
     else:
         ##功能開關、聊天
         content=""
-        if lineMessage=="你會說什麼": #本聊天窗所有教過的東西
+        if lineMessage=="牛批貓會說什麼": #本聊天窗所有教過的東西
             content = globaltalk(lineMessage, channelId)
         elif "說別人教的話" in lineMessage: #回話資料庫開關
             content = globaltalk(lineMessage, channelId)
@@ -110,7 +110,7 @@ def handle_message(event):
             content = echo2(lineMessage, channelId)
         ##自動學習
         listA=[lineMessage, content[1:4], content[0:12]] #自動學習關鍵字排除對應
-        listB=["你會說什麼", "天是 ", "現在時間 (UTC+8)："] #自動學習關鍵字排除列表
+        listB=["牛批貓會說什麼", "天是 ", "現在時間 (UTC+8)："] #自動學習關鍵字排除列表
         if all(s != queryReply(channelId, 1)[0] for s in ["好哦的喵～","窩聽不懂啦！"]) and all([i!=j for i, j in zip(listA, listB)]):
             autolearn(queryReply(channelId, 1)[0], lineMessage, channelId, e_source) #順序性對話自動加入詞條
         if content!="窩聽不懂啦！":

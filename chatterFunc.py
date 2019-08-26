@@ -75,4 +75,4 @@ def mute(lineMessage, channelId):
     return "好哦的喵～"
 def currentStatus(channelId):
     status = queryUser(channelId)
-    return "說話模式："+("" if status[2] else "不")+"可以說別人教的話\n"+"說話狀態："+("安靜" if status[3] else "可以說話")
+    return ["所有人教的" if status[2] else "這裡教的", "安靜" if status[3] else "可以說話", status[2], status[3]]
