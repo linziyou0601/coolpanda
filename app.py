@@ -88,6 +88,8 @@ def handle_message(event):
         replyList.append(FlexSendMessage(alt_text="抽籤教學", contents=teachLottery()))
     elif lineMessage == "如何學說話":
         replyList.append(FlexSendMessage(alt_text="如何教我說話", contents=teachChat()))
+    elif lineMessage == "目前狀態":
+        replyList.append(TextSendMessage(text=currentStatus(channelId)))
     else:
 
         content=""
@@ -96,8 +98,6 @@ def handle_message(event):
             content = globaltalk(lineMessage, channelId) #回話資料庫開關，回傳好哦
         elif any(s == lineMessage for s in ["牛批貓說話","牛批貓講話","牛批貓安靜", "牛批貓閉嘴"]):
             content = mute(lineMessage, channelId) #安靜開關，回傳好哦
-        elif lineMessage == "目前狀態":
-            content = currentStatus(channelId) #回傳目前狀態
         elif lineMessage == "壞壞":
             content = bad(channelId) #名詞拉黑，回傳好哦
         elif lineMessage.replace("；",";")[0:4] == "學說話;":
