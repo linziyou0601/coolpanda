@@ -197,39 +197,15 @@ def teachLottery(arg=[]):
                             height='sm',
                             action=MessageAction(
                                 label='① 加入籤',
-                                text='籤桶;籤桶名稱;甲子籤;乙丑籤;丙寅籤;丁卯籤;戊辰籤'
+                                text='學說話;抽神籤;甲子籤;乙丑籤;丙寅籤;丁卯籤;戊辰籤'
                             ),
                         ),
                         ButtonComponent(
                             style='link',
                             height='sm',
                             action=MessageAction(
-                                label='② 查看所有籤桶',
-                                text='所有籤桶'
-                            ),
-                        ),
-                        ButtonComponent(
-                            style='link',
-                            height='sm',
-                            action=MessageAction(
-                                label='③ 抽一支籤',
-                                text='抽籤;籤桶名稱'
-                            ),
-                        ),
-                        ButtonComponent(
-                            style='link',
-                            height='sm',
-                            action=MessageAction(
-                                label='④ 刪除籤',
-                                text='刪除;籤桶名稱;甲子籤;丁卯籤'
-                            ),
-                        ),
-                        ButtonComponent(
-                            style='link',
-                            height='sm',
-                            action=MessageAction(
-                                label='⑤ 刪除籤桶',
-                                text='刪除籤桶;籤桶名稱'
+                                label='② 抽一支籤',
+                                text='抽籤抽神籤'
                             ),
                         ),
                         ButtonComponent(
@@ -269,13 +245,13 @@ def teachChat(arg=[]):
                                     spacing='sm',
                                     contents=[
                                         TextComponent(
-                                            text='單句對話',
+                                            text='單詞學習',
                                             color='#aaaaaa',
                                             size='sm',
                                             flex=1
                                         ),
                                         TextComponent(
-                                            text='學說話;內容;回答',
+                                            text='學說話;關鍵字;回答',
                                             wrap=True,
                                             color='#825d5c',
                                             size='sm',
@@ -288,13 +264,68 @@ def teachChat(arg=[]):
                                     spacing='sm',
                                     contents=[
                                         TextComponent(
-                                            text='連續對話',
+                                            text='詞條學習',
                                             color='#aaaaaa',
                                             size='sm',
                                             flex=1
                                         ),
                                         TextComponent(
-                                            text='學說話;對話1;對話2;對話N',
+                                            text='學說話;關鍵字;回答1;回答N',
+                                            wrap=True,
+                                            color='#825d5c',
+                                            size='sm',
+                                            flex=3
+                                        )
+                                    ],
+                                ),
+                                BoxComponent(
+                                    layout='baseline',
+                                    spacing='sm',
+                                    contents=[
+                                        TextComponent(
+                                            text='刪除詞條',
+                                            color='#aaaaaa',
+                                            size='sm',
+                                            flex=1
+                                        ),
+                                        TextComponent(
+                                            text='忘記;關鍵字;回答',
+                                            wrap=True,
+                                            color='#825d5c',
+                                            size='sm',
+                                            flex=3
+                                        )
+                                    ],
+                                ),BoxComponent(
+                                    layout='baseline',
+                                    spacing='sm',
+                                    contents=[
+                                        TextComponent(
+                                            text='大量刪除',
+                                            color='#aaaaaa',
+                                            size='sm',
+                                            flex=1
+                                        ),
+                                        TextComponent(
+                                            text='忘記;關鍵字;回答1;回答N',
+                                            wrap=True,
+                                            color='#825d5c',
+                                            size='sm',
+                                            flex=3
+                                        )
+                                    ],
+                                ),BoxComponent(
+                                    layout='baseline',
+                                    spacing='sm',
+                                    contents=[
+                                        TextComponent(
+                                            text='降低詞條優先度',
+                                            color='#aaaaaa',
+                                            size='sm',
+                                            flex=1
+                                        ),
+                                        TextComponent(
+                                            text='壞壞',
                                             wrap=True,
                                             color='#825d5c',
                                             size='sm',
@@ -315,8 +346,16 @@ def teachChat(arg=[]):
                             style='link',
                             height='sm',
                             action=MessageAction(
-                                label='查看範例',
+                                label='詞條學習範例',
                                 text='學說話;牛批牛批;本喵真牛批！'
+                            ),
+                        ),
+                        ButtonComponent(
+                            style='link',
+                            height='sm',
+                            action=MessageAction(
+                                label='刪除詞條範例',
+                                text='忘記;牛批牛批;本喵真牛批！'
                             ),
                         ),
                         ButtonComponent(

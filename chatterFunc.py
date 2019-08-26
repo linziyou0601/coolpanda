@@ -41,14 +41,15 @@ def chat(lineMessage, channelId):
     if any(s in lineMessage for s in timeKey):
         response = "現在時間 (UTC+8)：" + str(dt.hour) + ":" + str(dt.minute)
     #若問日期
-    elif any(s in lineMessage for s in dateKey) or any(s == lineMessage for s in ["前天", "昨天", "今天", "明天", "後天"]):
-        tmp = [v in lineMessage for v in keyDay][0][0]
+    elif any(s in lineMessage for s in dateKey):
+        tmp = [v for v in keyDay if v in lineMessage][0][0]
         dt += timedelta(days = keyDelta[keyDay.index([v in lineMessage for k, v in keyDay][0])])
         response = tmp + "天是 " + str(dt.year) + "年" + str(dt.month) + "月" + str(dt.day) + "日 " + weekDay[dt.weekday()]
     #正常回覆
     else:
         rand = 1 if lineMessage[0:3]=='牛批貓' or lineMessage[0:2]=='抽籤' else 0
-        response = resStatement(lineMessage[3:] if rand else lineMessage, channelId, rand)
+        firstIndex = 0 if not rand else 3 if lineMessage[0:3]=='牛批貓' else 2
+        response = resStatement(lineMessage[firstIndex:], channelId, rand)
     return response
 ##成功回話時增加權重
 def validReply(lineMessage, reply, channelId):
