@@ -91,29 +91,25 @@ def handle_message(event):
     else:
 
         content=""
-        ##功能開關
+        ##功能開關、聊天
         if "說別人教的話" in lineMessage:
-            globaltalk(lineMessage, channelId)
-            content = "好哦的喵～"
-        if "牛批貓" in lineMessage:
-            mute(lineMessage, channelId)
-            content = "好哦的喵～"
-        if lineMessage == "目前狀態":
-            content = currentStatus(channelId)
-            
-        ##聊天型
-        if lineMessage == "壞壞":
-            content = bad(channelId)
+            content = globaltalk(lineMessage, channelId) #回話資料庫開關，回傳好哦
+        elif "牛批貓" in lineMessage:
+            content = mute(lineMessage, channelId) #安靜開關，回傳好哦
+        elif lineMessage == "目前狀態":
+            content = currentStatus(channelId) #回傳目前狀態
+        elif lineMessage == "壞壞":
+            content = bad(channelId) #名詞拉黑，回傳好哦
         elif lineMessage.replace("；",";")[0:4] == "學說話;":
-            content = learn(lineMessage, channelId, e_source)
+            content = learn(lineMessage, channelId, e_source) #學說話，回傳好哦
         elif lineMessage.replace("；",";")[0:3] == "忘記;":
-            content = forget(lineMessage, channelId)
+            content = forget(lineMessage, channelId) #刪詞，回傳好哦
         else:
-            content = chat(lineMessage, channelId)
+            content = chat(lineMessage, channelId) #回話
         ##齊推
         if echo2(lineMessage, channelId)!="" and content=="窩聽不懂啦！": content = echo2(lineMessage, channelId)
-        replyList.append(TextSendMessage(text=content))
-        storeReply(content, channelId)
+        replyList.append(TextSendMessage(text=content)) #本次要回的話
+        storeReply(content, channelId) #記錄機器人本次回的話
 
     ##抽籤
     #所有籤桶
