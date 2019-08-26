@@ -1,4 +1,5 @@
 from cowpiDB import *
+from datetime import datetime, timedelta
 
 ####主聊天功能
 ##自動學習
@@ -29,8 +30,26 @@ def bad(channelId):
     return "好哦的喵～"
 ##回覆(隨機回覆)
 def chat(lineMessage, channelId):
-    rand = 1 if lineMessage[0:3]=='牛批貓' or lineMessage[0:2]=='抽籤' else 0
-    return resStatement(lineMessage[3:] if rand else lineMessage, channelId, rand)
+    response = ""
+    timeKey = ['現在時間', '現在幾點']
+    dateKey = ['天日期', '天幾號', '星期幾', '幾月幾']
+    weekDay = ['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日']
+    keyDay = ['今天','明天','昨天','後天','前天']
+    keyDelta = [0,1,-1,2,-2]
+    dt = datetime.utcnow() + timedelta(hours = 8)
+    #若問時間
+    if any(s in lineMessage for s in timeKey):
+        response = "現在時間 (UTC+8)：" + str(dt.hour) + ":" + str(dt.minute)
+    #若問日期
+    elif any(s in lineMessage for s in dateKey) or any(s == lineMessage for s in ["前天", "昨天", "今天", "明天", "後天"]):
+        tmp = [v in lineMessage for v in keyDay][0][0]
+        dt += timedelta(days = keyDelta[keyDay.index([v in lineMessage for k, v in keyDay][0])])
+        response = tmp + "天是 " + str(dt.year) + "年" + str(dt.month) + "月" + str(dt.day) + "日 " + weekDay[dt.weekday()]
+    #正常回覆
+    else:
+        rand = 1 if lineMessage[0:3]=='牛批貓' or lineMessage[0:2]=='抽籤' else 0
+        response = resStatement(lineMessage[3:] if rand else lineMessage, channelId, rand)
+    return response
 ##成功回話時增加權重
 def validReply(lineMessage, reply, channelId):
     adjustPrio(lineMessage, reply, 1, "" if queryUser(channelId)[1] else channelId)
