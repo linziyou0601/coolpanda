@@ -72,7 +72,7 @@ def delStatement(key, msg, channelId):
     with sqlite3.connect('db/cowpi.db') as conn:
         c = conn.cursor()
         for res in msg:
-            c.execute('DELETE FROM Where keyword=? and response=? and creator_id=?', [key, res, channelId])
+            c.execute('DELETE FROM statements Where keyword=? and response=? and creator_id=?', [key, res, channelId])
 def adjustPrio(msg, case):
     createTable()
     with sqlite3.connect('db/cowpi.db') as conn:
