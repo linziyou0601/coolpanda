@@ -1,7 +1,7 @@
 import sqlite3
 from datetime import datetime
 
-##[建立資料表]: [對話, 收到的訊息, 回覆]
+##########[建立資料表]: [對話, 收到的訊息, 回覆]
 def createTable():
     with sqlite3.connect('db/cowpi.db') as conn:
         c = conn.cursor()
@@ -31,7 +31,7 @@ def createTable():
             )
         ''')
 
-##[儲存, 查詢]: [收到的訊息, 回覆]
+##########[儲存, 查詢]: [收到的訊息, 回覆]
 def storeReceived(msg, channelId):
     createTable()
     with sqlite3.connect('db/cowpi.db') as conn:
@@ -59,7 +59,7 @@ def queryReply(channelId, num):
         data = c.fetchall()
         return [x[0] for x in data] if len(data) else [""]
 
-##[學說話, 刪除, 壞壞, 取得回覆]
+##########[學說話, 刪除, 壞壞, 取得回覆]
 def insStatement(key, msg, channelId, type):
     createTable()
     with sqlite3.connect('db/cowpi.db') as conn:
@@ -72,15 +72,16 @@ def delStatement(key, msg, channelId):
     with sqlite3.connect('db/cowpi.db') as conn:
         c = conn.cursor()
         for res in msg:
-            sql = 'DELETE FROM Where keyword=? and response=? and creator_id=?'
-            c.execute(sql, [key, res, channelId])
+            c.execute('DELETE FROM Where keyword=? and response=? and creator_id=?', [key, res, channelId])
 def adjustPrio(msg, case):
+    createTable()
     with sqlite3.connect('db/cowpi.db') as conn:
         c = conn.cursor()
         c.execute('SELECT keyword, response, priority FROM statements Where response=?', [msg])
         data = c.fetchall()
         for x in data:
-            c.execute('UPDATE statements SET priority=? Where keyword=? and response=?', [int(x[2])+int(case), x[0], [1]])
+            num=int(x[2])+int(case)
+            c.execute('UPDATE statements SET priority=? Where keyword=? and response=?', [num, x[0], [1]])
 def resStatement(key):
     createTable()
     with sqlite3.connect('db/cowpi.db') as conn:
