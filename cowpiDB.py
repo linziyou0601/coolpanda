@@ -1,6 +1,7 @@
 import sqlite3
 from datetime import datetime
 
+##[建立資料表]: [對話, 收到的訊息, 回覆]
 def createTable():
     with sqlite3.connect('db/cowpi.db') as conn:
         c = conn.cursor()
@@ -72,4 +73,4 @@ def resStatement(key):
         c = conn.cursor()
         c.execute('SELECT response FROM statements Where keyword=? ORDER BY id DESC limit 1', [key])
         data = c.fetchall()
-        return data[0][0] if c.rowcount>0 else "窩聽不懂啦！"
+        return data[0][0] if len(data) else "窩聽不懂啦！"

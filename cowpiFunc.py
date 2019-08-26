@@ -3,7 +3,6 @@ from cowpiDB import *
 #學說話
 def learn(lineMessage, channelId, e_source):
     lineMes = lineMessage.replace("；",";").split(';')
-    #確認語法正確性
     if(len(lineMes)<2):
         return "聽不懂啦～"
     else:
