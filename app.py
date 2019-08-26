@@ -18,7 +18,7 @@ from linebot.models import (
 )
 import os, psycopg2, json, codecs, random
 from MsgFunc import msgFunc
-from cowpiChat import insStatement
+from cowpiChat import insStatement, resStatement
 
 app = Flask(__name__)
 
@@ -193,12 +193,12 @@ def handle_message(event):
         return 0
 
     #ChatterBot get_response
-    # else:
-    #     content = str(bot.getResponse(lineMessage))
-    #     line_bot_api.reply_message(
-    #         event.reply_token,
-    #         TextSendMessage(text=content))  
-    #     return 0
+    else:
+        content = resStatement(lineMessage)
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text=content))  
+        return 0
 
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 5000))
