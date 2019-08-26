@@ -28,7 +28,6 @@ def createTable():
             CREATE TABLE IF NOT EXISTS "received" (
                 "id" INTEGER PRIMARY KEY AUTOINCREMENT,
                 "message" TEXT NOT NULL,
-                "valid" INTEGER DEFAULT 0,
                 "channel_id" TEXT NOT NULL,
                 "create_at" TEXT NOT NULL
             )
@@ -37,6 +36,7 @@ def createTable():
             CREATE TABLE IF NOT EXISTS "reply" (
                 "id" INTEGER PRIMARY KEY AUTOINCREMENT,
                 "message" TEXT NOT NULL,
+                "valid" INTEGER DEFAULT 0,
                 "channel_id" TEXT NOT NULL,
                 "create_at" TEXT NOT NULL
             )
