@@ -18,6 +18,7 @@ from linebot.models import (
 )
 import os, psycopg2, json, codecs, random
 from MsgFunc import msgFunc
+from cowpiFunc import learn, chat
 from cowpiChat import insStatement, resStatement
 
 app = Flask(__name__)
@@ -73,8 +74,9 @@ def handle_message(event):
     e_source = event.source
     channelId = e_source.room_id if e_source.type == "room" else e_source.group_id if e_source.type == "group" else e_source.user_id
     
-    #判斷回覆內容
+    #取得收到的訊息
     lineMessage = event.message.text
+    replyList = []
     ####功能型回覆
     if lineMessage == "主選單":
         message = FlexSendMessage(alt_text="主選單", contents=msgFunc("main"))
@@ -184,25 +186,17 @@ def handle_message(event):
 
     #學說話
     elif lineMessage.replace("；",";")[0:4] == "學說話;":
-        lineMes = lineMessage.replace("；",";").split(';')
-        #確認語法正確性
-        if(len(lineMes)<2):
-            content = "聽不懂啦～"
-        else:
-            insStatement(lineMes[1], lineMes[2:], channelId, e_source.type) #插入資料庫
-            content = "好哦的喵～"
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text=content))
-        return 0
+        content = learn(lineMessage, channelId, e_source)
+        replyList.append(content)
 
     #回覆
     else:
-        content = resStatement(lineMessage)
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text=content))
-        return 0
+        content = chat(lineMessage)
+        replyList.append(content)
+    
+    line_bot_api.reply_message(
+        event.reply_token,
+        [content, message])
 
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 5000))
