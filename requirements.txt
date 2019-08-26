@@ -2,3 +2,4 @@ line-bot-sdk
 flask
 psycopg2
 pysqlite3
+Django

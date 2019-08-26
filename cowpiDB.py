@@ -21,7 +21,7 @@ def createTable():
                 "create_at" TEXT NOT NULL,
                 "channel_id" TEXT NOT NULL,
                 "channel_type" TEXT NOT NULL,
-                "priority" INTEGER DEFAULT 5
+                "priority" INTEGER NOT NULL DEFAULT 5
             )
         ''')
         c.execute('''
