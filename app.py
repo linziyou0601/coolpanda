@@ -16,7 +16,7 @@ from linebot.models import (
     TextComponent, SpacerComponent, IconComponent, ButtonComponent,
     SeparatorComponent, QuickReply, QuickReplyButton
 )
-import os
+import os, json, codecs
 from MessageFunc import *
 from chatterFunc import *
 from cowpiDB import *
