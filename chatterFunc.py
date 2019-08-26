@@ -2,40 +2,42 @@ from cowpiDB import *
 
 
 ####主聊天功能
-#自動學習
+##自動學習
 def autolearn(my, lineMessage, channelId, e_source):
     insStatement(my, [lineMessage], channelId, e_source.type)
-#學說話
+##學說話
 def learn(lineMessage, channelId, e_source):
     lineMes = [x for x in lineMessage.replace("；",";").split(';') if x != ""]
+    #若語法正確才加入詞條
     if(len(lineMes)<3):
         return "窩聽不懂啦！"
     else:
         insStatement(lineMes[1], lineMes[2:], channelId, e_source.type)
         return "好哦的喵～"
-#忘記
+##忘記
 def forget(lineMessage, channelId):
     lineMes = [x for x in lineMessage.replace("；",";").split(';') if x != ""]
+    #若語法正確才刪除詞條
     if(len(lineMes)<3):
         return "窩聽不懂啦！"
     else:
         delStatement(lineMes[1], lineMes[2:], channelId)
         return "好哦的喵～"
-#壞壞
+##壞壞
 def bad(channelId):
-    recent_received_texts = queryReceived(channelId, 1)[0]
-    last_reply_text = queryReply(channelId, 1)[0]
-    adjustPrio(recent_received_texts, last_reply_text, -1)
+    #批次降低資料庫內本次回話的關鍵字權重
+    adjustPrio(queryReceived(channelId, 1)[0], queryReply(channelId, 1)[0], -1)
     return  "好哦的喵～"
-#回覆
+##回覆
 def chat(lineMessage, channelId):
     return resStatement(lineMessage, channelId)
-#齊推
+##成功回話時增加權重
+def validReply(lineMessage, reply, channelId):
+    adjustPrio(lineMessage, reply, 1, "" if queryUser(channelId)[1] else channelId)
+##齊推
 def echo2(lineMessage, channelId):
-    recent_received_texts = queryReceived(channelId, 5)
-    last_reply_text = queryReply(channelId, 1)
-    if recent_received_texts.count(lineMessage) < 2: return ""
-    elif last_reply_text[0]==lineMessage: return ""
+    if queryReceived(channelId, 5).count(lineMessage) < 2: return ""
+    elif queryReply(channelId, 1)[0]==lineMessage: return ""
     else: return lineMessage
 
 ####功能開關

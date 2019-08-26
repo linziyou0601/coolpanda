@@ -48,30 +48,26 @@ def newChannel(channelId):
     with sqlite3.connect('db/cowpi.db') as conn:
         c = conn.cursor()
         c.execute('SELECT * FROM users Where channel_id=?', [channelId])
-        #若頻道資料已存在，則重複不建立
+        #若頻道資料不存在才建立
         if len(c.fetchall())==0:
-            sql = 'INSERT INTO users(channel_id) VALUES(?)'
-            c.execute(sql, [channelId])
+            c.execute('INSERT INTO users(channel_id) VALUES(?)', [channelId])
 ##刪除頻道資料
 def delChannel(channelId):
     createTable()
     with sqlite3.connect('db/cowpi.db') as conn:
         c = conn.cursor()
-        sql = 'DELETE FROM users Where channel_id=?'
-        c.execute(sql, [channelId])
+        c.execute('DELETE FROM users Where channel_id=?', [channelId])
 ##修改頻道功能
 def editChannelGlobalTalk(channelId, value):
     createTable()
     with sqlite3.connect('db/cowpi.db') as conn:
         c = conn.cursor()
-        sql = 'UPDATE users SET globaltalk=? Where channel_id=?'
-        c.execute(sql, [value, channelId])
+        c.execute('UPDATE users SET globaltalk=? Where channel_id=?', [value, channelId])
 def editChannelMute(channelId, value):
     createTable()
     with sqlite3.connect('db/cowpi.db') as conn:
         c = conn.cursor()
-        sql = 'UPDATE users SET mute=? Where channel_id=?'
-        c.execute(sql, [value, channelId])
+        c.execute('UPDATE users SET mute=? Where channel_id=?', [value, channelId])
 ##查詢頻道功能狀態
 def queryUser(channelId):
     createTable()
@@ -88,15 +84,13 @@ def storeReceived(msg, channelId):
     createTable()
     with sqlite3.connect('db/cowpi.db') as conn:
         c = conn.cursor()
-        sql = 'INSERT INTO received(message, channel_id, create_at) VALUES(?,?,?)'
-        c.execute(sql, [msg, channelId, str(datetime.now())])
+        c.execute('INSERT INTO received(message, channel_id, create_at) VALUES(?,?,?)', [msg, channelId, str(datetime.now())])
 ##儲存機器人回覆
 def storeReply(msg, channelId):
     createTable()
     with sqlite3.connect('db/cowpi.db') as conn:
         c = conn.cursor()
-        sql = 'INSERT INTO reply(message, channel_id, create_at) VALUES(?,?,?)'
-        c.execute(sql, [msg, channelId, str(datetime.now())])
+        c.execute('INSERT INTO reply(message, channel_id, create_at) VALUES(?,?,?)', [msg, channelId, str(datetime.now())])
 ##查詢收到的訊息
 def queryReceived(channelId, num):
     createTable()
@@ -145,18 +139,17 @@ def adjustPrio(key, msg, case, channelId=""):
         #若有指定channelId，則加入channelId條件
         c.execute('SELECT priority FROM statements Where keyword=? and response=?' + ' and channel_id=?' if channelId!="" else '',
                   [key, msg, channelId] if channelId!="" else [key, msg])
-        if len(c.fetchall())!=0:
+        data = c.fetchall()
+        for x in data:
             c.execute('UPDATE statements SET priority=? Where keyword=? and response=?' + ' and channel_id=?' if channelId!="" else '',
-                      [int(c.fetchall()[0][0])+case, key, msg, channelId] if channelId!="" else [int(c.fetchall()[0][0])+case, key, msg])
+                      [int(x[0])+case, key, msg, channelId] if channelId!="" else [int(x[0])+case, key, msg])
 ##取得詞條回覆
 def resStatement(key, channelId):
     createTable()
     with sqlite3.connect('db/cowpi.db') as conn:
         c = conn.cursor()
-        c.execute('SELECT response FROM statements Where keyword=? and channel_id=? ORDER BY priority DESC, id DESC limit 1', [key, channelId])
+        #若關閉可以說其他人教過的話的功能，則以限制channelId的方式查詢
+        c.execute('SELECT response FROM statements Where keyword=?' + '' if queryUser(channelId)[1] else ' and channel_id=?' + ' ORDER BY priority DESC, id DESC limit 1',
+                  [key] if queryUser(channelId)[1] else [key, channelId])
         data = c.fetchall()
-        #若有開啟可以說其他人教過的話的功能，則加入查詢
-        if len(data)==0 and queryUser(channelId)[1]:
-            c.execute('SELECT response FROM statements Where keyword=? ORDER BY priority DESC, id DESC limit 1', [key])
-            data = c.fetchall()
         return data[0][0] if len(data) else "窩聽不懂啦！"

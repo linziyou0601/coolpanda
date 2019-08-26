@@ -78,8 +78,7 @@ def handle_message(event):
     ##取得收到的訊息
     lineMessage = event.message.text
     replyList = []
-    storeReceived(lineMessage, channelId)
-    newChannel(channelId)
+    newChannel(channelId) #新建頻道資料
 
     ##功能型
     if lineMessage == "主選單":
@@ -108,10 +107,13 @@ def handle_message(event):
         ##齊推
         if echo2(lineMessage, channelId)!="" and content=="窩聽不懂啦！": content = echo2(lineMessage, channelId)
         ##自動學習
-        if all(s != queryReply(channelId, 1)[0] for s in ["好哦的喵～","窩聽不懂啦！"]):
+        if all(s != queryReply(channelId, 1)[0] for s in ["好哦的喵～","窩聽不懂啦！"]): #順序性對話自動加入詞條
             autolearn(queryReply(channelId, 1)[0], lineMessage, channelId, e_source)
+        if content!="窩聽不懂啦！": #若有詞條資料，則回覆時權重+1
+            validReply(lineMessage, content, channelId)
         ##儲存訊息
         replyList.append(TextSendMessage(text=content)) #本次要回的話
+        storeReceived(lineMessage, channelId) #儲存本次語句
         storeReply(content, channelId) #記錄機器人本次回的話
 
     ##抽籤
