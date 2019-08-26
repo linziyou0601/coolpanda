@@ -92,7 +92,9 @@ def handle_message(event):
     else:
         ##功能開關、聊天
         content=""
-        if "說別人教的話" in lineMessage: #回話資料庫開關
+        if lineMessage=="你會說什麼": #本聊天窗所有教過的東西
+            content = globaltalk(lineMessage, channelId)
+        elif "說別人教的話" in lineMessage: #回話資料庫開關
             content = globaltalk(lineMessage, channelId)
         elif any(s == lineMessage for s in ["牛批貓說話","牛批貓講話","牛批貓安靜", "牛批貓閉嘴"]): #安靜開關
             content = mute(lineMessage, channelId)
@@ -107,7 +109,9 @@ def handle_message(event):
         if echo2(lineMessage, channelId)!="" and content=="窩聽不懂啦！": #齊推
             content = echo2(lineMessage, channelId)
         ##自動學習
-        if all(s != queryReply(channelId, 1)[0] for s in ["好哦的喵～","窩聽不懂啦！"]) and content[1:4]!="天是 " and content[0:12]!="現在時間 (UTC+8)：":
+        listA=[lineMessage, content[1:4], content[0:12]] #自動學習關鍵字排除對應
+        listB=["你會說什麼", "天是 ", "現在時間 (UTC+8)："] #自動學習關鍵字排除列表
+        if all(s != queryReply(channelId, 1)[0] for s in ["好哦的喵～","窩聽不懂啦！"]) and all([i!=j for i, j in zip(listA, listB)]):
             autolearn(queryReply(channelId, 1)[0], lineMessage, channelId, e_source) #順序性對話自動加入詞條
         if content!="窩聽不懂啦！":
             validReply(lineMessage, content, channelId) #若有詞條資料，則回覆時權重+1

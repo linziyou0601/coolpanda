@@ -156,3 +156,12 @@ def resStatement(key, channelId, rand):
                   [key] if queryUser(channelId)[2] else [key, channelId])
         data = c.fetchall()
         return data[0][0] if len(data) else "窩聽不懂啦！"
+##取得所有學過的詞
+def allStatement(channelId):
+    createTable()
+    with sqlite3.connect('db/cowpi.db') as conn:
+        c = conn.cursor()
+        #若關閉可以說其他人教過的話的功能，則以限制channelId的方式查詢
+        c.execute('SELECT keyword, response FROM statements Where channel_id=?', [channelId])
+        data = c.fetchall()
+        return data[0][0] if len(data) else "窩聽不懂啦！"
