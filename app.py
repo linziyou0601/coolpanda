@@ -17,9 +17,9 @@ from linebot.models import (
     SeparatorComponent, QuickReply, QuickReplyButton
 )
 import os, psycopg2, json, codecs, random
-from MsgFunc import msgFunc
-from cowpiFunc import learn, chat
-from cowpiChat import insStatement, resStatement
+from MessageFunc import *
+from cowpiDB import *
+from cowpiFunc import *
 
 app = Flask(__name__)
 
@@ -51,7 +51,7 @@ def sticon(unic):
 def handle_follow(event):
     profile = line_bot_api.get_profile(event.source.user_id)
     content = TextSendMessage(text=profile.display_name + "，歡迎您成為本熊貓的好友" + sticon(u"\U00100097"))
-    message = FlexSendMessage(alt_text="主選單", contents=msgFunc("main"))
+    message = FlexSendMessage(alt_text="主選單", contents=mainMenu("main"))
     line_bot_api.reply_message(
         event.reply_token,
         [content, message])
@@ -74,21 +74,35 @@ def handle_message(event):
     e_source = event.source
     channelId = e_source.room_id if e_source.type == "room" else e_source.group_id if e_source.type == "group" else e_source.user_id
     
-    #取得收到的訊息
+    ##取得收到的訊息
     lineMessage = event.message.text
     replyList = []
-    ####功能型回覆
-    if lineMessage == "主選單":
-        content = FlexSendMessage(alt_text="主選單", contents=msgFunc("main"))
-        replyList.append(content)
-    elif lineMessage == "抽籤教學":
-        content = FlexSendMessage(alt_text="抽籤教學", contents=msgFunc("teach"))
-        replyList.append(content)
-    elif lineMessage == "如何學說話":
-        content = FlexSendMessage(alt_text="如何教我說話", contents=msgFunc("howToTrain"))
-        replyList.append(content)
+    storeReceived(lineMessage, channelId)
 
-    ###抽籤
+    ##功能型
+    if lineMessage == "主選單":
+        replyList.append(FlexSendMessage(alt_text="主選單", contents=mainMenu()))
+    elif lineMessage == "抽籤教學":
+        replyList.append(FlexSendMessage(alt_text="抽籤教學", contents=teachLottery()))
+    elif lineMessage == "如何學說話":
+        replyList.append(FlexSendMessage(alt_text="如何教我說話", contents=teachChat()))
+
+    ##聊天型
+    elif lineMessage.replace("；",";")[0:4] == "學說話;":
+        content = learn(lineMessage, channelId, e_source)
+        replyList.append(TextSendMessage(text=content))
+        storeReply(content, channelId)
+    else:
+        content = chat(lineMessage)
+        replyList.append(TextSendMessage(text=content))
+        storeReply(content, channelId)
+    
+    if echo2(lineMessage, channelId)!="":
+        content = echo2(lineMessage, channelId)
+        replyList.append(TextSendMessage(text=content))
+        storeReply(content, channelId)
+
+    ##抽籤
     #所有籤桶
     # elif lineMessage == "所有籤桶" or lineMessage == "所有籤筒":
     #     content = ""
@@ -174,17 +188,8 @@ def handle_message(event):
     #         event.reply_token,
     #         TextSendMessage(text=content))
     #     return 0
-
-    #學說話
-    elif lineMessage.replace("；",";")[0:4] == "學說話;":
-        content = learn(lineMessage, channelId, e_source)
-        replyList.append(content)
-
-    #回覆
-    else:
-        content = chat(lineMessage)
-        replyList.append(content)
     
+    #回傳給LINE
     line_bot_api.reply_message(
         event.reply_token,
         replyList)
