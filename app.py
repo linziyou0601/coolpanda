@@ -182,22 +182,26 @@ def handle_message(event):
     #         TextSendMessage(text=content))
     #     return 0
 
-    #ChatterBot ListTrainer
+    #學說話
     elif lineMessage.replace("；",";")[0:4] == "學說話;":
         lineMes = lineMessage.replace("；",";").split(';')
-        insStatement(lineMes[1], lineMes[2:], channelId, e_source.type)
-        content = "好哦的喵～"
+        #確認語法正確性
+        if(len(lineMes)<2):
+            content = "聽不懂啦～"
+        else:
+            insStatement(lineMes[1], lineMes[2:], channelId, e_source.type) #插入資料庫
+            content = "好哦的喵～"
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text=content))
         return 0
 
-    #ChatterBot get_response
+    #回覆
     else:
         content = resStatement(lineMessage)
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text=content))  
+            TextSendMessage(text=content))
         return 0
 
 if __name__ == "__main__":
