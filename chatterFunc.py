@@ -42,9 +42,9 @@ def chat(lineMessage, channelId):
         response = "現在時間 (UTC+8)：" + str(dt.hour) + ":" + str(dt.minute)
     #若問日期
     elif any(s in lineMessage for s in dateKey):
-        tmp = [v for v in keyDay if v in lineMessage][0][0]
-        dt += timedelta(days = keyDelta[keyDay.index([v in lineMessage for k, v in keyDay][0])])
-        response = tmp + "天是 " + str(dt.year) + "年" + str(dt.month) + "月" + str(dt.day) + "日 " + weekDay[dt.weekday()]
+        tmp = [v for v in keyDay if v in lineMessage][0]
+        dt += timedelta(days = keyDelta[keyDay.index(tmp)])
+        response = tmp + "是 " + str(dt.year) + "年" + str(dt.month) + "月" + str(dt.day) + "日 " + weekDay[dt.weekday()]
     #正常回覆
     else:
         rand = 1 if lineMessage[0:3]=='牛批貓' or lineMessage[0:2]=='抽籤' else 0
@@ -59,6 +59,7 @@ def echo2(lineMessage, channelId):
     if queryReceived(channelId, 5).count(lineMessage) < 2: return ""
     elif queryReply(channelId, 1)[0]==lineMessage: return ""
     else: return lineMessage
+
 
 ####功能開關
 def globaltalk(lineMessage, channelId):
