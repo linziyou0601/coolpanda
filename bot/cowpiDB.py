@@ -179,7 +179,7 @@ def resStatement(key, channelId, rand):
                             WHEN keyword LIKE ? THEN 1
                             ELSE 0 
                         END as likestrong
-                FROM statements Where channel_id=cowpi and likestrong>1 ORDER BY RANDOM() limit 1''', 
+                FROM statements Where channel_id='cowpi' and likestrong>1 ORDER BY RANDOM() limit 1''', 
                 [key, key, '%'+key+'%'] if queryUser(channelId)[2] else [key, key, '%'+key+'%', channelId]
             )
             data = c.fetchall()
