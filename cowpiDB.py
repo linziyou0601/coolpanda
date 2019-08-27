@@ -1,6 +1,5 @@
-from django.conf import settings
-from datetime import datetime
 import sqlite3
+from datetime import datetime
 
 ##########[建立資料表]: [對話, 收到的訊息, 回覆]##########
 def createTable():

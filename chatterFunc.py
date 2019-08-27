@@ -1,4 +1,4 @@
-from .cowpiDB import *
+from cowpiDB import *
 from datetime import datetime, timedelta
 
 ####主聊天功能
