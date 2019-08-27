@@ -180,7 +180,7 @@ def resStatement(key, channelId, rand):
                             ELSE 0 
                         END as likestrong
                 FROM statements Where channel_id='cowpi' and likestrong>1 ORDER BY RANDOM() limit 1''', 
-                [key, key, '%'+key+'%'] if queryUser(channelId)[2] else [key, key, '%'+key+'%', channelId]
+                [key, key, '%'+key+'%']
             )
             data = c.fetchall()
         return data[0][0] if len(data) else "窩聽不懂啦！"
