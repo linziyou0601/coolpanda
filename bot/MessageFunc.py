@@ -573,7 +573,7 @@ def whatCanSay(arg=[]):
                             layout='vertical',
                             margin='md',
                             spacing='sm',
-                            contents=[x for x in keywordObj]
+                            contents=[x for x in keywordObj],
                         ),
                         BoxComponent(
                             layout='horizontal',
@@ -621,7 +621,7 @@ def whatCanSay(arg=[]):
                                     size='xs',
                                     align='end'
                                 )
-                            ]
+                            ],
                         )
                     ],
                 ),
