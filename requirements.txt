@@ -1,5 +1,6 @@
 line-bot-sdk
 flask
+gunicorn
 psycopg2
 pysqlite3
 Django
