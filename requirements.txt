@@ -1,4 +1,4 @@
+Django
 line-bot-sdk
-flask
-psycopg2
+gunicorn
 pysqlite3
