@@ -142,13 +142,13 @@ def adjustPrio(key, msg, case, channelId=""):
     with sqlite3.connect(settings.BASE_DIR + '/db/cowpi.db') as conn:
         c = conn.cursor()
         #若有指定channelId，則加入channelId條件
-        strChannelId = ' and channel_id=?' if channelId!="" else ''
-        c.execute('SELECT priority FROM statements Where keyword=? and response=?' + strChannelId,
-                  [key, msg, channelId] if channelId!="" else [key, msg])
+        strChannelId = ' and keyword=? and channel_id=?' if channelId!="" else ''
+        c.execute('SELECT priority FROM statements Where response=?' + strChannelId,
+                  [msg, key, channelId] if channelId!="" else [msg])
         data = c.fetchall()
         for x in data:
-            c.execute('UPDATE statements SET priority=? Where keyword=? and response=?' + strChannelId,
-                      [int(x[0])+case, key, msg, channelId] if channelId!="" else [int(x[0])+case, key, msg])
+            c.execute('UPDATE statements SET priority=? Where response=?' + strChannelId,
+                      [int(x[0])+case, msg, key, channelId] if channelId!="" else [int(x[0])+case, msg])
 ##取得詞條回覆
 def resStatement(key, channelId, rand):
     createTable()

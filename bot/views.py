@@ -163,7 +163,7 @@ def handle_message(event):
             content = echo2(lineMessage, channelId)
         
         ##自動學習
-        if queryReply(channelId, 1)[0][1]: #若上一句是從資料庫撈出來的回覆，則順序性對話自動加入詞條
+        if queryReply(channelId, 1)[0][1] and content[1]: #若上一句是從資料庫撈出來的回覆，則順序性對話自動加入詞條
             autolearn(queryReply(channelId, 1)[0][0], lineMessage, channelId, event.source)
         if content[1]: #若有詞條資料，則回覆時權重+1
             validReply(lineMessage, content[0], channelId)
