@@ -146,11 +146,11 @@ def handle_message(event):
     elif lineMessage == "目前狀態":
         replyList.append(FlexSendMessage(alt_text="目前狀態", contents=statusMenu(currentStatus(channelId))))
     elif lineMessage=="牛批貓會說什麼": #本聊天窗所有教過的東西
-        replyList.append(FlexSendMessage(alt_text="我會說什麼", contents=whatCanSay(allLearn(channelId)[0])))
+        replyList.append(FlexSendMessage(alt_text="我會說什麼", contents=whatCanSay(allLearn(channelId))))
     elif "說別人教的話" in lineMessage: #回話資料庫開關
-        replyList.append(TextSendMessage(text=globaltalk(lineMessage, channelId)[0]))
+        replyList.append(TextSendMessage(text=globaltalk(lineMessage, channelId)))
     elif any(s == lineMessage for s in ["牛批貓說話","牛批貓講話","牛批貓安靜", "牛批貓閉嘴"]): #安靜開關
-        replyList.append(TextSendMessage(text=mute(lineMessage, channelId)[0]))
+        replyList.append(TextSendMessage(text=mute(lineMessage, channelId)))
     else:
         ##聊天功能
         content=["",0]

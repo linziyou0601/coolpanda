@@ -71,11 +71,11 @@ def allLearn(channelId):
 def globaltalk(lineMessage, channelId):
     if lineMessage=="可以說別人教的話": editChannelGlobalTalk(channelId, 1)
     elif any(s in lineMessage for s in ["不可以說別人教的話", "不能說別人教的話"]): editChannelGlobalTalk(channelId, 0)
-    return ["好哦的喵～", 0]
+    return "好哦的喵～"
 def mute(lineMessage, channelId):
     if any(s in lineMessage for s in ["牛批貓說話", "牛批貓講話"]): editChannelMute(channelId, 0)
     elif any(s in lineMessage for s in ["牛批貓安靜", "牛批貓閉嘴"]): editChannelMute(channelId, 1)
-    return ["好哦的喵～", 0]
+    return "好哦的喵～"
 def currentStatus(channelId):
     status = queryUser(channelId)
     return ["所有人教的" if status[2] else "這裡教的", "安靜" if status[3] else "可以說話", status[2], status[3]]
