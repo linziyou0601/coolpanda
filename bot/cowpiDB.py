@@ -1,9 +1,10 @@
 import sqlite3
 from datetime import datetime
+import os
 
 ##########[建立資料表]: [對話, 收到的訊息, 回覆]##########
 def createTable():
-    with sqlite3.connect('../db/cowpi.db') as conn:
+    with sqlite3.connect(os.path.abspath(__file__ + os.path.abspath(__file__ + '../db/cowpi.db'))) as conn:
         c = conn.cursor()
         c.execute('''
             CREATE TABLE IF NOT EXISTS "users" (
@@ -46,7 +47,7 @@ def createTable():
 ##建立頻道資料
 def newChannel(channelId):
     createTable()
-    with sqlite3.connect('../db/cowpi.db') as conn:
+    with sqlite3.connect(os.path.abspath(__file__ + '../db/cowpi.db')) as conn:
         c = conn.cursor()
         c.execute('SELECT * FROM users Where channel_id=?', [channelId])
         #若頻道資料不存在才建立
@@ -55,24 +56,24 @@ def newChannel(channelId):
 ##刪除頻道資料
 def delChannel(channelId):
     createTable()
-    with sqlite3.connect('../db/cowpi.db') as conn:
+    with sqlite3.connect(os.path.abspath(__file__ + '../db/cowpi.db')) as conn:
         c = conn.cursor()
         c.execute('DELETE FROM users Where channel_id=?', [channelId])
 ##修改頻道功能
 def editChannelGlobalTalk(channelId, value):
     createTable()
-    with sqlite3.connect('../db/cowpi.db') as conn:
+    with sqlite3.connect(os.path.abspath(__file__ + '../db/cowpi.db')) as conn:
         c = conn.cursor()
         c.execute('UPDATE users SET globaltalk=? Where channel_id=?', [value, channelId])
 def editChannelMute(channelId, value):
     createTable()
-    with sqlite3.connect('../db/cowpi.db') as conn:
+    with sqlite3.connect(os.path.abspath(__file__ + '../db/cowpi.db')) as conn:
         c = conn.cursor()
         c.execute('UPDATE users SET mute=? Where channel_id=?', [value, channelId])
 ##查詢頻道功能狀態
 def queryUser(channelId):
     createTable()
-    with sqlite3.connect('../db/cowpi.db') as conn:
+    with sqlite3.connect(os.path.abspath(__file__ + '../db/cowpi.db')) as conn:
         c = conn.cursor()
         c.execute('SELECT * FROM users Where channel_id=?', [channelId])
         data = c.fetchall()
@@ -83,19 +84,19 @@ def queryUser(channelId):
 ##儲存收到的訊息
 def storeReceived(msg, channelId):
     createTable()
-    with sqlite3.connect('../db/cowpi.db') as conn:
+    with sqlite3.connect(os.path.abspath(__file__ + '../db/cowpi.db')) as conn:
         c = conn.cursor()
         c.execute('INSERT INTO received(message, channel_id, create_at) VALUES(?,?,?)', [msg, channelId, str(datetime.utcnow())])
 ##儲存機器人回覆
 def storeReply(msg, valid, channelId):
     createTable()
-    with sqlite3.connect('../db/cowpi.db') as conn:
+    with sqlite3.connect(os.path.abspath(__file__ + '../db/cowpi.db')) as conn:
         c = conn.cursor()
         c.execute('INSERT INTO reply(message, valid, channel_id, create_at) VALUES(?,?,?,?)', [msg, valid, channelId, str(datetime.utcnow())])
 ##查詢收到的訊息
 def queryReceived(channelId, num):
     createTable()
-    with sqlite3.connect('../db/cowpi.db') as conn:
+    with sqlite3.connect(os.path.abspath(__file__ + '../db/cowpi.db')) as conn:
         c = conn.cursor()
         c.execute('SELECT message FROM received Where channel_id=? ORDER BY id DESC limit ?', [channelId, num])
         data = c.fetchall()
@@ -103,7 +104,7 @@ def queryReceived(channelId, num):
 ##查詢機器人回覆
 def queryReply(channelId, num):
     createTable()
-    with sqlite3.connect('../db/cowpi.db') as conn:
+    with sqlite3.connect(os.path.abspath(__file__ + '../db/cowpi.db')) as conn:
         c = conn.cursor()
         c.execute('SELECT message FROM reply Where channel_id=? ORDER BY id DESC limit ?', [channelId, num])
         data = c.fetchall()
@@ -114,7 +115,7 @@ def queryReply(channelId, num):
 ##新增詞條
 def insStatement(key, msg, channelId, type):
     createTable()
-    with sqlite3.connect('../db/cowpi.db') as conn:
+    with sqlite3.connect(os.path.abspath(__file__ + '../db/cowpi.db')) as conn:
         c = conn.cursor()
         for res in msg:
             c.execute('SELECT * FROM statements Where keyword=? and response=? and channel_id=?', [key, res, channelId])
@@ -128,14 +129,14 @@ def insStatement(key, msg, channelId, type):
 ##刪除詞條
 def delStatement(key, msg, channelId):
     createTable()
-    with sqlite3.connect('../db/cowpi.db') as conn:
+    with sqlite3.connect(os.path.abspath(__file__ + '../db/cowpi.db')) as conn:
         c = conn.cursor()
         for res in msg:
             c.execute('DELETE FROM statements Where keyword=? and response=? and channel_id=?', [key, res, channelId])
 ##調整詞條權重
 def adjustPrio(key, msg, case, channelId=""):
     createTable()
-    with sqlite3.connect('../db/cowpi.db') as conn:
+    with sqlite3.connect(os.path.abspath(__file__ + '../db/cowpi.db')) as conn:
         c = conn.cursor()
         #若有指定channelId，則加入channelId條件
         strChannelId = ' and channel_id=?' if channelId!="" else ''
@@ -148,7 +149,7 @@ def adjustPrio(key, msg, case, channelId=""):
 ##取得詞條回覆
 def resStatement(key, channelId, rand):
     createTable()
-    with sqlite3.connect('../db/cowpi.db') as conn:
+    with sqlite3.connect(os.path.abspath(__file__ + '../db/cowpi.db')) as conn:
         c = conn.cursor()
         #若關閉可以說其他人教過的話的功能，則以限制channelId的方式查詢
         strGlobaltalk = '' if queryUser(channelId)[2] else ' and channel_id=?'
@@ -160,7 +161,7 @@ def resStatement(key, channelId, rand):
 ##取得所有學過的詞
 def allStatement(channelId):
     createTable()
-    with sqlite3.connect('../db/cowpi.db') as conn:
+    with sqlite3.connect(os.path.abspath(__file__ + '../db/cowpi.db')) as conn:
         c = conn.cursor()
         c.execute('SELECT keyword, response FROM statements Where channel_id=? ORDER BY keyword', [channelId])
         data = c.fetchall()

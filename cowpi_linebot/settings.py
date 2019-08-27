@@ -25,7 +25,7 @@ SECRET_KEY = 'iojo_jy@=mnn_6)#=tdyv1*ayyw-97s5n2i6od6*%xbzvb^+2u'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['linechatbot0.herokuapp.com']
+ALLOWED_HOSTS = ['linechatbot0.herokuapp.com','127.0.0.1']
 
 
 # Application definition
