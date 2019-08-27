@@ -4,7 +4,7 @@ import os
 
 ##########[建立資料表]: [對話, 收到的訊息, 回覆]##########
 def createTable():
-    with sqlite3.connect(os.path.abspath(__file__ + os.path.abspath(__file__ + '../db/cowpi.db'))) as conn:
+    with sqlite3.connect(os.path.abspath(__file__ + '../db/cowpi.db')) as conn:
         c = conn.cursor()
         c.execute('''
             CREATE TABLE IF NOT EXISTS "users" (
