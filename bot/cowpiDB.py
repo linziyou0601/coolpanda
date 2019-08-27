@@ -107,7 +107,7 @@ def queryReply(channelId, num):
     createTable()
     with sqlite3.connect(settings.BASE_DIR + '/db/cowpi.db') as conn:
         c = conn.cursor()
-        c.execute('SELECT message FROM reply Where channel_id=? ORDER BY id DESC limit ?', [channelId, num])
+        c.execute('SELECT message, valid FROM reply Where channel_id=? ORDER BY id DESC limit ?', [channelId, num])
         data = c.fetchall()
         return [[x[0],x[1]] for x in data] if len(data) else ["",0]
 

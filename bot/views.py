@@ -74,7 +74,7 @@ def callback(request):
                 handle_message(event)
         return HttpResponse()
     else:
-        return HttpResponseBadRequest()
+        return HttpResponseForbidden()
 
 
 def sticon(unic):
