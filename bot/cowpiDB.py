@@ -127,7 +127,7 @@ def insStatement(key, msg, channelId, type, autoLearn=0):
                           [key, res, str(datetime.now(pytz.timezone("Asia/Taipei"))), "cowpi" if autoLearn else channelId, "autoLearn" if autoLearn else type])
             #若詞條存在於當前聊天室，則權重+1
             else:
-                adjustPrio(key, res, 1, channelId)
+                adjustPrio(key, res, 1, "cowpi" if autoLearn else channelId)
                 
 ##刪除詞條
 def delStatement(key, msg, channelId):
@@ -156,7 +156,7 @@ def resStatement(key, channelId, rand):
         c = conn.cursor()
         #若關閉可以說其他人教過的話的功能，則以限制channelId的方式查詢
         strGlobaltalk = 'likestrong>' if queryUser(channelId)[2] else 'channel_id=? and likestrong>'
-        strRandomreply = '1 and priority>=5 ORDER BY RANDOM() limit 1' if rand else '2 ORDER BY likestrong DESC, priority DESC, id DESC limit 1'
+        strRandomreply = '0 and priority>=5 ORDER BY RANDOM() limit 1' if rand else '1 ORDER BY likestrong DESC, priority DESC, id DESC limit 1'
         c.execute('''
             SELECT  response,
                     CASE
@@ -166,7 +166,7 @@ def resStatement(key, channelId, rand):
                         ELSE 0 
                     END as likestrong
             FROM statements Where ''' + strGlobaltalk + strRandomreply, 
-            [key, key, '%'+key+'%'] if queryUser(channelId)[2] else [key, key, '%'+key+'%', channelId]
+            [key, '_'+key+'_', '%'+key+'%'] if queryUser(channelId)[2] else [key, '_'+key+'_', '%'+key+'%', channelId]
         )
         data = c.fetchall()
         #找不到的話找找看自動學習的語料
@@ -179,8 +179,8 @@ def resStatement(key, channelId, rand):
                             WHEN keyword LIKE ? THEN 1
                             ELSE 0 
                         END as likestrong
-                FROM statements Where channel_id='cowpi' and likestrong>1 ORDER BY RANDOM() limit 1''', 
-                [key, key, '%'+key+'%']
+                FROM statements Where channel_id='cowpi' and likestrong>0 ORDER BY RANDOM() limit 1''', 
+                [key, '_'+key+'_', '%'+key+'%']
             )
             data = c.fetchall()
         return data[0][0] if len(data) else "窩聽不懂啦！"
