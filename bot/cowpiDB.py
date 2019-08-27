@@ -191,15 +191,30 @@ def allStatement(channelId):
         c = conn.cursor()
         c.execute('SELECT keyword, response FROM statements Where channel_id=? ORDER BY keyword', [channelId])
         data = c.fetchall()
-        strRes="【這裡教我說】\n"
+        #建立回傳物件
+        status = queryUser(channelId)
+        ResCount = 0
+        resData = {}
+        dt = datetime.now(pytz.timezone("Asia/Taipei"))
         for x in data:
-            strRes+=x[0]+"→"+x[1]+"\n"
-        return strRes
+            ResCount+=1
+            if x[0] in resData: resData[x[0]].append(x[1])
+            else: resData[x[0]]=[x[1]]
+        keyCount=len(resData)
+        #回傳物件
+        return [
+            "所有人教的" if status[2] else "這裡教的",
+            "安靜" if status[3] else "可以說話",
+            keyCount,
+            ResCount,
+            str(dt.year)+"年"+str(dt.month)+"月"+str(dt.day)+"日 "+str(dt.hour)+":"+str(dt.minute),
+            resData if len(data) else "Null"
+        ]
 
 
 
 
-###################################可怕的區域###################################
+###################################初始語料資料###################################
 def autoIfEmptyStatements():
     with sqlite3.connect(settings.BASE_DIR + '/db/cowpi.db') as conn:
         c = conn.cursor()

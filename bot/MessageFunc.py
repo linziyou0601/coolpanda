@@ -452,7 +452,7 @@ def statusMenu(arg=[]):
                     contents=[
                         # title
                         TextComponent(text='狀態', weight='bold', size='sm', color="#1DB446"),
-                        TextComponent(text='抽籤教學', weight='bold', size='xxl', margin='md'),
+                        TextComponent(text='目前狀態', weight='bold', size='xxl', margin='md'),
                         # info
                         BoxComponent(
                             layout='vertical',
@@ -533,5 +533,96 @@ def statusMenu(arg=[]):
                         SpacerComponent(size='sm')
                     ],
                     flex=0
+                ),
+            )
+
+##會說什麼
+def whatCanSay(arg=[]):
+    keywordObj=[]
+    if arg[5]!="Null":
+        for k, v in arg[5]:
+            keywordObj.append(
+                BoxComponent(
+                    layout='horizontal', margin='md',
+                    contents=[
+                        TextComponent(text=k, color='#555555', size='sm', wrap=True, flex=1),
+                        BoxComponent(
+                            layout='vertical',
+                            contents=[
+                                TextComponent(text=s, color='#111111', size='sm', align='end', wrap=True) for s in v
+                            ],
+                        )
+                    ],
+                )
+            )
+            keywordObj.append(SeparatorComponent(margin='md'))
+    if keywordObj==[]: keywordObj.append(SeparatorComponent(margin='md'))
+    return BubbleContainer(
+                direction='ltr',
+                body=BoxComponent(
+                    layout='vertical',
+                    contents=[
+                        # title
+                        TextComponent(text='詞條', weight='bold', size='sm', color="#1DB446"),
+                        TextComponent(text='這裡教我說的話', weight='bold', size='xl', margin='md'),
+                        TextComponent(text='說話模式：'+arg[0], color='#aaaaaa', size='xs'),
+                        TextComponent(text='目前狀態：'+arg[1], color='#aaaaaa', size='xs'),
+                        SeparatorComponent(margin='md'),
+                        # info
+                        BoxComponent(
+                            layout='vertical',
+                            margin='md',
+                            spacing='sm',
+                            contents=[x for x in keywordObj]
+                        ),
+                        BoxComponent(
+                            layout='horizontal',
+                            margin='md',
+                            contents=[
+                                TextComponent(
+                                    text='關鍵字數量',
+                                    color='#555555',
+                                    size='sm',
+                                ),
+                                TextComponent(
+                                    text=arg[2],
+                                    color='#111111',
+                                    size='sm',
+                                    align='end'
+                                )
+                            ],
+                        ),
+                        BoxComponent(
+                            layout='horizontal',
+                            margin='md',
+                            contents=[
+                                TextComponent(
+                                    text='詞條數量',
+                                    color='#555555',
+                                    size='sm',
+                                ),
+                                TextComponent(
+                                    text=arg[3],
+                                    color='#111111',
+                                    size='sm',
+                                    align='end'
+                                )
+                            ],
+                        ),
+                        SeparatorComponent(margin='md'),
+                        BoxComponent(
+                            layout='vertical',
+                            margin='md',
+                            spacing='sm',
+                            contents=[
+                                TextComponent(
+                                    text='截至'+arg[4],
+                                    color='#aaaaaa',
+                                    size='xs',
+                                    align='end'
+                                )
+                            ]
+                        ),
+                    ],
                 ),
             )
