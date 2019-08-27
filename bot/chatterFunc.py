@@ -1,5 +1,6 @@
 from .cowpiDB import *
 from datetime import datetime, timedelta
+import pytz
 
 ####主聊天功能
 ##自動學習
@@ -37,7 +38,7 @@ def chat(lineMessage, channelId):
     weekDay = ['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日']
     keyDay = ['今天','明天','昨天','後天','前天']
     keyDelta = [0,1,-1,2,-2]
-    dt = datetime.utcnow() + timedelta(hours = 8)
+    dt = datetime.now(pytz.timezone("Asia/Taipei"))
     #若問時間
     if any(s in lineMessage for s in timeKey):
         response = "現在時間 (UTC+8)：" + str(dt.hour) + ":" + str(dt.minute)

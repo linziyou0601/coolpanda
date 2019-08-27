@@ -22,4 +22,4 @@ class ReplyAdmin(admin.ModelAdmin):
 admin.site.register(Users, UsersAdmin)
 admin.site.register(Statements, StatementsAdmin)
 admin.site.register(Received, ReceivedAdmin)
-admin.site.register(Reply)
+admin.site.register(Reply, ReplyAdmin)

@@ -1,6 +1,7 @@
 from django.conf import settings
 from datetime import datetime
 import sqlite3
+import pytz
 
 ##########[建立資料表]: [對話, 收到的訊息, 回覆]##########
 def createTable():
@@ -86,13 +87,13 @@ def storeReceived(msg, channelId):
     createTable()
     with sqlite3.connect(settings.BASE_DIR + '/db/cowpi.db') as conn:
         c = conn.cursor()
-        c.execute('INSERT INTO received(message, channel_id, create_at) VALUES(?,?,?)', [msg, channelId, str(datetime.utcnow())])
+        c.execute('INSERT INTO received(message, channel_id, create_at) VALUES(?,?,?)', [msg, channelId, str(datetime.now(pytz.timezone("Asia/Taipei")))])
 ##儲存機器人回覆
 def storeReply(msg, valid, channelId):
     createTable()
     with sqlite3.connect(settings.BASE_DIR + '/db/cowpi.db') as conn:
         c = conn.cursor()
-        c.execute('INSERT INTO reply(message, valid, channel_id, create_at) VALUES(?,?,?,?)', [msg, valid, channelId, str(datetime.utcnow())])
+        c.execute('INSERT INTO reply(message, valid, channel_id, create_at) VALUES(?,?,?,?)', [msg, valid, channelId, str(datetime.now(pytz.timezone("Asia/Taipei")))])
 ##查詢收到的訊息
 def queryReceived(channelId, num):
     createTable()
@@ -125,7 +126,7 @@ def insStatement(key, msg, channelId, type):
             #若詞條不存在於當前聊天室，才新增詞條
             else:
                 c.execute('INSERT INTO statements(keyword, response, create_at, channel_id, channel_type) VALUES(?,?,?,?,?)',
-                          [key, res, str(datetime.utcnow()), channelId, type])
+                          [key, res, str(datetime.now(pytz.timezone("Asia/Taipei"))), channelId, type])
 ##刪除詞條
 def delStatement(key, msg, channelId):
     createTable()
