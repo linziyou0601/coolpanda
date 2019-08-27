@@ -2,8 +2,6 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
-from flask import Flask
-app = Flask(__name__)
 
 def main():
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'manage.settings')
@@ -18,7 +16,4 @@ def main():
     execute_from_command_line(sys.argv)
 
 
-if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 5001))
-    app.run(host='0.0.0.0', port=port)
-    main()
+
