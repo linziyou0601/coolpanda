@@ -159,11 +159,12 @@ def resStatement(key, channelId, rand):
         strRandomreply = '1 and priority>=5 ORDER BY RANDOM() limit 1' if rand else '2 ORDER BY likestrong DESC, priority DESC, id DESC limit 1'
         c.execute('''
             SELECT  response,
-                    CASE WHEN keyword = ? in THEN 3 
-                        WHEN keyword LIKE ? in THEN 2
-                        WHEN keyword LIKE ? in THEN 1
+                    CASE
+                        WHEN keyword = ? THEN 3 
+                        WHEN keyword LIKE ? THEN 2
+                        WHEN keyword LIKE ? THEN 1
                         ELSE 0 
-                    END likestrong
+                    END as likestrong
             FROM statements Where ''' + strGlobaltalk + strRandomreply, 
             [key, key, '%'+key+'%'] if queryUser(channelId)[2] else [key, key, '%'+key+'%', channelId]
         )
@@ -172,11 +173,12 @@ def resStatement(key, channelId, rand):
         if not len(data):
             c.execute('''
                 SELECT  response,
-                        CASE WHEN keyword = ? in THEN 3 
-                            WHEN keyword LIKE ? in THEN 2
-                            WHEN keyword LIKE ? in THEN 1
+                        CASE
+                            WHEN keyword = ? THEN 3 
+                            WHEN keyword LIKE ? THEN 2
+                            WHEN keyword LIKE ? THEN 1
                             ELSE 0 
-                        END likestrong
+                        END as likestrong
                 FROM statements Where channel_id=cowpi and likestrong>1 ORDER BY RANDOM() limit 1''', 
                 [key, key, '%'+key+'%'] if queryUser(channelId)[2] else [key, key, '%'+key+'%', channelId]
             )
