@@ -26,7 +26,7 @@ def forget(lineMessage, channelId):
 ##壞壞
 def bad(channelId):
     #批次降低資料庫內本次回話的關鍵字權重
-    adjustPrio(queryReceived(channelId, 1)[0], queryReply(channelId, 1)[0], -1)
+    adjustPrio(queryReceived(channelId, 1)[0], queryReply(channelId, 1)[0][0], -1)
     return ["好哦的喵～", 0]
 ##回覆(隨機回覆)
 def chat(lineMessage, channelId):
@@ -59,7 +59,7 @@ def validReply(lineMessage, reply, channelId):
 ##齊推
 def echo2(lineMessage, channelId):
     if not lineMessage in queryReceived(channelId, 5): return ["", 0]
-    elif queryReply(channelId, 1)[0]==lineMessage: return ["", 0]
+    elif queryReply(channelId, 1)[0][0]==lineMessage: return ["", 0]
     else: return [lineMessage, 0]
 ##你會說什麼
 def allLearn(channelId):
