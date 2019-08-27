@@ -1,1 +1,1 @@
-web: gunicorn cowpi_linebot.wsgi
+web: gunicorn linechatbot.wsgi
