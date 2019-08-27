@@ -135,10 +135,12 @@ def handle_message(event):
     ##功能型
     if lineMessage == "主選單":
         replyList.append(FlexSendMessage(alt_text="主選單", contents=mainMenu()))
-    elif lineMessage == "抽籤教學":
-        replyList.append(FlexSendMessage(alt_text="抽籤教學", contents=teachLottery()))
-    elif lineMessage == "如何學說話":
+    elif any(lineMessage in ["抽籤教學", "怎麼抽籤", "抽籤"]):
+        replyList.append(FlexSendMessage(alt_text="如何抽籤", contents=teachLottery()))
+    elif any(lineMessage in ["學說話教學", "怎麼學說話", "學說話", "教你說話"]):
         replyList.append(FlexSendMessage(alt_text="如何教我說話", contents=teachChat()))
+    elif lineMessage == "牛批貓會幹嘛":
+        replyList.append(FlexSendMessage(alt_text="我會技能", contents=teaching()))
     elif lineMessage == "目前狀態":
         replyList.append(FlexSendMessage(alt_text="目前狀態", contents=statusMenu(currentStatus(channelId))))
     elif lineMessage=="牛批貓會說什麼": #本聊天窗所有教過的東西

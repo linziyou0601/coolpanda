@@ -1,22 +1,8 @@
 from linebot import (LineBotApi, WebhookHandler)
 from linebot.exceptions import (InvalidSignatureError)
-from linebot.models import (
-    MessageEvent, TextMessage, TextSendMessage,
-    SourceUser, SourceGroup, SourceRoom,
-    TemplateSendMessage, ConfirmTemplate, MessageAction,
-    ButtonsTemplate, ImageCarouselTemplate, ImageCarouselColumn, URIAction,
-    PostbackAction, DatetimePickerAction,
-    CameraAction, CameraRollAction, LocationAction,
-    CarouselTemplate, CarouselColumn, PostbackEvent,
-    StickerMessage, StickerSendMessage, LocationMessage, LocationSendMessage,
-    ImageMessage, VideoMessage, AudioMessage, FileMessage,
-    UnfollowEvent, FollowEvent, JoinEvent, LeaveEvent, BeaconEvent,
-    FlexSendMessage, BubbleContainer, ImageComponent, BoxComponent,
-    TextComponent, SpacerComponent, IconComponent, ButtonComponent,
-    SeparatorComponent, QuickReply, QuickReplyButton
-)
+from linebot.models import *
 
-##主戰單
+##主選單
 def mainMenu(arg=[]):
     return BubbleContainer(
                 direction='ltr',
@@ -87,16 +73,8 @@ def mainMenu(arg=[]):
                             style='link',
                             height='sm',
                             action=MessageAction(
-                                label='查看說話教學',
-                                text='如何學說話'
-                            ),
-                        ),
-                        ButtonComponent(
-                            style='link',
-                            height='sm',
-                            action=MessageAction(
-                                label='查看抽籤教學',
-                                text='抽籤教學'
+                                label='功能教學',
+                                text='牛批貓會幹嘛'
                             ),
                         ),
                         ButtonComponent(
@@ -378,6 +356,15 @@ def teachChat(arg=[]):
                     flex=0
                 ),
             )
+
+##教學選單
+def teaching(arg=[]):
+    return CarouselContainer(
+        contents=[
+            teachChat(),
+            teachLottery()
+        ]
+    )
 
 ##狀態選單
 def statusMenu(arg=[]):
