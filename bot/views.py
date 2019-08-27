@@ -22,9 +22,9 @@ from linebot.models import (
     SeparatorComponent, QuickReply, QuickReplyButton
 )
 import os, json, codecs
-from MessageFunc import *
-from chatterFunc import *
-from cowpiDB import *
+from .MessageFunc import *
+from .chatterFunc import *
+from .cowpiDB import *
 
 app = Flask(__name__)
 
