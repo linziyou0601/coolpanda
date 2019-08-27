@@ -210,6 +210,6 @@ def autoIfEmptyStatements():
                 ['66666', '遛遛遛遛遛狗'],['哈哈', '哈哈哈哈哈密瓜'],['生氣', '厚氣氣氣氣氣'],['QQ', '不哭不哭你是豬'],['謝謝', '不客氣']
             ]
             for x in data:
-                c.execute('INSERT INTO statements(keyword, response, create_at, channel_id, channel_type, priority) VALUES(?,?,?,?,?)',
-                [x[0], x[1], str(datetime.now(pytz.timezone("Asia/Taipei"))), 'cowpi', 'autoLearn'])
+                c.execute('INSERT INTO statements(keyword, response, create_at, channel_id, channel_type, priority) VALUES(?,?,?,?,?,?)',
+                [x[0], x[1], str(datetime.now(pytz.timezone("Asia/Taipei"))), 'cowpi', 'autoLearn', 10])
 
