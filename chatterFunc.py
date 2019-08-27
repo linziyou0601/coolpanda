@@ -51,7 +51,7 @@ def chat(lineMessage, channelId):
         rand = 1 if lineMessage[0:3]=='牛批貓' or lineMessage[0:2]=='抽籤' else 0
         firstIndex = 0 if not rand else 3 if lineMessage[0:3]=='牛批貓' else 2
         response = resStatement(lineMessage[firstIndex:], channelId, rand)
-        boolean = 1
+        boolean = 0 if response=="窩聽不懂啦！" else 1
     return [response, boolean]
 ##成功回話時增加權重
 def validReply(lineMessage, reply, channelId):
