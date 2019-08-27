@@ -3,8 +3,8 @@ from django.conf import settings
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseForbidden
 from django.views.decorators.csrf import csrf_exempt
 ##
-from flask import Flask, request, abort
-from linebot import (LineBotApi, WebhookHandler)
+#from flask import Flask, request, abort
+from linebot import (LineBotApi, WebhookParser, WebhookHandler)
 from linebot.exceptions import (InvalidSignatureError)
 from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage,
@@ -26,28 +26,56 @@ from .MessageFunc import *
 from .chatterFunc import *
 from .cowpiDB import *
 
-app = Flask(__name__)
-
 line_bot_api = LineBotApi('HRWbC4w2S3J3JvFAQQkQnp4gxXVWtCwLWgrdanU72Y26+hwAoZvdiwhjyLPuIPdYLaqqy4ZDIC48EDGEo9FDp0VhS453OJfXEfFCwoFhZxhIFy6ESVLFr7fPuythQb4WA4gvEHkCjJ+yuMJDgzeR8gdB04t89/1O/w1cDnyilFU=')
+parser = WebhookParser('4abb8726ea0ae9dc4a91154ce6fecb60')
 handler = WebhookHandler('4abb8726ea0ae9dc4a91154ce6fecb60')
 
-@app.route("/callback", methods=['POST'])
-def callback():
-    # get X-Line-Signature header value
-    signature = request.headers['X-Line-Signature']
+# @app.route("/callback", methods=['POST'])
+# def callback():
+#     # get X-Line-Signature header value
+#     signature = request.headers['X-Line-Signature']
 
-    # get request body as text
-    body = request.get_data(as_text=True)
-    app.logger.info("Request body: " + body)
+#     # get request body as text
+#     body = request.get_data(as_text=True)
+#     app.logger.info("Request body: " + body)
 
-    # handle webhook body
-    try:
-        handler.handle(body, signature)
-    except InvalidSignatureError:
-        #print("Invalid signature. Please check your channel access token/channel secret.")
-        abort(400)
+#     # handle webhook body
+#     try:
+#         handler.handle(body, signature)
+#     except InvalidSignatureError:
+#         #print("Invalid signature. Please check your channel access token/channel secret.")
+#         abort(400)
 
-    return 'OK'
+#     return 'OK'
+
+@csrf_exempt
+def callback(request):
+    if request.method == 'POST':
+        signature = request.META['HTTP_X_LINE_SIGNATURE']
+        body = request.body.decode('utf-8')
+
+        try:
+            events = parser.parse(body, signature)
+        except InvalidSignatureError:
+            return HttpResponseForbidden()
+
+        for event in events:
+            if isinstance(event, FollowEvent):
+                handle_follow(event)
+            if isinstance(event, JoinEvent):
+                handle_join(event)
+            if isinstance(event, UnfollowEvent):
+                handle_unfollow(event)
+            if isinstance(event, LeaveEvent):
+                handle_leave(event)
+            if isinstance(event, FollowEvent):
+                handle_follow(event)
+            if isinstance(event, MessageEvent):
+                handle_message(event)
+        return HttpResponse()
+    else:
+        return HttpResponseBadRequest()
+
 
 def sticon(unic):
     return codecs.decode(json.dumps(unic).strip('"'), 'unicode_escape')
@@ -56,7 +84,7 @@ def getChannelId(event):
     return e_source.room_id if e_source.type == "room" else e_source.group_id if e_source.type == "group" else e_source.user_id 
 
 ####################[加入, 退出]: [好友, 聊天窗]####################
-@handler.add(FollowEvent)
+#@handler.add(FollowEvent)
 def handle_follow(event):
     newChannel(channelId = getChannelId(event))
     profile = line_bot_api.get_profile(event.source.user_id)
@@ -66,7 +94,7 @@ def handle_follow(event):
         event.reply_token,
         [content, message])
     return 0
-@handler.add(JoinEvent)
+#@handler.add(JoinEvent)
 def handle_join(event):
     newChannel(channelId = getChannelId(event))
     content = TextSendMessage(text="大家好我叫牛批熊貓" + sticon(u"\U00100097"))
@@ -75,11 +103,11 @@ def handle_join(event):
         event.reply_token,
         [content, message])
     return 0
-@handler.add(UnfollowEvent)
+#@handler.add(UnfollowEvent)
 def handle_unfollow(event):
     delChannel(channelId = getChannelId(event))
     return 0
-@handler.add(LeaveEvent)
+#@handler.add(LeaveEvent)
 def handle_leave(event):
     delChannel(channelId = getChannelId(event))
     return 0
@@ -96,7 +124,7 @@ def handle_leave(event):
 #     return 1
 
 ####################訊息接收及回覆區####################
-@handler.add(MessageEvent, message=TextMessage)
+#@handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     channelId = getChannelId(event)
     
@@ -151,7 +179,3 @@ def handle_message(event):
         event.reply_token,
         replyList)
     return 0
-
-if __name__ == "__main__":
-    port = int(os.environ.get('PORT', 5000))
-    app.run(host='0.0.0.0', port=port)
