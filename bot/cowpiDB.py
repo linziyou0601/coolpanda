@@ -120,7 +120,7 @@ def insStatement(key, msg, channelId, type, autoLearn=0):
     with sqlite3.connect(settings.BASE_DIR + '/db/cowpi.db') as conn:
         c = conn.cursor()
         for res in msg:
-            c.execute('SELECT * FROM statements Where keyword=? and response=? and channel_id=?', [key, res, channelId])
+            c.execute('SELECT * FROM statements Where keyword=? and response=? and channel_id=?', [key, res, "cowpi" if autoLearn else channelId])
             #若詞條不存在於當前聊天室，才新增詞條
             if len(c.fetchall())==0:
                 c.execute('INSERT INTO statements(keyword, response, create_at, channel_id, channel_type) VALUES(?,?,?,?,?)',
