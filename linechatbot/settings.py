@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'bot',
+    'import_export',
 ]
 
 MIDDLEWARE = [
@@ -129,6 +130,8 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+#django-import-export
+IMPORT_EXPORT_USE_TRANSACTIONS = True
 
 # Configure Django App for Heroku.
 import django_heroku

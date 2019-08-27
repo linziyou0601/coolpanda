@@ -149,7 +149,7 @@ def handle_message(event):
         replyList.append(TextSendMessage(text=mute(lineMessage, channelId)[0]))
     else:
         ##聊天功能
-        content=[]
+        content=["",0]
         if lineMessage == "壞壞": #名詞拉黑
             content = bad(channelId)
         elif lineMessage.replace("；",";")[0:4] == "學說話;": #學說話

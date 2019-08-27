@@ -1,20 +1,21 @@
 from django.contrib import admin
+from import_export.admin import ImportExportModelAdmin
 from .models import Users, Statements, Received, Reply
 
 # Register your models here.
-class UsersAdmin(admin.ModelAdmin):
+class UsersAdmin(ImportExportModelAdmin):
     list_display = ('id', 'channel_id', 'globaltalk', 'mute')
     list_filter = ('globaltalk', 'mute',)
     search_fields = ['channel_id', 'globaltalk', 'mute']
-class StatementsAdmin(admin.ModelAdmin):
+class StatementsAdmin(ImportExportModelAdmin):
     list_display = ('id', 'keyword', 'response', 'create_at', 'channel_id', 'channel_type', 'priority')
     list_filter = ('keyword', 'response', 'create_at', 'channel_id', 'channel_type', 'priority',)
     search_fields = ['keyword', 'response', 'create_at', 'channel_id', 'channel_type', 'priority']
-class ReceivedAdmin(admin.ModelAdmin):
+class ReceivedAdmin(ImportExportModelAdmin):
     list_display = ('id', 'message', 'channel_id', 'create_at')
     list_filter = ('message', 'channel_id', 'create_at',)
     search_fields = ['message', 'channel_id', 'create_at']
-class ReplyAdmin(admin.ModelAdmin):
+class ReplyAdmin(ImportExportModelAdmin):
     list_display = ('id', 'message', 'valid', 'channel_id', 'create_at')
     list_filter = ('message', 'valid', 'channel_id', 'create_at',)
     search_fields = ['message', 'valid', 'channel_id', 'create_at']
