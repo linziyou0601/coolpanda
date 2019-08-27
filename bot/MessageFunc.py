@@ -283,14 +283,14 @@ def teachChat(arg=[]):
                                             text='降低詞條優先度',
                                             color='#aaaaaa',
                                             size='sm',
-                                            flex=3
+                                            flex=2
                                         ),
                                         TextComponent(
                                             text='壞壞',
                                             wrap=True,
                                             color='#825d5c',
                                             size='sm',
-                                            flex=1
+                                            flex=4
                                         )
                                     ],
                                 )
@@ -540,7 +540,7 @@ def statusMenu(arg=[]):
 def whatCanSay(arg=[]):
     keywordObj=[]
     if arg[5]!="Null":
-        for k, v in arg[5]:
+        for k, v in arg[5].items():
             keywordObj.append(
                 BoxComponent(
                     layout='horizontal', margin='md',
