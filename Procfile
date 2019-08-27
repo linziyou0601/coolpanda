@@ -1,1 +1,1 @@
-web: python app.py
+web: gunicorn cowpi_linebot.wsgi

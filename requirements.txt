@@ -1,3 +1,5 @@
+Django
 line-bot-sdk
-flask
+gunicorn
 pysqlite3
+#flask
