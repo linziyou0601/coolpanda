@@ -622,7 +622,7 @@ def whatCanSay(arg=[]):
                                     align='end'
                                 )
                             ]
-                        ),
+                        )
                     ],
                 ),
             )
