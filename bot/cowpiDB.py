@@ -43,6 +43,7 @@ def createTable():
                 "create_at" TEXT NOT NULL
             )
         ''')
+        autoIfEmptyStatements()
 
 ##########[建立, 刪除, 更新, 查詢]: [聊天頻道資料]##########
 ##建立頻道資料
@@ -114,19 +115,20 @@ def queryReply(channelId, num):
 
 ##########[新增, 刪除, 調整權重, 取得回覆]: [詞條]##########
 ##新增詞條
-def insStatement(key, msg, channelId, type):
+def insStatement(key, msg, channelId, type, autoLearn=0):
     createTable()
     with sqlite3.connect(settings.BASE_DIR + '/db/cowpi.db') as conn:
         c = conn.cursor()
         for res in msg:
             c.execute('SELECT * FROM statements Where keyword=? and response=? and channel_id=?', [key, res, channelId])
-            #若詞條存在於當前聊天室，則權重+1
-            if len(c.fetchall())!=0:
-                adjustPrio(key, res, 1, channelId)
             #若詞條不存在於當前聊天室，才新增詞條
-            else:
+            if len(c.fetchall())==0:
                 c.execute('INSERT INTO statements(keyword, response, create_at, channel_id, channel_type) VALUES(?,?,?,?,?)',
-                          [key, res, str(datetime.now(pytz.timezone("Asia/Taipei"))), channelId, type])
+                          [key, res, str(datetime.now(pytz.timezone("Asia/Taipei"))), "cowpi" if autoLearn else channelId, "autoLearn" if autoLearn else type])
+            #若詞條存在於當前聊天室，則權重+1
+            else:
+                adjustPrio(key, res, 1, channelId)
+                
 ##刪除詞條
 def delStatement(key, msg, channelId):
     createTable()
@@ -153,11 +155,32 @@ def resStatement(key, channelId, rand):
     with sqlite3.connect(settings.BASE_DIR + '/db/cowpi.db') as conn:
         c = conn.cursor()
         #若關閉可以說其他人教過的話的功能，則以限制channelId的方式查詢
-        strGlobaltalk = '' if queryUser(channelId)[2] else ' and channel_id=?'
-        strRandomreply = ' and priority>=5 ORDER BY RANDOM() limit 1' if rand else ' ORDER BY priority DESC, id DESC limit 1'
-        c.execute('SELECT response FROM statements Where keyword=?' + strGlobaltalk + strRandomreply,
-                  [key] if queryUser(channelId)[2] else [key, channelId])
+        strGlobaltalk = 'likestrong>' if queryUser(channelId)[2] else 'channel_id=? and likestrong>'
+        strRandomreply = '1 and priority>=5 ORDER BY RANDOM() limit 1' if rand else '2 ORDER BY likestrong DESC, priority DESC, id DESC limit 1'
+        c.execute('''
+            SELECT  response,
+                    CASE WHEN keyword = ? in THEN 3 
+                        WHEN keyword LIKE ? in THEN 2
+                        WHEN keyword LIKE ? in THEN 1
+                        ELSE 0 
+                    END likestrong
+            FROM statements Where ''' + strGlobaltalk + strRandomreply, 
+            [key, key, '%'+key+'%'] if queryUser(channelId)[2] else [key, key, '%'+key+'%', channelId]
+        )
         data = c.fetchall()
+        #找不到的話找找看自動學習的語料
+        if not len(data):
+            c.execute('''
+                SELECT  response,
+                        CASE WHEN keyword = ? in THEN 3 
+                            WHEN keyword LIKE ? in THEN 2
+                            WHEN keyword LIKE ? in THEN 1
+                            ELSE 0 
+                        END likestrong
+                FROM statements Where channel_id=cowpi and likestrong>1 ORDER BY RANDOM() limit 1''', 
+                [key, key, '%'+key+'%'] if queryUser(channelId)[2] else [key, key, '%'+key+'%', channelId]
+            )
+            data = c.fetchall()
         return data[0][0] if len(data) else "窩聽不懂啦！"
 ##取得所有學過的詞
 def allStatement(channelId):
@@ -170,3 +193,23 @@ def allStatement(channelId):
         for x in data:
             strRes+=x[0]+"→"+x[1]+"\n"
         return strRes
+
+
+
+
+###################################可怕的區域###################################
+def autoIfEmptyStatements():
+    with sqlite3.connect(settings.BASE_DIR + '/db/cowpi.db') as conn:
+        c = conn.cursor()
+        c.execute('SELECT * FROM statements')
+        if not len(c.fetchall()):
+            data=[
+                ['你好', '嗨'],['Hello', 'Hi'],['你好', '哈囉'],['Hello', '你好'],['安安', 'こんにちは'],['吃飽沒', '還沒吃'],
+                ['你是誰', '我是牛批貓'],['讚哦', '謝謝誇獎'],['狂', '948794狂'],['我難過', 'https://www.youtube.com/watch?v=T0LfHEwEXXw'],
+                ['七彩的微風', '側著臉輕輕吹拂'],['並沒有', '對阿才沒有'],['wwwww', '哈哈哈哈哈'],['XDDD', '哈哈哈哈哈'],['23333', '哈哈哈哈哈'],
+                ['66666', '遛遛遛遛遛狗'],['哈哈', '哈哈哈哈哈密瓜'],['生氣', '厚氣氣氣氣氣'],['QQ', '不哭不哭你是豬'],['謝謝', '不客氣']
+            ]
+            for x in data:
+                c.execute('INSERT INTO statements(keyword, response, create_at, channel_id, channel_type, priority) VALUES(?,?,?,?,?)',
+                [x[0], x[1], str(datetime.now(pytz.timezone("Asia/Taipei"))), 'cowpi', 'autoLearn'])
+

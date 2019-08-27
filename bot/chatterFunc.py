@@ -5,7 +5,7 @@ import pytz
 ####主聊天功能
 ##自動學習
 def autolearn(my, lineMessage, channelId, e_source):
-    insStatement(my, [lineMessage], channelId, e_source.type)
+    insStatement(my, [lineMessage], channelId, e_source.type, 1)
 ##學說話
 def learn(lineMessage, channelId, e_source):
     lineMes = [x for x in lineMessage.replace("；",";").split(';') if x != ""]

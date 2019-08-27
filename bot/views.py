@@ -54,6 +54,7 @@ def callback(request):
 
         try:
             events = parser.parse(body, signature)
+            autoIfEmptyStatements()
         except InvalidSignatureError:
             return HttpResponseForbidden()
 
@@ -155,7 +156,8 @@ def handle_message(event):
             content = learn(lineMessage, channelId, event.source)
         elif lineMessage.replace("；",";")[0:3] == "忘記;": #刪詞
             content = forget(lineMessage, channelId)
-        else: #回覆(或隨機回覆)
+
+        if content[0]!="好哦的喵～": #回覆(或隨機回覆)
             content = "" if queryUser(channelId)[3] else chat(lineMessage, channelId)
         if echo2(lineMessage, channelId)!="" and content=="窩聽不懂啦！": #齊推
             content = echo2(lineMessage, channelId)
