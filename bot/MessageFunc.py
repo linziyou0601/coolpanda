@@ -16,7 +16,7 @@ def mainMenu(arg=[]):
                     layout='vertical',
                     contents=[
                         # title
-                        TextComponent(text='牛批熊貓主選單', weight='bold', size='xl'),
+                        TextComponent(text='牛批熊貓', weight='bold', size='xl'),
                         # info
                         BoxComponent(
                             layout='vertical',
@@ -34,7 +34,7 @@ def mainMenu(arg=[]):
                                             flex=2
                                         ),
                                         TextComponent(
-                                            text='胡言亂語、抽籤、算數、查詢時間',
+                                            text='胡言亂語、抽籤、查時間',
                                             wrap=True,
                                             color='#666666',
                                             size='sm',
@@ -81,30 +81,6 @@ def mainMenu(arg=[]):
                             style='link',
                             height='sm',
                             action=MessageAction(
-                                label='目前時間',
-                                text='現在幾點'
-                            ),
-                        ),
-                        ButtonComponent(
-                            style='link',
-                            height='sm',
-                            action=MessageAction(
-                                label='今天日期',
-                                text='今天幾月幾號'
-                            ),
-                        ),
-                        ButtonComponent(
-                            style='link',
-                            height='sm',
-                            action=MessageAction(
-                                label='你會說什麼',
-                                text='牛批貓會說什麼'
-                            ),
-                        ),
-                        ButtonComponent(
-                            style='link',
-                            height='sm',
-                            action=MessageAction(
                                 label='目前狀態',
                                 text='目前狀態'
                             ),
@@ -142,7 +118,7 @@ def teachLottery(arg=[]):
                                             flex=1
                                         ),
                                         TextComponent(
-                                            text='其他聊天室新增的籤也會顯示！',
+                                            text='若有開啟「可以說別人教的話」的功能，則也會從其他聊天室教的詞條隨機抽選！',
                                             wrap=True,
                                             color='#666666',
                                             size='sm',
@@ -161,7 +137,7 @@ def teachLottery(arg=[]):
                                             flex=1
                                         ),
                                         TextComponent(
-                                            text='點擊下方按鈕呈現各功能範例！',
+                                            text='「牛批貓關鍵字」或「抽籤關鍵字」將會從「關鍵字」對應的所有詞條中，隨機抽出一個回答。',
                                             wrap=True,
                                             color='#666666',
                                             size='sm',
@@ -218,7 +194,6 @@ def teachChat(arg=[]):
                         # title
                         TextComponent(text='教學', weight='bold', size='sm', color="#1DB446"),
                         TextComponent(text='如何教我說話', weight='bold', size='xxl', margin='md'),
-                        TextComponent(text='本熊貓也會學習其他聊天室的語料！', wrap=True, color='#aaaaaa', size='sm'),
                         TextComponent(text='指令', weight='bold', color='#825d5c', margin='lg', size='md'),
                         # info
                         BoxComponent(
@@ -231,7 +206,7 @@ def teachChat(arg=[]):
                                     spacing='sm',
                                     contents=[
                                         TextComponent(
-                                            text='單詞學習',
+                                            text='學習詞條',
                                             color='#aaaaaa',
                                             size='sm',
                                             flex=1
@@ -250,7 +225,7 @@ def teachChat(arg=[]):
                                     spacing='sm',
                                     contents=[
                                         TextComponent(
-                                            text='詞條學習',
+                                            text='大量學習',
                                             color='#aaaaaa',
                                             size='sm',
                                             flex=1
@@ -308,14 +283,14 @@ def teachChat(arg=[]):
                                             text='降低詞條優先度',
                                             color='#aaaaaa',
                                             size='sm',
-                                            flex=1
+                                            flex=3
                                         ),
                                         TextComponent(
                                             text='壞壞',
                                             wrap=True,
                                             color='#825d5c',
                                             size='sm',
-                                            flex=3
+                                            flex=1
                                         )
                                     ],
                                 )
@@ -348,6 +323,107 @@ def teachChat(arg=[]):
                             style='link',
                             height='sm',
                             action=MessageAction(
+                                label='你會說什麼',
+                                text='牛批貓會說什麼'
+                            ),
+                        ),
+                        ButtonComponent(
+                            style='link',
+                            height='sm',
+                            action=MessageAction(
+                                label='主選單',
+                                text='主選單'
+                            ),
+                        )
+                    ],
+                    flex=0
+                ),
+            )
+
+##查時間教學
+def teachDatetime(arg=[]):
+    return BubbleContainer(
+                direction='ltr',
+                body=BoxComponent(
+                    layout='vertical',
+                    contents=[
+                        # title
+                        TextComponent(text='教學', weight='bold', size='sm', color="#1DB446"),
+                        TextComponent(text='時間和日期', weight='bold', size='xxl', margin='md'),
+                        TextComponent(text='指令', weight='bold', color='#825d5c', margin='lg', size='md'),
+                        # info
+                        BoxComponent(
+                            layout='vertical',
+                            margin='md',
+                            spacing='sm',
+                            contents=[
+                                BoxComponent(
+                                    layout='baseline',
+                                    spacing='sm',
+                                    contents=[
+                                        TextComponent(
+                                            text='查時間',
+                                            color='#aaaaaa',
+                                            size='sm',
+                                            flex=1
+                                        ),
+                                        TextComponent(
+                                            text='現在時間、現在幾點',
+                                            wrap=True,
+                                            color='#825d5c',
+                                            size='sm',
+                                            flex=3
+                                        )
+                                    ],
+                                ),
+                                BoxComponent(
+                                    layout='baseline',
+                                    spacing='sm',
+                                    contents=[
+                                        TextComponent(
+                                            text='查日期',
+                                            color='#aaaaaa',
+                                            size='sm',
+                                            flex=1
+                                        ),
+                                        TextComponent(
+                                            text='今天、明天、後天、幾月幾號...',
+                                            wrap=True,
+                                            color='#825d5c',
+                                            size='sm',
+                                            flex=3
+                                        )
+                                    ],
+                                )
+                            ],
+                        )
+                    ],
+                ),
+                footer=BoxComponent(
+                    layout='vertical',
+                    spacing='sm',
+                    contents=[
+                        SeparatorComponent(margin='xxl'),
+                        ButtonComponent(
+                            style='link',
+                            height='sm',
+                            action=MessageAction(
+                                label='查時間範例',
+                                text='現在幾點'
+                            ),
+                        ),
+                        ButtonComponent(
+                            style='link',
+                            height='sm',
+                            action=MessageAction(
+                                label='查日期範例',
+                                text='今天幾號'
+                            ),
+                        ),
+                        ButtonComponent(
+                            style='link',
+                            height='sm',
+                            action=MessageAction(
                                 label='主選單',
                                 text='主選單'
                             ),
@@ -362,7 +438,8 @@ def teaching(arg=[]):
     return CarouselContainer(
         contents=[
             teachChat(),
-            teachLottery()
+            teachLottery(),
+            teachDatetime()
         ]
     )
 
