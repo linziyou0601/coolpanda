@@ -64,7 +64,7 @@ def echo2(lineMessage, channelId):
     else: return [lineMessage, 0]
 ##你會說什麼
 def allLearn(channelId):
-    return [allStatement(channelId), 0]
+    return allStatement(channelId)
 
 
 ####功能開關
