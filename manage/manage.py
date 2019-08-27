@@ -3,6 +3,7 @@
 import os
 import sys
 from flask import Flask
+app = Flask(__name__)
 
 def main():
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'manage.settings')
@@ -18,4 +19,5 @@ def main():
 
 
 if __name__ == '__main__':
+    app.run()
     main()
