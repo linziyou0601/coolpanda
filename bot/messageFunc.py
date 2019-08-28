@@ -763,7 +763,7 @@ def nowAQI(arg={}):
                                 BoxComponent(
                                     layout='vertical', flex=3,
                                     contents=[
-                                        TextComponent(text='PM2.5\n細懸浮微粒', weight='bold', size='lg', wrap=True, flex=1, gravity='center', color="#336699" if "臭氧" in arg['Pollutant'] else "#444444")
+                                        TextComponent(text='PM2.5\n細懸浮微粒', weight='bold', size='lg', wrap=True, flex=1, gravity='center', color="#336699" if "細懸浮微粒" in arg['Pollutant'] else "#444444")
                                     ],
                                 ),
                                 BoxComponent(
@@ -791,7 +791,7 @@ def nowAQI(arg={}):
                                 BoxComponent(
                                     layout='vertical', flex=3,
                                     contents=[
-                                        TextComponent(text='PM10\n懸浮微粒', weight='bold', size='lg', wrap=True, flex=1, gravity='center', color="#336699" if "臭氧" in arg['Pollutant'] else"#444444")
+                                        TextComponent(text='PM10\n懸浮微粒', weight='bold', size='lg', wrap=True, flex=1, gravity='center', color="#336699" if "懸浮微粒" in arg['Pollutant'] else"#444444")
                                     ],
                                 ),
                                 BoxComponent(
@@ -819,7 +819,7 @@ def nowAQI(arg={}):
                                 BoxComponent(
                                     layout='vertical', flex=3,
                                     contents=[
-                                        TextComponent(text='PM10\n懸浮微粒', weight='bold', size='lg', wrap=True, flex=1, gravity='center', color="#336699" if "臭氧" in arg['Pollutant'] else"#444444")
+                                        TextComponent(text='PM10\n懸浮微粒', weight='bold', size='lg', wrap=True, flex=1, gravity='center', color="#336699" if "一氧化碳" in arg['Pollutant'] else"#444444")
                                     ],
                                 ),
                                 BoxComponent(
@@ -847,7 +847,7 @@ def nowAQI(arg={}):
                                 BoxComponent(
                                     layout='vertical', flex=3,
                                     contents=[
-                                        TextComponent(text='SO2\n二氧化硫', weight='bold', size='lg', wrap=True, flex=1, gravity='center', color="#336699" if "臭氧" in arg['Pollutant'] else"#444444")
+                                        TextComponent(text='SO2\n二氧化硫', weight='bold', size='lg', wrap=True, flex=1, gravity='center', color="#336699" if "二氧化硫" in arg['Pollutant'] else"#444444")
                                     ],
                                 ),
                                 BoxComponent(
@@ -875,7 +875,7 @@ def nowAQI(arg={}):
                                 BoxComponent(
                                     layout='vertical', flex=3,
                                     contents=[
-                                        TextComponent(text='NO2\n二氧化氮', weight='bold', size='lg', wrap=True, flex=1, gravity='center', color="#336699" if "臭氧" in arg['Pollutant'] else"#444444")
+                                        TextComponent(text='NO2\n二氧化氮', weight='bold', size='lg', wrap=True, flex=1, gravity='center', color="#336699" if "二氧化氮" in arg['Pollutant'] else"#444444")
                                     ],
                                 ),
                                 BoxComponent(
