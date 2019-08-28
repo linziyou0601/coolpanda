@@ -137,7 +137,6 @@ def handle_message(event):
     lineMessage = event.message.text
     newChannel(channelId) #新建頻道資料
     global replyList
-    del replyList[:]
     content=["", 0]
 
     ##功能型
