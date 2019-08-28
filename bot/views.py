@@ -122,7 +122,7 @@ def handle_message(event):
             rted=1
     if not rted:
         ##功能型
-        if lineMessage == "主選單":
+        if lineMessage == "主選單" or lineMessage == "牛批貓":
             replyList.append(FlexSendMessage(alt_text="主選單", contents=mainMenu()))
         elif any(s == lineMessage for s in ["抽籤教學", "怎麼抽籤", "抽籤"]):
             replyList.append(FlexSendMessage(alt_text="如何抽籤", contents=teachLottery()))
