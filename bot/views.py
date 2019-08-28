@@ -106,7 +106,6 @@ def getReg(msg):
 
 ####################訊息接收及回覆區####################
 ##回覆列表
-replyList = []
 
 def autoLearnModel(msg, channelId, content, event):
     ##自動學習
@@ -137,7 +136,6 @@ def handle_message(event):
     ##取得收到的訊息
     lineMessage = event.message.text
     newChannel(channelId) #新建頻道資料
-    global replyList
     replyList=[]
 
     #if not keyRes(lineMessage, channelId, event):
