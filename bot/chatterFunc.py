@@ -68,9 +68,9 @@ def validReply(lineMessage, reply):
     adjustPrio(lineMessage, reply, 1)
 ##齊推
 def echo2(lineMessage, channelId):
-    if not lineMessage in queryReceived(channelId, 5): return ["", 0]
-    elif queryReply(channelId, 1)[0][0]==lineMessage: return ["", 0]
-    else: return [lineMessage, 0]
+    if not lineMessage in queryReceived(channelId, 5): return ""
+    elif queryReply(channelId, 1)[0][0]==lineMessage: return ""
+    else: return [lineMessage, 1]
 ##你會說什麼
 def allLearn(channelId):
     return allStatement(channelId)

@@ -139,17 +139,23 @@ def adjustPrio(key, msg, case, channelId=''):
     createTable()
     with sqlite3.connect(settings.BASE_DIR + '/db/cowpi.db') as conn:
         c = conn.cursor()
-        #若有指定channelId（手動加詞學習），則加入channelId條件
-        strChannelId = ' and channel_id=?' if channelId!="" else ''
-        c.execute('SELECT priority FROM statements Where keyword=? and response=?' + strChannelId, 
-                  [key, msg, channelId] if channelId!="" else [key, msg])
+        listN = [msg]
+        strKeyword = ''
+        strChannelId = ''
+        #若有指定channelId（手動加詞學習），則加入channelId條件；若為降低優先度，則不論keyword全一起降
+        if case>0:
+            strKeyword = ' and keyword=?'
+            listN.append(key)
+        if channelId:
+            strChannelId = ' and channel_id=?'
+            listN.append(channelId)
+        c.execute('SELECT priority FROM statements Where response=?' +strKeyword +strChannelId, listN)
         data = c.fetchall()
         #若詞條找不到，表示此句為自動接話模型、或廣泛搜尋模型，則增加一句自動學習詞條
         if len(data):
             for x in data:
-                c.execute('UPDATE statements SET priority=? Where keyword=? and response=?' + strChannelId,
-                          [int(x[0])+case, key, msg, channelId] if channelId!="" else [int(x[0])+case, key, msg])
-        else: insStatement(key, msg, 'cowpi', 'autoLearn')
+                c.execute('UPDATE statements SET priority=? Where response=?' +strKeyword +strChannelId, [int(x[0])+case]+listN)
+        else: insStatement(key, [msg], 'cowpi', 'autoLearn')
 ##取得詞條回覆
 def resStatement(key, channelId, rand):
     createTable()
