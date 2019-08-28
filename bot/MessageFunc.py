@@ -574,7 +574,7 @@ def whatCanSay(arg=[]):
                             layout='vertical',
                             margin='md',
                             spacing='sm',
-                            contents=[x for x in keywordObj],
+                            contents=[SeparatorComponent(margin='md')],
                         ),
                         BoxComponent(
                             layout='horizontal',
