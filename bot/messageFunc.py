@@ -896,6 +896,20 @@ def nowAQI(arg={}):
                                 )
                             ],
                         )
+                        # 時間
+                        SeparatorComponent(margin='md'),
+                        BoxComponent(
+                            layout='vertical',
+                            margin='xs',
+                            contents=[
+                                TextComponent(
+                                    text='截至'+arg['timeStr'],
+                                    color='#aaaaaa',
+                                    size='xs',
+                                    align='end'
+                                )
+                            ],
+                        )
                     ],
                 ),
             )

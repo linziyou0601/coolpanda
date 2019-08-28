@@ -4,10 +4,13 @@ import pytz, urllib.request, json
 
 ####關鍵字功能
 def AQI(site):
+    dt = datetime.now(pytz.timezone("Asia/Taipei"))
+    timestr = str(dt.year)+"年"+str(dt.month)+"月"+str(dt.day)+"日 "+str(dt.hour)+":"+str(dt.minute)
     with urllib.request.urlopen("http://opendata.epa.gov.tw/webapi/Data/REWIQA/?$orderby=County&$skip=0&$top=1000&format=json") as url:
         obj = json.loads(url.read().decode())
         for row in obj:
             if any(site in s for s in [row['SiteName'], row['County']]):
+                row['timeStr'] = timestr
                 return row
         return ""
 
