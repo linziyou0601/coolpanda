@@ -119,6 +119,7 @@ def autoLearnModel(msg, content, channelId, event):
 
 ##關鍵字型
 def keyRes(msg, channelId, event):
+    global replyList
     rted=0
     #空氣指標
     if re.search(getReg('aqi'), msg) and re.split(getReg('aqi'), msg)[0]!="": 
@@ -135,6 +136,7 @@ def handle_message(event):
     ##取得收到的訊息
     lineMessage = event.message.text
     newChannel(channelId) #新建頻道資料
+    global replyList
     del replyList[:]
     content=["", 0]
 
