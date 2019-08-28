@@ -137,7 +137,8 @@ def handle_message(event):
     ##取得收到的訊息
     lineMessage = event.message.text
     newChannel(channelId) #新建頻道資料
-    global replyList=[]
+    global replyList
+    replyList=[]
     
     if not keyRes(lineMessage, channelId, event):
         ##功能型
