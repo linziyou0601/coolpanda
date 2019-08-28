@@ -433,12 +433,78 @@ def teachDatetime(arg=[]):
                 ),
             )
 
+##查空氣教學
+def teachAQI(arg=[]):
+    return BubbleContainer(
+                direction='ltr',
+                body=BoxComponent(
+                    layout='vertical',
+                    contents=[
+                        # title
+                        TextComponent(text='教學', weight='bold', size='sm', color="#1DB446"),
+                        TextComponent(text='查空氣品質', weight='bold', size='xxl', margin='md'),
+                        # info
+                        BoxComponent(
+                            layout='vertical',
+                            margin='md',
+                            spacing='sm',
+                            contents=[
+                                BoxComponent(
+                                    layout='baseline',
+                                    spacing='sm',
+                                    contents=[
+                                        TextComponent(
+                                            text='關鍵字',
+                                            color='#aaaaaa',
+                                            size='sm',
+                                            flex=1
+                                        ),
+                                        TextComponent(
+                                            text='「測站名+空氣/空汙/空氣品質/PM2.5」的方式，結尾若為關鍵字，則會將關鍵字前的詞帶入查詢',
+                                            wrap=True,
+                                            color='#666666',
+                                            size='sm',
+                                            flex=5
+                                        )
+                                    ],
+                                )
+                            ],
+                        )
+                    ],
+                ),
+                footer=BoxComponent(
+                    layout='vertical',
+                    spacing='sm',
+                    contents=[
+                        SeparatorComponent(margin='xxl'),
+                        ButtonComponent(
+                            style='link',
+                            height='sm',
+                            action=MessageAction(
+                                label='查空氣範例',
+                                text='斗六空氣'
+                            ),
+                        ),
+                        ButtonComponent(
+                            style='link',
+                            height='sm',
+                            action=MessageAction(
+                                label='主選單',
+                                text='主選單'
+                            ),
+                        )
+                    ],
+                    flex=0
+                ),
+            )
+
 ##教學選單
 def teaching(arg=[]):
     return CarouselContainer(
         contents=[
             teachChat(),
             teachLottery(),
+            teachAQI(),
             teachDatetime()
         ]
     )
@@ -668,7 +734,7 @@ def nowAQI(arg={}):
                                 BoxComponent(
                                     layout='vertical', flex=3,
                                     contents=[
-                                        TextComponent(text='O3\n臭氧', weight='bold', size='lg', wrap=True, flex=1, gravity='center', "color": "#336699" if "臭氧" in arg['Pollutant'] else"#444444")
+                                        TextComponent(text='O3\n臭氧', weight='bold', size='lg', wrap=True, flex=1, gravity='center', color="#336699" if "臭氧" in arg['Pollutant'] else "#444444")
                                     ],
                                 ),
                                 BoxComponent(
@@ -696,7 +762,7 @@ def nowAQI(arg={}):
                                 BoxComponent(
                                     layout='vertical', flex=3,
                                     contents=[
-                                        TextComponent(text='PM2.5\n細懸浮微粒', weight='bold', size='lg', wrap=True, flex=1, gravity='center', "color": "#336699" if "臭氧" in arg['Pollutant'] else"#444444")
+                                        TextComponent(text='PM2.5\n細懸浮微粒', weight='bold', size='lg', wrap=True, flex=1, gravity='center', color="#336699" if "臭氧" in arg['Pollutant'] else "#444444")
                                     ],
                                 ),
                                 BoxComponent(
@@ -724,7 +790,7 @@ def nowAQI(arg={}):
                                 BoxComponent(
                                     layout='vertical', flex=3,
                                     contents=[
-                                        TextComponent(text='PM10\n懸浮微粒', weight='bold', size='lg', wrap=True, flex=1, gravity='center', "color": "#336699" if "臭氧" in arg['Pollutant'] else"#444444")
+                                        TextComponent(text='PM10\n懸浮微粒', weight='bold', size='lg', wrap=True, flex=1, gravity='center', color="#336699" if "臭氧" in arg['Pollutant'] else"#444444")
                                     ],
                                 ),
                                 BoxComponent(
@@ -752,7 +818,7 @@ def nowAQI(arg={}):
                                 BoxComponent(
                                     layout='vertical', flex=3,
                                     contents=[
-                                        TextComponent(text='PM10\n懸浮微粒', weight='bold', size='lg', wrap=True, flex=1, gravity='center', "color": "#336699" if "臭氧" in arg['Pollutant'] else"#444444")
+                                        TextComponent(text='PM10\n懸浮微粒', weight='bold', size='lg', wrap=True, flex=1, gravity='center', color="#336699" if "臭氧" in arg['Pollutant'] else"#444444")
                                     ],
                                 ),
                                 BoxComponent(
@@ -780,7 +846,7 @@ def nowAQI(arg={}):
                                 BoxComponent(
                                     layout='vertical', flex=3,
                                     contents=[
-                                        TextComponent(text='SO2\n二氧化硫', weight='bold', size='lg', wrap=True, flex=1, gravity='center', "color": "#336699" if "臭氧" in arg['Pollutant'] else"#444444")
+                                        TextComponent(text='SO2\n二氧化硫', weight='bold', size='lg', wrap=True, flex=1, gravity='center', color="#336699" if "臭氧" in arg['Pollutant'] else"#444444")
                                     ],
                                 ),
                                 BoxComponent(
@@ -808,7 +874,7 @@ def nowAQI(arg={}):
                                 BoxComponent(
                                     layout='vertical', flex=3,
                                     contents=[
-                                        TextComponent(text='NO2\n二氧化氮', weight='bold', size='lg', wrap=True, flex=1, gravity='center', "color": "#336699" if "臭氧" in arg['Pollutant'] else"#444444")
+                                        TextComponent(text='NO2\n二氧化氮', weight='bold', size='lg', wrap=True, flex=1, gravity='center', color="#336699" if "臭氧" in arg['Pollutant'] else"#444444")
                                     ],
                                 ),
                                 BoxComponent(
