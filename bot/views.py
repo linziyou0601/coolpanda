@@ -172,7 +172,7 @@ def handle_message(event):
         replyList = TextSendMessage(text=mute(lineMessage, channelId))
         content=[lineMessage, 0]
     #非安靜狀態
-    elif queryUser(channelId)[3]:
+    elif not queryUser(channelId)[3]:
 
         #關鍵字類型
         if keyRes(lineMessage, channelId, event):
