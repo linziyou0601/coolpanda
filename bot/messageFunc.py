@@ -34,7 +34,7 @@ def mainMenu(arg=[]):
                                             flex=2
                                         ),
                                         TextComponent(
-                                            text='胡言亂語、抽籤、查時間',
+                                            text='胡言亂語、抽籤、查空氣、查時間',
                                             wrap=True,
                                             color='#666666',
                                             size='sm',
