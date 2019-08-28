@@ -58,7 +58,7 @@ def mainMenu(arg=[]):
                                             color='#666666',
                                             size='sm',
                                             flex=4,
-                                        ),
+                                        )
                                     ],
                                 )
                             ],
@@ -180,7 +180,7 @@ def teachLottery(arg=[]):
                         ),
                         SpacerComponent(size='sm')
                     ],
-                    flex=0
+                    flex=0,
                 ),
             )
 
@@ -548,9 +548,7 @@ def whatCanSay(arg=[]):
                         TextComponent(text=k, color='#555555', size='sm', wrap=True, flex=1),
                         BoxComponent(
                             layout='vertical',
-                            contents=[
-                                TextComponent(text=s, color='#111111', size='sm', align='end', wrap=True) for s in v
-                            ],
+                            contents=[TextComponent(text=s, color='#111111', size='sm', align='end', wrap=True) for s in v],
                         )
                     ],
                 )
