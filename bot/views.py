@@ -108,6 +108,15 @@ def getReg(msg):
 ##回覆列表
 replyList = []
 
+##自動學習模型
+def autoLearnModel(msg, content, channelId, event):
+    if queryReply(channelId, 1)[0][1]: #若上一句是從資料庫撈出來的回覆，則順序性對話自動加入詞條
+        autolearn(queryReply(channelId, 1)[0][0], msg, channelId, event.source)
+    if content[1]: #若有詞條資料，則回覆時權重+1
+        validReply(msg, content[0], channelId)
+    if queryReply(channelId, 1)[0][0]=='窩聽不懂啦！' and content[1]: #若上一句回答的是聽不懂，本次有詞條，則將上次收到的關鍵字和本次的回答學習
+        autolearn(queryReceived(channelId, 1)[0], content[0], channelId, event.source)
+
 ##關鍵字型
 def keyRes(msg, channelId, event):
     rted=0
@@ -166,12 +175,7 @@ def handle_message(event):
                 content = echo2(lineMessage, channelId)
             
             ##自動學習
-            if queryReply(channelId, 1)[0][1]: #若上一句是從資料庫撈出來的回覆，則順序性對話自動加入詞條
-                autolearn(queryReply(channelId, 1)[0][0], lineMessage, channelId, event.source)
-            if content[1]: #若有詞條資料，則回覆時權重+1
-                validReply(lineMessage, content[0], channelId)
-            if queryReply(channelId, 1)[0][0]=='窩聽不懂啦！' and content[1]: #若上一句回答的是聽不懂，本次有詞條，則將上次收到的關鍵字和本次的回答學習
-                autolearn(queryReceived(channelId, 1)[0], content[0], channelId, event.source)
+            autoLearnModel(lineMessage, content, channelId, event)
             
             ##儲存訊息
             replyList.append(TextSendMessage(text=content[0])) #本次要回的話
