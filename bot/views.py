@@ -4,23 +4,9 @@ from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseForbid
 from django.views.decorators.csrf import csrf_exempt
 from linebot import LineBotApi, WebhookParser, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
-from linebot.models import (
-    MessageEvent, TextMessage, TextSendMessage,
-    SourceUser, SourceGroup, SourceRoom,
-    TemplateSendMessage, ConfirmTemplate, MessageAction,
-    ButtonsTemplate, ImageCarouselTemplate, ImageCarouselColumn, URIAction,
-    PostbackAction, DatetimePickerAction,
-    CameraAction, CameraRollAction, LocationAction,
-    CarouselTemplate, CarouselColumn, PostbackEvent,
-    StickerMessage, StickerSendMessage, LocationMessage, LocationSendMessage,
-    ImageMessage, VideoMessage, AudioMessage, FileMessage,
-    UnfollowEvent, FollowEvent, JoinEvent, LeaveEvent, BeaconEvent,
-    FlexSendMessage, BubbleContainer, ImageComponent, BoxComponent,
-    TextComponent, SpacerComponent, IconComponent, ButtonComponent,
-    SeparatorComponent, QuickReply, QuickReplyButton
-)
-import os, json, codecs
-from .MessageFunc import *
+from linebot.models import *
+import os, json, codecs, re
+from .messageFunc import *
 from .chatterFunc import *
 from .cowpiDB import *
 
@@ -112,15 +98,11 @@ def handle_leave(event):
     return 0
 
 #關鍵保留字
-# def excludeWord(msg, event):
-#     exList = ['主選單', '所有籤桶', '所有籤筒', '籤桶', '籤筒', '刪除', '刪除籤桶', '刪除籤筒', '抽籤教學']
-#     if msg in exList:
-#         content = "這句話不能說，很可怕！"
-#         line_bot_api.reply_message(
-#             event.reply_token,
-#             TextSendMessage(text=content))
-#         return 0
-#     return 1
+def getReg(msg):
+    RegDict = {
+        "aqi":"(空[氣汙]|空氣(品質|如何)|PM2.5|pm2.5)$"
+    }
+    return RegDict[msg]
 
 ####################訊息接收及回覆區####################
 #@handler.add(MessageEvent, message=TextMessage)
@@ -151,6 +133,8 @@ def handle_message(event):
         replyList.append(TextSendMessage(text=globaltalk(lineMessage, channelId)))
     elif any(s == lineMessage for s in ["牛批貓說話","牛批貓講話","牛批貓安靜", "牛批貓閉嘴"]): #安靜開關
         replyList.append(TextSendMessage(text=mute(lineMessage, channelId)))
+    elif re.search(getReg('aqi'), lineMessage): #空氣指標
+        replyList.append(FlexSendMessage(alt_text="空氣品質", contents=nowAQI(AQI(re.split(getReg('aqi'), lineMessage)[0].replace("台","臺")))))
     else:
         ##聊天功能
         content=["",0]
@@ -171,6 +155,8 @@ def handle_message(event):
             autolearn(queryReply(channelId, 1)[0][0], lineMessage, channelId, event.source)
         if content[1]: #若有詞條資料，則回覆時權重+1
             validReply(lineMessage, content[0], channelId)
+        if queryReply(channelId, 1)[0][0]=='窩聽不懂啦！' and content[1]: #若上一句回答的是聽不懂，本次有詞條，則將上次收到的關鍵字和本次的回答學習
+            validReply(queryReceived(channelId, 1)[0], content[0], channelId)
         
         ##儲存訊息
         replyList.append(TextSendMessage(text=content[0])) #本次要回的話

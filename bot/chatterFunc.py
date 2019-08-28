@@ -1,6 +1,14 @@
 from .cowpiDB import *
 from datetime import datetime, timedelta
-import pytz
+import pytz, urllib.request, json
+
+####關鍵字功能
+def AQI(site):
+    with urllib.request.urlopen("http://opendata.epa.gov.tw/webapi/Data/REWIQA/?$orderby=County&$skip=0&$top=1000&format=json") as url:
+        obj = json.loads(url.read().decode())
+        for row in obj:
+            if any(site in s for s in [row['SiteName'], row['County']]):
+                return row
 
 ####主聊天功能
 ##自動學習

@@ -283,14 +283,14 @@ def teachChat(arg=[]):
                                             text='降低詞條優先度',
                                             color='#aaaaaa',
                                             size='sm',
-                                            flex=2
+                                            flex=3
                                         ),
                                         TextComponent(
                                             text='壞壞',
                                             wrap=True,
                                             color='#825d5c',
                                             size='sm',
-                                            flex=4
+                                            flex=3
                                         )
                                     ],
                                 )
@@ -545,7 +545,7 @@ def whatCanSay(arg=[]):
                 BoxComponent(
                     layout='horizontal', margin='md',
                     contents=[
-                        TextComponent(text=k, color='#555555', size='sm', wrap=True, flex=1),
+                        TextComponent(text=k, weight='bold', color='#690808', size='sm', wrap=True, flex=1),
                         BoxComponent(
                             layout='vertical',
                             contents=[
@@ -556,7 +556,7 @@ def whatCanSay(arg=[]):
                 )
             )
             keywordObj.append(SeparatorComponent(margin='md'))
-    #if not len(keywordObj): keywordObj.append(SeparatorComponent(margin='md'))
+    if not len(keywordObj): keywordObj.append(SeparatorComponent(margin='md'))
     return BubbleContainer(
                 direction='ltr',
                 body=BoxComponent(
@@ -581,12 +581,12 @@ def whatCanSay(arg=[]):
                             contents=[
                                 TextComponent(
                                     text='關鍵字數量',
-                                    color='#555555',
+                                    color='#aaaaaa',
                                     size='sm',
                                 ),
                                 TextComponent(
                                     text=str(arg[2]),
-                                    color='#111111',
+                                    color='#aaaaaa',
                                     size='sm',
                                     align='end'
                                 )
@@ -598,28 +598,230 @@ def whatCanSay(arg=[]):
                             contents=[
                                 TextComponent(
                                     text='詞條數量',
-                                    color='#555555',
+                                    color='#aaaaaa',
                                     size='sm',
                                 ),
                                 TextComponent(
                                     text=str(arg[3]),
-                                    color='#111111',
+                                    color='#aaaaaa',
                                     size='sm',
                                     align='end'
                                 )
                             ],
                         ),
-                        SeparatorComponent(margin='md'),
                         BoxComponent(
                             layout='vertical',
-                            margin='md',
-                            spacing='sm',
+                            margin='xs',
                             contents=[
                                 TextComponent(
                                     text='截至'+arg[4],
                                     color='#aaaaaa',
                                     size='xs',
                                     align='end'
+                                )
+                            ],
+                        )
+                    ],
+                ),
+            )
+
+##空氣品質
+def nowAQI(arg={}):
+    arg['AQI'] = '-1' if arg['AQI']=='' else arg['AQI']
+    for x in ['SO2', 'SO2_AVG', 'CO', 'CO_8hr', 'O3', 'O3_8hr', 'PM10', 'PM10_AVG', 'PM2.5', 'PM2.5_AVG', 'NO2']:
+        arg[x] = 'NA' if arg[x]=='' else arg[x]
+    AQIList = [[0,"#888888"], [0,"#339933"], [51,"#EECC33"], [101,"#EE9933"], [151,"#DD3333"], [201,"#996699"], [301,"#990066"]]
+    AQIcolor = list(filter(lambda x: int(arg['AQI'])>=x[0], AQIList))[::-1][0][1]
+    return BubbleContainer(
+                direction='ltr',
+                body=BoxComponent(
+                    layout='vertical',
+                    contents=[
+                        # title
+                        TextComponent(text='空氣品質', weight='bold', size='sm', color="#1DB446"),
+                        BoxComponent(
+                            layout='horizontal',
+                            margin='md',
+                            contents=[
+                                BoxComponent(
+                                    layout='vertical',
+                                    contents=[
+                                        TextComponent(text=arg['SiteName'], weight='bold', size='xxl'),
+                                        TextComponent(text=arg['County'], weight='bold', size='md', color="#333399")
+                                    ],
+                                ),
+                                BoxComponent(
+                                    layout='vertical',
+                                    contents=[
+                                        TextComponent(text='AQI' + arg['AQI'], weight='bold', size='xl', color=AQIcolor, align="end"),
+                                        TextComponent(text=arg['Status'], weight='bold', size='xl', color=AQIcolor, align="end")
+                                    ],
+                                ),
+                            ],
+                        ),
+                        # O3 臭氧
+                        SeparatorComponent(margin='md'),
+                        BoxComponent(
+                            layout='horizontal',
+                            margin='md',
+                            contents=[
+                                BoxComponent(
+                                    layout='vertical', flex=3,
+                                    contents=[
+                                        TextComponent(text='O3\n臭氧', weight='bold', size='lg', wrap=True, flex=1, gravity='center', "color": "#336699" if "臭氧" in arg['Pollutant'] else"#444444")
+                                    ],
+                                ),
+                                BoxComponent(
+                                    layout='vertical', flex=2,
+                                    contents=[
+                                        TextComponent(text='8小時\n移動平均', size='sm', wrap=True, flex=1, gravity='center', align="end"),
+                                        TextComponent(text='小時\n濃度', size='sm', wrap=True, flex=1, gravity='center', align="end")
+                                    ],
+                                ),
+                                BoxComponent(
+                                    layout='vertical', flex=2,
+                                    contents=[
+                                        TextComponent(text=arg['O3_8hr'], weight='bold', size='xxl', wrap=True, flex=1, gravity='center', align="end"),
+                                        TextComponent(text=arg['O3'], weight='bold', size='xxl', wrap=True, flex=1, gravity='center', align="end")
+                                    ],
+                                )
+                            ],
+                        ),
+                        # PM2.5 細懸浮微粒
+                        SeparatorComponent(margin='md'),
+                        BoxComponent(
+                            layout='horizontal',
+                            margin='md',
+                            contents=[
+                                BoxComponent(
+                                    layout='vertical', flex=3,
+                                    contents=[
+                                        TextComponent(text='PM2.5\n細懸浮微粒', weight='bold', size='lg', wrap=True, flex=1, gravity='center', "color": "#336699" if "臭氧" in arg['Pollutant'] else"#444444")
+                                    ],
+                                ),
+                                BoxComponent(
+                                    layout='vertical', flex=2,
+                                    contents=[
+                                        TextComponent(text='移動\n平均', size='sm', wrap=True, flex=1, gravity='center', align="end"),
+                                        TextComponent(text='小時\n濃度', size='sm', wrap=True, flex=1, gravity='center', align="end")
+                                    ],
+                                ),
+                                BoxComponent(
+                                    layout='vertical', flex=2,
+                                    contents=[
+                                        TextComponent(text=arg['PM2.5_AVG'], weight='bold', size='xxl', wrap=True, flex=1, gravity='center', align="end"),
+                                        TextComponent(text=arg['PM2.5'], weight='bold', size='xxl', wrap=True, flex=1, gravity='center', align="end")
+                                    ],
+                                )
+                            ],
+                        ),
+                        # PM10 懸浮微粒
+                        SeparatorComponent(margin='md'),
+                        BoxComponent(
+                            layout='horizontal',
+                            margin='md',
+                            contents=[
+                                BoxComponent(
+                                    layout='vertical', flex=3,
+                                    contents=[
+                                        TextComponent(text='PM10\n懸浮微粒', weight='bold', size='lg', wrap=True, flex=1, gravity='center', "color": "#336699" if "臭氧" in arg['Pollutant'] else"#444444")
+                                    ],
+                                ),
+                                BoxComponent(
+                                    layout='vertical', flex=2,
+                                    contents=[
+                                        TextComponent(text='移動\n平均', size='sm', wrap=True, flex=1, gravity='center', align="end"),
+                                        TextComponent(text='小時\n濃度', size='sm', wrap=True, flex=1, gravity='center', align="end")
+                                    ],
+                                ),
+                                BoxComponent(
+                                    layout='vertical', flex=2,
+                                    contents=[
+                                        TextComponent(text=arg['PM10_AVG'], weight='bold', size='xxl', wrap=True, flex=1, gravity='center', align="end"),
+                                        TextComponent(text=arg['PM10'], weight='bold', size='xxl', wrap=True, flex=1, gravity='center', align="end")
+                                    ],
+                                )
+                            ],
+                        ),
+                        # CO 一氧化碳
+                        SeparatorComponent(margin='md'),
+                        BoxComponent(
+                            layout='horizontal',
+                            margin='md',
+                            contents=[
+                                BoxComponent(
+                                    layout='vertical', flex=3,
+                                    contents=[
+                                        TextComponent(text='PM10\n懸浮微粒', weight='bold', size='lg', wrap=True, flex=1, gravity='center', "color": "#336699" if "臭氧" in arg['Pollutant'] else"#444444")
+                                    ],
+                                ),
+                                BoxComponent(
+                                    layout='vertical', flex=2,
+                                    contents=[
+                                        TextComponent(text='8小時\n移動平均', size='sm', wrap=True, flex=1, gravity='center', align="end"),
+                                        TextComponent(text='小時\n濃度', size='sm', wrap=True, flex=1, gravity='center', align="end")
+                                    ],
+                                ),
+                                BoxComponent(
+                                    layout='vertical', flex=2,
+                                    contents=[
+                                        TextComponent(text=arg['CO_8hr'], weight='bold', size='xxl', wrap=True, flex=1, gravity='center', align="end"),
+                                        TextComponent(text=arg['CO'], weight='bold', size='xxl', wrap=True, flex=1, gravity='center', align="end")
+                                    ],
+                                )
+                            ],
+                        ),
+                        # SO2 二氧化硫
+                        SeparatorComponent(margin='md'),
+                        BoxComponent(
+                            layout='horizontal',
+                            margin='md',
+                            contents=[
+                                BoxComponent(
+                                    layout='vertical', flex=3,
+                                    contents=[
+                                        TextComponent(text='SO2\n二氧化硫', weight='bold', size='lg', wrap=True, flex=1, gravity='center', "color": "#336699" if "臭氧" in arg['Pollutant'] else"#444444")
+                                    ],
+                                ),
+                                BoxComponent(
+                                    layout='vertical', flex=2,
+                                    contents=[
+                                        TextComponent(text='移動\n平均', size='sm', wrap=True, flex=1, gravity='center', align="end"),
+                                        TextComponent(text='小時\n濃度', size='sm', wrap=True, flex=1, gravity='center', align="end")
+                                    ],
+                                ),
+                                BoxComponent(
+                                    layout='vertical', flex=2,
+                                    contents=[
+                                        TextComponent(text=arg['SO2_AVG'], weight='bold', size='xxl', wrap=True, flex=1, gravity='center', align="end"),
+                                        TextComponent(text=arg['SO2'], weight='bold', size='xxl', wrap=True, flex=1, gravity='center', align="end")
+                                    ],
+                                )
+                            ],
+                        ),
+                        # NO2 二氧化氮
+                        SeparatorComponent(margin='md'),
+                        BoxComponent(
+                            layout='horizontal',
+                            margin='md',
+                            contents=[
+                                BoxComponent(
+                                    layout='vertical', flex=3,
+                                    contents=[
+                                        TextComponent(text='NO2\n二氧化氮', weight='bold', size='lg', wrap=True, flex=1, gravity='center', "color": "#336699" if "臭氧" in arg['Pollutant'] else"#444444")
+                                    ],
+                                ),
+                                BoxComponent(
+                                    layout='vertical', flex=2,
+                                    contents=[
+                                        TextComponent(text='小時\n濃度', size='sm', wrap=True, flex=1, gravity='center', align="end")
+                                    ],
+                                ),
+                                BoxComponent(
+                                    layout='vertical', flex=2,
+                                    contents=[
+                                        TextComponent(text=arg['NO2'], weight='bold', size='xxl', wrap=True, flex=1, gravity='center', align="end")
+                                    ],
                                 )
                             ],
                         )
