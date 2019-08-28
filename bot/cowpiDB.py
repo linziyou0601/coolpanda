@@ -146,6 +146,12 @@ def adjustPrio(key, msg, case, channelId=""):
         c.execute('SELECT priority FROM statements Where response=?' + strChannelId,
                   [msg, key, channelId] if channelId!="" else [msg])
         data = c.fetchall()
+        #若原本詞條找不到，則一定在自動學習裡，故強制加入channelId='cowpi'條件
+        if not len(data):
+            channelId='cowpi'
+            strChannelId = ' and keyword=? and channel_id=?'
+            c.execute('SELECT priority FROM statements Where response=?' + strChannelId, [msg, key, channelId])
+            data = c.fetchall()
         for x in data:
             c.execute('UPDATE statements SET priority=? Where response=?' + strChannelId,
                       [int(x[0])+case, msg, key, channelId] if channelId!="" else [int(x[0])+case, msg])
