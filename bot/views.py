@@ -125,6 +125,7 @@ def keyRes(msg, channelId, event):
         key = AQI(re.split(getReg('aqi'), msg)[0].replace("台","臺"))
         if key!="":
             replyList.append(FlexSendMessage(alt_text="空氣品質", contents=nowAQI(key)))
+            autolearn(msg, msg, channelId, event.source)
             rted=1
     return rted
 
