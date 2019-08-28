@@ -120,14 +120,14 @@ def insStatement(key, msg, channelId, type, autoLearn=0):
     with sqlite3.connect(settings.BASE_DIR + '/db/cowpi.db') as conn:
         c = conn.cursor()
         for res in msg:
-            c.execute('SELECT * FROM statements Where keyword=? and response=? and channel_id=?', [key, res, "cowpi" if autoLearn else channelId])
+            c.execute('SELECT * FROM statements Where keyword=? and response=? and channel_id=?', [key, res, channelId])
             #若詞條不存在於當前聊天室，才新增詞條
             if len(c.fetchall())==0:
                 c.execute('INSERT INTO statements(keyword, response, create_at, channel_id, channel_type) VALUES(?,?,?,?,?)',
-                          [key, res, str(datetime.now(pytz.timezone("Asia/Taipei"))), "cowpi" if autoLearn else channelId, "autoLearn" if autoLearn else type])
+                          [key, res, str(datetime.now(pytz.timezone("Asia/Taipei"))), channelId, type])
             #若詞條存在於當前聊天室，則權重+1
             else:
-                adjustPrio(key, res, 1, "cowpi" if autoLearn else channelId)
+                adjustPrio(key, res, 1, channelId)
                 
 ##刪除詞條
 def delStatement(key, msg, channelId):
