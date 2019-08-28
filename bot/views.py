@@ -167,8 +167,8 @@ def handle_message(event):
             
             ##儲存訊息
             replyList.append(TextSendMessage(text=content[0])) #本次要回的話
-            storeReply(content[0], content[1], channelId) #記錄機器人本次回的話
-            storeReceived(lineMessage, channelId) #儲存本次語句
+            storeReply(content[0], content[1], channelId) #記錄機器人本次回的「文字訊息」
+    storeReceived(lineMessage, channelId) #儲存本次收到的語句
     
     
     ####回傳給LINE
