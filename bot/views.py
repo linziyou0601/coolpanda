@@ -125,6 +125,7 @@ def keyRes(msg, channelId, event):
         key = AQI(re.split(getReg('aqi'), msg)[0].replace("台","臺"))
         if key!="":
             replyList.append(FlexSendMessage(alt_text="空氣品質", contents=nowAQI(key)))
+            autolearn(msg, msg, channelId, event.source)
             autoLearnModel(msg, channelId, [msg,1], event)
             rted=1
     return rted
@@ -180,7 +181,7 @@ def handle_message(event):
                 autoLearnModel(lineMessage, channelId, content, event) #關鍵字內會學習，不重複學習
                 replyList.append(TextSendMessage(text=content[0])) #本次要回的話
                 storeReply(content[0], content[1], channelId) #記錄機器人本次回的「文字訊息」
-                            
+
     storeReceived(lineMessage, channelId) #儲存本次收到的語句
     
     
