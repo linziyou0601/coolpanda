@@ -115,7 +115,7 @@ def handle_message(event):
     newChannel(channelId) #新建頻道資料
     rted=0
     ##關鍵字型
-    if re.search(getReg('aqi'), lineMessage) and AQI(re.split(getReg('aqi'), lineMessage)[0]!="": #空氣指標
+    if re.search(getReg('aqi'), lineMessage) and re.split(getReg('aqi'), lineMessage)[0]!="": #空氣指標
         key = AQI(re.split(getReg('aqi'), lineMessage)[0].replace("台","臺"))
         if key!="":
             replyList.append(FlexSendMessage(alt_text="空氣品質", contents=nowAQI(key)))
