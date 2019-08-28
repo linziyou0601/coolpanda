@@ -107,12 +107,14 @@ def getReg(msg):
 ####################訊息接收及回覆區####################
 ##回覆列表
 replyList = []
+keywordBool = False
 
 ##自動學習模型
 def autoLearnModel(msg, content, channelId, event):
+    global keywordBool
     if content[1]:
         validReply(msg, content[0]) #若有詞條資料，則回覆時權重+1
-        if queryReply(channelId, 1)[0][1]: #若上一句是從資料庫撈出來的回覆，則順序性對話自動加入詞條
+        if queryReply(channelId, 1)[0][1] and not keywordBool: #若上一句是從資料庫撈出來的回覆，則順序性對話自動加入詞條
             validReply(queryReply(channelId, 1)[0][0], msg)
         if queryReply(channelId, 1)[0][0]=='窩聽不懂啦！': #若上一句回答的是聽不懂，本次有詞條，則將上次收到的關鍵字和本次的回答學習
             validReply(queryReceived(channelId, 1)[0], content[0])
@@ -120,14 +122,15 @@ def autoLearnModel(msg, content, channelId, event):
 ##關鍵字型
 def keyRes(msg, channelId, event):
     global replyList
-    rted=0
+    global keywordBool
     #空氣指標
     if re.search(getReg('aqi'), msg) and re.split(getReg('aqi'), msg)[0]!="": 
         key = AQI(re.split(getReg('aqi'), msg)[0].replace("台","臺"))
         if key!="":
             replyList = FlexSendMessage(alt_text="空氣品質", contents=nowAQI(key))
-            rted=1
-    return rted
+            keywordBool = True
+            return True
+    return False
 
 #@handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
@@ -137,7 +140,10 @@ def handle_message(event):
     lineMessage = event.message.text
     newChannel(channelId) #新建頻道資料
     global replyList
+    global keywordBool
+    keywordBool = False
     content=["", 0]
+    
 
     ##功能型
     if lineMessage == "主選單" or lineMessage == "牛批貓":
