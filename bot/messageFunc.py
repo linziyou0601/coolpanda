@@ -724,8 +724,8 @@ def nowAQI(arg={}):
                                 BoxComponent(
                                     layout='vertical', flex=3,
                                     contents=[
-                                        TextComponent(text='AQI', weight='bold', size='lg', color=AQIcolor, align="end"),
-                                        TextComponent(text=arg['AQI'] if arg['AQI']!='-1' else 'NA', weight='bold', size='4xl', wrap=True, color=AQIcolor, align="end")
+                                        TextComponent(text='AQI', size='lg', color=AQIcolor, align="end"),
+                                        TextComponent(text=arg['AQI'] if arg['AQI']!='-1' else 'NA', weight='bold', size='4xl', color=AQIcolor, align="end")
                                     ],
                                 ),
                             ],
@@ -895,7 +895,7 @@ def nowAQI(arg={}):
                                     ],
                                 )
                             ],
-                        )
+                        ),
                         # 時間
                         SeparatorComponent(margin='md'),
                         BoxComponent(
