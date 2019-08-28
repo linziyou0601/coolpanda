@@ -569,6 +569,12 @@ def whatCanSay(arg=[]):
                         TextComponent(text='說話模式：'+arg[0], color='#aaaaaa', size='xs'),
                         TextComponent(text='目前狀態：'+arg[1], color='#aaaaaa', size='xs'),
                         SeparatorComponent(margin='md'),
+                        BoxComponent(
+                            layout='vertical',
+                            margin='md',
+                            spacing='sm',
+                            contents=[x for x in keywordObj],
+                        ),
                         # info
                         BoxComponent(
                             layout='horizontal',
@@ -580,7 +586,7 @@ def whatCanSay(arg=[]):
                                     size='sm',
                                 ),
                                 TextComponent(
-                                    text=arg[2],
+                                    text=str(arg[2]),
                                     color='#111111',
                                     size='sm',
                                     align='end'
@@ -597,7 +603,7 @@ def whatCanSay(arg=[]):
                                     size='sm',
                                 ),
                                 TextComponent(
-                                    text=arg[3],
+                                    text=str(arg[3]),
                                     color='#111111',
                                     size='sm',
                                     align='end'
