@@ -163,7 +163,7 @@ def handle_message(event):
             if content[1]: #若有詞條資料，則回覆時權重+1
                 validReply(lineMessage, content[0], channelId)
             if queryReply(channelId, 1)[0][0]=='窩聽不懂啦！' and content[1]: #若上一句回答的是聽不懂，本次有詞條，則將上次收到的關鍵字和本次的回答學習
-                validReply(queryReceived(channelId, 1)[0], content[0], channelId)
+                autolearn(queryReceived(channelId, 1)[0], content[0], channelId, event.source)
             
             ##儲存訊息
             replyList.append(TextSendMessage(text=content[0])) #本次要回的話
