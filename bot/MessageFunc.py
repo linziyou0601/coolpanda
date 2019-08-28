@@ -541,9 +541,6 @@ def whatCanSay(arg=[]):
     keywordObj=[]
     if arg[5]!="Null":
         for k, v in arg[5].items():
-            resList=[]
-            for s in v:
-                resList.append(TextComponent(text=s, color='#111111', size='sm', align='end', wrap=True))
             keywordObj.append(
                 BoxComponent(
                     layout='horizontal', margin='md',
@@ -551,13 +548,15 @@ def whatCanSay(arg=[]):
                         TextComponent(text=k, color='#555555', size='sm', wrap=True, flex=1),
                         BoxComponent(
                             layout='vertical',
-                            contents=resList,
+                            contents=[
+                                TextComponent(text=s, color='#111111', size='sm', align='end', wrap=True) for s in v
+                            ],
                         )
                     ],
                 )
             )
             keywordObj.append(SeparatorComponent(margin='md'))
-    if not len(keywordObj): keywordObj.append(SeparatorComponent(margin='md'))
+    #if not len(keywordObj): keywordObj.append(SeparatorComponent(margin='md'))
     return BubbleContainer(
                 direction='ltr',
                 body=BoxComponent(
