@@ -193,8 +193,7 @@ def handle_message(event):
         #最終反查關鍵字類型
         if keyRes(content[0], channelId, event):
             content=[content[0], 1]
-        else:
-            replyList = TextSendMessage(text=content[0]) #本次要回的話
+        replyList = TextSendMessage(text=content[0]) #本次要回的話
     
     ##自動學習
     autoLearnModel(lineMessage, content, channelId, event)
