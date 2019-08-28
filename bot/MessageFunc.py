@@ -571,12 +571,6 @@ def whatCanSay(arg=[]):
                         SeparatorComponent(margin='md'),
                         # info
                         BoxComponent(
-                            layout='vertical',
-                            margin='md',
-                            spacing='sm',
-                            contents=[SeparatorComponent(margin='md')],
-                        ),
-                        BoxComponent(
                             layout='horizontal',
                             margin='md',
                             contents=[
