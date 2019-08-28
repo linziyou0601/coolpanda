@@ -132,7 +132,7 @@ def handle_message(event):
             replyList.append(FlexSendMessage(alt_text="如何教我說話", contents=teachDatetime()))
         elif any(s == lineMessage for s in ["怎麼查空氣", "如何查空氣", "查空氣", "空氣品質"]):
             replyList.append(FlexSendMessage(alt_text="如何教我說話", contents=teachAQI()))
-        elif lineMessage == "牛批貓會幹嘛":
+        elif any(s == lineMessage for s in ["牛批貓會做什麼", "牛批貓會幹嘛", "你會幹嘛", "你會做什麼"]):
             replyList.append(FlexSendMessage(alt_text="我會哪些技能", contents=teaching()))
         elif lineMessage == "目前狀態":
             replyList.append(FlexSendMessage(alt_text="目前狀態", contents=statusMenu(currentStatus(channelId))))
