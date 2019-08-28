@@ -725,7 +725,7 @@ def nowAQI(arg={}):
                                     layout='vertical', flex=3,
                                     contents=[
                                         TextComponent(text='AQI ' + arg['AQI'] if arg['AQI']!='-1' else 'NA', weight='bold', size='xl', color=AQIcolor, align="end"),
-                                        TextComponent(text=arg['Status'], weight='bold', size='xl', color=AQIcolor, align="end")
+                                        TextComponent(text=arg['Status'], weight='bold', size='xl', wrap=True, color=AQIcolor, align="end")
                                     ],
                                 ),
                             ],
