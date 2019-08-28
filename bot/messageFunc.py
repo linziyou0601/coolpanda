@@ -697,7 +697,7 @@ def nowAQI(arg={}):
     arg['AQI'] = '-1' if arg['AQI']=='' else arg['AQI']
     for x in ['SO2', 'SO2_AVG', 'CO', 'CO_8hr', 'O3', 'O3_8hr', 'PM10', 'PM10_AVG', 'PM2.5', 'PM2.5_AVG', 'NO2']:
         arg[x] = 'NA' if arg[x]=='' else arg[x]
-    AQIList = [[0,"#888888"], [0,"#339933"], [51,"#EECC33"], [101,"#EE9933"], [151,"#DD3333"], [201,"#996699"], [301,"#990066"]]
+    AQIList = [[-1,"#888888"], [0,"#339933"], [51,"#EECC33"], [101,"#EE9933"], [151,"#DD3333"], [201,"#996699"], [301,"#990066"]]
     AQIcolor = list(filter(lambda x: int(arg['AQI'])>=x[0], AQIList))[::-1][0][1]
     return BubbleContainer(
                 direction='ltr',
@@ -720,7 +720,7 @@ def nowAQI(arg={}):
                                 BoxComponent(
                                     layout='vertical', flex=3,
                                     contents=[
-                                        TextComponent(text='AQI' + arg['AQI'], weight='bold', size='xl', color=AQIcolor, align="end"),
+                                        TextComponent(text='AQI ' + arg['AQI'], weight='bold', size='xl', color=AQIcolor, align="end"),
                                         TextComponent(text=arg['Status'], weight='bold', size='xl', color=AQIcolor, align="end")
                                     ],
                                 ),
