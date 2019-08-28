@@ -709,7 +709,7 @@ def nowAQI(arg={}):
                     layout='vertical',
                     contents=[
                         # title
-                        TextComponent(text='空氣品質', weight='bold', size='sm', color="#1DB446"),
+                        TextComponent(text=arg['Status'], weight='bold', size='sm', color=AQIcolor),
                         BoxComponent(
                             layout='horizontal',
                             margin='md',
@@ -718,14 +718,14 @@ def nowAQI(arg={}):
                                     layout='vertical', flex=5,
                                     contents=[
                                         TextComponent(text=arg['SiteName'], weight='bold', size='xxl'),
-                                        TextComponent(text=arg['County'], weight='bold', size='md', color="#333399")
+                                        TextComponent(text=arg['County'], weight='bold', size='lg', color="#333399")
                                     ],
                                 ),
                                 BoxComponent(
                                     layout='vertical', flex=3,
                                     contents=[
-                                        TextComponent(text='AQI ' + arg['AQI'] if arg['AQI']!='-1' else 'NA', weight='bold', size='xl', color=AQIcolor, align="end"),
-                                        TextComponent(text=arg['Status'], weight='bold', size='xl', wrap=True, color=AQIcolor, align="end")
+                                        TextComponent(text='AQI' + , weight='bold', size='lg', color=AQIcolor, align="end"),
+                                        TextComponent(text=arg['AQI'] if arg['AQI']!='-1' else 'NA', weight='bold', size='4xl', wrap=True, color=AQIcolor, align="end")
                                     ],
                                 ),
                             ],
