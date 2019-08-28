@@ -693,6 +693,7 @@ def whatCanSay(arg=[]):
 
 ##空氣品質
 def nowAQI(arg={}):
+    arg['SiteName'] = arg['SiteName'][arg['SiteName'].index('(')+1:arg['SiteName'].index(')')] if '(' in arg['SiteName'] else arg['SiteName']
     arg['AQI'] = '-1' if arg['AQI']=='' else arg['AQI']
     for x in ['SO2', 'SO2_AVG', 'CO', 'CO_8hr', 'O3', 'O3_8hr', 'PM10', 'PM10_AVG', 'PM2.5', 'PM2.5_AVG', 'NO2']:
         arg[x] = 'NA' if arg[x]=='' else arg[x]
@@ -710,14 +711,14 @@ def nowAQI(arg={}):
                             margin='md',
                             contents=[
                                 BoxComponent(
-                                    layout='vertical',
+                                    layout='vertical', flex=5,
                                     contents=[
                                         TextComponent(text=arg['SiteName'], weight='bold', size='xxl'),
                                         TextComponent(text=arg['County'], weight='bold', size='md', color="#333399")
                                     ],
                                 ),
                                 BoxComponent(
-                                    layout='vertical',
+                                    layout='vertical', flex=3,
                                     contents=[
                                         TextComponent(text='AQI' + arg['AQI'], weight='bold', size='xl', color=AQIcolor, align="end"),
                                         TextComponent(text=arg['Status'], weight='bold', size='xl', color=AQIcolor, align="end")
@@ -741,7 +742,7 @@ def nowAQI(arg={}):
                                     layout='vertical', flex=2,
                                     contents=[
                                         TextComponent(text='8小時\n移動平均', size='sm', wrap=True, flex=1, gravity='center', align="end"),
-                                        TextComponent(text='小時\n濃度', size='sm', wrap=True, flex=1, gravity='center', align="end")
+                                        TextComponent(text='小時濃度', size='sm', wrap=True, flex=1, gravity='center', align="end")
                                     ],
                                 ),
                                 BoxComponent(
@@ -768,8 +769,8 @@ def nowAQI(arg={}):
                                 BoxComponent(
                                     layout='vertical', flex=2,
                                     contents=[
-                                        TextComponent(text='移動\n平均', size='sm', wrap=True, flex=1, gravity='center', align="end"),
-                                        TextComponent(text='小時\n濃度', size='sm', wrap=True, flex=1, gravity='center', align="end")
+                                        TextComponent(text='移動平均', size='sm', wrap=True, flex=1, gravity='center', align="end"),
+                                        TextComponent(text='小時濃度', size='sm', wrap=True, flex=1, gravity='center', align="end")
                                     ],
                                 ),
                                 BoxComponent(
@@ -796,8 +797,8 @@ def nowAQI(arg={}):
                                 BoxComponent(
                                     layout='vertical', flex=2,
                                     contents=[
-                                        TextComponent(text='移動\n平均', size='sm', wrap=True, flex=1, gravity='center', align="end"),
-                                        TextComponent(text='小時\n濃度', size='sm', wrap=True, flex=1, gravity='center', align="end")
+                                        TextComponent(text='移動平均', size='sm', wrap=True, flex=1, gravity='center', align="end"),
+                                        TextComponent(text='小時濃度', size='sm', wrap=True, flex=1, gravity='center', align="end")
                                     ],
                                 ),
                                 BoxComponent(
@@ -825,7 +826,7 @@ def nowAQI(arg={}):
                                     layout='vertical', flex=2,
                                     contents=[
                                         TextComponent(text='8小時\n移動平均', size='sm', wrap=True, flex=1, gravity='center', align="end"),
-                                        TextComponent(text='小時\n濃度', size='sm', wrap=True, flex=1, gravity='center', align="end")
+                                        TextComponent(text='小時濃度', size='sm', wrap=True, flex=1, gravity='center', align="end")
                                     ],
                                 ),
                                 BoxComponent(
@@ -852,8 +853,8 @@ def nowAQI(arg={}):
                                 BoxComponent(
                                     layout='vertical', flex=2,
                                     contents=[
-                                        TextComponent(text='移動\n平均', size='sm', wrap=True, flex=1, gravity='center', align="end"),
-                                        TextComponent(text='小時\n濃度', size='sm', wrap=True, flex=1, gravity='center', align="end")
+                                        TextComponent(text='移動平均', size='sm', wrap=True, flex=1, gravity='center', align="end"),
+                                        TextComponent(text='小時濃度', size='sm', wrap=True, flex=1, gravity='center', align="end")
                                     ],
                                 ),
                                 BoxComponent(
@@ -880,7 +881,7 @@ def nowAQI(arg={}):
                                 BoxComponent(
                                     layout='vertical', flex=2,
                                     contents=[
-                                        TextComponent(text='小時\n濃度', size='sm', wrap=True, flex=1, gravity='center', align="end")
+                                        TextComponent(text='小時濃度', size='sm', wrap=True, flex=1, gravity='center', align="end")
                                     ],
                                 ),
                                 BoxComponent(
