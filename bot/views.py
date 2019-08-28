@@ -177,10 +177,9 @@ def handle_message(event):
                 content = echo2(lineMessage, channelId)
             
             ##反查關鍵字
-            if not keyRes(content[0], channelId, event):
-                autoLearnModel(lineMessage, channelId, content, event) #關鍵字內會學習，不重複學習
-                replyList.append(TextSendMessage(text=content[0])) #本次要回的話
-                storeReply(content[0], content[1], channelId) #記錄機器人本次回的「文字訊息」
+            autoLearnModel(lineMessage, channelId, content, event) #關鍵字內會學習，不重複學習
+            replyList.append(TextSendMessage(text=content[0])) #本次要回的話
+            storeReply(content[0], content[1], channelId) #記錄機器人本次回的「文字訊息」
 
     storeReceived(lineMessage, channelId) #儲存本次收到的語句
     
