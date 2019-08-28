@@ -106,7 +106,7 @@ def getReg(msg):
 
 ####################訊息接收及回覆區####################
 ##回覆列表
-replyList=""
+replyList = None
 
 ##自動學習模型
 def autoLearnModel(msg, content, channelId, event):
@@ -137,6 +137,7 @@ def handle_message(event):
     lineMessage = event.message.text
     newChannel(channelId) #新建頻道資料
     global replyList
+    replyList = None
     content=["", 0]
 
     ##功能型
@@ -204,5 +205,5 @@ def handle_message(event):
     ####回傳給LINE
     line_bot_api.reply_message(
         event.reply_token,
-        [replyList])
+        replyList)
     return 0
