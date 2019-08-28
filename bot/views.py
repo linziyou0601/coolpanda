@@ -142,46 +142,46 @@ def handle_message(event):
 
     #if not keyRes(lineMessage, channelId, event):
         ##功能型
-        if lineMessage == "主選單" or lineMessage == "牛批貓":
-            replyList.append(FlexSendMessage(alt_text="主選單", contents=mainMenu()))
-        elif any(s == lineMessage for s in ["抽籤教學", "怎麼抽籤", "抽籤"]):
-            replyList.append(FlexSendMessage(alt_text="如何抽籤", contents=teachLottery()))
-        elif any(s == lineMessage for s in ["學說話教學", "怎麼學說話", "學說話", "教你說話"]):
-            replyList.append(FlexSendMessage(alt_text="如何教我說話", contents=teachChat()))
-        elif any(s == lineMessage for s in ["怎麼查時間", "怎麼查日期", "查時間", "查日期"]):
-            replyList.append(FlexSendMessage(alt_text="如何教我說話", contents=teachDatetime()))
-        elif any(s == lineMessage for s in ["怎麼查空氣", "如何查空氣", "查空氣", "空氣品質"]):
-            replyList.append(FlexSendMessage(alt_text="如何教我說話", contents=teachAQI()))
-        elif any(s == lineMessage for s in ["牛批貓會做什麼", "牛批貓會幹嘛", "你會幹嘛", "你會做什麼"]):
-            replyList.append(FlexSendMessage(alt_text="我會哪些技能", contents=teaching()))
-        elif lineMessage == "目前狀態":
-            replyList.append(FlexSendMessage(alt_text="目前狀態", contents=statusMenu(currentStatus(channelId))))
-        elif lineMessage=="牛批貓會說什麼": #本聊天窗所有教過的東西
-            replyList.append(FlexSendMessage(alt_text="我會說什麼", contents=whatCanSay(allLearn(channelId))))
-        elif "說別人教的話" in lineMessage: #回話資料庫開關
-            replyList.append(TextSendMessage(text=globaltalk(lineMessage, channelId)))
-        elif any(s == lineMessage for s in ["牛批貓說話","牛批貓講話","牛批貓安靜", "牛批貓閉嘴"]): #安靜開關
-            replyList.append(TextSendMessage(text=mute(lineMessage, channelId)))
-        else:
-            ##聊天功能
-            content=["",0]
-            if lineMessage == "壞壞": #名詞拉黑
-                content = bad(channelId)
-            elif lineMessage.replace("；",";")[0:4] == "學說話;": #學說話
-                content = learn(lineMessage, channelId, event.source)
-            elif lineMessage.replace("；",";")[0:3] == "忘記;": #刪詞
-                content = forget(lineMessage, channelId)
+    if lineMessage == "主選單" or lineMessage == "牛批貓":
+        replyList.append(FlexSendMessage(alt_text="主選單", contents=mainMenu()))
+    elif any(s == lineMessage for s in ["抽籤教學", "怎麼抽籤", "抽籤"]):
+        replyList.append(FlexSendMessage(alt_text="如何抽籤", contents=teachLottery()))
+    elif any(s == lineMessage for s in ["學說話教學", "怎麼學說話", "學說話", "教你說話"]):
+        replyList.append(FlexSendMessage(alt_text="如何教我說話", contents=teachChat()))
+    elif any(s == lineMessage for s in ["怎麼查時間", "怎麼查日期", "查時間", "查日期"]):
+        replyList.append(FlexSendMessage(alt_text="如何教我說話", contents=teachDatetime()))
+    elif any(s == lineMessage for s in ["怎麼查空氣", "如何查空氣", "查空氣", "空氣品質"]):
+        replyList.append(FlexSendMessage(alt_text="如何教我說話", contents=teachAQI()))
+    elif any(s == lineMessage for s in ["牛批貓會做什麼", "牛批貓會幹嘛", "你會幹嘛", "你會做什麼"]):
+        replyList.append(FlexSendMessage(alt_text="我會哪些技能", contents=teaching()))
+    elif lineMessage == "目前狀態":
+        replyList.append(FlexSendMessage(alt_text="目前狀態", contents=statusMenu(currentStatus(channelId))))
+    elif lineMessage=="牛批貓會說什麼": #本聊天窗所有教過的東西
+        replyList.append(FlexSendMessage(alt_text="我會說什麼", contents=whatCanSay(allLearn(channelId))))
+    elif "說別人教的話" in lineMessage: #回話資料庫開關
+        replyList.append(TextSendMessage(text=globaltalk(lineMessage, channelId)))
+    elif any(s == lineMessage for s in ["牛批貓說話","牛批貓講話","牛批貓安靜", "牛批貓閉嘴"]): #安靜開關
+        replyList.append(TextSendMessage(text=mute(lineMessage, channelId)))
+    else:
+        ##聊天功能
+        content=["",0]
+        if lineMessage == "壞壞": #名詞拉黑
+            content = bad(channelId)
+        elif lineMessage.replace("；",";")[0:4] == "學說話;": #學說話
+            content = learn(lineMessage, channelId, event.source)
+        elif lineMessage.replace("；",";")[0:3] == "忘記;": #刪詞
+            content = forget(lineMessage, channelId)
 
-            if content[0]!="好哦的喵～": #回覆(或隨機回覆)
-                content = ["",0] if queryUser(channelId)[3] else chat(lineMessage, channelId)
-            if echo2(lineMessage, channelId)!="" and content[0]=="窩聽不懂啦！": #齊推
-                content = echo2(lineMessage, channelId)
-            
-            ##反查關鍵字
-            #if not keyRes(content[0], channelId, event):
-            autoLearnModel(lineMessage, channelId, content, event) #關鍵字內會學習，不重複學習
-            replyList.append(TextSendMessage(text=content[0])) #本次要回的話
-            storeReply(content[0], content[1], channelId) #記錄機器人本次回的「文字訊息」
+        if content[0]!="好哦的喵～": #回覆(或隨機回覆)
+            content = ["",0] if queryUser(channelId)[3] else chat(lineMessage, channelId)
+        if echo2(lineMessage, channelId)!="" and content[0]=="窩聽不懂啦！": #齊推
+            content = echo2(lineMessage, channelId)
+        
+        ##反查關鍵字
+        #if not keyRes(content[0], channelId, event):
+        autoLearnModel(lineMessage, channelId, content, event) #關鍵字內會學習，不重複學習
+        replyList.append(TextSendMessage(text=content[0])) #本次要回的話
+        storeReply(content[0], content[1], channelId) #記錄機器人本次回的「文字訊息」
 
     storeReceived(lineMessage, channelId) #儲存本次收到的語句
     
