@@ -185,14 +185,14 @@ def handle_message(event):
             content = forget(lineMessage, channelId)
         else: #資料庫回覆(或隨機回覆)
             content = chat(lineMessage, channelId)
-        #齊推
-        if echo2(lineMessage, channelId):
-            content = echo2(lineMessage, channelId)
 
         #最終反查關鍵字類型
         if keyRes(content[0], channelId, event):
             content=[content[0], 1]
         else:
+            #齊推
+            if echo2(lineMessage, channelId):
+                content = echo2(lineMessage, channelId)
             replyList = TextSendMessage(text=content[0]) #本次要回的話
     
     ##自動學習
