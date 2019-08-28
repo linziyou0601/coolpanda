@@ -9,6 +9,7 @@ def AQI(site):
         for row in obj:
             if any(site in s for s in [row['SiteName'], row['County']]):
                 return row
+        return ""
 
 ####主聊天功能
 ##自動學習
