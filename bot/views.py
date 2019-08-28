@@ -140,7 +140,7 @@ def handle_message(event):
     global replyList
     replyList=[]
 
-    if not keyRes(lineMessage, channelId, event):
+    #if not keyRes(lineMessage, channelId, event):
         ##功能型
         if lineMessage == "主選單" or lineMessage == "牛批貓":
             replyList.append(FlexSendMessage(alt_text="主選單", contents=mainMenu()))
@@ -173,15 +173,15 @@ def handle_message(event):
                 content = forget(lineMessage, channelId)
 
             if content[0]!="好哦的喵～": #回覆(或隨機回覆)
-                content = "" if queryUser(channelId)[3] else chat(lineMessage, channelId)
+                content = ["",0] if queryUser(channelId)[3] else chat(lineMessage, channelId)
             if echo2(lineMessage, channelId)!="" and content[0]=="窩聽不懂啦！": #齊推
                 content = echo2(lineMessage, channelId)
             
             ##反查關鍵字
-            if not keyRes(content[0], channelId, event):
-                autoLearnModel(lineMessage, channelId, content, event) #關鍵字內會學習，不重複學習
-                replyList.append(TextSendMessage(text=content[0])) #本次要回的話
-                storeReply(content[0], content[1], channelId) #記錄機器人本次回的「文字訊息」
+            #if not keyRes(content[0], channelId, event):
+            autoLearnModel(lineMessage, channelId, content, event) #關鍵字內會學習，不重複學習
+            replyList.append(TextSendMessage(text=content[0])) #本次要回的話
+            storeReply(content[0], content[1], channelId) #記錄機器人本次回的「文字訊息」
 
     storeReceived(lineMessage, channelId) #儲存本次收到的語句
     
