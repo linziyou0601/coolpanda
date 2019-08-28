@@ -457,7 +457,7 @@ def teachAQI(arg=[]):
                                             text='關鍵字',
                                             color='#aaaaaa',
                                             size='sm',
-                                            flex=1
+                                            flex=2
                                         ),
                                         TextComponent(
                                             text='「測站名+空氣/空汙/空氣品質/PM2.5」的方式，結尾若為關鍵字，則會將關鍵字前的詞帶入查詢',

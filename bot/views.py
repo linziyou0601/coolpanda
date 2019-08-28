@@ -117,8 +117,9 @@ def handle_message(event):
     ##關鍵字型
     if re.search(getReg('aqi'), lineMessage): #空氣指標
         key = AQI(re.split(getReg('aqi'), lineMessage)[0].replace("台","臺"))
-        if key!="": replyList.append(FlexSendMessage(alt_text="空氣品質", contents=nowAQI(key)))
-        rted=1
+        if key!="":
+            replyList.append(FlexSendMessage(alt_text="空氣品質", contents=nowAQI(key)))
+            rted=1
     if not rted:
         ##功能型
         if lineMessage == "主選單":
