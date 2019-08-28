@@ -795,7 +795,7 @@ def nowAQI(arg={}):
                                 BoxComponent(
                                     layout='vertical', flex=3,
                                     contents=[
-                                        TextComponent(text='PM10\n懸浮微粒', weight='bold', size='lg', wrap=True, flex=1, gravity='center', color="#336699" if "懸浮微粒" in arg['Pollutant'] else"#444444")
+                                        TextComponent(text='PM10\n懸浮微粒', weight='bold', size='lg', wrap=True, flex=1, gravity='center', color="#336699" if "懸浮微粒" in arg['Pollutant'].replace("細懸浮微粒","") else"#444444")
                                     ],
                                 ),
                                 BoxComponent(
