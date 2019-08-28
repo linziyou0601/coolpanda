@@ -106,6 +106,7 @@ def getReg(msg):
 
 ####################訊息接收及回覆區####################
 ##回覆列表
+replyList=[]
 
 def autoLearnModel(msg, channelId, content, event):
     ##自動學習
