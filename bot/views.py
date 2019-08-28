@@ -201,7 +201,7 @@ def handle_message(event):
     storeReply(content[0], content[1], channelId) #記錄機器人本次回的「文字訊息」、「訊息有效度」
     storeReceived(lineMessage, channelId) #儲存本次收到的語句
     
-    
+    replyList = replyList if isinstance(replyList, list) else [replyList]
     ####回傳給LINE
     line_bot_api.reply_message(
         event.reply_token,
