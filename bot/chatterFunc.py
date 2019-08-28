@@ -15,9 +15,6 @@ def AQI(site):
         return ""
 
 ####主聊天功能
-##自動學習
-def autolearn(my, lineMessage):
-    insStatement(my, [lineMessage], "cowpi", "autoLearn")
 ##學說話
 def learn(lineMessage, channelId, e_source):
     lineMes = [x for x in lineMessage.replace("；",";").split(';') if x != ""]
@@ -67,8 +64,8 @@ def chat(lineMessage, channelId):
         boolean = 0 if response=="窩聽不懂啦！" else 1
     return [response, boolean]
 ##成功回話時增加權重
-def validReply(lineMessage, reply, channelId):
-    adjustPrio(lineMessage, reply, 1, "" if queryUser(channelId)[2] else channelId)
+def validReply(lineMessage, reply):
+    adjustPrio(lineMessage, reply, 1)
 ##齊推
 def echo2(lineMessage, channelId):
     if not lineMessage in queryReceived(channelId, 5): return ["", 0]

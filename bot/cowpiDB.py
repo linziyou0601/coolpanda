@@ -115,20 +115,18 @@ def queryReply(channelId, num):
 
 ##########[新增, 刪除, 調整權重, 取得回覆]: [詞條]##########
 ##新增詞條
-def insStatement(key, msg, channelId, type, autoLearn=0):
+def insStatement(key, msg, channelId, type):
     createTable()
     with sqlite3.connect(settings.BASE_DIR + '/db/cowpi.db') as conn:
         c = conn.cursor()
         for res in msg:
             c.execute('SELECT * FROM statements Where keyword=? and response=? and channel_id=?', [key, res, channelId])
             #若詞條不存在於當前聊天室，才新增詞條
-            if len(c.fetchall())==0:
+            if not len(c.fetchall()):
                 c.execute('INSERT INTO statements(keyword, response, create_at, channel_id, channel_type) VALUES(?,?,?,?,?)',
                           [key, res, str(datetime.now(pytz.timezone("Asia/Taipei"))), channelId, type])
             #若詞條存在於當前聊天室，則權重+1
-            else:
-                adjustPrio(key, res, 1, channelId)
-                
+            else: adjustPrio(key, res, 1, channelId)  
 ##刪除詞條
 def delStatement(key, msg, channelId):
     createTable()
@@ -137,24 +135,21 @@ def delStatement(key, msg, channelId):
         for res in msg:
             c.execute('DELETE FROM statements Where keyword=? and response=? and channel_id=?', [key, res, channelId])
 ##調整詞條權重
-def adjustPrio(key, msg, case, channelId=""):
+def adjustPrio(key, msg, case, channelId=''):
     createTable()
     with sqlite3.connect(settings.BASE_DIR + '/db/cowpi.db') as conn:
         c = conn.cursor()
-        #若有指定channelId，則加入channelId條件
-        strChannelId = ' and keyword=? and channel_id=?' if channelId!="" else ''
-        c.execute('SELECT priority FROM statements Where response=?' + strChannelId,
-                  [msg, key, channelId] if channelId!="" else [msg])
+        #若有指定channelId（手動加詞學習），則加入channelId條件
+        strChannelId = ' and channel_id=?' if channelId!="" else ''
+        c.execute('SELECT priority FROM statements Where keyword=? and response=?' + strChannelId, 
+                  [key, msg, channelId] if channelId!="" else [key, msg])
         data = c.fetchall()
-        #若原本詞條找不到，則一定在自動學習裡，故強制加入channelId='cowpi'條件
-        if not len(data):
-            channelId='cowpi'
-            strChannelId = ' and keyword=? and channel_id=?'
-            c.execute('SELECT priority FROM statements Where response=?' + strChannelId, [msg, key, channelId])
-            data = c.fetchall()
-        for x in data:
-            c.execute('UPDATE statements SET priority=? Where response=?' + strChannelId,
-                      [int(x[0])+case, msg, key, channelId] if channelId!="" else [int(x[0])+case, msg])
+        #若詞條找不到，表示此句為自動接話模型、或廣泛搜尋模型，則增加一句自動學習詞條
+        if len(data):
+            for x in data:
+                c.execute('UPDATE statements SET priority=? Where keyword=? and response=?' + strChannelId,
+                          [int(x[0])+case, key, msg, channelId] if channelId!="" else [int(x[0])+case, key, msg])
+        else: insStatement(key, msg, 'cowpi', 'autoLearn')
 ##取得詞條回覆
 def resStatement(key, channelId, rand):
     createTable()
