@@ -604,6 +604,7 @@ def statusMenu(arg=[]):
 
 ##會說什麼
 def whatCanSay(arg=[]):
+    #整理資料格式
     keywordObj=[]
     if arg[5]!="Null":
         for k, v in arg[5].items():
@@ -623,6 +624,7 @@ def whatCanSay(arg=[]):
             )
             keywordObj.append(SeparatorComponent(margin='md'))
     if not len(keywordObj): keywordObj.append(SeparatorComponent(margin='md'))
+    #建立容器
     return BubbleContainer(
                 direction='ltr',
                 body=BoxComponent(
@@ -693,12 +695,14 @@ def whatCanSay(arg=[]):
 
 ##空氣品質
 def nowAQI(arg={}):
+    #整理資料格式
     arg['SiteName'] = arg['SiteName'][arg['SiteName'].index('(')+1:arg['SiteName'].index(')')] if '(' in arg['SiteName'] else arg['SiteName']
     arg['AQI'] = '-1' if arg['AQI']=='' else arg['AQI']
     for x in ['SO2', 'SO2_AVG', 'CO', 'CO_8hr', 'O3', 'O3_8hr', 'PM10', 'PM10_AVG', 'PM2.5', 'PM2.5_AVG', 'NO2']:
         arg[x] = 'NA' if arg[x]=='' else arg[x]
     AQIList = [[-1,"#888888"], [0,"#339933"], [51,"#EECC33"], [101,"#EE9933"], [151,"#DD3333"], [201,"#996699"], [301,"#990066"]]
     AQIcolor = list(filter(lambda x: int(arg['AQI'])>=x[0], AQIList))[::-1][0][1]
+    #建立容器
     return BubbleContainer(
                 direction='ltr',
                 body=BoxComponent(
@@ -720,7 +724,7 @@ def nowAQI(arg={}):
                                 BoxComponent(
                                     layout='vertical', flex=3,
                                     contents=[
-                                        TextComponent(text='AQI ' + arg['AQI'], weight='bold', size='xl', color=AQIcolor, align="end"),
+                                        TextComponent(text='AQI ' + arg['AQI'] if arg['AQI']!='-1' else 'NA', weight='bold', size='xl', color=AQIcolor, align="end"),
                                         TextComponent(text=arg['Status'], weight='bold', size='xl', color=AQIcolor, align="end")
                                     ],
                                 ),
