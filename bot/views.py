@@ -105,22 +105,40 @@ def getReg(msg):
     return RegDict[msg]
 
 ####################訊息接收及回覆區####################
+##回覆列表
+replyList = []
+
+def autoLearnModel(msg, channelId, content, event):
+    ##自動學習
+    if queryReply(channelId, 1)[0][1] and content[1]: #若上一句是從資料庫撈出來的回覆，則順序性對話自動加入詞條
+        autolearn(queryReply(channelId, 1)[0][0], msg, channelId, event.source)
+    if content[1]: #若有詞條資料，則回覆時權重+1
+        validReply(msg, content[0], channelId)
+    if queryReply(channelId, 1)[0][0]=='窩聽不懂啦！' and content[1]: #若上一句回答的是聽不懂，本次有詞條，則將上次收到的關鍵字和本次的回答學習
+        autolearn(queryReceived(channelId, 1)[0], content[0], channelId, event.source)
+
+##關鍵字型
+def keyRes(msg, channelId, event):
+    rted=0
+    #空氣指標
+    if re.search(getReg('aqi'), msg) and re.split(getReg('aqi'), msg)[0]!="": 
+        key = AQI(re.split(getReg('aqi'), msg)[0].replace("台","臺"))
+        if key!="":
+            replyList.append(FlexSendMessage(alt_text="空氣品質", contents=nowAQI(key)))
+            autoLearnModel(msg, channelId, [msg,1], event)
+            rted=1
+    return rted
+
 #@handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     channelId = getChannelId(event)
     
     ##取得收到的訊息
     lineMessage = event.message.text
-    replyList = []
     newChannel(channelId) #新建頻道資料
-    rted=0
-    ##關鍵字型
-    if re.search(getReg('aqi'), lineMessage) and re.split(getReg('aqi'), lineMessage)[0]!="": #空氣指標
-        key = AQI(re.split(getReg('aqi'), lineMessage)[0].replace("台","臺"))
-        if key!="":
-            replyList.append(FlexSendMessage(alt_text="空氣品質", contents=nowAQI(key)))
-            rted=1
-    if not rted:
+    global replyList
+    
+    if not keyRes(lineMessage, channelId, event):
         ##功能型
         if lineMessage == "主選單" or lineMessage == "牛批貓":
             replyList.append(FlexSendMessage(alt_text="主選單", contents=mainMenu()))
@@ -157,17 +175,12 @@ def handle_message(event):
             if echo2(lineMessage, channelId)!="" and content=="窩聽不懂啦！": #齊推
                 content = echo2(lineMessage, channelId)
             
-            ##自動學習
-            if queryReply(channelId, 1)[0][1] and content[1]: #若上一句是從資料庫撈出來的回覆，則順序性對話自動加入詞條
-                autolearn(queryReply(channelId, 1)[0][0], lineMessage, channelId, event.source)
-            if content[1]: #若有詞條資料，則回覆時權重+1
-                validReply(lineMessage, content[0], channelId)
-            if queryReply(channelId, 1)[0][0]=='窩聽不懂啦！' and content[1]: #若上一句回答的是聽不懂，本次有詞條，則將上次收到的關鍵字和本次的回答學習
-                autolearn(queryReceived(channelId, 1)[0], content[0], channelId, event.source)
-            
-            ##儲存訊息
-            replyList.append(TextSendMessage(text=content[0])) #本次要回的話
-            storeReply(content[0], content[1], channelId) #記錄機器人本次回的「文字訊息」
+            ##反查關鍵字
+            if not keyRes(content[0], channelId, event):
+                autoLearnModel(lineMessage, channelId, content, event) #關鍵字內會學習，不重複學習
+                replyList.append(TextSendMessage(text=content[0])) #本次要回的話
+                storeReply(content[0], content[1], channelId) #記錄機器人本次回的「文字訊息」
+                            
     storeReceived(lineMessage, channelId) #儲存本次收到的語句
     
     
