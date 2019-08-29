@@ -1008,6 +1008,7 @@ def flexWeather(arg={}):
                             layout='horizontal',
                             margin='xxl',
                             contents=[
+                                #地區
                                 BoxComponent(
                                     layout='vertical',
                                     flex=5,
@@ -1016,6 +1017,7 @@ def flexWeather(arg={}):
                                         TextComponent(text=arg['City']+' '+arg['Town'], weight='bold', size='sm', color='#0D8186')
                                     ],
                                 ),
+                                #降雨率
                                 BoxComponent(
                                     layout='vertical',
                                     flex=4,
@@ -1027,6 +1029,7 @@ def flexWeather(arg={}):
                                                 TextComponent(text=arg['PoP6h']+'%', weight='bold', size='xl', color='#0D8186', flex=3)
                                             ],
                                         ),
+                                        ##新API開放後才能顯示
                                         BoxComponent(
                                             layout='vertical',
                                             backgroundColor='#9FD8E3',
@@ -1046,6 +1049,7 @@ def flexWeather(arg={}):
                             ],
                         ),
                         SeparatorComponent(margin='md'),
+                        #濕度、雨量
                         BoxComponent(
                             layout='horizontal',
                             margin='md',
@@ -1070,6 +1074,7 @@ def flexWeather(arg={}):
                             ],
                         ),
                         SeparatorComponent(margin='md'),
+                        #時間
                         BoxComponent(
                             layout='vertical',
                             margin='md',
@@ -1135,6 +1140,7 @@ def flexWeather72HR(arg):
     #建立容器
     return CarouselContainer(contents = WeatherList)
 
+##擲筊
 def flexDevinate(arg):
     img = [
         'https://i.imgur.com/D0GE3Vf.png', 'https://i.imgur.com/cm5pdAg.png',
@@ -1151,6 +1157,7 @@ def flexDevinate(arg):
                 ),
                 body=BoxComponent(
                     layout='vertical',
+                    ##新API開放後再改背景色
                     contents=[
                         TextComponent(text=res[arg], size='4xl', weight='bold', align='center', color='#c4241b'),
                         SeparatorComponent(margin='md'),
