@@ -165,7 +165,7 @@ def handle_message(event):
     elif any(s == lineMessage for s in ["怎麼查時間", "怎麼查日期", "查時間", "查日期"]):
         replyList = FlexSendMessage(alt_text="如何教我說話", contents=flexTeachDatetime())
         content=[lineMessage, 0]
-    elif any(s == lineMessage for s in x+y for x in ["怎麼查", "如何查", "查"] for y in ["天氣", "空氣", "氣象"]):
+    elif any(s == lineMessage for s in (x+y for x in ["怎麼查", "如何查", "查"] for y in ["天氣", "空氣", "氣象"])):
         replyList = FlexSendMessage(alt_text="如何教我說話", contents=flexTeachCWB())
         content=[lineMessage, 0]
     elif any(s == lineMessage for s in ["牛批貓會做什麼", "牛批貓會幹嘛", "你會幹嘛", "你會做什麼"]):

@@ -982,7 +982,7 @@ def flexWeather(arg={}):
                     contents=[
                         #溫度
                         TextComponent(
-                            text=arg['Temp']+'°C',
+                            text=arg['Temp']+'°',
                             size='5xl',
                             align="center",
                             color="#990066"
@@ -1093,7 +1093,7 @@ def flexWeather72HR(arg):
                         ],
                     ),
                     #天氣內容
-                    TextComponent(text=x['Temp']+'°C', size='3xl', align='center', color='#990066'),
+                    TextComponent(text=x['Temp']+'°', size='3xl', align='center', color='#990066'),
                     TextComponent(text=x['Wx'], size='sm', weight='bold', align='center', color='#990066'),
                     SeparatorComponent(margin='md'),
                     BoxComponent(
