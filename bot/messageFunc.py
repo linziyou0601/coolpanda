@@ -1019,3 +1019,108 @@ def nowWeather(arg={}):
                 ),
             )
 
+##未來天氣
+def weather72HR(arg={}):
+    #整理資料格式
+    arg['Temp'] = str(round(float(arg['Temp'])*10+0.5)/10) if arg['Temp']!='-99' else 'N/A'
+    arg['Humd'] = str(round(float(arg['Humd'])*1000+0.5)/10) if arg['Humd']!='-99' else 'N/A'
+    arg['24R'] = str(round(float(arg['24R'])*10+0.5)/10) if arg['24R']!='-99' else 'N/A'
+    #建立容器
+    return BubbleContainer(
+                direction='ltr',
+                body=BoxComponent(
+                    layout='vertical',
+                    contents=[
+                        #溫度
+                        TextComponent(
+                            text=arg['Temp']+'°C',
+                            size='5xl',
+                            align="center",
+                            color="#990066"
+                        ),
+                        #天氣狀況描述
+                        TextComponent(
+                            text=arg['Wx'],
+                            weight='bold',
+                            size='lg',
+                            align="center",
+                            color="#990066"
+                        ),
+                        # O3 臭氧
+                        BoxComponent(
+                            layout='horizontal',
+                            margin='xxl',
+                            contents=[
+                                BoxComponent(
+                                    layout='vertical',
+                                    flex=5,
+                                    contents=[
+                                        TextComponent(text=arg['locationName'], weight='bold', size='xxl', wrap=True),
+                                        TextComponent(text=arg['City']+' '+arg['Town'], weight='bold', size='sm', color='#0D8186')
+                                    ],
+                                ),
+                                BoxComponent(
+                                    layout='vertical',
+                                    flex=4,
+                                    contents=[
+                                        BoxComponent(
+                                            layout='baseline',
+                                            contents=[
+                                                TextComponent(text='降雨率', weight='bold', size='sm', flex=2),
+                                                TextComponent(text=arg['PoP6h']+'%', weight='bold', size='xl', color='#0D8186', flex=3)
+                                            ],
+                                        ),
+                                        BoxComponent(
+                                            layout='vertical',
+                                            backgroundColor='#9FD8E3',
+                                            height='10px',
+                                            contents=[
+                                                BoxComponent(
+                                                    layout='vertical',
+                                                    backgroundColor='#0D8186',
+                                                    height='10px',
+                                                    width=arg['PoP6h']+'%',
+                                                    contents=[FillerComponent()],
+                                                )
+                                            ],
+                                        )
+                                    ],
+                                ),
+                                SeparatorComponent(margin='md'),
+                                BoxComponent(
+                                    layout='horizontal',
+                                    margin='md',
+                                    contents=[
+                                        BoxComponent(
+                                            layout='vertical',
+                                            flex=5,
+                                            contents=[
+                                                TextComponent(text='濕度', size='sm', wrap=True, flex=1, gravity='center', align='center'),
+                                                TextComponent(text=arg['Humd']+'%', weight='bold', size='lg', wrap=True, flex=1, gravity='center', align='center', color='#990066')
+                                            ],
+                                        ),
+                                        SeparatorComponent(margin='md'),
+                                        BoxComponent(
+                                            layout='vertical',
+                                            flex=5,
+                                            contents=[
+                                                TextComponent(text='日積雨量', size='sm', wrap=True, flex=1, gravity='center', align='center'),
+                                                TextComponent(text=arg['24R']+' mm', weight='bold', size='lg', wrap=True, flex=1, gravity='center', align='center', color='#990066')
+                                            ],
+                                        )
+                                    ],
+                                ),
+                                SeparatorComponent(margin='md'),
+                                BoxComponent(
+                                    layout='vertical',
+                                    margin='md',
+                                    contents=[
+                                        TextComponent(text='截至'+arg['TimeString'], size='sm', align='end', color='#AAAAAA')
+                                    ],
+                                )
+                            ],
+                        ),
+                    ],
+                ),
+            )
+

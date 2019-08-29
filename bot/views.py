@@ -135,7 +135,7 @@ def keyRes(msg, channelId, event):
     elif re.search(getReg('weather'), msg) and re.split(getReg('weather'), msg)[0]!="": 
         key = Weather(re.split(getReg('weather'), msg)[0].replace("台","臺"))
         if key[0]!="":
-            replyList = FlexSendMessage(alt_text="天氣狀況", contents=nowWeather(key[0]) if key[1] else nowWeather(key[0]))
+            replyList = FlexSendMessage(alt_text="天氣狀況", contents=nowWeather(key[0]) if key[1] else weather72HR(key[0]))
             keywordBool = True
             return True
     return False
