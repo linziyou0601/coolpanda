@@ -2,7 +2,7 @@
 from .cowpiDB import *
 from .crawlerFunc import *
 from datetime import datetime, timedelta
-import pytz, re
+import pytz, re, random
 
 ####關鍵字功能
 def AQI(site):
@@ -10,6 +10,8 @@ def AQI(site):
 def Weather(site):
     PATTERN = '((明|後|大後)[早晚天]|[一下]週|[早晚]上|中午|凌晨|未來)$'
     return [getWeather(site, True), 0] if re.search(PATTERN, site) else [getWeather(site), 1]
+def DevinateRes():
+    return int(random.random()*4)
 
 ####主聊天功能
 ##學說話

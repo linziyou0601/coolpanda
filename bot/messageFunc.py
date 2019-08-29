@@ -1127,3 +1127,32 @@ def flexWeather72HR(arg):
     #建立容器
     return CarouselContainer(contents = WeatherList)
 
+def flexDevinate(arg):
+    img = [
+        'https://i.imgur.com/D0GE3Vf.png', 'https://i.imgur.com/cm5pdAg.png',
+        'https://i.imgur.com/cm5pdAg.png', 'https://i.imgur.com/1tYF5LW.png'
+    ]
+    res = ['笑筊', '聖筊', '聖筊', '陰筊']
+    return BubbleContainer(
+                direction='ltr',
+                hero=ImageComponent(
+                    url=img[arg],
+                    size='full',
+                    aspect_ratio='20:13',
+                    aspect_mode='cover'
+                ),
+                body=BoxComponent(
+                    layout='vertical',
+                    backgroundColor='#c4241b',
+                    contents=[
+                        TextComponent(text=res[arg], size='4xl', weight='bold', align='center', color='#FFFFFF'),
+                        SeparatorComponent(margin='md'),
+                        ButtonComponent(
+                            style='link',
+                            color='#FFFFFF',
+                            action=MessageAction(label='再擲一次', text='擲筊'),
+                        )
+                    ],
+                ),
+            )
+

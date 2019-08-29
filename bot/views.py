@@ -101,7 +101,8 @@ def handle_leave(event):
 def getReg(msg):
     RegDict = {
         "aqi":"(空[氣汙]|空氣(品質|如何)|PM2.5|pm2.5)$",
-        "weather":"(天氣|天氣(狀況|如何)|會下雨嗎)$"
+        "weather":"(天氣|天氣(狀況|如何)|會下雨嗎)$",
+        "divinate":"擲筊",
     }
     return RegDict[msg]
 
@@ -133,6 +134,10 @@ def keyRes(msg, channelId, event):
         if key[0]!="":
             replyList = FlexSendMessage(alt_text="天氣狀況", contents=flexWeather(key[0]) if key[1] else flexWeather72HR(key[0]))
             return True
+    #擲筊
+    elif msg == getReg('divinate'): 
+        replyList = FlexSendMessage(alt_text="擲筊結果", contents=flexDevinate(DevinateRes()))
+        return True
     return False
 
 #@handler.add(MessageEvent, message=TextMessage)
