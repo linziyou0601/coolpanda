@@ -20,7 +20,7 @@ def getWeather(site, future=False):
                             'City': row['parameter'][0]['parameterValue'],
                             'Town': row['parameter'][2]['parameterValue'],
                             'Time': str(dt2),
-                            'TimeString': datetime.strftime(dt2, '%Y{y}%m{m}%d{d} %H:%M').format(y='年', m='月', d='日'),
+                            'TimeString': datetime.strftime(dt, '%Y{y}%m{m}%d{d} %H:%M').format(y='年', m='月', d='日'),
                             'Temp': row['weatherElement'][0]['elementValue'],
                             'Humd': row['weatherElement'][1]['elementValue'],
                             '24R': row['weatherElement'][2]['elementValue'],
