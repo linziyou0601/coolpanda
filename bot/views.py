@@ -144,8 +144,7 @@ def handle_message(event):
     keywordBool = False
     content=["", 0]
     
-
-    ##功能型
+    #####聊天回答第一階段#####功能型
     if lineMessage == "主選單" or lineMessage == "牛批貓":
         replyList = FlexSendMessage(alt_text="主選單", contents=mainMenu())
         content=[lineMessage, 0]
@@ -176,30 +175,29 @@ def handle_message(event):
     elif any(s == lineMessage for s in ["牛批貓說話","牛批貓講話","牛批貓安靜", "牛批貓閉嘴"]): #安靜開關
         replyList = TextSendMessage(text=mute(lineMessage, channelId))
         content=[lineMessage, 0]
-    #非安靜狀態
-    elif not queryUser(channelId)[3]:
-
-        #關鍵字類型
+    elif not queryUser(channelId)[3]: #非安靜狀態
+        #####聊天回答第二階段#####關鍵字類型
         if keyRes(lineMessage, channelId, event):
             content=[lineMessage, 1]
-        #聊天類型
-        elif lineMessage == "壞壞": #名詞拉黑
-            content = bad(channelId)
-        elif lineMessage.replace("；",";")[0:4] == "學說話;": #學說話
-            content = learn(lineMessage, channelId, event.source)
-        elif lineMessage.replace("；",";")[0:3] == "忘記;": #刪詞
-            content = forget(lineMessage, channelId)
-        else: #資料庫回覆(或隨機回覆)
-            content = chat(lineMessage, channelId)
-
-        #最終反查關鍵字類型
-        if keyRes(content[0], channelId, event):
-            content=[content[0], 1]
         else:
-            #齊推
-            if echo2(lineMessage, channelId):
-                content = echo2(lineMessage, channelId)
-            replyList = TextSendMessage(text=content[0]) #本次要回的話
+            #####聊天回答第三階段#####聊天類型
+            if lineMessage == "壞壞": #名詞拉黑
+                content = bad(channelId)
+            elif lineMessage.replace("；",";")[0:4] == "學說話;": #學說話
+                content = learn(lineMessage, channelId, event.source)
+            elif lineMessage.replace("；",";")[0:3] == "忘記;": #刪詞
+                content = forget(lineMessage, channelId)
+            else: #資料庫回覆(或隨機回覆)
+                content = chat(lineMessage, channelId)
+
+            #最終反查關鍵字類型
+            if keyRes(content[0], channelId, event):
+                content=[content[0], 1]
+            else:
+                #齊推
+                if echo2(lineMessage, channelId):
+                    content = echo2(lineMessage, channelId)
+                replyList = TextSendMessage(text=content[0]) #本次要回的話
     
     ##自動學習
     autoLearnModel(lineMessage, content, channelId, event)
