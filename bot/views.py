@@ -155,16 +155,16 @@ def handle_message(event):
         replyList = FlexSendMessage(alt_text="主選單", contents=flexMainMenu())
         content=[lineMessage, 0]
     elif any(s == lineMessage for s in ["抽籤教學", "怎麼抽籤", "抽籤"]):
-        replyList = FlexSendMessage(alt_text="如何抽籤", contents=flexTeachLottery())
+        replyList = FlexSendMessage(alt_text="如何隨機抽回答", contents=flexTeachLottery())
         content=[lineMessage, 0]
     elif any(s == lineMessage for s in ["學說話教學", "怎麼學說話", "學說話", "教你說話"]):
         replyList = FlexSendMessage(alt_text="如何教我說話", contents=flexTeachChat())
         content=[lineMessage, 0]
     elif any(s == lineMessage for s in ["怎麼查時間", "怎麼查日期", "查時間", "查日期"]):
-        replyList = FlexSendMessage(alt_text="如何教我說話", contents=flexTeachDatetime())
+        replyList = FlexSendMessage(alt_text="如何查時間日期", contents=flexTeachDatetime())
         content=[lineMessage, 0]
     elif any(s == lineMessage for s in (x+y for x in ["怎麼查", "如何查", "查"] for y in ["天氣", "空氣", "氣象"])):
-        replyList = FlexSendMessage(alt_text="如何教我說話", contents=flexTeachCWB())
+        replyList = FlexSendMessage(alt_text="如何查氣象", contents=flexTeachCWB())
         content=[lineMessage, 0]
     elif any(s == lineMessage for s in ["牛批貓會做什麼", "牛批貓會幹嘛", "你會幹嘛", "你會做什麼"]):
         replyList = FlexSendMessage(alt_text="我會哪些技能", contents=flexTeaching())
