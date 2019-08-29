@@ -108,14 +108,12 @@ def getReg(msg):
 ####################訊息接收及回覆區####################
 ##回覆列表
 replyList = []
-keywordBool = False
 
 ##自動學習模型
 def autoLearnModel(msg, content, channelId, event):
-    global keywordBool
     if content[1]:
         validReply(msg, content[0]) #若有詞條資料，則回覆時權重+1，若無則學習
-        if queryReply(channelId, 1)[0][1] and not keywordBool: #若上一句是從資料庫撈出來的回覆，且不是關鍵字回覆，則順序性對話自動加入詞條
+        if queryReply(channelId, 1)[0][1]==1 and content[1]!=2: #若上一句是從資料庫撈出來的回覆，且不是關鍵字回覆，則順序性對話自動加入詞條
             validReply(queryReply(channelId, 1)[0][0], msg)
         if queryReply(channelId, 1)[0][0]=='窩聽不懂啦！': #若上一句回答的是聽不懂，本次有詞條，則將上次收到的關鍵字和本次的回答學習
             validReply(queryReceived(channelId, 1)[0], content[0])
@@ -123,20 +121,17 @@ def autoLearnModel(msg, content, channelId, event):
 ##關鍵字型
 def keyRes(msg, channelId, event):
     global replyList
-    global keywordBool
     #空氣指標
     if re.search(getReg('aqi'), msg) and re.split(getReg('aqi'), msg)[0]!="": 
         key = AQI(re.split(getReg('aqi'), msg)[0].replace("台","臺"))
         if key!="":
             replyList = FlexSendMessage(alt_text="空氣品質", contents=flexAQI(key))
-            keywordBool = True
             return True
     #天氣狀況
     elif re.search(getReg('weather'), msg) and re.split(getReg('weather'), msg)[0]!="": 
         key = Weather(re.split(getReg('weather'), msg)[0].replace("台","臺"))
         if key[0]!="":
             replyList = FlexSendMessage(alt_text="天氣狀況", contents=flexWeather(key[0]) if key[1] else flexWeather72HR(key[0]))
-            keywordBool = True
             return True
     return False
 
@@ -148,8 +143,6 @@ def handle_message(event):
     lineMessage = event.message.text
     newChannel(channelId) #新建頻道資料
     global replyList
-    global keywordBool
-    keywordBool = False
     content=["", 0]
     
     #####聊天回答第一階段#####功能型
@@ -186,7 +179,7 @@ def handle_message(event):
     elif not queryUser(channelId)[3]: #非安靜狀態
         #####聊天回答第二階段#####關鍵字類型
         if keyRes(lineMessage, channelId, event):
-            content=[lineMessage, 1]
+            content=[lineMessage, 2]
         else:
             #####聊天回答第三階段#####聊天類型
             if lineMessage == "壞壞": #名詞拉黑
@@ -200,7 +193,7 @@ def handle_message(event):
 
             #最終反查關鍵字類型
             if keyRes(content[0], channelId, event):
-                content=[content[0], 1]
+                content=[content[0], 2]
             else:
                 #齊推
                 if echo2(lineMessage, channelId):
