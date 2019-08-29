@@ -928,7 +928,7 @@ def nowWeather(arg={}):
                     contents=[
                         #溫度
                         TextComponent(
-                            text=arg['Temp']+'°C'
+                            text=arg['Temp']+'°C',
                             size='5xl',
                             align="center",
                             color="#990066"
@@ -974,7 +974,7 @@ def nowWeather(arg={}):
                                                     layout='vertical',
                                                     backgroundColor='#0D8186',
                                                     height='10px',
-                                                    width=arg['PoP6h']+'%'
+                                                    width=arg['PoP6h']+'%',
                                                     contents=[FillerComponent()],
                                                 )
                                             ],
@@ -1008,7 +1008,7 @@ def nowWeather(arg={}):
                                 SeparatorComponent(margin='md'),
                                 BoxComponent(
                                     layout='vertical',
-                                    margin='md'
+                                    margin='md',
                                     contents=[
                                         TextComponent(text='截至'+arg['TimeString'], size='sm', align='end', color='#AAAAAA')
                                     ],
