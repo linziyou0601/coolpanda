@@ -100,7 +100,8 @@ def handle_leave(event):
 #關鍵保留字
 def getReg(msg):
     RegDict = {
-        "aqi":"(空[氣汙]|空氣(品質|如何)|PM2.5|pm2.5)$"
+        "aqi":"(空[氣汙]|空氣(品質|如何)|PM2.5|pm2.5)$",
+        "weather":"(天氣|天氣(狀況|如何)|會下雨嗎)$"
     }
     return RegDict[msg]
 
@@ -113,7 +114,7 @@ keywordBool = False
 def autoLearnModel(msg, content, channelId, event):
     global keywordBool
     if content[1]:
-        validReply(msg, content[0]) #若有詞條資料，則回覆時權重+1
+        validReply(msg, content[0]) #若有詞條資料，則回覆時權重+1，若無則學習
         if queryReply(channelId, 1)[0][1] and not keywordBool: #若上一句是從資料庫撈出來的回覆，且不是關鍵字回覆，則順序性對話自動加入詞條
             validReply(queryReply(channelId, 1)[0][0], msg)
         if queryReply(channelId, 1)[0][0]=='窩聽不懂啦！': #若上一句回答的是聽不懂，本次有詞條，則將上次收到的關鍵字和本次的回答學習
@@ -128,6 +129,13 @@ def keyRes(msg, channelId, event):
         key = AQI(re.split(getReg('aqi'), msg)[0].replace("台","臺"))
         if key!="":
             replyList = FlexSendMessage(alt_text="空氣品質", contents=nowAQI(key))
+            keywordBool = True
+            return True
+    #天氣狀況
+    elif re.search(getReg('weather'), msg) and re.split(getReg('weather'), msg)[0]!="": 
+        key = Weather(re.split(getReg('weather'), msg)[0].replace("台","臺"))
+        if key[0]!="":
+            replyList = FlexSendMessage(alt_text="空氣品質", contents=nowWeather(key) if key[1] else nowWeather(key))
             keywordBool = True
             return True
     return False

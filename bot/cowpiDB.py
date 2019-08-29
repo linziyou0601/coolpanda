@@ -1,3 +1,4 @@
+##########聊天機器人，資料庫存取##########
 from django.conf import settings
 from datetime import datetime
 import sqlite3

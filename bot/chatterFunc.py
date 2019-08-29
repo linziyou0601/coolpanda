@@ -1,18 +1,15 @@
+##########聊天機器人，聊天功能、關鍵字資料呼叫##########
 from .cowpiDB import *
+from .crawlerFunc import *
 from datetime import datetime, timedelta
-import pytz, urllib.request, json
+import pytz, re
 
 ####關鍵字功能
 def AQI(site):
-    dt = datetime.now(pytz.timezone("Asia/Taipei"))
-    timestr = str(dt.year)+"年"+str(dt.month)+"月"+str(dt.day)+"日 "+str(dt.hour)+":"+str(dt.minute)
-    with urllib.request.urlopen("http://opendata.epa.gov.tw/webapi/Data/REWIQA/?$orderby=County&$skip=0&$top=1000&format=json") as url:
-        obj = json.loads(url.read().decode())
-        for row in obj:
-            if any(site in s for s in [row['SiteName'], row['County']]):
-                row['timeStr'] = timestr
-                return row
-        return ""
+    return getAQI(site)
+def Weather(site):
+    PATTERN = '(明|後|大後)[早晚天]|[一下]週|[早晚]上|中午|凌晨'
+    return [getWeather(site), 0] if re.search(PATTERN, site) else [get72Hours(site), 1]
 
 ####主聊天功能
 ##學說話
@@ -55,7 +52,7 @@ def chat(lineMessage, channelId):
     elif any(s in lineMessage for s in dateKey):
         tmp = [v for v in keyDay if v in lineMessage][0]
         dt += timedelta(days = keyDelta[keyDay.index(tmp)])
-        response = tmp + "是 " + str(dt.year) + "年" + str(dt.month) + "月" + str(dt.day) + "日 " + weekDay[dt.weekday()]
+        response = tmp + "是 " + datetime.strftime(dt, '%Y{y}%m{m}%d{d} ').format(y='年', m='月', d='日') + weekDay[dt.weekday()]
     #正常回覆
     else:
         rand = 1 if lineMessage[0:3]=='牛批貓' or lineMessage[0:2]=='抽籤' else 0
