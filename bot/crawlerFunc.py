@@ -35,7 +35,7 @@ def get72Hours(site, dt=None):
         obj = json.loads(url.read().decode())['records']['locations'][0]['location']
         for row in obj:
             if any((site in s) or (s in site) for s in [row['locationName'], row['locationName'][0:2]]):
-                for i in range(len(row['weatherElement'][0]['time'])):
+                for i in range(10):
                     st_dt = datetime.strptime(row['weatherElement'][0]['time'][i]['startTime']+'.000000', '%Y-%m-%d %H:%M:%S.%f').astimezone(pytz.timezone("Asia/Taipei"))
                     ed_dt = datetime.strptime(row['weatherElement'][0]['time'][i]['endTime']+'.000000', '%Y-%m-%d %H:%M:%S.%f').astimezone(pytz.timezone("Asia/Taipei"))
                     if (not dt) or (dt > st_dt and dt < ed_dt): 
