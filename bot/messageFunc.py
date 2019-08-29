@@ -1023,6 +1023,7 @@ def flexWeather(arg={}):
                                             layout='vertical',
                                             backgroundColor='#9FD8E3',
                                             height='10px',
+                                            width= '100%',
                                             contents=[
                                                 BoxComponent(
                                                     layout='vertical',
