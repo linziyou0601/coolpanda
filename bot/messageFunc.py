@@ -34,7 +34,7 @@ def flexMainMenu(arg=[]):
                                             flex=2
                                         ),
                                         TextComponent(
-                                            text='胡言亂語、抽籤、查空氣、查時間',
+                                            text='胡言亂語、抽籤、擲筊、查氣象、查時間',
                                             wrap=True,
                                             color='#666666',
                                             size='sm',
@@ -81,6 +81,14 @@ def flexMainMenu(arg=[]):
                             style='link',
                             height='sm',
                             action=MessageAction(
+                                label='我要擲筊',
+                                text='擲筊'
+                            ),
+                        ),
+                        ButtonComponent(
+                            style='link',
+                            height='sm',
+                            action=MessageAction(
                                 label='目前狀態',
                                 text='目前狀態'
                             ),
@@ -100,7 +108,7 @@ def flexTeachLottery(arg=[]):
                     contents=[
                         # title
                         TextComponent(text='教學', weight='bold', size='sm', color="#1DB446"),
-                        TextComponent(text='抽籤教學', weight='bold', size='xxl', margin='md'),
+                        TextComponent(text='抽籤式回覆', weight='bold', size='xxl', margin='md'),
                         # info
                         BoxComponent(
                             layout='vertical',
@@ -158,7 +166,7 @@ def flexTeachLottery(arg=[]):
                             style='link',
                             height='sm',
                             action=MessageAction(
-                                label='① 加入籤',
+                                label='範例步驟①',
                                 text='學說話;抽神籤;甲子籤;乙丑籤;丙寅籤;丁卯籤;戊辰籤'
                             ),
                         ),
@@ -166,7 +174,7 @@ def flexTeachLottery(arg=[]):
                             style='link',
                             height='sm',
                             action=MessageAction(
-                                label='② 抽一支籤',
+                                label='範例步驟②',
                                 text='抽籤抽神籤'
                             ),
                         ),
@@ -1143,13 +1151,12 @@ def flexDevinate(arg):
                 ),
                 body=BoxComponent(
                     layout='vertical',
-                    backgroundColor='#c4241b',
                     contents=[
-                        TextComponent(text=res[arg], size='4xl', weight='bold', align='center', color='#FFFFFF'),
+                        TextComponent(text=res[arg], size='4xl', weight='bold', align='center', color='#c4241b'),
                         SeparatorComponent(margin='md'),
                         ButtonComponent(
                             style='link',
-                            color='#FFFFFF',
+                            color='#c4241b',
                             action=MessageAction(label='再擲一次', text='擲筊'),
                         )
                     ],
