@@ -31,7 +31,7 @@ def getWeather(site, future=False):
             return ""
 
 def get72Hours(site, dt=None):
-    with urllib.request.urlopen("https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-D0047-089?Authorization=CWB-268DE0E2-66E8-4AE9-A0C3-B06F7EBB5E7A&elementName=Wx,T,CI,WeatherDescription,PoP6h") as url:
+    with urllib.request.urlopen("https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-D0047-089?Authorization=CWB-268DE0E2-66E8-4AE9-A0C3-B06F7EBB5E7A&elementName=Wx,T,CI,PoP6h") as url:
         obj = json.loads(url.read().decode())['records']['locations'][0]['location']
         for row in obj:
             if any((site in s) or (s in site) for s in [row['locationName'], row['locationName'][0:2]]):
