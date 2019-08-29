@@ -74,7 +74,7 @@ def handle_follow(event):
     newChannel(channelId = getChannelId(event))
     profile = line_bot_api.get_profile(event.source.user_id)
     content = TextSendMessage(text=profile.display_name + "，歡迎您成為本熊貓的好友" + sticon(u"\U00100097"))
-    message = FlexSendMessage(alt_text="主選單", contents=mainMenu("main"))
+    message = FlexSendMessage(alt_text="主選單", contents=flexMainMenu("main"))
     line_bot_api.reply_message(
         event.reply_token,
         [content, message])
@@ -83,7 +83,7 @@ def handle_follow(event):
 def handle_join(event):
     newChannel(channelId = getChannelId(event))
     content = TextSendMessage(text="大家好我叫牛批熊貓" + sticon(u"\U00100097"))
-    message = FlexSendMessage(alt_text="主選單", contents=mainMenu("main"))
+    message = FlexSendMessage(alt_text="主選單", contents=flexMainMenu("main"))
     line_bot_api.reply_message(
         event.reply_token,
         [content, message])
@@ -128,14 +128,14 @@ def keyRes(msg, channelId, event):
     if re.search(getReg('aqi'), msg) and re.split(getReg('aqi'), msg)[0]!="": 
         key = AQI(re.split(getReg('aqi'), msg)[0].replace("台","臺"))
         if key!="":
-            replyList = FlexSendMessage(alt_text="空氣品質", contents=nowAQI(key))
+            replyList = FlexSendMessage(alt_text="空氣品質", contents=flexAQI(key))
             keywordBool = True
             return True
     #天氣狀況
     elif re.search(getReg('weather'), msg) and re.split(getReg('weather'), msg)[0]!="": 
         key = Weather(re.split(getReg('weather'), msg)[0].replace("台","臺"))
         if key[0]!="":
-            replyList = FlexSendMessage(alt_text="天氣狀況", contents=nowWeather(key[0]) if key[1] else weather72HR(key[0]))
+            replyList = FlexSendMessage(alt_text="天氣狀況", contents=flexWeather(key[0]) if key[1] else flexWeather72HR(key[0]))
             keywordBool = True
             return True
     return False
@@ -154,28 +154,28 @@ def handle_message(event):
     
     #####聊天回答第一階段#####功能型
     if lineMessage == "主選單" or lineMessage == "牛批貓":
-        replyList = FlexSendMessage(alt_text="主選單", contents=mainMenu())
+        replyList = FlexSendMessage(alt_text="主選單", contents=flexMainMenu())
         content=[lineMessage, 0]
     elif any(s == lineMessage for s in ["抽籤教學", "怎麼抽籤", "抽籤"]):
-        replyList = FlexSendMessage(alt_text="如何抽籤", contents=teachLottery())
+        replyList = FlexSendMessage(alt_text="如何抽籤", contents=flexTeachLottery())
         content=[lineMessage, 0]
     elif any(s == lineMessage for s in ["學說話教學", "怎麼學說話", "學說話", "教你說話"]):
-        replyList = FlexSendMessage(alt_text="如何教我說話", contents=teachChat())
+        replyList = FlexSendMessage(alt_text="如何教我說話", contents=flexTeachChat())
         content=[lineMessage, 0]
     elif any(s == lineMessage for s in ["怎麼查時間", "怎麼查日期", "查時間", "查日期"]):
-        replyList = FlexSendMessage(alt_text="如何教我說話", contents=teachDatetime())
+        replyList = FlexSendMessage(alt_text="如何教我說話", contents=flexTeachDatetime())
         content=[lineMessage, 0]
-    elif any(s == lineMessage for s in ["怎麼查空氣", "如何查空氣", "查空氣", "空氣品質"]):
-        replyList = FlexSendMessage(alt_text="如何教我說話", contents=teachAQI())
+    elif any(s == lineMessage for s in x+y for x in ["怎麼查", "如何查", "查"] for y in ["天氣", "空氣", "氣象"]):
+        replyList = FlexSendMessage(alt_text="如何教我說話", contents=flexTeachCWB())
         content=[lineMessage, 0]
     elif any(s == lineMessage for s in ["牛批貓會做什麼", "牛批貓會幹嘛", "你會幹嘛", "你會做什麼"]):
-        replyList = FlexSendMessage(alt_text="我會哪些技能", contents=teaching())
+        replyList = FlexSendMessage(alt_text="我會哪些技能", contents=flexTeaching())
         content=[lineMessage, 0]
     elif lineMessage == "目前狀態":
-        replyList = FlexSendMessage(alt_text="目前狀態", contents=statusMenu(currentStatus(channelId)))
+        replyList = FlexSendMessage(alt_text="目前狀態", contents=flexStatusMenu(currentStatus(channelId)))
         content=[lineMessage, 0]
     elif lineMessage=="牛批貓會說什麼": #本聊天窗所有教過的東西
-        replyList = FlexSendMessage(alt_text="我會說什麼", contents=whatCanSay(allLearn(channelId)))
+        replyList = FlexSendMessage(alt_text="我會說什麼", contents=flexWhatCanSay(allLearn(channelId)))
         content=[lineMessage, 0]
     elif "說別人教的話" in lineMessage: #回話資料庫開關
         replyList = TextSendMessage(text=globaltalk(lineMessage, channelId))

@@ -8,8 +8,8 @@ import pytz, re
 def AQI(site):
     return getAQI(site)
 def Weather(site):
-    PATTERN = '((明|後|大後)[早晚天]|[一下]週|[早晚]上|中午|凌晨)$'
-    return [get72Hours(site), 0] if re.search(PATTERN, site) else [getWeather(site), 1]
+    PATTERN = '((明|後|大後)[早晚天]|[一下]週|[早晚]上|中午|凌晨|未來)$'
+    return [getWeather(site, True), 0] if re.search(PATTERN, site) else [getWeather(site), 1]
 
 ####主聊天功能
 ##學說話
