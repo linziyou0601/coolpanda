@@ -99,7 +99,7 @@ def flexMainMenu(arg=[]):
                 ),
             )
 
-##抽籤教學
+##抽籤式回應教學
 def flexTeachLottery(arg=[]):
     return BubbleContainer(
                 direction='ltr',
@@ -145,7 +145,7 @@ def flexTeachLottery(arg=[]):
                                             flex=1
                                         ),
                                         TextComponent(
-                                            text='「牛批貓關鍵字」或「抽籤關鍵字」將會從「關鍵字」對應的所有詞條中，隨機抽出一個回答。',
+                                            text='「牛批貓+關鍵字」或「抽籤+關鍵字」將會從「關鍵字」對應的所有詞條中，隨機抽出一個回答。',
                                             wrap=True,
                                             color='#666666',
                                             size='sm',
@@ -465,10 +465,10 @@ def flexTeachCWB(arg=[]):
                                             text='空氣品質',
                                             color='#aaaaaa',
                                             size='sm',
-                                            flex=4
+                                            flex=3
                                         ),
                                         TextComponent(
-                                            text='「測站名+空氣/空汙/空氣品質/PM2.5」的方式，結尾若為關鍵字，則會將關鍵字前的詞帶入查詢',
+                                            text='「測站名+空氣/空汙/空氣品質/PM2.5」',
                                             wrap=True,
                                             color='#666666',
                                             size='sm',
@@ -484,10 +484,10 @@ def flexTeachCWB(arg=[]):
                                             text='目前天氣',
                                             color='#aaaaaa',
                                             size='sm',
-                                            flex=4
+                                            flex=3
                                         ),
                                         TextComponent(
-                                            text='「測站名+天氣/會下雨嗎」的方式，結尾若為關鍵字，則會將關鍵字前的詞帶入查詢',
+                                            text='「測站名+天氣/會下雨嗎」',
                                             wrap=True,
                                             color='#666666',
                                             size='sm',
@@ -503,10 +503,10 @@ def flexTeachCWB(arg=[]):
                                             text='一週天氣',
                                             color='#aaaaaa',
                                             size='sm',
-                                            flex=4
+                                            flex=3
                                         ),
                                         TextComponent(
-                                            text='「縣市名+一週天氣/明天天氣/明天會下雨嗎」的方式，結尾若為關鍵字，則會將關鍵字前的詞帶入查詢',
+                                            text='「縣市名+一週天氣/明天天氣/明天會下雨嗎」',
                                             wrap=True,
                                             color='#666666',
                                             size='sm',
