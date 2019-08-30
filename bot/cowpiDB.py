@@ -173,9 +173,9 @@ def resStatement(key, channelId, rand):
     c.execute('''
         SELECT * FROM ( SELECT  response,
                                 CASE
-                                    WHEN keyword = '6' THEN 3 
-                                    WHEN keyword LIKE '_6_' THEN 2
-                                    WHEN keyword LIKE '%6%' THEN 1
+                                    WHEN keyword = %s THEN 3 
+                                    WHEN keyword LIKE %s THEN 2
+                                    WHEN keyword LIKE %s THEN 1
                                     ELSE 0 
                                 END as likestrong,
 		                        channel_id
@@ -188,9 +188,9 @@ def resStatement(key, channelId, rand):
         c.execute('''
             SELECT * FROM ( SELECT  response,
                                     CASE
-                                        WHEN keyword = '6' THEN 3 
-                                        WHEN keyword LIKE '_6_' THEN 2
-                                        WHEN keyword LIKE '%6%' THEN 1
+                                        WHEN keyword = %s THEN 3 
+                                        WHEN keyword LIKE %s THEN 2
+                                        WHEN keyword LIKE %s THEN 1
                                         ELSE 0 
                                     END as likestrong,
                                     channel_id
