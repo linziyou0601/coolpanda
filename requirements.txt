@@ -4,3 +4,4 @@ django-heroku
 line-bot-sdk
 gunicorn
 pysqlite3
+psycopg2

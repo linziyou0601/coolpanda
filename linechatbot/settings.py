@@ -76,13 +76,33 @@ WSGI_APPLICATION = 'linechatbot.wsgi.application'
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
 DATABASES = {
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': os.path.join(BASE_DIR+'/db', 'database.db'),
+    # },
+    # 'cowpi': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': os.path.join(BASE_DIR+'/db', 'cowpi.db'),
+    # },
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR+'/db', 'database.db'),
     },
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'd6tkud0mtknjov',
+        'USER': 'ifvbkjtshpsxqj',
+        'PASSWORD': '4972b22ed367ed7346b0107d3c3e97db14fac1dde628cd6d7f08cf502c927ee1',
+        'HOST': 'ec2-50-16-197-244.compute-1.amazonaws.com',
+        'PORT': '5432',
+    },
     'cowpi': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR+'/db', 'cowpi.db'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'd6tkud0mtknjov',
+        'USER': 'ifvbkjtshpsxqj',
+        'PASSWORD': '4972b22ed367ed7346b0107d3c3e97db14fac1dde628cd6d7f08cf502c927ee1',
+        'HOST': 'ec2-50-16-197-244.compute-1.amazonaws.com',
+        'PORT': '5432',
     }
 }
 
