@@ -23,7 +23,7 @@ def createTable():
     ''')
     c.execute('''
         CREATE TABLE IF NOT EXISTS "statements" (
-            "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+            "id" SERIAL PRIMARY KEY,
             "keyword" TEXT NOT NULL,
             "response" TEXT NOT NULL,
             "create_at" TEXT NOT NULL,
@@ -34,7 +34,7 @@ def createTable():
     ''')
     c.execute('''
         CREATE TABLE IF NOT EXISTS "received" (
-            "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+            "id" SERIAL PRIMARY KEY,
             "message" TEXT NOT NULL,
             "channel_id" TEXT NOT NULL,
             "create_at" TEXT NOT NULL
@@ -42,7 +42,7 @@ def createTable():
     ''')
     c.execute('''
         CREATE TABLE IF NOT EXISTS "reply" (
-            "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+            "id" SERIAL PRIMARY KEY,
             "message" TEXT NOT NULL,
             "valid" INTEGER DEFAULT 0,
             "channel_id" TEXT NOT NULL,
@@ -229,7 +229,6 @@ def allStatement(channelId):
 
 ###################################初始語料資料###################################
 def autoIfEmptyStatements():
-    createTable()
     conn = getConnect()
     c = conn.cursor()
     c.execute('SELECT * FROM statements')
