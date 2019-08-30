@@ -7,8 +7,21 @@ def getWeather(site, future=False):
         with urllib.request.urlopen("https://opendata.cwb.gov.tw/api/v1/rest/datastore/O-A0003-001?Authorization=CWB-268DE0E2-66E8-4AE9-A0C3-B06F7EBB5E7A&elementName=TEMP,HUMD,24R") as url2:
             obj1 = json.loads(url1.read().decode())['records']['location']
             obj2 = json.loads(url2.read().decode())['records']['location']
+            lc = ''
+            #優先找測站名
             for row in obj1+obj2:
-                if any((site in s) or (s in site) for s in [row['locationName'], row['parameter'][0]['parameterValue'], row['parameter'][0]['parameterValue'][0:2], row['parameter'][2]['parameterValue']]):
+                if (site in row['locationName']) or (row['locationName'] in site):
+                    lc = row['locationName']
+                    break
+            #沒有的話才找縣市名和鄉鎮名
+            if not lc:
+                for row in obj1+obj2:
+                    if any((site in s) or (s in site) for s in [row['parameter'][0]['parameterValue'], row['parameter'][0]['parameterValue'][0:2], row['parameter'][2]['parameterValue']]):
+                        lc = row['locationName']
+                        break
+            #依測站名查詢
+            for row in obj1+obj2:
+                if lc == row['locationName']:
                     dt = datetime.now(pytz.timezone("Asia/Taipei"))
                     dt2 = datetime.strptime(row['time']['obsTime']+'.000000', '%Y-%m-%d %H:%M:%S.%f').astimezone(pytz.timezone("Asia/Taipei"))
                     if future:
