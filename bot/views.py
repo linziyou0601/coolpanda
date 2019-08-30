@@ -40,7 +40,7 @@ def callback(request):
 
         try:
             events = parser.parse(body, signature)
-            autoIfEmptyStatements()
+            createTable()
         except InvalidSignatureError:
             return HttpResponseForbidden()
 
