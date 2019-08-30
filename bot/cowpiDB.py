@@ -171,28 +171,30 @@ def resStatement(key, channelId, rand):
     strGlobaltalk = 'likestrong>' if queryUser(channelId)[2] else 'channel_id=%s and likestrong>'
     strRandomreply = '0 and priority>=5 ORDER BY RANDOM() limit 1;' if rand else '1 ORDER BY likestrong DESC, priority DESC, id DESC limit 1;'
     c.execute('''
-        SELECT  response,
-                CASE
-                    WHEN keyword = %s THEN 3 
-                    WHEN keyword LIKE %s THEN 2
-                    WHEN keyword LIKE %s THEN 1
-                    ELSE 0 
-                END as likestrong
-        FROM statements Where ''' + strGlobaltalk + strRandomreply, 
+        SELECT * FROM ( SELECT  response,
+                                CASE
+                                    WHEN keyword = '6' THEN 3 
+                                    WHEN keyword LIKE '_6_' THEN 2
+                                    WHEN keyword LIKE '%6%' THEN 1
+                                    ELSE 0 
+                                END as likestrong,
+		                        channel_id
+                        FROM statements) as foo Where ''' + strGlobaltalk + strRandomreply, 
         [key, '_'+key+'_', '%'+key+'%'] if queryUser(channelId)[2] else [key, '_'+key+'_', '%'+key+'%', channelId]
     )
     data = c.fetchall()
     #找不到的話找找看自動學習的語料
     if not len(data):
         c.execute('''
-            SELECT  response,
-                    CASE
-                        WHEN keyword = %s THEN 3 
-                        WHEN keyword LIKE %s THEN 2
-                        WHEN keyword LIKE %s THEN 1
-                        ELSE 0 
-                    END as likestrong
-            FROM statements Where channel_id='cowpi' and likestrong>0 ORDER BY RANDOM() limit 1;''', 
+            SELECT * FROM ( SELECT  response,
+                                    CASE
+                                        WHEN keyword = '6' THEN 3 
+                                        WHEN keyword LIKE '_6_' THEN 2
+                                        WHEN keyword LIKE '%6%' THEN 1
+                                        ELSE 0 
+                                    END as likestrong,
+                                    channel_id
+                            FROM statements) as foo Where channel_id='cowpi' and likestrong>0 ORDER BY RANDOM() limit 1;''', 
             [key, '_'+key+'_', '%'+key+'%']
         )
         data = c.fetchall()
