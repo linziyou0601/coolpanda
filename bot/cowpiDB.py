@@ -49,80 +49,80 @@ def createTable():
             "create_at" TEXT NOT NULL
         )
     ''')
+    conn.close()
     autoIfEmptyStatements()
 
 ##########[建立, 刪除, 更新, 查詢]: [聊天頻道資料]##########
 ##建立頻道資料
 def newChannel(channelId):
-    createTable()
     conn = getConnect()
     c = conn.cursor()
     c.execute('SELECT * FROM users Where channel_id=%s', [channelId])
     #若頻道資料不存在才建立
     if len(c.fetchall())==0:
         c.execute('INSERT INTO users(channel_id) VALUES(%s)', [channelId])
+    conn.close()
 ##刪除頻道資料
 def delChannel(channelId):
-    createTable()
     conn = getConnect()
     c = conn.cursor()
     c.execute('DELETE FROM users Where channel_id=%s', [channelId])
+    conn.close()
 ##修改頻道功能
 def editChannelGlobalTalk(channelId, value):
-    createTable()
     conn = getConnect()
     c = conn.cursor()
     c.execute('UPDATE users SET globaltalk=%s Where channel_id=%s', [value, channelId])
+    conn.close()
 def editChannelMute(channelId, value):
-    createTable()
     conn = getConnect()
     c = conn.cursor()
     c.execute('UPDATE users SET mute=%s Where channel_id=%s', [value, channelId])
+    conn.close()
 ##查詢頻道功能狀態
 def queryUser(channelId):
-    createTable()
     conn = getConnect()
     c = conn.cursor()
     c.execute('SELECT * FROM users Where channel_id=%s', [channelId])
     data = c.fetchall()
+    conn.close()
     return data[0] if len(data) else []
 
 
 ##########[儲存, 查詢]: [收到的訊息, 機器人回覆]##########
 ##儲存收到的訊息
 def storeReceived(msg, channelId):
-    createTable()
     conn = getConnect()
     c = conn.cursor()
     c.execute('INSERT INTO received(message, channel_id, create_at) VALUES(%s,%s,%s)', [msg, channelId, str(datetime.now(pytz.timezone("Asia/Taipei")))])
+    conn.close()
 ##儲存機器人回覆
 def storeReply(msg, valid, channelId):
-    createTable()
     conn = getConnect()
     c = conn.cursor()
     c.execute('INSERT INTO reply(message, valid, channel_id, create_at) VALUES(%s,%s,%s,%s)', [msg, valid, channelId, str(datetime.now(pytz.timezone("Asia/Taipei")))])
+    conn.close()
 ##查詢收到的訊息
 def queryReceived(channelId, num):
-    createTable()
     conn = getConnect()
     c = conn.cursor()
     c.execute('SELECT message FROM received Where channel_id=%s ORDER BY id DESC limit %s', [channelId, num])
     data = c.fetchall()
+    conn.close()
     return [x[0] for x in data] if len(data) else [""]
 ##查詢機器人回覆
 def queryReply(channelId, num):
-    createTable()
     conn = getConnect()
     c = conn.cursor()
     c.execute('SELECT message, valid FROM reply Where channel_id=%s ORDER BY id DESC limit %s', [channelId, num])
     data = c.fetchall()
+    conn.close()
     return [[x[0],x[1]] for x in data] if len(data) else [["",0]]
 
 
 ##########[新增, 刪除, 調整權重, 取得回覆]: [詞條]##########
 ##新增詞條
 def insStatement(key, msg, channelId, type):
-    createTable()
     conn = getConnect()
     c = conn.cursor()
     for res in msg:
@@ -133,16 +133,16 @@ def insStatement(key, msg, channelId, type):
                         [key, res, str(datetime.now(pytz.timezone("Asia/Taipei"))), channelId, type])
         #若詞條存在於當前聊天室，則權重+1
         else: adjustPrio(key, res, 1, channelId)  
+    conn.close()
 ##刪除詞條
 def delStatement(key, msg, channelId):
-    createTable()
     conn = getConnect()
     c = conn.cursor()
     for res in msg:
         c.execute('DELETE FROM statements Where keyword=%s and response=%s and channel_id=%s', [key, res, channelId])
+    conn.close()
 ##調整詞條權重
 def adjustPrio(key, msg, case, channelId=''):
-    createTable()
     conn = getConnect()
     c = conn.cursor()
     listN = [msg]
@@ -162,9 +162,9 @@ def adjustPrio(key, msg, case, channelId=''):
         for x in data:
             c.execute('UPDATE statements SET priority=%s Where response=%s' +strKeyword +strChannelId, [int(x[0])+case]+listN)
     else: insStatement(key, [msg], 'cowpi', 'autoLearn')
+    conn.close()
 ##取得詞條回覆
 def resStatement(key, channelId, rand):
-    createTable()
     conn = getConnect()
     c = conn.cursor()
     #若關閉可以說其他人教過的話的功能，則以限制channelId的方式查詢
@@ -196,10 +196,10 @@ def resStatement(key, channelId, rand):
             [key, '_'+key+'_', '%'+key+'%']
         )
         data = c.fetchall()
+    conn.close()
     return data[0][0] if len(data) else "窩聽不懂啦！"
 ##取得所有學過的詞
 def allStatement(channelId):
-    createTable()
     conn = getConnect()
     c = conn.cursor()
     c.execute('SELECT keyword, response FROM statements Where channel_id=%s ORDER BY keyword', [channelId])
@@ -214,13 +214,14 @@ def allStatement(channelId):
         if x[0] in resData: resData[x[0]].append(x[1])
         else: resData[x[0]]=[x[1]]
     keyCount=len(resData)
+    conn.close()
     #回傳物件
     return [
         "所有人教的" if status[2] else "這裡教的",
         "安靜" if status[3] else "可以說話",
         keyCount,
         ResCount,
-        str(dt.year)+"年"+str(dt.month)+"月"+str(dt.day)+"日 "+str(dt.hour)+":"+str(dt.minute),
+        datetime.strftime(dt, '%Y{y}%m{m}%d{d} %H:%M').format(y='年', m='月', d='日'),
         resData if len(data) else "Null"
     ]
 
@@ -242,4 +243,4 @@ def autoIfEmptyStatements():
         for x in data:
             c.execute('INSERT INTO statements(keyword, response, create_at, channel_id, channel_type, priority) VALUES(%s,%s,%s,%s,%s,%s)',
             [x[0], x[1], str(datetime.now(pytz.timezone("Asia/Taipei"))), 'cowpi', 'autoLearn', 10])
-
+    conn.close()
