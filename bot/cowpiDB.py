@@ -19,7 +19,7 @@ def createTable():
             "channel_id" TEXT NOT NULL,
             "globaltalk" INTEGER NOT NULL DEFAULT 0,
             "mute" INTEGER NOT NULL DEFAULT 0
-        )
+        );
     ''')
     c.execute('''
         CREATE TABLE IF NOT EXISTS "statements" (
@@ -30,7 +30,7 @@ def createTable():
             "channel_id" TEXT NOT NULL,
             "channel_type" TEXT NOT NULL,
             "priority" INTEGER NOT NULL DEFAULT 5
-        )
+        );
     ''')
     c.execute('''
         CREATE TABLE IF NOT EXISTS "received" (
@@ -38,7 +38,7 @@ def createTable():
             "message" TEXT NOT NULL,
             "channel_id" TEXT NOT NULL,
             "create_at" TEXT NOT NULL
-        )
+        );
     ''')
     c.execute('''
         CREATE TABLE IF NOT EXISTS "reply" (
@@ -47,7 +47,7 @@ def createTable():
             "valid" INTEGER DEFAULT 0,
             "channel_id" TEXT NOT NULL,
             "create_at" TEXT NOT NULL
-        )
+        );
     ''')
     autoIfEmptyStatements()
 
@@ -57,33 +57,33 @@ def newChannel(channelId):
     createTable()
     conn = getConnect()
     c = conn.cursor()
-    c.execute('SELECT * FROM users Where channel_id=?', [channelId])
+    c.execute('SELECT * FROM users Where channel_id=?;', [channelId])
     #若頻道資料不存在才建立
     if len(c.fetchall())==0:
-        c.execute('INSERT INTO users(channel_id) VALUES(?)', [channelId])
+        c.execute('INSERT INTO users(channel_id) VALUES(?);', [channelId])
 ##刪除頻道資料
 def delChannel(channelId):
     createTable()
     conn = getConnect()
     c = conn.cursor()
-    c.execute('DELETE FROM users Where channel_id=?', [channelId])
+    c.execute('DELETE FROM users Where channel_id=?;', [channelId])
 ##修改頻道功能
 def editChannelGlobalTalk(channelId, value):
     createTable()
     conn = getConnect()
     c = conn.cursor()
-    c.execute('UPDATE users SET globaltalk=? Where channel_id=?', [value, channelId])
+    c.execute('UPDATE users SET globaltalk=? Where channel_id=?;', [value, channelId])
 def editChannelMute(channelId, value):
     createTable()
     conn = getConnect()
     c = conn.cursor()
-    c.execute('UPDATE users SET mute=? Where channel_id=?', [value, channelId])
+    c.execute('UPDATE users SET mute=? Where channel_id=?;', [value, channelId])
 ##查詢頻道功能狀態
 def queryUser(channelId):
     createTable()
     conn = getConnect()
     c = conn.cursor()
-    c.execute('SELECT * FROM users Where channel_id=?', [channelId])
+    c.execute('SELECT * FROM users Where channel_id=?;', [channelId])
     data = c.fetchall()
     return data[0] if len(data) else []
 
@@ -94,19 +94,19 @@ def storeReceived(msg, channelId):
     createTable()
     conn = getConnect()
     c = conn.cursor()
-    c.execute('INSERT INTO received(message, channel_id, create_at) VALUES(?,?,?)', [msg, channelId, str(datetime.now(pytz.timezone("Asia/Taipei")))])
+    c.execute('INSERT INTO received(message, channel_id, create_at) VALUES(?,?,?);', [msg, channelId, str(datetime.now(pytz.timezone("Asia/Taipei")))])
 ##儲存機器人回覆
 def storeReply(msg, valid, channelId):
     createTable()
     conn = getConnect()
     c = conn.cursor()
-    c.execute('INSERT INTO reply(message, valid, channel_id, create_at) VALUES(?,?,?,?)', [msg, valid, channelId, str(datetime.now(pytz.timezone("Asia/Taipei")))])
+    c.execute('INSERT INTO reply(message, valid, channel_id, create_at) VALUES(?,?,?,?);', [msg, valid, channelId, str(datetime.now(pytz.timezone("Asia/Taipei")))])
 ##查詢收到的訊息
 def queryReceived(channelId, num):
     createTable()
     conn = getConnect()
     c = conn.cursor()
-    c.execute('SELECT message FROM received Where channel_id=? ORDER BY id DESC limit ?', [channelId, num])
+    c.execute('SELECT message FROM received Where channel_id=? ORDER BY id DESC limit ?;', [channelId, num])
     data = c.fetchall()
     return [x[0] for x in data] if len(data) else [""]
 ##查詢機器人回覆
@@ -114,7 +114,7 @@ def queryReply(channelId, num):
     createTable()
     conn = getConnect()
     c = conn.cursor()
-    c.execute('SELECT message, valid FROM reply Where channel_id=? ORDER BY id DESC limit ?', [channelId, num])
+    c.execute('SELECT message, valid FROM reply Where channel_id=? ORDER BY id DESC limit ?;', [channelId, num])
     data = c.fetchall()
     return [[x[0],x[1]] for x in data] if len(data) else [["",0]]
 
@@ -126,10 +126,10 @@ def insStatement(key, msg, channelId, type):
     conn = getConnect()
     c = conn.cursor()
     for res in msg:
-        c.execute('SELECT * FROM statements Where keyword=? and response=? and channel_id=?', [key, res, channelId])
+        c.execute('SELECT * FROM statements Where keyword=? and response=? and channel_id=?;', [key, res, channelId])
         #若詞條不存在於當前聊天室，才新增詞條
         if not len(c.fetchall()):
-            c.execute('INSERT INTO statements(keyword, response, create_at, channel_id, channel_type) VALUES(?,?,?,?,?)',
+            c.execute('INSERT INTO statements(keyword, response, create_at, channel_id, channel_type) VALUES(?,?,?,?,?);',
                         [key, res, str(datetime.now(pytz.timezone("Asia/Taipei"))), channelId, type])
         #若詞條存在於當前聊天室，則權重+1
         else: adjustPrio(key, res, 1, channelId)  
@@ -139,7 +139,7 @@ def delStatement(key, msg, channelId):
     conn = getConnect()
     c = conn.cursor()
     for res in msg:
-        c.execute('DELETE FROM statements Where keyword=? and response=? and channel_id=?', [key, res, channelId])
+        c.execute('DELETE FROM statements Where keyword=? and response=? and channel_id=?;', [key, res, channelId])
 ##調整詞條權重
 def adjustPrio(key, msg, case, channelId=''):
     createTable()
@@ -155,12 +155,12 @@ def adjustPrio(key, msg, case, channelId=''):
     if channelId:
         strChannelId = ' and channel_id=?'
         listN.append(channelId)
-    c.execute('SELECT priority FROM statements Where response=?' +strKeyword +strChannelId, listN)
+    c.execute('SELECT priority FROM statements Where response=?;' +strKeyword +strChannelId, listN)
     data = c.fetchall()
     #若詞條找不到，表示此句為自動接話模型、或廣泛搜尋模型，則增加一句自動學習詞條
     if len(data):
         for x in data:
-            c.execute('UPDATE statements SET priority=? Where response=?' +strKeyword +strChannelId, [int(x[0])+case]+listN)
+            c.execute('UPDATE statements SET priority=? Where response=?;' +strKeyword +strChannelId, [int(x[0])+case]+listN)
     else: insStatement(key, [msg], 'cowpi', 'autoLearn')
 ##取得詞條回覆
 def resStatement(key, channelId, rand):
@@ -169,7 +169,7 @@ def resStatement(key, channelId, rand):
     c = conn.cursor()
     #若關閉可以說其他人教過的話的功能，則以限制channelId的方式查詢
     strGlobaltalk = 'likestrong>' if queryUser(channelId)[2] else 'channel_id=? and likestrong>'
-    strRandomreply = '0 and priority>=5 ORDER BY RANDOM() limit 1' if rand else '1 ORDER BY likestrong DESC, priority DESC, id DESC limit 1'
+    strRandomreply = '0 and priority>=5 ORDER BY RANDOM() limit 1;' if rand else '1 ORDER BY likestrong DESC, priority DESC, id DESC limit 1;'
     c.execute('''
         SELECT  response,
                 CASE
@@ -192,7 +192,7 @@ def resStatement(key, channelId, rand):
                         WHEN keyword LIKE ? THEN 1
                         ELSE 0 
                     END as likestrong
-            FROM statements Where channel_id='cowpi' and likestrong>0 ORDER BY RANDOM() limit 1''', 
+            FROM statements Where channel_id='cowpi' and likestrong>0 ORDER BY RANDOM() limit 1;''', 
             [key, '_'+key+'_', '%'+key+'%']
         )
         data = c.fetchall()
@@ -202,7 +202,7 @@ def allStatement(channelId):
     createTable()
     conn = getConnect()
     c = conn.cursor()
-    c.execute('SELECT keyword, response FROM statements Where channel_id=? ORDER BY keyword', [channelId])
+    c.execute('SELECT keyword, response FROM statements Where channel_id=? ORDER BY keyword;', [channelId])
     data = c.fetchall()
     #建立回傳物件
     status = queryUser(channelId)
@@ -229,6 +229,7 @@ def allStatement(channelId):
 
 ###################################初始語料資料###################################
 def autoIfEmptyStatements():
+    createTable()
     conn = getConnect()
     c = conn.cursor()
     c.execute('SELECT * FROM statements')
@@ -240,6 +241,6 @@ def autoIfEmptyStatements():
             ['66666', '遛遛遛遛遛狗'],['哈哈', '哈哈哈哈哈密瓜'],['生氣', '厚氣氣氣氣氣'],['QQ', '不哭不哭你是豬'],['謝謝', '不客氣']
         ]
         for x in data:
-            c.execute('INSERT INTO statements(keyword, response, create_at, channel_id, channel_type, priority) VALUES(?,?,?,?,?,?)',
+            c.execute('INSERT INTO statements(keyword, response, create_at, channel_id, channel_type, priority) VALUES(?,?,?,?,?,?);',
             [x[0], x[1], str(datetime.now(pytz.timezone("Asia/Taipei"))), 'cowpi', 'autoLearn', 10])
 
