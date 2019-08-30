@@ -40,27 +40,10 @@ def bad(channelId):
 ##回覆(隨機回覆)
 def chat(lineMessage, channelId):
     response = ""
-    boolean = 0
-    timeKey = ['現在時間', '現在幾點']
-    dateKey = ['天日期', '天幾號', '星期幾', '幾月幾']
-    weekDay = ['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日']
-    keyDay = ['今天','明天','昨天','後天','前天']
-    keyDelta = [0,1,-1,2,-2]
-    dt = datetime.now(pytz.timezone("Asia/Taipei"))
-    #若問時間
-    if any(s in lineMessage for s in timeKey):
-        response = "現在時間 (UTC+8)：" + str(dt.hour) + ":" + str(dt.minute)
-    #若問日期
-    elif any(s in lineMessage for s in dateKey):
-        tmp = [v for v in keyDay if v in lineMessage][0]
-        dt += timedelta(days = keyDelta[keyDay.index(tmp)])
-        response = tmp + "是 " + datetime.strftime(dt, '%Y{y}%m{m}%d{d} ').format(y='年', m='月', d='日') + weekDay[dt.weekday()]
-    #正常回覆
-    else:
-        rand = 1 if lineMessage[0:3]=='牛批貓' or lineMessage[0:2]=='抽籤' else 0
-        firstIndex = 0 if not rand else 3 if lineMessage[0:3]=='牛批貓' else 2
-        response = resStatement(lineMessage[firstIndex:], channelId, rand)
-        boolean = 0 if response=="窩聽不懂啦！" else 1
+    rand = 1 if lineMessage[0:3]=='牛批貓' or lineMessage[0:2]=='抽籤' else 0
+    firstIndex = 0 if not rand else 3 if lineMessage[0:3]=='牛批貓' else 2
+    response = resStatement(lineMessage[firstIndex:], channelId, rand)
+    boolean = 0 if response=="窩聽不懂啦！" else 1
     return [response, boolean]
 ##成功回話時增加權重
 def validReply(lineMessage, reply):

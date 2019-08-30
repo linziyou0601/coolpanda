@@ -348,99 +348,6 @@ def flexTeachChat(arg=[]):
                 ),
             )
 
-##查時間教學
-def flexTeachDatetime(arg=[]):
-    return BubbleContainer(
-                direction='ltr',
-                body=BoxComponent(
-                    layout='vertical',
-                    contents=[
-                        # title
-                        TextComponent(text='教學', weight='bold', size='sm', color="#1DB446"),
-                        TextComponent(text='時間和日期', weight='bold', size='xxl', margin='md'),
-                        TextComponent(text='指令', weight='bold', color='#825d5c', margin='lg', size='md'),
-                        # info
-                        BoxComponent(
-                            layout='vertical',
-                            margin='md',
-                            spacing='sm',
-                            contents=[
-                                BoxComponent(
-                                    layout='baseline',
-                                    spacing='sm',
-                                    contents=[
-                                        TextComponent(
-                                            text='查時間',
-                                            color='#aaaaaa',
-                                            size='sm',
-                                            flex=1
-                                        ),
-                                        TextComponent(
-                                            text='現在時間、現在幾點',
-                                            wrap=True,
-                                            color='#825d5c',
-                                            size='sm',
-                                            flex=3
-                                        )
-                                    ],
-                                ),
-                                BoxComponent(
-                                    layout='baseline',
-                                    spacing='sm',
-                                    contents=[
-                                        TextComponent(
-                                            text='查日期',
-                                            color='#aaaaaa',
-                                            size='sm',
-                                            flex=1
-                                        ),
-                                        TextComponent(
-                                            text='今天、明天、後天、幾月幾號...',
-                                            wrap=True,
-                                            color='#825d5c',
-                                            size='sm',
-                                            flex=3
-                                        )
-                                    ],
-                                )
-                            ],
-                        )
-                    ],
-                ),
-                footer=BoxComponent(
-                    layout='vertical',
-                    spacing='sm',
-                    contents=[
-                        SeparatorComponent(margin='xxl'),
-                        ButtonComponent(
-                            style='link',
-                            height='sm',
-                            action=MessageAction(
-                                label='查時間範例',
-                                text='現在幾點'
-                            ),
-                        ),
-                        ButtonComponent(
-                            style='link',
-                            height='sm',
-                            action=MessageAction(
-                                label='查日期範例',
-                                text='今天幾號'
-                            ),
-                        ),
-                        ButtonComponent(
-                            style='link',
-                            height='sm',
-                            action=MessageAction(
-                                label='主選單',
-                                text='主選單'
-                            ),
-                        )
-                    ],
-                    flex=0
-                ),
-            )
-
 ##查氣象教學
 def flexTeachCWB(arg=[]):
     return BubbleContainer(
@@ -566,8 +473,7 @@ def flexTeaching(arg=[]):
         contents=[
             flexTeachChat(),
             flexTeachLottery(),
-            flexTeachCWB(),
-            flexTeachDatetime()
+            flexTeachCWB()
         ]
     )
 
