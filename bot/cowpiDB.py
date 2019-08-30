@@ -15,7 +15,7 @@ def createTable():
     c = conn.cursor()
     c.execute('''
         CREATE TABLE IF NOT EXISTS "users" (
-            "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+            "id" SERIAL PRIMARY KEY,
             "channel_id" TEXT NOT NULL,
             "globaltalk" INTEGER NOT NULL DEFAULT 0,
             "mute" INTEGER NOT NULL DEFAULT 0
