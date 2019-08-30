@@ -160,7 +160,7 @@ def adjustPrio(key, msg, case, channelId=''):
     #若詞條找不到，表示此句為自動接話模型、或廣泛搜尋模型，則增加一句自動學習詞條
     if len(data):
         for x in data:
-            c.execute('UPDATE statements SET priority=? Where response=?' +strKeyword +strChannelId, [int(x[0])+case]+listN)
+            c.execute('UPDATE statements SET priority=%s Where response=%s' +strKeyword +strChannelId, [int(x[0])+case]+listN)
     else: insStatement(key, [msg], 'cowpi', 'autoLearn')
 ##取得詞條回覆
 def resStatement(key, channelId, rand):
