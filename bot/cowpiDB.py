@@ -1,7 +1,7 @@
 ##########聊天機器人，資料庫存取##########
 from django.conf import settings
 from datetime import datetime
-import sqlite3, psycopg2, pytz
+import psycopg2, pytz
 
 def getConnect():
     conn = psycopg2.connect(database="d6tkud0mtknjov", user="ifvbkjtshpsxqj", password="4972b22ed367ed7346b0107d3c3e97db14fac1dde628cd6d7f08cf502c927ee1", host="ec2-50-16-197-244.compute-1.amazonaws.com", port="5432")
