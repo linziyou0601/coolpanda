@@ -12,13 +12,13 @@ class StatementsAdmin(ImportExportModelAdmin):
     list_filter = ('keyword', 'response', 'create_at', 'channel_id', 'channel_type', 'priority',)
     search_fields = ['keyword', 'response', 'create_at', 'channel_id', 'channel_type', 'priority']
 class ReceivedAdmin(ImportExportModelAdmin):
-    list_display = ('id', 'message', 'channel_id', 'create_at')
-    list_filter = ('message', 'channel_id', 'create_at',)
-    search_fields = ['message', 'channel_id', 'create_at']
+    list_display = ('id', 'type', 'message', 'channel_id', 'create_at')
+    list_filter = ('type', 'message', 'channel_id', 'create_at',)
+    search_fields = ['type', 'message', 'channel_id', 'create_at']
 class ReplyAdmin(ImportExportModelAdmin):
-    list_display = ('id', 'message', 'valid', 'channel_id', 'create_at')
-    list_filter = ('message', 'valid', 'channel_id', 'create_at',)
-    search_fields = ['message', 'valid', 'channel_id', 'create_at']
+    list_display = ('id', 'type', 'message', 'valid', 'channel_id', 'create_at')
+    list_filter = ('type', 'message', 'valid', 'channel_id', 'create_at',)
+    search_fields = ['type', 'message', 'valid', 'channel_id', 'create_at']
 
 admin.site.register(Users, UsersAdmin)
 admin.site.register(Statements, StatementsAdmin)

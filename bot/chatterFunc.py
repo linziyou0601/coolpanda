@@ -19,40 +19,40 @@ def learn(lineMessage, channelId, e_source):
     lineMes = [x for x in lineMessage.replace("；",";").split(';') if x != ""]
     #若語法正確才加入詞條
     if(len(lineMes)<3):
-        return ["窩聽不懂啦！", 0]
+        return ["窩聽不懂啦！", 0, 'text']
     else:
         insStatement(lineMes[1], lineMes[2:], channelId, e_source.type)
-        return ["好哦的喵～", 0]
+        return ["好哦的喵～", 0, 'text']
 ##忘記
 def forget(lineMessage, channelId):
     lineMes = [x for x in lineMessage.replace("；",";").split(';') if x != ""]
     #若語法正確才刪除詞條
     if(len(lineMes)<3):
-        return ["窩聽不懂啦！", 0]
+        return ["窩聽不懂啦！", 0, 'text']
     else:
         delStatement(lineMes[1], lineMes[2:], channelId)
-        return ["好哦的喵～", 0]
+        return ["好哦的喵～", 0, 'text']
 ##壞壞
 def bad(channelId):
     #批次降低資料庫內本次回話的關鍵字權重
-    adjustPrio(queryReceived(channelId, 1)[0], queryReply(channelId, 1)[0][0], -1)
-    return ["好哦的喵～", 0]
+    adjustPrio(queryReceived(channelId, 1)[0][0], queryReply(channelId, 1)[0][0], -1)
+    return ["好哦的喵～", 0, 'text']
 ##回覆(隨機回覆)
 def chat(lineMessage, channelId):
-    response = ""
     rand = 1 if lineMessage[0:3]=='牛批貓' or lineMessage[0:2]=='抽籤' else 0
     firstIndex = 0 if not rand else 3 if lineMessage[0:3]=='牛批貓' else 2
     response = resStatement(lineMessage[firstIndex:], channelId, rand)
     boolean = 0 if response=="窩聽不懂啦！" else 1
-    return [response, boolean]
+    type = 'image' if response[0:8]=='https://' and (response[-3:]=='jpg' or response[-4:]=='jpeg') else 'text'
+    return [response, boolean, type]
 ##成功回話時增加權重
 def validReply(lineMessage, reply):
     adjustPrio(lineMessage, reply, 1)
 ##齊推
 def echo2(lineMessage, channelId):
-    if not lineMessage in queryReceived(channelId, 5): return ""
+    if all(lineMessage!=x[0] or x[1]!='text' for x in queryReceived(channelId, 5)[0]): return ""
     elif queryReply(channelId, 1)[0][0]==lineMessage: return ""
-    else: return [lineMessage, 1]
+    else: return [lineMessage, 1, 'text']
 ##你會說什麼
 def allLearn(channelId):
     return allStatement(channelId)

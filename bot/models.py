@@ -9,6 +9,7 @@ from django.db import models
 
 
 class Received(models.Model):
+    type = models.TextField()
     message = models.TextField()
     channel_id = models.TextField()
     create_at = models.TextField()
@@ -20,6 +21,7 @@ class Received(models.Model):
 
 
 class Reply(models.Model):
+    type = models.TextField()
     message = models.TextField()
     valid = models.IntegerField(blank=True, null=True)
     channel_id = models.TextField()

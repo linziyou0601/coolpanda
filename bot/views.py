@@ -114,10 +114,10 @@ replyList = []
 def autoLearnModel(msg, content, channelId, event):
     if content[1]:
         validReply(msg, content[0]) #若有詞條資料，則回覆時權重+1，若無則學習
-        if queryReply(channelId, 1)[0][1]==1 and content[1]!=2: #若上一句是從資料庫撈出來的回覆，且不是關鍵字回覆，則順序性對話自動加入詞條
+        if queryReply(channelId, 1)[0][1]==1 and content[1]==1: #若上一句是從資料庫撈出來的回覆，且不是關鍵字回覆，則順序性對話自動加入詞條
             validReply(queryReply(channelId, 1)[0][0], msg)
         if queryReply(channelId, 1)[0][0]=='窩聽不懂啦！': #若上一句回答的是聽不懂，本次有詞條，則將上次收到的關鍵字和本次的回答學習
-            validReply(queryReceived(channelId, 1)[0], content[0])
+            validReply(queryReceived(channelId, 1)[0][0], content[0])
 
 ##關鍵字型
 def keyRes(msg, channelId, event):
@@ -145,68 +145,100 @@ def handle_message(event):
     channelId = getChannelId(event)
     
     ##取得收到的訊息
-    lineMessage = event.message.text
+    lineMessageType = event.message.type
+    lineMessage = ""
     newChannel(channelId) #新建頻道資料
     global replyList
-    content=["", 0]
+    content=["", 0, ""]
     
-    #####聊天回答第一階段#####功能型
-    if lineMessage == "主選單" or lineMessage == "牛批貓":
-        replyList = FlexSendMessage(alt_text="主選單", contents=flexMainMenu())
-        content=[lineMessage, 0]
-    elif any(s == lineMessage for s in ["抽籤教學", "怎麼抽籤", "抽籤"]):
-        replyList = FlexSendMessage(alt_text="如何隨機抽回答", contents=flexTeachLottery())
-        content=[lineMessage, 0]
-    elif any(s == lineMessage for s in ["學說話教學", "怎麼學說話", "學說話", "教你說話"]):
-        replyList = FlexSendMessage(alt_text="如何教我說話", contents=flexTeachChat())
-        content=[lineMessage, 0]
-    elif any(s == lineMessage for s in (x+y for x in ["怎麼查", "如何查", "查"] for y in ["天氣", "空氣", "氣象"])):
-        replyList = FlexSendMessage(alt_text="如何查氣象", contents=flexTeachCWB())
-        content=[lineMessage, 0]
-    elif any(s == lineMessage for s in ["牛批貓會做什麼", "牛批貓會幹嘛", "你會幹嘛", "你會做什麼"]):
-        replyList = FlexSendMessage(alt_text="我會哪些技能", contents=flexTeaching())
-        content=[lineMessage, 0]
-    elif lineMessage == "目前狀態":
-        replyList = FlexSendMessage(alt_text="目前狀態", contents=flexStatusMenu(currentStatus(channelId)))
-        content=[lineMessage, 0]
-    elif lineMessage=="牛批貓會說什麼": #本聊天窗所有教過的東西
-        replyList = FlexSendMessage(alt_text="我會說什麼", contents=flexWhatCanSay(allLearn(channelId)))
-        content=[lineMessage, 0]
-    elif "說別人教的話" in lineMessage: #回話資料庫開關
-        replyList = TextSendMessage(text=globaltalk(lineMessage, channelId))
-        content=[lineMessage, 0]
-    elif any(s == lineMessage for s in ["牛批貓說話","牛批貓講話","牛批貓安靜", "牛批貓閉嘴"]): #安靜開關
-        replyList = TextSendMessage(text=mute(lineMessage, channelId))
-        content=[lineMessage, 0]
-    elif not queryUser(channelId)[3]: #非安靜狀態
-        #####聊天回答第二階段#####關鍵字類型
-        if keyRes(lineMessage, channelId, event):
-            content=[lineMessage, 2]
-        else:
-            #####聊天回答第三階段#####聊天類型
-            if lineMessage == "壞壞": #名詞拉黑
-                content = bad(channelId)
-            elif lineMessage.replace("；",";")[0:4] == "學說話;": #學說話
-                content = learn(lineMessage, channelId, event.source)
-            elif lineMessage.replace("；",";")[0:3] == "忘記;": #刪詞
-                content = forget(lineMessage, channelId)
-            else: #資料庫回覆(或隨機回覆)
-                content = chat(lineMessage, channelId)
-
-            #最終反查關鍵字類型
-            if keyRes(content[0], channelId, event):
-                content=[content[0], 2]
+    ##收到文字訊息
+    if lineMessageType == 'text':
+        lineMessage = event.message.text
+        #####聊天回答第一階段#####功能型
+        if lineMessage == "主選單" or lineMessage == "牛批貓":
+            replyList = FlexSendMessage(alt_text="主選單", contents=flexMainMenu())
+            content=[lineMessage, 0, 'text']
+        elif any(s == lineMessage for s in ["抽籤教學", "怎麼抽籤", "抽籤"]):
+            replyList = FlexSendMessage(alt_text="如何隨機抽回答", contents=flexTeachLottery())
+            content=[lineMessage, 0, 'text']
+        elif any(s == lineMessage for s in ["學說話教學", "怎麼學說話", "學說話", "教你說話"]):
+            replyList = FlexSendMessage(alt_text="如何教我說話", contents=flexTeachChat())
+            content=[lineMessage, 0, 'text']
+        elif any(s == lineMessage for s in (x+y for x in ["怎麼查", "如何查", "查"] for y in ["天氣", "空氣", "氣象"])):
+            replyList = FlexSendMessage(alt_text="如何查氣象", contents=flexTeachCWB())
+            content=[lineMessage, 0, 'text']
+        elif any(s == lineMessage for s in ["牛批貓會做什麼", "牛批貓會幹嘛", "你會幹嘛", "你會做什麼"]):
+            replyList = FlexSendMessage(alt_text="我會哪些技能", contents=flexTeaching())
+            content=[lineMessage, 0, 'text']
+        elif lineMessage == "目前狀態":
+            replyList = FlexSendMessage(alt_text="目前狀態", contents=flexStatusMenu(currentStatus(channelId)))
+            content=[lineMessage, 0, 'text']
+        elif lineMessage=="牛批貓會說什麼": #本聊天窗所有教過的東西
+            replyList = FlexSendMessage(alt_text="我會說什麼", contents=flexWhatCanSay(allLearn(channelId)))
+            content=[lineMessage, 0, 'text']
+        elif "說別人教的話" in lineMessage: #回話資料庫開關
+            replyList = TextSendMessage(text=globaltalk(lineMessage, channelId))
+            content=[lineMessage, 0, 'text']
+        elif any(s == lineMessage for s in ["牛批貓說話","牛批貓講話","牛批貓安靜", "牛批貓閉嘴"]): #安靜開關
+            replyList = TextSendMessage(text=mute(lineMessage, channelId))
+            content=[lineMessage, 0, 'text']
+        elif not queryUser(channelId)[3]: #非安靜狀態
+            #####聊天回答第二階段#####關鍵字類型
+            if keyRes(lineMessage, channelId, event):
+                content=[lineMessage, 2, 'text']
             else:
-                #齊推
-                if echo2(lineMessage, channelId):
-                    content = echo2(lineMessage, channelId)
-                replyList = TextSendMessage(text=content[0]) #本次要回的話
+                #####聊天回答第三階段#####聊天類型
+                if lineMessage == "壞壞": #名詞拉黑
+                    content = bad(channelId)
+                elif lineMessage.replace("；",";")[0:4] == "學說話;": #學說話
+                    content = learn(lineMessage, channelId, event.source)
+                elif lineMessage.replace("；",";")[0:3] == "忘記;": #刪詞
+                    content = forget(lineMessage, channelId)
+                else: #資料庫回覆(或隨機回覆)
+                    content = chat(lineMessage, channelId)
+
+                #最終反查關鍵字類型
+                if keyRes(content[0], channelId, event):
+                    content=[content[0], 2, 'text']
+                else:
+                    #齊推
+                    if echo2(lineMessage, channelId):
+                        content = echo2(lineMessage, channelId)
+                    #本次要回的話
+                    if content[2]=='image':
+                        replyList = ImageSendMessage(original_content_url=content[0], preview_image_url=content[0])
+                    else:
+                        replyList = TextSendMessage(text=content[0])
+                
+        ##自動學習
+        autoLearnModel(lineMessage, content, channelId, event)
     
-    ##自動學習
-    autoLearnModel(lineMessage, content, channelId, event)
+    ##收到貼圖
+    elif lineMessageType == 'sticker':
+        lineMessage = event.message.package_id + ',' + event.message.sticker_id
+        replyList = StickerSendMessage(package_id=event.message.package_id, sticker_id=event.message.sticker_id)
+        content=[lineMessage, 1, 'sticker'] 
+    ##收到圖片、影片
+    elif any(lineMessageType == x for x in ['image','video']):
+        lineMessage = event.message.content_provider.original_content_url + ',' + event.message.content_provider.preview_image_url \
+                      if event.message.content_provider.type=='external' else lineMessageType+'Message'
+    ##收到音訊
+    elif lineMessageType == 'audio':
+        lineMessage = event.message.content_provider.original_content_url \
+                      if event.message.content_provider.type=='external' else 'audioMessage'
+    ##收到檔案
+    elif lineMessageType == 'file':
+        lineMessage = event.message.file_name
+    ##收到位置訊息
+    elif lineMessageType == 'location':
+        lineMessage = event.message.latitude + ',' + event.message.longitude + ',' + event.message.address
+        replyList = TextSendMessage(text='你的位置是 ' + event.message.address)
+        content=['你的位置是 ' + event.message.address, 1, 'location']
+
     ##儲存訊息
-    storeReply(content[0], content[1], channelId) #記錄機器人本次回的「文字訊息」、「訊息有效度」
-    storeReceived(lineMessage, channelId) #儲存本次收到的語句
+    if content[0]:
+        storeReply(content[0], content[1], content[2], channelId) #記錄機器人本次回的「文字訊息」、「訊息有效度」
+    storeReceived(lineMessage, lineMessageType, channelId) #儲存本次收到的語句
     
     ####回傳給LINE
     line_bot_api.reply_message(

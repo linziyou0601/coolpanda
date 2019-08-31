@@ -35,6 +35,7 @@ def createTable():
     c.execute('''
         CREATE TABLE IF NOT EXISTS "received" (
             "id" SERIAL PRIMARY KEY,
+            "type" TEXT NOT NULL,
             "message" TEXT NOT NULL,
             "channel_id" TEXT NOT NULL,
             "create_at" TEXT NOT NULL
@@ -43,6 +44,7 @@ def createTable():
     c.execute('''
         CREATE TABLE IF NOT EXISTS "reply" (
             "id" SERIAL PRIMARY KEY,
+            "type" TEXT NOT NULL,
             "message" TEXT NOT NULL,
             "valid" INTEGER DEFAULT 0,
             "channel_id" TEXT NOT NULL,
@@ -91,33 +93,33 @@ def queryUser(channelId):
 
 ##########[儲存, 查詢]: [收到的訊息, 機器人回覆]##########
 ##儲存收到的訊息
-def storeReceived(msg, channelId):
+def storeReceived(msg, type, channelId):
     conn = getConnect()
     c = conn.cursor()
-    c.execute('INSERT INTO received(message, channel_id, create_at) VALUES(%s,%s,%s)', [msg, channelId, str(datetime.now(pytz.timezone("Asia/Taipei")))])
+    c.execute('INSERT INTO received(type, message, channel_id, create_at) VALUES(%s,%s,%s,%s)', [type, msg, channelId, str(datetime.now(pytz.timezone("Asia/Taipei")))])
     conn.close()
 ##儲存機器人回覆
-def storeReply(msg, valid, channelId):
+def storeReply(msg, valid, type, channelId):
     conn = getConnect()
     c = conn.cursor()
-    c.execute('INSERT INTO reply(message, valid, channel_id, create_at) VALUES(%s,%s,%s,%s)', [msg, valid, channelId, str(datetime.now(pytz.timezone("Asia/Taipei")))])
+    c.execute('INSERT INTO reply(type, message, valid, channel_id, create_at) VALUES(%s,%s,%s,%s,%s)', [type, msg, valid, channelId, str(datetime.now(pytz.timezone("Asia/Taipei")))])
     conn.close()
 ##查詢收到的訊息
 def queryReceived(channelId, num):
     conn = getConnect()
     c = conn.cursor()
-    c.execute('SELECT message FROM received Where channel_id=%s ORDER BY id DESC limit %s', [channelId, num])
+    c.execute('SELECT message, type FROM received Where channel_id=%s ORDER BY id DESC limit %s', [channelId, num])
     data = c.fetchall()
     conn.close()
-    return [x[0] for x in data] if len(data) else [""]
+    return [[x[0],x[1]] for x in data] if len(data) else [["",""]]
 ##查詢機器人回覆
 def queryReply(channelId, num):
     conn = getConnect()
     c = conn.cursor()
-    c.execute('SELECT message, valid FROM reply Where channel_id=%s ORDER BY id DESC limit %s', [channelId, num])
+    c.execute('SELECT message, valid, type FROM reply Where channel_id=%s ORDER BY id DESC limit %s', [channelId, num])
     data = c.fetchall()
     conn.close()
-    return [[x[0],x[1]] for x in data] if len(data) else [["",0]]
+    return [[x[0],x[1],x[2]] for x in data] if len(data) else [["",0,""]]
 
 
 ##########[新增, 刪除, 調整權重, 取得回覆]: [詞條]##########
