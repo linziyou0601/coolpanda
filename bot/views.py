@@ -114,7 +114,7 @@ replyList = []
 def autoLearnModel(msg, content, channelId, event):
     if content[1]:
         validReply(msg, content[0]) #若有詞條資料，則回覆時權重+1，若無則學習
-        if queryReply(channelId, 1)[0][1]==1 and content[1]==1: #若上一句是從資料庫撈出來的回覆，且不是關鍵字回覆，則順序性對話自動加入詞條
+        if queryReply(channelId, 1)[0][1]==1 and queryReply(channelId, 1)[0][2]=='text' and content[1]==1: #若上一句是從資料庫撈出來的回覆，且不是關鍵字回覆，則順序性對話自動加入詞條
             validReply(queryReply(channelId, 1)[0][0], msg)
         if queryReply(channelId, 1)[0][0]=='窩聽不懂啦！': #若上一句回答的是聽不懂，本次有詞條，則將上次收到的關鍵字和本次的回答學習
             validReply(queryReceived(channelId, 1)[0][0], content[0])

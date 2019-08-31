@@ -43,7 +43,7 @@ def chat(lineMessage, channelId):
     firstIndex = 0 if not rand else 3 if lineMessage[0:3]=='牛批貓' else 2
     response = resStatement(lineMessage[firstIndex:], channelId, rand)
     boolean = 0 if response=="窩聽不懂啦！" else 1
-    type = 'image' if response[0:8]=='https://' and (response[-3:]=='jpg' or response[-4:]=='jpeg') else 'text'
+    type = 'image' if response[0:8]=='https://' and any(x in response for x in ['.jpg','.jpeg','.png']) else 'text'
     return [response, boolean, type]
 ##成功回話時增加權重
 def validReply(lineMessage, reply):
@@ -52,7 +52,7 @@ def validReply(lineMessage, reply):
 def echo2(lineMessage, channelId):
     if all(lineMessage!=x[0] or x[1]!='text' for x in queryReceived(channelId, 5)): return ""
     elif queryReply(channelId, 1)[0][0]==lineMessage: return ""
-    else: return [lineMessage, 1, 'text']
+    else: return [lineMessage, 0, 'text']
 ##你會說什麼
 def allLearn(channelId):
     return allStatement(channelId)
