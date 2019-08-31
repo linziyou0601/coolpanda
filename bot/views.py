@@ -14,24 +14,6 @@ line_bot_api = LineBotApi('HRWbC4w2S3J3JvFAQQkQnp4gxXVWtCwLWgrdanU72Y26+hwAoZvdi
 parser = WebhookParser('4abb8726ea0ae9dc4a91154ce6fecb60')
 handler = WebhookHandler('4abb8726ea0ae9dc4a91154ce6fecb60')
 
-# @app.route("/callback", methods=['POST'])
-# def callback():
-#     # get X-Line-Signature header value
-#     signature = request.headers['X-Line-Signature']
-
-#     # get request body as text
-#     body = request.get_data(as_text=True)
-#     app.logger.info("Request body: " + body)
-
-#     # handle webhook body
-#     try:
-#         handler.handle(body, signature)
-#     except InvalidSignatureError:
-#         #print("Invalid signature. Please check your channel access token/channel secret.")
-#         abort(400)
-
-#     return 'OK'
-
 @csrf_exempt
 def callback(request):
     if request.method == 'POST':
@@ -69,7 +51,6 @@ def getChannelId(event):
     return e_source.room_id if e_source.type == "room" else e_source.group_id if e_source.type == "group" else e_source.user_id 
 
 ####################[加入, 退出]: [好友, 聊天窗]####################
-#@handler.add(FollowEvent)
 def handle_follow(event):
     newChannel(channelId = getChannelId(event))
     profile = line_bot_api.get_profile(event.source.user_id)
@@ -79,7 +60,6 @@ def handle_follow(event):
         event.reply_token,
         [content, message])
     return 0
-#@handler.add(JoinEvent)
 def handle_join(event):
     newChannel(channelId = getChannelId(event))
     content = TextSendMessage(text="大家好我叫牛批熊貓" + sticon(u"\U00100097"))
@@ -88,16 +68,51 @@ def handle_join(event):
         event.reply_token,
         [content, message])
     return 0
-#@handler.add(UnfollowEvent)
 def handle_unfollow(event):
     delChannel(channelId = getChannelId(event))
     return 0
-#@handler.add(LeaveEvent)
 def handle_leave(event):
     delChannel(channelId = getChannelId(event))
     return 0
 
-#關鍵保留字
+####################訊息接收及回覆區####################
+"""
+【會自動學習的可能組合】
+[（文字A）→（文字回答A／關鍵字回答A／圖片回答A）→（文字B）→（文字回答B／關鍵字回答B／圖片回答B）]
+[（文字A）→（文字回答A／關鍵字回答A／圖片回答A）→（貼圖B／位置B）→（貼圖回答B／位置回答B）]
+[（貼圖A／位置A）→（貼圖回答A／位置回答A）→（文字B）→（文字回答B／關鍵字回答B／圖片回答B）]
+[（貼圖A／位置A）→（貼圖回答A／位置回答A）→（貼圖B／位置B）→（貼圖回答B／位置回答B）]
+
+##加權模型所有組合
+O [（文字A）→（文字回答A／關鍵字回答A／圖片回答A）] ※設 文字回答A==valid
+X [（貼圖A／位置A）→（貼圖回答A／位置回答A）]
+
+##接話模型所有組合
+O [（文字回答A）→（文字B）] ※設 all([文字回答A, 所有回答B]==valid) && all([文字回答A, 所有回答B]!=關鍵字)
+X [（文字回答A）→（貼圖B／位置B）]
+X [（關鍵字回答A／圖片回答A／貼圖回答A／位置回答A）→（文字B／貼圖B／位置B）]
+
+##同義模型所有組合
+O [（文字A）→（文字回答B／關鍵字回答B／圖片回答B）] ※設 文字回答A==不懂 && 所有回答B==valid
+X [（文字A）→（貼圖回答B／位置回答B）]
+X [（貼圖A／位置A）→（文字回答B／關鍵字回答B／圖片回答B／貼圖回答B／位置回答B）]
+"""
+##回覆列表
+replyList = []
+
+##自動學習模型
+def autoLearnModel(msg, content, channelId, event):
+    if content[1]:
+        #【加權模型】若 本次回答==valid 則學習 [文字A → 文字回答A／關鍵字回答A／圖片回答A]
+        validReply(msg, content[0]) 
+        #【接話模型】若 all(上次回答、本次回答==valid) && all(上次回答、本次回答!=關鍵字) && 上次回答類型==文字 則學習 [文字回答A → 文字B]
+        if queryReply(channelId, 1)[0][2]=='text' and queryReply(channelId, 1)[0][1]==1 and content[1]==1:
+            validReply(queryReply(channelId, 1)[0][0], msg)
+        #【同義模型】若 上次回答==聽不懂 && 本次回答==valid 則學習 [文字A → 文字回答B／關鍵字回答B／圖片回答B]
+        if queryReply(channelId, 1)[0][0]=='窩聽不懂啦！':
+            validReply(queryReceived(channelId, 1)[0][0], content[0])
+
+#關鍵字正則
 def getReg(msg):
     RegDict = {
         "aqi":"(空[氣汙]|空氣(品質|如何)|PM2.5|pm2.5)$",
@@ -106,20 +121,7 @@ def getReg(msg):
     }
     return RegDict[msg]
 
-####################訊息接收及回覆區####################
-##回覆列表
-replyList = []
-
-##自動學習模型
-def autoLearnModel(msg, content, channelId, event):
-    if content[1]:
-        validReply(msg, content[0]) #若有詞條資料，則回覆時權重+1，若無則學習
-        if queryReply(channelId, 1)[0][2]=='text' and queryReply(channelId, 1)[0][1]==1 and content[1]==1: #若上一句是文字回覆，且上句和本句皆不是關鍵字回覆，則順序性對話自動加入詞條
-            validReply(queryReply(channelId, 1)[0][0], msg)
-        if queryReply(channelId, 1)[0][0]=='窩聽不懂啦！': #若上一句回答的是聽不懂，本次有詞條，則將上次收到的關鍵字和本次的回答學習
-            validReply(queryReceived(channelId, 1)[0][0], content[0])
-
-##關鍵字型
+##關鍵字類型
 def keyRes(msg, channelId, event):
     global replyList
     #空氣指標
@@ -140,7 +142,6 @@ def keyRes(msg, channelId, event):
         return True
     return False
 
-#@handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     channelId = getChannelId(event)
     newChannel(channelId) #新建頻道資料
@@ -203,7 +204,7 @@ def handle_message(event):
                     content=[content[0], 2, 'flex']
                 else:
                     #齊推
-                    if echo2(lineMessage, channelId):
+                    if not content[1] and echo2(lineMessage, channelId):
                         content = [lineMessage, 0, 'text']
                     #本次要回的話
                     if content[2]=='image':
