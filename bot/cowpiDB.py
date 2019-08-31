@@ -240,7 +240,7 @@ def autoIfEmptyStatements():
             ['你好', '嗨'],['Hello', 'Hi'],['你好', '哈囉'],['Hello', '你好'],['安安', 'こんにちは'],['吃飽沒', '還沒吃'],
             ['你是誰', '我是牛批貓'],['讚哦', '謝謝誇獎'],['狂', '948794狂'],['我難過', 'https://www.youtube.com/watch?v=T0LfHEwEXXw'],
             ['七彩的微風', '側著臉輕輕吹拂'],['並沒有', '對阿才沒有'],['wwwww', '哈哈哈哈哈'],['XDDD', '哈哈哈哈哈'],['23333', '哈哈哈哈哈'],
-            ['66666', '遛遛遛遛遛狗'],['哈哈', '哈哈哈哈哈密瓜'],['生氣', '厚氣氣氣氣氣'],['QQ', '不哭不哭你是豬'],['謝謝', '不客氣']
+            ['66666', '遛遛遛遛遛狗'],['哈哈', '哈哈哈哈哈密瓜'],['生氣', 'https://i.imgur.com/mmMC1Nm.jpg'],['QQ', '不哭不哭你是豬'],['謝謝', '不客氣']
         ]
         for x in data:
             c.execute('INSERT INTO statements(keyword, response, create_at, channel_id, channel_type, priority) VALUES(%s,%s,%s,%s,%s,%s)',
