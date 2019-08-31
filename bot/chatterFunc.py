@@ -32,10 +32,9 @@ def forget(lineMessage, channelId):
     else:
         delStatement(lineMes[1], lineMes[2:], channelId)
         return ["好哦的喵～", 0, 'text']
-##壞壞
+##壞壞，批次降低資料庫內本次回話的關鍵字權重
 def bad(channelId):
-    #批次降低資料庫內本次回話的關鍵字權重
-    adjustPrio(queryReceived(channelId, 1)[0][0], queryReply(channelId, 1)[0][0], -1)
+    adjustPrio(queryReceived(channelId, 1)[0][0], queryReply(channelId, 1)[0][0], -2)
     return ["好哦的喵～", 0, 'text']
 ##回覆(隨機回覆)
 def chat(lineMessage, channelId):
@@ -45,14 +44,14 @@ def chat(lineMessage, channelId):
     boolean = 0 if response=="窩聽不懂啦！" else 1
     type = 'image' if response[0:8]=='https://' and any(x in response for x in ['.jpg','.jpeg','.png']) else 'text'
     return [response, boolean, type]
-##成功回話時增加權重
+##成功回話時增加權重或加入新詞
 def validReply(lineMessage, reply):
     adjustPrio(lineMessage, reply, 1)
 ##齊推
 def echo2(lineMessage, channelId):
-    if all(lineMessage!=x[0] or x[1]!='text' for x in queryReceived(channelId, 5)): return ""
-    elif queryReply(channelId, 1)[0][0]==lineMessage: return ""
-    else: return [lineMessage, 0, 'text']
+    if all(lineMessage!=x[0] or x[1]!='text' for x in queryReceived(channelId, 5)): return False
+    elif queryReply(channelId, 1)[0][0]==lineMessage: return False
+    else: return True
 ##你會說什麼
 def allLearn(channelId):
     return allStatement(channelId)

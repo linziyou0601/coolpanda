@@ -114,7 +114,7 @@ replyList = []
 def autoLearnModel(msg, content, channelId, event):
     if content[1]:
         validReply(msg, content[0]) #若有詞條資料，則回覆時權重+1，若無則學習
-        if queryReply(channelId, 1)[0][1]==1 and queryReply(channelId, 1)[0][2]=='text' and content[1]==1: #若上一句是從資料庫撈出來的回覆，且不是關鍵字回覆，則順序性對話自動加入詞條
+        if queryReply(channelId, 1)[0][2]=='text' and queryReply(channelId, 1)[0][1]==1 and content[1]==1: #若上一句是文字回覆，且上句和本句皆不是關鍵字回覆，則順序性對話自動加入詞條
             validReply(queryReply(channelId, 1)[0][0], msg)
         if queryReply(channelId, 1)[0][0]=='窩聽不懂啦！': #若上一句回答的是聽不懂，本次有詞條，則將上次收到的關鍵字和本次的回答學習
             validReply(queryReceived(channelId, 1)[0][0], content[0])
@@ -143,11 +143,11 @@ def keyRes(msg, channelId, event):
 #@handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     channelId = getChannelId(event)
-    
+    newChannel(channelId) #新建頻道資料
+
     ##取得收到的訊息
     lineMessageType = event.message.type
     lineMessage = ""
-    newChannel(channelId) #新建頻道資料
     global replyList
     replyList = ""
     content=["", 0, ""]
@@ -158,25 +158,25 @@ def handle_message(event):
         #####聊天回答第一階段#####功能型
         if lineMessage == "主選單" or lineMessage == "牛批貓":
             replyList = FlexSendMessage(alt_text="主選單", contents=flexMainMenu())
-            content=[lineMessage, 0, 'text']
+            content=[lineMessage, 0, 'flex']
         elif any(s == lineMessage for s in ["抽籤教學", "怎麼抽籤", "抽籤"]):
             replyList = FlexSendMessage(alt_text="如何隨機抽回答", contents=flexTeachLottery())
-            content=[lineMessage, 0, 'text']
+            content=[lineMessage, 0, 'flex']
         elif any(s == lineMessage for s in ["學說話教學", "怎麼學說話", "學說話", "教你說話"]):
             replyList = FlexSendMessage(alt_text="如何教我說話", contents=flexTeachChat())
-            content=[lineMessage, 0, 'text']
+            content=[lineMessage, 0, 'flex']
         elif any(s == lineMessage for s in (x+y for x in ["怎麼查", "如何查", "查"] for y in ["天氣", "空氣", "氣象"])):
             replyList = FlexSendMessage(alt_text="如何查氣象", contents=flexTeachCWB())
-            content=[lineMessage, 0, 'text']
+            content=[lineMessage, 0, 'flex']
         elif any(s == lineMessage for s in ["牛批貓會做什麼", "牛批貓會幹嘛", "你會幹嘛", "你會做什麼"]):
             replyList = FlexSendMessage(alt_text="我會哪些技能", contents=flexTeaching())
-            content=[lineMessage, 0, 'text']
+            content=[lineMessage, 0, 'flex']
         elif lineMessage == "目前狀態":
             replyList = FlexSendMessage(alt_text="目前狀態", contents=flexStatusMenu(currentStatus(channelId)))
-            content=[lineMessage, 0, 'text']
+            content=[lineMessage, 0, 'flex']
         elif lineMessage=="牛批貓會說什麼": #本聊天窗所有教過的東西
             replyList = FlexSendMessage(alt_text="我會說什麼", contents=flexWhatCanSay(allLearn(channelId)))
-            content=[lineMessage, 0, 'text']
+            content=[lineMessage, 0, 'flex']
         elif "說別人教的話" in lineMessage: #回話資料庫開關
             replyList = TextSendMessage(text=globaltalk(lineMessage, channelId))
             content=[lineMessage, 0, 'text']
@@ -186,7 +186,7 @@ def handle_message(event):
         elif not queryUser(channelId)[3]: #非安靜狀態
             #####聊天回答第二階段#####關鍵字類型
             if keyRes(lineMessage, channelId, event):
-                content=[lineMessage, 2, 'text']
+                content=[lineMessage, 2, 'flex']
             else:
                 #####聊天回答第三階段#####聊天類型
                 if lineMessage == "壞壞": #名詞拉黑
@@ -200,11 +200,11 @@ def handle_message(event):
 
                 #最終反查關鍵字類型
                 if keyRes(content[0], channelId, event):
-                    content=[content[0], 2, 'text']
+                    content=[content[0], 2, 'flex']
                 else:
                     #齊推
                     if echo2(lineMessage, channelId):
-                        content = echo2(lineMessage, channelId)
+                        content = [lineMessage, 0, 'text']
                     #本次要回的話
                     if content[2]=='image':
                         replyList = ImageSendMessage(original_content_url=content[0], preview_image_url=content[0])
