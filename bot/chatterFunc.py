@@ -50,7 +50,7 @@ def validReply(lineMessage, reply):
     adjustPrio(lineMessage, reply, 1)
 ##齊推
 def echo2(lineMessage, channelId):
-    if all(lineMessage!=x[0] or x[1]!='text' for x in queryReceived(channelId, 5)[0]): return ""
+    if all(lineMessage!=x[0] or x[1]!='text' for x in queryReceived(channelId, 5)): return ""
     elif queryReply(channelId, 1)[0][0]==lineMessage: return ""
     else: return [lineMessage, 1, 'text']
 ##你會說什麼
