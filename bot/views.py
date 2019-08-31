@@ -149,6 +149,7 @@ def handle_message(event):
     lineMessage = ""
     newChannel(channelId) #新建頻道資料
     global replyList
+    replyList.clear()
     content=["", 0, ""]
     
     ##收到文字訊息
