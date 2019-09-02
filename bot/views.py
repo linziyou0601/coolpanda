@@ -233,7 +233,7 @@ def handle_message(event):
         lineMessage = event.message.file_name
     ##收到位置訊息
     elif lineMessageType == 'location':
-        lineMessage = event.message.latitude + ',' + event.message.longitude + ',' + event.message.address
+        lineMessage = str(event.message.latitude) + ',' + str(event.message.longitude) + ',' + str(event.message.address)
         replyList = TextSendMessage(text='你的位置是 ' + event.message.address)
         content=['你的位置是 ' + event.message.address, 1, 'location']
 
