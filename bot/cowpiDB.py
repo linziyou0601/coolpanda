@@ -171,7 +171,7 @@ def resStatement(key, channelId, rand):
     c = conn.cursor()
     #若關閉可以說其他人教過的話的功能，則以限制channelId的方式查詢
     strGlobaltalk = 'likestrong>' if queryUser(channelId)[2] else 'channel_id=%s and likestrong>'
-    strRandomreply = '0 and priority>=5 ORDER BY RANDOM() limit 1' if rand else '1 ORDER BY likestrong DESC, priority DESC, id DESC limit 1'
+    strRandomreply = '0 and priority>=5 ORDER BY RANDOM() limit 1' if rand else '0 ORDER BY likestrong DESC, priority DESC, id DESC limit 1'
     c.execute('''
         SELECT response FROM ( SELECT *,
                                 CASE
