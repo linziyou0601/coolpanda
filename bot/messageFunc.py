@@ -282,8 +282,7 @@ def flexStatusMenu(arg=[]):
                 {
                     "type": "button", "height": "sm", "style": "link",
                     "action": { "type": "message", "label": "主選單", "text": "主選單" }
-                },
-                { "type": "separator", "margin": "sm" }
+                }
             ]
         }
     }
@@ -567,7 +566,7 @@ def flexWeather(arg={}):
                                     "type": "box", "layout": "baseline",
                                     "contents": [
                                         { "type": "text", "text": "降雨率", "flex": 2, "size": "sm", "weight": "bold" },
-                                        { "type": "text", "text": arg['PoP6h']+'%', "flex": 3, "weight": "bold", "size": "xl", "color": "#0D8186" }
+                                        { "type": "text", "text": str(arg['PoP6h'])+'%', "flex": 3, "weight": "bold", "size": "xl", "color": "#0D8186" }
                                     ]
                                 },
                                 {
@@ -576,7 +575,7 @@ def flexWeather(arg={}):
                                     "contents": [
                                         {
                                             "type": "box", "layout": "vertical", "height": "15px",
-                                            "backgroundColor": "#0D8186", "width": arg['PoP6h']+'%', "cornerRadius": "10px",
+                                            "backgroundColor": "#0D8186", "width": str(arg['PoP6h'])+'%', "cornerRadius": "10px",
                                             "contents": [ { "type": "filler" } ]
                                         }
                                     ]
