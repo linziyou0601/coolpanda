@@ -889,108 +889,81 @@ def flexWeather(arg={}):
     arg['Humd'] = str(round(float(arg['Humd'])*1000+0.5)/10) if arg['Humd']!='-99' else 'N/A'
     arg['24R'] = str(round(float(arg['24R'])*10+0.5)/10) if arg['24R']!='-99' else 'N/A'
     #建立容器
-    return BubbleContainer(
-                direction='ltr',
-                body=BoxComponent(
-                    layout='vertical',
-                    contents=[
-                        #溫度
-                        TextComponent(
-                            text=arg['Temp']+'°',
-                            size='5xl',
-                            align="center",
-                            color="#990066"
-                        ),
-                        #天氣狀況描述
-                        TextComponent(
-                            text=arg['Wx'],
-                            weight='bold',
-                            size='lg',
-                            align="center",
-                            color="#990066"
-                        ),
-                        #目前天氣
-                        BoxComponent(
-                            layout='horizontal',
-                            margin='xxl',
-                            contents=[
-                                #地區
-                                BoxComponent(
-                                    layout='vertical',
-                                    flex=5,
-                                    contents=[
-                                        TextComponent(text=arg['locationName'], weight='bold', size='xxl', wrap=True),
-                                        TextComponent(text=arg['City']+' '+arg['Town'], weight='bold', size='sm', color='#0D8186')
-                                    ],
-                                ),
-                                #降雨率
-                                BoxComponent(
-                                    layout='vertical',
-                                    flex=4,
-                                    contents=[
-                                        BoxComponent(
-                                            layout='baseline',
-                                            contents=[
-                                                TextComponent(text='降雨率', weight='bold', size='sm', flex=2),
-                                                TextComponent(text=arg['PoP6h']+'%', weight='bold', size='xl', color='#0D8186', flex=3)
-                                            ],
-                                        ),
-                                        ##新API開放後才能顯示
-                                        BoxComponent(
-                                            layout='vertical',
-                                            backgroundColor='#9FD8E3',
-                                            height='10px',
-                                            contents=[
-                                                BoxComponent(
-                                                    layout='vertical',
-                                                    backgroundColor='#0D8186',
-                                                    height='10px',
-                                                    width=arg['PoP6h']+'%',
-                                                    contents=[FillerComponent()],
-                                                )
-                                            ],
-                                        )
-                                    ],
-                                )
-                            ],
-                        ),
-                        SeparatorComponent(margin='md'),
-                        #濕度、雨量
-                        BoxComponent(
-                            layout='horizontal',
-                            margin='md',
-                            contents=[
-                                BoxComponent(
-                                    layout='vertical',
-                                    flex=5,
-                                    contents=[
-                                        TextComponent(text='濕度', size='sm', align='center'),
-                                        TextComponent(text=arg['Humd']+'%', weight='bold', size='lg', align='center', color='#990066')
-                                    ],
-                                ),
-                                SeparatorComponent(margin='md'),
-                                BoxComponent(
-                                    layout='vertical',
-                                    flex=5,
-                                    contents=[
-                                        TextComponent(text='日積雨量', size='sm', align='center'),
-                                        TextComponent(text=arg['24R']+' mm', weight='bold', size='lg', align='center', color='#990066')
-                                    ],
-                                )
-                            ],
-                        ),
-                        SeparatorComponent(margin='md'),
-                        #時間
-                        BoxComponent(
-                            layout='vertical',
-                            margin='md',
-                            contents=[
-                                TextComponent(text='截至'+arg['TimeString'], size='sm', align='end', color='#AAAAAA')
-                            ],
-                        )
-                    ],
-                ),
-            )
+    return {
+        "type": "bubble", "direction": "ltr",
+        "body": {
+            "type": "box", "layout": "vertical",
+            "contents": [
+                #溫度
+                { "type": "text", "text": arg['Temp']+'°', "color": "#990066", "size": "5xl", "align": "center" },
+                { "type": "text", "text": arg['Wx'], "color": "#990066", "size": "lg", "weight": "bold", "align": "center" },
+                #目前天氣
+                {
+                    "type": "box", "layout": "horizontal", "margin": "xxl",
+                    "contents": [
+                        #地區
+                        {
+                            "type": "box", "layout": "vertical", "flex": 5,
+                            "contents": [
+                                { "type": "text", "text": arg['locationName'], "size": "xxl", "weight": "bold", "wrap": True },
+                                { "type": "text", "text": arg['City']+' '+arg['Town'], "weight": "bold", "size": "sm", "color": "#0D8186" }
+                            ]
+                        },
+                        #降雨率
+                        {
+                            "type": "box", "layout": "vertical", "flex": 4,
+                            "contents": [
+                                {
+                                    "type": "box", "layout": "baseline",
+                                    "contents": [
+                                        { "type": "text", "text": "降雨率", "flex": 2, "size": "sm", "weight": "bold" },
+                                        { "type": "text", "text": arg['PoP6h']+'%', "flex": 3, "weight": "bold", "size": "xl", "color": "#0D8186" }
+                                    ]
+                                },
+                                {
+                                    "type": "box", "layout": "vertical", "height": "15px", "margin": "sm",
+                                    "backgroundColor": "#9FD8E3", "cornerRadius": "10px",
+                                    "contents": [
+                                        {
+                                            "type": "box", "layout": "vertical", "height": "15px",
+                                            "backgroundColor": "#0D8186", "width": arg['PoP6h']+'%', "cornerRadius": "10px",
+                                            "contents": [ { "type": "filler" } ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                { "type": "separator", "margin": "md" },
+                #濕度、雨量
+                {
+                    "type": "box", "layout": "horizontal", "margin": "md",
+                    "contents": [
+                        {
+                            "type": "box", "layout": "vertical",
+                            "contents": [
+                                { "type": "text", "text": "濕度", "size": "sm", "align": "center" },
+                                { "type": "text", "text": arg['Humd']+'%', "weight": "bold", "size": "lg", "color": "#990066", "align": "center" }
+                            ]
+                        },
+                        {
+                            "type": "box", "layout": "vertical",
+                            "contents": [
+                                { "type": "text", "text": "日積雨量", "size": "sm", "align": "center" },
+                                { "type": "text", "text": arg['24R']+' mm', "weight": "bold", "size": "lg", "color": "#990066", "align": "center" }
+                            ]
+                        }
+                    ]
+                },
+                { "type": "separator", "margin": "md" },
+                {
+                    "type": "box", "layout": "vertical", "margin": "md",
+                    "contents": [ { "type": "text", "text": '截至'+arg['TimeString'], "size": "sm", "color": "#AAAAAA", "align": "end" } ]
+                }
+            ]
+        }
+    }
 
 ##未來天氣
 def flexWeather72HR(arg):
