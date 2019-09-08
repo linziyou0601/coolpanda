@@ -576,90 +576,57 @@ def flexWhatCanSay(arg=[]):
     keywordObj=[]
     if arg[5]!="Null":
         for k, v in arg[5].items():
+            if len(keywordObj): keywordObj.append({ "type": "separator", "margin": "md" })
             keywordObj.append(
-                BoxComponent(
-                    layout='horizontal', margin='md',
-                    contents=[
-                        TextComponent(text=k, weight='bold', color='#690808', size='sm', wrap=True, flex=1),
-                        BoxComponent(
-                            layout='vertical',
-                            contents=[
-                                TextComponent(text=s, color='#111111', size='sm', align='end', wrap=True) for s in v
-                            ],
-                        )
-                    ],
-                )
+                {
+                    "type": "box", "layout": "horizontal", "margin": "md",
+                    "contents": [
+                        { "type": "text", "text": k, "size": "sm", "color": "#690808", "weight": "bold", "wrap": True, "flex": 1 },
+                        {
+                            "type": "box", "layout": "vertical",
+                            "contents": [
+                                { "type": "text", "text": s, "size": "sm", "color": "#111111", "align": "end", "wrap": True } for s in v
+                            ]
+                        }
+                    ]
+                }
             )
-            keywordObj.append(SeparatorComponent(margin='md'))
-    if not len(keywordObj): keywordObj.append(SeparatorComponent(margin='md'))
+    if not len(keywordObj): keywordObj.append({ "type": "filler" })
     #建立容器
-    return BubbleContainer(
-                direction='ltr',
-                body=BoxComponent(
-                    layout='vertical',
-                    contents=[
-                        # title
-                        TextComponent(text='詞條', weight='bold', size='sm', color="#1DB446"),
-                        TextComponent(text='這裡教我說的話', weight='bold', size='xl', margin='md'),
-                        TextComponent(text='說話模式：'+arg[0], color='#aaaaaa', size='xs'),
-                        TextComponent(text='目前狀態：'+arg[1], color='#aaaaaa', size='xs'),
-                        SeparatorComponent(margin='md'),
-                        BoxComponent(
-                            layout='vertical',
-                            margin='md',
-                            spacing='sm',
-                            contents=[x for x in keywordObj],
-                        ),
-                        # info
-                        BoxComponent(
-                            layout='horizontal',
-                            margin='md',
-                            contents=[
-                                TextComponent(
-                                    text='關鍵字數量',
-                                    color='#aaaaaa',
-                                    size='sm',
-                                ),
-                                TextComponent(
-                                    text=str(arg[2]),
-                                    color='#aaaaaa',
-                                    size='sm',
-                                    align='end'
-                                )
-                            ],
-                        ),
-                        BoxComponent(
-                            layout='horizontal',
-                            margin='md',
-                            contents=[
-                                TextComponent(
-                                    text='詞條數量',
-                                    color='#aaaaaa',
-                                    size='sm',
-                                ),
-                                TextComponent(
-                                    text=str(arg[3]),
-                                    color='#aaaaaa',
-                                    size='sm',
-                                    align='end'
-                                )
-                            ],
-                        ),
-                        BoxComponent(
-                            layout='vertical',
-                            margin='xs',
-                            contents=[
-                                TextComponent(
-                                    text='截至'+arg[4],
-                                    color='#aaaaaa',
-                                    size='xs',
-                                    align='end'
-                                )
-                            ],
-                        )
-                    ],
-                ),
-            )
+    return {
+        "type": "bubble", "direction": "ltr",
+        "body": {
+            "type": "box", "layout": "vertical",
+            "contents": [
+                { "type": "text", "text": "詞條", "size": "sm", "color": "#1DB446", "weight": "bold" },
+                { "type": "text", "text": "這裡教我說的話", "margin": "md", "size": "xl", "weight": "bold" },
+                { "type": "text", "text": '說話模式：'+arg[0], "size": "xs", "color": "#AAAAAA" },
+                { "type": "text", "text": '目前狀態：'+arg[1], "size": "xs", "color": "#AAAAAA" },
+                { "type": "separator", "margin": "md" },
+                {
+                    "type": "box", "layout": "vertical", "margin": "md",
+                    "contents": [x for x in keywordObj]
+                },
+                { "type": "separator", "margin": "md" },
+                {
+                    "type": "box", "layout": "horizontal", "margin": "md",
+                    "contents": [
+                        { "type": "text", "text": "關鍵字數量", "size": "sm", "color": "#aaaaaa" },
+                        { "type": "text", "text": str(arg[2]), "size": "sm", "color": "#aaaaaa", "align": "end" }
+                    ]
+                },
+                {
+                    "type": "box", "layout": "horizontal", "margin": "md",
+                    "contents": [
+                        { "type": "text", "text": "詞條數量", "size": "sm", "color": "#aaaaaa" },
+                        { "type": "text", "text": str(arg[3]), "size": "sm", "color": "#aaaaaa", "align": "end" }
+                    ]
+                },
+                { "type": "separator", "margin": "md" },
+                { "type": "text", "text": '截至'+arg[4], "size": "xs", "color": "#aaaaaa", "margin": "md", "align": "end" }
+            ]
+        }
+    }
 
 ##空氣品質
 def flexAQI(arg={}):
@@ -710,7 +677,7 @@ def flexAQI(arg={}):
                             "type": "box", "layout": "vertical", "flex": 2,
                             "contents": [
                                 { "type": "text", "text": "8小時\n移動平均", "size": "sm", "wrap": True, "flex": 1, "align": "end", "gravity": "center" },
-                                { "type": "text", "text": "小時濃度", "size": "sm", "wrap": true, "flex": 1, "align": "end", "gravity": "center" }
+                                { "type": "text", "text": "小時濃度", "size": "sm", "wrap": True, "flex": 1, "align": "end", "gravity": "center" }
                             ]
                         },
                         {
@@ -735,7 +702,7 @@ def flexAQI(arg={}):
                             "type": "box", "layout": "vertical", "flex": 2,
                             "contents": [
                                 { "type": "text", "text": "移動平均", "size": "sm", "wrap": True, "flex": 1, "align": "end", "gravity": "center" },
-                                { "type": "text", "text": "小時濃度", "size": "sm", "wrap": true, "flex": 1, "align": "end", "gravity": "center" }
+                                { "type": "text", "text": "小時濃度", "size": "sm", "wrap": True, "flex": 1, "align": "end", "gravity": "center" }
                             ]
                         },
                         {
@@ -760,7 +727,7 @@ def flexAQI(arg={}):
                             "type": "box", "layout": "vertical", "flex": 2,
                             "contents": [
                                 { "type": "text", "text": "移動平均", "size": "sm", "wrap": True, "flex": 1, "align": "end", "gravity": "center" },
-                                { "type": "text", "text": "小時濃度", "size": "sm", "wrap": true, "flex": 1, "align": "end", "gravity": "center" }
+                                { "type": "text", "text": "小時濃度", "size": "sm", "wrap": True, "flex": 1, "align": "end", "gravity": "center" }
                             ]
                         },
                         {
@@ -785,7 +752,7 @@ def flexAQI(arg={}):
                             "type": "box", "layout": "vertical", "flex": 2,
                             "contents": [
                                 { "type": "text", "text": "8小時\n移動平均", "size": "sm", "wrap": True, "flex": 1, "align": "end", "gravity": "center" },
-                                { "type": "text", "text": "小時濃度", "size": "sm", "wrap": true, "flex": 1, "align": "end", "gravity": "center" }
+                                { "type": "text", "text": "小時濃度", "size": "sm", "wrap": True, "flex": 1, "align": "end", "gravity": "center" }
                             ]
                         },
                         {
@@ -810,7 +777,7 @@ def flexAQI(arg={}):
                             "type": "box", "layout": "vertical", "flex": 2,
                             "contents": [
                                 { "type": "text", "text": "移動平均", "size": "sm", "wrap": True, "flex": 1, "align": "end", "gravity": "center" },
-                                { "type": "text", "text": "小時濃度", "size": "sm", "wrap": true, "flex": 1, "align": "end", "gravity": "center" }
+                                { "type": "text", "text": "小時濃度", "size": "sm", "wrap": True, "flex": 1, "align": "end", "gravity": "center" }
                             ]
                         },
                         {
@@ -833,7 +800,7 @@ def flexAQI(arg={}):
                         },
                         {
                             "type": "box", "layout": "vertical", "flex": 2,
-                            "contents": [ { "type": "text", "text": "小時濃度", "size": "sm", "wrap": true, "flex": 1, "align": "end", "gravity": "center" } ]
+                            "contents": [ { "type": "text", "text": "小時濃度", "size": "sm", "wrap": True, "flex": 1, "align": "end", "gravity": "center" } ]
                         },
                         {
                             "type": "box", "layout": "vertical", "flex": 2,
