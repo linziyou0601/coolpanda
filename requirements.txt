@@ -1,6 +1,5 @@
 Django
 django-import-export
 django-heroku
-line-bot-sdk
 gunicorn
 psycopg2
