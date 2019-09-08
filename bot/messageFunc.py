@@ -997,54 +997,52 @@ def flexWeather72HR(arg):
     #整理資料格式
     WeatherList=[]
     for x in arg:
-        WeatherList.append(BubbleContainer(
-            direction='ltr',
-            size='micro',
-            body=BoxComponent(
-                layout='vertical',
-                contents=[
-                    #Title
-                    BoxComponent(
-                        layout='horizontal',
-                        contents=[
-                            TextComponent(text=x['locationName'], size='sm', align='center', flex=4, color='#0D8186'),
-                            TextComponent(text=x['startTime'][8:14]+'時', size='xs', align='center', flex=5, color='#1DB446')
-                        ],
-                    ),
-                    #天氣內容
-                    TextComponent(text=x['Temp']+'°', size='3xl', align='center', color='#990066'),
-                    TextComponent(text=x['Wx'], size='sm', weight='bold', align='center', color='#990066'),
-                    SeparatorComponent(margin='md'),
-                    BoxComponent(
-                        layout='horizontal',
-                        margin='md',
-                        contents=[
-                            BoxComponent(
-                                layout='vertical',
-                                flex=5,
-                                contents=[
-                                    TextComponent(text='降雨率', size='xs', align='center', color='#666666'),
-                                    TextComponent(text=x['PoP6h']+'%', weight='bold', size='md', align='center', color='#0D8186')
-                                ],
-                            ),
-                            SeparatorComponent(margin='md'),
-                            BoxComponent(
-                                layout='vertical',
-                                flex=5,
-                                contents=[
-                                    TextComponent(text='舒適度', size='xs', align='center', color='#666666'),
-                                    TextComponent(text=x['CI'], weight='bold', size='md', align='center', color='#0D8186')
-                                ],
-                            )
-                        ],
-                    ),
-                    SeparatorComponent(margin='md')
-                ],
-            ),
-        ))
+        WeatherList.append(
+            {
+                "type": "bubble", "size": "micro", "direction": "ltr",
+                "body": {
+                    "type": "box", "layout": "vertical",
+                    "contents": [
+                        #Title
+                        {
+                            "type": "box", "layout": "horizontal",
+                            "contents": [
+                                { "type": "text", "text": x['locationName'], "size": "sm", "align": "center", "flex": 4, "color": "#0D8186" },
+                                { "type": "text", "text": x['startTime'][8:14]+'時', "color": "#1DB446", "size": "xs", "align": "center", "flex": 5 }
+                            ]
+                        },
+                        #天氣內容
+                        { "type": "text", "text": x['Temp']+'°', "size": "3xl", "color": "#990066", "align": "center" },
+                        { "type": "text", "text": x['Wx'], "size": "sm", "weight": "bold", "align": "center", "color": "#990066" },
+                        { "type": "separator", "margin": "md" },
+                        {
+                            "type": "box", "layout": "horizontal", "margin": "md",
+                            "contents": [
+                                {
+                                    "type": "box", "layout": "vertical", "flex": 5,
+                                    "contents": [
+                                        { "type": "text", "text": "降雨率", "size": "xs", "color": "#666666", "align": "center" },
+                                        { "type": "text", "text": x['PoP6h']+'%', "size": "md", "weight": "bold", "color": "#0D8186", "align": "center" }
+                                    ]
+                                },
+                                { "type": "separator", "margin": "md" },
+                                {
+                                    "type": "box", "layout": "vertical", "flex": 5,
+                                    "contents": [
+                                        { "type": "text", "text": "舒適度", "size": "xs", "color": "#666666", "align": "center" },
+                                        { "type": "text", "text": x['CI'], "size": "md", "weight": "bold", "color": "#0D8186", "align": "center" }
+                                    ]
+                                }
+                            ]
+                        },
+                        { "type": "separator", "margin": "md" }
+                    ]
+                }
+            }
+        )
     
     #建立容器
-    return CarouselContainer(contents = WeatherList)
+    return { "type": "carousel", "contents": WeatherList }
 
 ##擲筊
 def flexDevinate(arg):
@@ -1067,32 +1065,32 @@ def flexDevinate(arg):
         "body": {
             "type": "box",
             "layout": "vertical",
+            "backgroundColor": "#c4241b",
             "contents": [
-            {
-                "type": "text",
-                "text": res[arg],
-                "size": "4xl",
-                "color": "#ffffff",
-                "weight": "bold",
-                "align": "center"
-            },
-            {
-                "type": "separator",
-                "color": "#ffffff",
-                "margin": "md"
-            },
-            {
-                "type": "button",
-                "action": {
-                "type": "message",
-                "label": "再擲一次",
-                "text": "擲筊"
+                {
+                    "type": "text",
+                    "text": res[arg],
+                    "size": "4xl",
+                    "color": "#ffffff",
+                    "weight": "bold",
+                    "align": "center"
                 },
-                "style": "link",
-                "color": "#ffffff"
-            }
-            ],
-            "backgroundColor": "#c4241b"
+                {
+                    "type": "separator",
+                    "color": "#ffffff",
+                    "margin": "md"
+                },
+                {
+                    "type": "button",
+                    "style": "link",
+                    "color": "#ffffff",
+                    "action": {
+                        "type": "message",
+                        "label": "再擲一次",
+                        "text": "擲筊"
+                    }
+                }
+            ]
         }
     }
 
