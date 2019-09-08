@@ -4,571 +4,289 @@ from linebot.models import *
 
 ##主選單
 def flexMainMenu(arg=[]):
-    return BubbleContainer(
-                direction='ltr',
-                hero=ImageComponent(
-                    url='https://i.imgur.com/kW0Fr2H.png',
-                    size='full',
-                    aspect_ratio='20:13',
-                    aspect_mode='cover'
-                ),
-                body=BoxComponent(
-                    layout='vertical',
-                    contents=[
-                        # title
-                        TextComponent(text='牛批熊貓', weight='bold', size='xl'),
-                        # info
-                        BoxComponent(
-                            layout='vertical',
-                            margin='lg',
-                            spacing='sm',
-                            contents=[
-                                BoxComponent(
-                                    layout='baseline',
-                                    spacing='sm',
-                                    contents=[
-                                        TextComponent(
-                                            text='功能',
-                                            color='#aaaaaa',
-                                            size='sm',
-                                            flex=2
-                                        ),
-                                        TextComponent(
-                                            text='胡言亂語、抽籤、擲筊、查氣象、查時間',
-                                            wrap=True,
-                                            color='#666666',
-                                            size='sm',
-                                            flex=4
-                                        )
-                                    ],
-                                ),
-                                BoxComponent(
-                                    layout='baseline',
-                                    spacing='sm',
-                                    contents=[
-                                        TextComponent(
-                                            text='維護時間',
-                                            color='#aaaaaa',
-                                            size='sm',
-                                            flex=2
-                                        ),
-                                        TextComponent(
-                                            text="我爽就維護(◕ܫ◕)",
-                                            wrap=True,
-                                            color='#666666',
-                                            size='sm',
-                                            flex=4,
-                                        )
-                                    ],
-                                )
-                            ],
-                        )
-                    ],
-                ),
-                footer=BoxComponent(
-                    layout='vertical',
-                    spacing='sm',
-                    contents=[
-                        ButtonComponent(
-                            style='link',
-                            height='sm',
-                            action=MessageAction(
-                                label='功能教學',
-                                text='牛批貓會幹嘛'
-                            ),
-                        ),
-                        ButtonComponent(
-                            style='link',
-                            height='sm',
-                            action=MessageAction(
-                                label='我要擲筊',
-                                text='擲筊'
-                            ),
-                        ),
-                        ButtonComponent(
-                            style='link',
-                            height='sm',
-                            action=MessageAction(
-                                label='目前狀態',
-                                text='目前狀態'
-                            ),
-                        ),
-                        SpacerComponent(size='sm')
-                    ],
-                    flex=0
-                ),
-            )
+    return {
+        "type": "bubble", "direction": "ltr",
+        "hero": { "type": "image", "url": "https://i.imgur.com/kW0Fr2H.png", "size": "full", "aspectRatio": "20:13", "aspectMode": "cover" },
+        "body": {
+            "type": "box", "layout": "vertical",
+            "contents": [
+                { "type": "text", "text": "牛批熊貓主選單", "size": "xl", "weight": "bold" },
+                {
+                    "type": "box", "layout": "baseline", "margin": "lg",
+                    "contents": [
+                        { "type": "text", "text": "功能", "size": "sm", "flex": 2, "color": "#aaaaaa" },
+                        { "type": "text", "text": "胡言亂語、抽籤、擲筊、查氣象、查時間", "wrap": True, "flex": 4, "size": "sm", "color": "#666666" }
+                    ]
+                },
+                {
+                    "type": "box", "layout": "baseline",
+                    "contents": [
+                        { "type": "text", "text": "維護時間", "size": "sm", "flex": 2, "color": "#aaaaaa" },
+                        { "type": "text", "text": "我爽就維護(◕ܫ◕)", "wrap": True, "flex": 4, "size": "sm", "color": "#666666" }
+                    ]
+                }
+            ]
+        },
+        "footer": {
+            "type": "box", "layout": "vertical",
+            "contents": [
+                { "type": "separator", "margin": "xxl" },
+                {
+                    "type": "button", "style": "link", "height": "sm",
+                    "action": { "type": "message", "label": "功能教學", "text": "牛批貓會幹嘛" }
+                },
+                {
+                    "type": "button", "style": "link", "height": "sm",
+                    "action": { "type": "message", "label": "我要擲筊", "text": "擲筊" }
+                },
+                {
+                    "type": "button", "style": "link", "height": "sm",
+                    "action": { "type": "message", "label": "目前狀態", "text": "目前狀態" }
+                }
+            ]
+        }
+    }
 
 ##抽籤式回應教學
 def flexTeachLottery(arg=[]):
-    return BubbleContainer(
-                direction='ltr',
-                body=BoxComponent(
-                    layout='vertical',
-                    contents=[
-                        # title
-                        TextComponent(text='教學', weight='bold', size='sm', color="#1DB446"),
-                        TextComponent(text='抽籤式回覆', weight='bold', size='xxl', margin='md'),
-                        # info
-                        BoxComponent(
-                            layout='vertical',
-                            margin='lg',
-                            spacing='sm',
-                            contents=[
-                                BoxComponent(
-                                    layout='baseline',
-                                    spacing='sm',
-                                    contents=[
-                                        TextComponent(
-                                            text='注意',
-                                            color='#aaaaaa',
-                                            size='sm',
-                                            flex=1
-                                        ),
-                                        TextComponent(
-                                            text='若有開啟「可以說別人教的話」的功能，則也會從其他聊天室教的詞條隨機抽選！',
-                                            wrap=True,
-                                            color='#666666',
-                                            size='sm',
-                                            flex=5
-                                        )
-                                    ],
-                                ),
-                                BoxComponent(
-                                    layout='baseline',
-                                    spacing='sm',
-                                    contents=[
-                                        TextComponent(
-                                            text='說明',
-                                            color='#aaaaaa',
-                                            size='sm',
-                                            flex=1
-                                        ),
-                                        TextComponent(
-                                            text='「牛批貓+關鍵字」或「抽籤+關鍵字」將會從「關鍵字」對應的所有詞條中，隨機抽出一個回答。',
-                                            wrap=True,
-                                            color='#666666',
-                                            size='sm',
-                                            flex=5
-                                        )
-                                    ],
-                                )
-                            ],
-                        )
-                    ],
-                ),
-                footer=BoxComponent(
-                    layout='vertical',
-                    spacing='sm',
-                    contents=[
-                        SeparatorComponent(margin='xxl'),
-                        ButtonComponent(
-                            style='link',
-                            height='sm',
-                            action=MessageAction(
-                                label='範例步驟①',
-                                text='學說話;抽神籤;甲子籤;乙丑籤;丙寅籤;丁卯籤;戊辰籤'
-                            ),
-                        ),
-                        ButtonComponent(
-                            style='link',
-                            height='sm',
-                            action=MessageAction(
-                                label='範例步驟②',
-                                text='抽籤抽神籤'
-                            ),
-                        ),
-                        ButtonComponent(
-                            style='link',
-                            height='sm',
-                            action=MessageAction(
-                                label='主選單',
-                                text='主選單'
-                            ),
-                        ),
-                        SpacerComponent(size='sm')
-                    ],
-                    flex=0,
-                ),
-            )
+    return {
+        "type": "bubble", "direction": "ltr",
+        "body": {
+            "type": "box", "layout": "vertical",
+            "contents": [
+                # title
+                { "type": "text", "text": "教學", "color": "#1DB446", "size": "sm", "weight": "bold" },
+                { "type": "text", "text": "抽籤式回覆", "margin": "md", "size": "xxl", "weight": "bold" },
+                # info
+                {
+                    "type": "box", "layout": "baseline", "margin": "md",
+                    "contents": [
+                        { "type": "text", "text": "注意", "color": "#AAAAAA", "size": "sm", "flex": 1 },
+                        { "type": "text", "text": "若有開啟「可以說別人教的話」的功能，則也會從其他聊天室教的詞條隨機抽選！", "wrap": True, "flex": 5, "size": "sm", "color": "#666666" }
+                    ]
+                },
+                {
+                    "type": "box", "layout": "baseline", "margin": "md",
+                    "contents": [
+                        { "type": "text", "text": "說明", "color": "#AAAAAA", "size": "sm", "flex": 1 },
+                        { "type": "text", "text": "「牛批貓+關鍵字」或「抽籤+關鍵字」將會從「關鍵字」對應的所有詞條中，隨機抽出一個回答。", "wrap": True, "flex": 5, "size": "sm", "color": "#666666" }
+                    ]
+                }
+            ]
+        },
+        "footer": {
+            "type": "box", "layout": "vertical",
+            "contents": [
+                { "type": "separator", "margin": "xxl" },
+                {
+                    "type": "button", "height": "sm", "style": "link",
+                    "action": { "type": "message", "label": "範例步驟 1", "text": "學說話;抽神籤;甲子籤;乙丑籤;丙寅籤;丁卯籤;戊辰籤" }
+                },
+                {
+                    "type": "button", "height": "sm", "style": "link",
+                    "action": { "type": "message", "label": "範例步驟 2", "text": "抽籤抽神籤" }
+                },
+                {
+                    "type": "button", "height": "sm", "style": "link",
+                    "action": { "type": "message", "label": "主選單", "text": "主選單" }
+                }
+            ]
+        }
+    }
 
 ##聊天教學
 def flexTeachChat(arg=[]):
-    return BubbleContainer(
-                direction='ltr',
-                body=BoxComponent(
-                    layout='vertical',
-                    contents=[
-                        # title
-                        TextComponent(text='教學', weight='bold', size='sm', color="#1DB446"),
-                        TextComponent(text='如何教我說話', weight='bold', size='xxl', margin='md'),
-                        TextComponent(text='指令', weight='bold', color='#825d5c', margin='lg', size='md'),
-                        # info
-                        BoxComponent(
-                            layout='vertical',
-                            margin='md',
-                            spacing='sm',
-                            contents=[
-                                BoxComponent(
-                                    layout='baseline',
-                                    spacing='sm',
-                                    contents=[
-                                        TextComponent(
-                                            text='學習詞條',
-                                            color='#aaaaaa',
-                                            size='sm',
-                                            flex=1
-                                        ),
-                                        TextComponent(
-                                            text='學說話;關鍵字;回答',
-                                            wrap=True,
-                                            color='#825d5c',
-                                            size='sm',
-                                            flex=3
-                                        )
-                                    ],
-                                ),
-                                BoxComponent(
-                                    layout='baseline',
-                                    spacing='sm',
-                                    contents=[
-                                        TextComponent(
-                                            text='大量學習',
-                                            color='#aaaaaa',
-                                            size='sm',
-                                            flex=1
-                                        ),
-                                        TextComponent(
-                                            text='學說話;關鍵字;回答1;回答N',
-                                            wrap=True,
-                                            color='#825d5c',
-                                            size='sm',
-                                            flex=3
-                                        )
-                                    ],
-                                ),
-                                BoxComponent(
-                                    layout='baseline',
-                                    spacing='sm',
-                                    contents=[
-                                        TextComponent(
-                                            text='刪除詞條',
-                                            color='#aaaaaa',
-                                            size='sm',
-                                            flex=1
-                                        ),
-                                        TextComponent(
-                                            text='忘記;關鍵字;回答',
-                                            wrap=True,
-                                            color='#825d5c',
-                                            size='sm',
-                                            flex=3
-                                        )
-                                    ],
-                                ),BoxComponent(
-                                    layout='baseline',
-                                    spacing='sm',
-                                    contents=[
-                                        TextComponent(
-                                            text='大量刪除',
-                                            color='#aaaaaa',
-                                            size='sm',
-                                            flex=1
-                                        ),
-                                        TextComponent(
-                                            text='忘記;關鍵字;回答1;回答N',
-                                            wrap=True,
-                                            color='#825d5c',
-                                            size='sm',
-                                            flex=3
-                                        )
-                                    ],
-                                ),BoxComponent(
-                                    layout='baseline',
-                                    spacing='sm',
-                                    contents=[
-                                        TextComponent(
-                                            text='降低詞條優先度',
-                                            color='#aaaaaa',
-                                            size='sm',
-                                            flex=3
-                                        ),
-                                        TextComponent(
-                                            text='壞壞',
-                                            wrap=True,
-                                            color='#825d5c',
-                                            size='sm',
-                                            flex=3
-                                        )
-                                    ],
-                                )
-                            ],
-                        )
-                    ],
-                ),
-                footer=BoxComponent(
-                    layout='vertical',
-                    spacing='sm',
-                    contents=[
-                        SeparatorComponent(margin='xxl'),
-                        ButtonComponent(
-                            style='link',
-                            height='sm',
-                            action=MessageAction(
-                                label='詞條學習範例',
-                                text='學說話;牛批牛批;本喵真牛批！'
-                            ),
-                        ),
-                        ButtonComponent(
-                            style='link',
-                            height='sm',
-                            action=MessageAction(
-                                label='刪除詞條範例',
-                                text='忘記;牛批牛批;本喵真牛批！'
-                            ),
-                        ),
-                        ButtonComponent(
-                            style='link',
-                            height='sm',
-                            action=MessageAction(
-                                label='你會說什麼',
-                                text='牛批貓會說什麼'
-                            ),
-                        ),
-                        ButtonComponent(
-                            style='link',
-                            height='sm',
-                            action=MessageAction(
-                                label='主選單',
-                                text='主選單'
-                            ),
-                        )
-                    ],
-                    flex=0
-                ),
-            )
+    return {
+        "type": "bubble", "direction": "ltr",
+        "body": {
+            "type": "box", "layout": "vertical",
+            "contents": [
+                # title
+                { "type": "text", "text": "教學", "color": "#1DB446", "size": "sm", "weight": "bold" },
+                { "type": "text", "text": "如何教我說話", "margin": "md", "size": "xxl", "weight": "bold" },
+                { "type": "text", "text": "指令", "size": "md", "weight": "bold", "color": "#825d5c", "margin": "lg" },
+                 # info
+                {
+                    "type": "box", "layout": "baseline", "margin": "md",
+                    "contents": [
+                        { "type": "text", "text": "學習詞條", "color": "#AAAAAA", "size": "sm", "flex": 1 },
+                        { "type": "text", "text": "學說話;關鍵字;回答", "wrap": True, "flex": 3, "size": "sm", "color": "#825d5c" }
+                    ]
+                },
+                {
+                    "type": "box", "layout": "baseline", "margin": "md",
+                    "contents": [
+                        { "type": "text", "text": "大量學習", "color": "#AAAAAA", "size": "sm", "flex": 1 },
+                        { "type": "text", "text": "學說話;關鍵字;回答1;回答N", "wrap": True, "flex": 3, "size": "sm", "color": "#825d5c" }
+                    ]
+                },
+                {
+                    "type": "box", "layout": "baseline", "margin": "md",
+                    "contents": [
+                        { "type": "text", "text": "刪除詞條", "color": "#AAAAAA", "size": "sm", "flex": 1 },
+                        { "type": "text", "text": "忘記;關鍵字;回答", "wrap": True, "flex": 3, "size": "sm", "color": "#825d5c" }
+                    ]
+                },
+                {
+                    "type": "box", "layout": "baseline", "margin": "md",
+                    "contents": [
+                        { "type": "text", "text": "大量刪除", "color": "#AAAAAA", "size": "sm", "flex": 1 },
+                        { "type": "text", "text": "忘記;關鍵字;回答1;回答N", "wrap": True, "flex": 3, "size": "sm", "color": "#825d5c" }
+                    ]
+                }
+                ,
+                {
+                    "type": "box", "layout": "baseline", "margin": "md",
+                    "contents": [
+                        { "type": "text", "text": "降低詞條優先度", "color": "#AAAAAA", "size": "sm", "flex": 3 },
+                        { "type": "text", "text": "壞壞", "wrap": True, "flex": 3, "size": "sm", "color": "#825d5c" }
+                    ]
+                }
+            ]
+        },
+        "footer": {
+            "type": "box", "layout": "vertical",
+            "contents": [
+                { "type": "separator", "margin": "xxl" },
+                {
+                    "type": "button", "style": "link", "height": "sm",
+                    "action": { "type": "message", "label": "詞條學習範例", "text": "學說話;牛批牛批;本喵真牛批！" }
+                },
+                {
+                    "type": "button", "style": "link", "height": "sm",
+                    "action": { "type": "message", "label": "刪除詞條範例", "text": "忘記;牛批牛批;本喵真牛批！" }
+                },
+                {
+                    "type": "button", "style": "link", "height": "sm",
+                    "action": { "type": "message", "label": "牛批貓會說什麼", "text": "牛批貓會說什麼" }
+                },
+                {
+                    "type": "button", "style": "link", "height": "sm",
+                    "action": { "type": "message", "label": "主選單", "text": "主選單" }
+                }
+            ]
+        }
+    }
 
 ##查氣象教學
 def flexTeachCWB(arg=[]):
-    return BubbleContainer(
-                direction='ltr',
-                body=BoxComponent(
-                    layout='vertical',
-                    contents=[
-                        # title
-                        TextComponent(text='教學', weight='bold', size='sm', color="#1DB446"),
-                        TextComponent(text='查氣象', weight='bold', size='xxl', margin='md'),
-                        # info
-                        BoxComponent(
-                            layout='vertical',
-                            margin='md',
-                            spacing='sm',
-                            contents=[
-                                BoxComponent(
-                                    layout='baseline',
-                                    spacing='sm',
-                                    contents=[
-                                        TextComponent(
-                                            text='空氣品質',
-                                            color='#aaaaaa',
-                                            size='sm',
-                                            flex=3
-                                        ),
-                                        TextComponent(
-                                            text='「測站名+空氣/空汙/空氣品質/PM2.5」',
-                                            wrap=True,
-                                            color='#666666',
-                                            size='sm',
-                                            flex=6
-                                        )
-                                    ],
-                                ),
-                                BoxComponent(
-                                    layout='baseline',
-                                    spacing='sm',
-                                    contents=[
-                                        TextComponent(
-                                            text='目前天氣',
-                                            color='#aaaaaa',
-                                            size='sm',
-                                            flex=3
-                                        ),
-                                        TextComponent(
-                                            text='「測站名+天氣/會下雨嗎」',
-                                            wrap=True,
-                                            color='#666666',
-                                            size='sm',
-                                            flex=6
-                                        )
-                                    ],
-                                ),
-                                BoxComponent(
-                                    layout='baseline',
-                                    spacing='sm',
-                                    contents=[
-                                        TextComponent(
-                                            text='一週天氣',
-                                            color='#aaaaaa',
-                                            size='sm',
-                                            flex=3
-                                        ),
-                                        TextComponent(
-                                            text='「縣市名+一週天氣/明天天氣/明天會下雨嗎」',
-                                            wrap=True,
-                                            color='#666666',
-                                            size='sm',
-                                            flex=6
-                                        )
-                                    ],
-                                )
-                            ],
-                        )
-                    ],
-                ),
-                footer=BoxComponent(
-                    layout='vertical',
-                    spacing='sm',
-                    contents=[
-                        SeparatorComponent(margin='xxl'),
-                        ButtonComponent(
-                            style='link',
-                            height='sm',
-                            action=MessageAction(
-                                label='查空氣範例',
-                                text='斗六空氣'
-                            ),
-                        ),
-                        ButtonComponent(
-                            style='link',
-                            height='sm',
-                            action=MessageAction(
-                                label='查目前天氣範例',
-                                text='斗六天氣'
-                            ),
-                        ),
-                        ButtonComponent(
-                            style='link',
-                            height='sm',
-                            action=MessageAction(
-                                label='查一週天氣範例',
-                                text='斗六一週天氣'
-                            ),
-                        ),
-                        ButtonComponent(
-                            style='link',
-                            height='sm',
-                            action=MessageAction(
-                                label='主選單',
-                                text='主選單'
-                            ),
-                        )
-                    ],
-                    flex=0
-                ),
-            )
+    return {
+        "type": "bubble", "direction": "ltr",
+        "body": {
+            "type": "box", "layout": "vertical",
+            "contents": [
+                # title
+                { "type": "text", "text": "教學", "color": "#1DB446", "size": "sm", "weight": "bold" },
+                { "type": "text", "text": "查氣象", "margin": "md", "size": "xxl", "weight": "bold" },
+                # info
+                {
+                    "type": "box", "layout": "baseline", "margin": "md",
+                    "contents": [
+                        { "type": "text", "text": "空氣品質", "color": "#AAAAAA", "size": "sm", "flex": 3 },
+                        { "type": "text", "text": "「測站名+空氣/空汙/空氣品質/PM2.5」", "wrap": True, "flex": 6, "size": "sm", "color": "#666666" }
+                    ]
+                },
+                {
+                    "type": "box", "layout": "baseline", "margin": "md",
+                    "contents": [
+                        { "type": "text", "text": "目前天氣", "color": "#AAAAAA", "size": "sm", "flex": 3 },
+                        { "type": "text", "text": "「測站名+天氣/會下雨嗎」", "wrap": True, "flex": 6, "size": "sm", "color": "#666666" }
+                    ]
+                },
+                {
+                    "type": "box", "layout": "baseline", "margin": "md",
+                    "contents": [
+                        { "type": "text", "text": "一週天氣", "color": "#AAAAAA", "size": "sm", "flex": 3 },
+                        { "type": "text", "text": "「縣市名+一週天氣/明天天氣/明天會下雨嗎」", "wrap": True, "flex": 6, "size": "sm", "color": "#666666" }
+                    ]
+                }
+            ]
+        },
+        "footer": {
+            "type": "box", "layout": "vertical",
+            "contents": [
+                { "type": "separator", "margin": "xxl" },
+                {
+                    "type": "button", "height": "sm", "style": "link",
+                    "action": { "type": "message", "label": "查空氣範例", "text": "斗六空氣" }
+                },
+                {
+                    "type": "button", "height": "sm", "style": "link",
+                    "action": { "type": "message", "label": "查目前天氣範例", "text": "斗六天氣" }
+                },
+                {
+                    "type": "button", "height": "sm", "style": "link",
+                    "action": { "type": "message", "label": "查一週天氣範例", "text": "斗六一週天氣" }
+                },
+                {
+                    "type": "button", "height": "sm", "style": "link",
+                    "action": { "type": "message", "label": "主選單", "text": "主選單" }
+                }
+            ]
+        }
+    }
 
 ##教學選單
 def flexTeaching(arg=[]):
-    return CarouselContainer(
-        contents=[
+    return {
+        "type": "carousel",
+        "contents": [
             flexTeachChat(),
             flexTeachLottery(),
             flexTeachCWB()
         ]
-    )
+    }
 
 ##狀態選單
 def flexStatusMenu(arg=[]):
-    return BubbleContainer(
-                direction='ltr',
-                body=BoxComponent(
-                    layout='vertical',
-                    contents=[
-                        # title
-                        TextComponent(text='狀態', weight='bold', size='sm', color="#1DB446"),
-                        TextComponent(text='目前狀態', weight='bold', size='xxl', margin='md'),
-                        # info
-                        BoxComponent(
-                            layout='vertical',
-                            margin='lg',
-                            spacing='sm',
-                            contents=[
-                                BoxComponent(
-                                    layout='baseline',
-                                    spacing='sm',
-                                    contents=[
-                                        TextComponent(
-                                            text='說話模式',
-                                            color='#aaaaaa',
-                                            size='sm',
-                                            flex=2
-                                        ),
-                                        TextComponent(
-                                            text=arg[0],
-                                            wrap=True,
-                                            color='#666666',
-                                            size='sm',
-                                            flex=4
-                                        )
-                                    ],
-                                ),
-                                BoxComponent(
-                                    layout='baseline',
-                                    spacing='sm',
-                                    contents=[
-                                        TextComponent(
-                                            text='目前狀態',
-                                            color='#aaaaaa',
-                                            size='sm',
-                                            flex=2
-                                        ),
-                                        TextComponent(
-                                            text=arg[1],
-                                            wrap=True,
-                                            color='#666666',
-                                            size='sm',
-                                            flex=4
-                                        )
-                                    ],
-                                )
-                            ],
-                        )
-                    ],
-                ),
-                footer=BoxComponent(
-                    layout='vertical',
-                    spacing='sm',
-                    contents=[
-                        SeparatorComponent(margin='xxl'),
-                        ButtonComponent(
-                            style='link',
-                            height='sm',
-                            action=MessageAction(
-                                label='切換說話模式',
-                                text='不可以說別人教的話' if arg[2] else '可以說別人教的話'
-                            ),
-                        ),
-                        ButtonComponent(
-                            style='link',
-                            height='sm',
-                            action=MessageAction(
-                                label='切換目前狀態',
-                                text='牛批貓講話' if arg[3] else '牛批貓安靜'
-                            ),
-                        ),
-                        ButtonComponent(
-                            style='link',
-                            height='sm',
-                            action=MessageAction(
-                                label='主選單',
-                                text='主選單'
-                            ),
-                        ),
-                        SpacerComponent(size='sm')
-                    ],
-                    flex=0
-                ),
-            )
+    return {
+        "type": "bubble", "direction": "ltr",
+        "body": {
+            "type": "box", "layout": "vertical",
+            "contents": [
+                { "type": "text", "text": "狀態", "size": "sm", "color": "#1DB446", "weight": "bold" },
+                { "type": "text", "text": "目前狀態", "size": "xl", "weight": "bold", "margin": "md" },
+                {
+                    "type": "box", "layout": "vertical", "margin": "md",
+                    "contents": [
+                        {
+                            "type": "box", "layout": "baseline",
+                            "contents": [
+                                { "type": "text", "text": "說話模式", "flex": 2, "color": "#AAAAAA" },
+                                { "type": "text", "text": arg[0], "flex": 4, "color": "#666666", "wrap": True }
+                            ]
+                        },
+                        {
+                            "type": "box", "layout": "baseline",
+                            "contents": [
+                                { "type": "text", "text": "目前狀態", "flex": 2, "color": "#AAAAAA" },
+                                { "type": "text", "text": arg[1], "flex": 4, "color": "#666666", "wrap": True }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        "footer": {
+            "type": "box", "layout": "vertical",
+            "contents": [
+                { "type": "separator" },
+                {
+                    "type": "button", "height": "sm", "style": "link",
+                    "action": { "type": "message", "label": "切換說話模式", "text": '不可以說別人教的話' if arg[2] else '可以說別人教的話' }
+                },
+                {
+                    "type": "button", "height": "sm", "style": "link",
+                    "action": { "type": "message", "label": "切換目前狀態", "text": '牛批貓講話' if arg[3] else '牛批貓安靜' }
+                },
+                {
+                    "type": "button", "height": "sm", "style": "link",
+                    "action": { "type": "message", "label": "主選單", "text": "主選單" }
+                },
+                { "type": "separator", "margin": "sm" }
+            ]
+        }
+    }
 
 ##會說什麼
 def flexWhatCanSay(arg=[]):
