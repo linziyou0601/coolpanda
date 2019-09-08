@@ -1063,7 +1063,7 @@ def flexDevinate(arg):
                 ),
                 body=BoxComponent(
                     layout='vertical',
-                    backgroundColor='#c4241b'
+                    backgroundColor='#c4241b',
                     ##新API開放後再改背景色
                     contents=[
                         TextComponent(text=res[arg], size='4xl', weight='bold', align='center', color='#ffffff'),
