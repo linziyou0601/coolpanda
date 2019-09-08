@@ -671,216 +671,181 @@ def flexAQI(arg={}):
     AQIList = [[-1,"#888888"], [0,"#339933"], [51,"#EECC33"], [101,"#EE9933"], [151,"#DD3333"], [201,"#996699"], [301,"#990066"]]
     AQIcolor = list(filter(lambda x: int(arg['AQI'])>=x[0], AQIList))[::-1][0][1]
     #建立容器
-    return BubbleContainer(
-                direction='ltr',
-                body=BoxComponent(
-                    layout='vertical',
-                    contents=[
-                        # title
-                        TextComponent(text=arg['Status'], weight='bold', size='sm', color=AQIcolor),
-                        BoxComponent(
-                            layout='horizontal',
-                            margin='md',
-                            contents=[
-                                BoxComponent(
-                                    layout='vertical', flex=5,
-                                    contents=[
-                                        TextComponent(text=arg['SiteName'], weight='bold', size='xxl'),
-                                        TextComponent(text=arg['County'], weight='bold', size='lg', color="#333399")
-                                    ],
-                                ),
-                                BoxComponent(
-                                    layout='vertical', flex=3,
-                                    contents=[
-                                        TextComponent(text='AQI', size='lg', color=AQIcolor, align="end"),
-                                        TextComponent(text=arg['AQI'] if arg['AQI']!='-1' else 'NA', weight='bold', size='4xl', color=AQIcolor, align="end")
-                                    ],
-                                ),
-                            ],
-                        ),
-                        # O3 臭氧
-                        SeparatorComponent(margin='md'),
-                        BoxComponent(
-                            layout='horizontal',
-                            margin='md',
-                            contents=[
-                                BoxComponent(
-                                    layout='vertical', flex=3,
-                                    contents=[
-                                        TextComponent(text='O3\n臭氧', weight='bold', size='lg', wrap=True, flex=1, gravity='center', color="#336699" if "臭氧" in arg['Pollutant'] else "#444444")
-                                    ],
-                                ),
-                                BoxComponent(
-                                    layout='vertical', flex=2,
-                                    contents=[
-                                        TextComponent(text='8小時\n移動平均', size='sm', wrap=True, flex=1, gravity='center', align="end"),
-                                        TextComponent(text='小時濃度', size='sm', wrap=True, flex=1, gravity='center', align="end")
-                                    ],
-                                ),
-                                BoxComponent(
-                                    layout='vertical', flex=2,
-                                    contents=[
-                                        TextComponent(text=arg['O3_8hr'], weight='bold', size='xxl', wrap=True, flex=1, gravity='center', align="end"),
-                                        TextComponent(text=arg['O3'], weight='bold', size='xxl', wrap=True, flex=1, gravity='center', align="end")
-                                    ],
-                                )
-                            ],
-                        ),
-                        # PM2.5 細懸浮微粒
-                        SeparatorComponent(margin='md'),
-                        BoxComponent(
-                            layout='horizontal',
-                            margin='md',
-                            contents=[
-                                BoxComponent(
-                                    layout='vertical', flex=3,
-                                    contents=[
-                                        TextComponent(text='PM2.5\n細懸浮微粒', weight='bold', size='lg', wrap=True, flex=1, gravity='center', color="#336699" if "細懸浮微粒" in arg['Pollutant'] else "#444444")
-                                    ],
-                                ),
-                                BoxComponent(
-                                    layout='vertical', flex=2,
-                                    contents=[
-                                        TextComponent(text='移動平均', size='sm', wrap=True, flex=1, gravity='center', align="end"),
-                                        TextComponent(text='小時濃度', size='sm', wrap=True, flex=1, gravity='center', align="end")
-                                    ],
-                                ),
-                                BoxComponent(
-                                    layout='vertical', flex=2,
-                                    contents=[
-                                        TextComponent(text=arg['PM2.5_AVG'], weight='bold', size='xxl', wrap=True, flex=1, gravity='center', align="end"),
-                                        TextComponent(text=arg['PM2.5'], weight='bold', size='xxl', wrap=True, flex=1, gravity='center', align="end")
-                                    ],
-                                )
-                            ],
-                        ),
-                        # PM10 懸浮微粒
-                        SeparatorComponent(margin='md'),
-                        BoxComponent(
-                            layout='horizontal',
-                            margin='md',
-                            contents=[
-                                BoxComponent(
-                                    layout='vertical', flex=3,
-                                    contents=[
-                                        TextComponent(text='PM10\n懸浮微粒', weight='bold', size='lg', wrap=True, flex=1, gravity='center', color="#336699" if "懸浮微粒" in arg['Pollutant'].replace("細懸浮微粒","") else"#444444")
-                                    ],
-                                ),
-                                BoxComponent(
-                                    layout='vertical', flex=2,
-                                    contents=[
-                                        TextComponent(text='移動平均', size='sm', wrap=True, flex=1, gravity='center', align="end"),
-                                        TextComponent(text='小時濃度', size='sm', wrap=True, flex=1, gravity='center', align="end")
-                                    ],
-                                ),
-                                BoxComponent(
-                                    layout='vertical', flex=2,
-                                    contents=[
-                                        TextComponent(text=arg['PM10_AVG'], weight='bold', size='xxl', wrap=True, flex=1, gravity='center', align="end"),
-                                        TextComponent(text=arg['PM10'], weight='bold', size='xxl', wrap=True, flex=1, gravity='center', align="end")
-                                    ],
-                                )
-                            ],
-                        ),
-                        # CO 一氧化碳
-                        SeparatorComponent(margin='md'),
-                        BoxComponent(
-                            layout='horizontal',
-                            margin='md',
-                            contents=[
-                                BoxComponent(
-                                    layout='vertical', flex=3,
-                                    contents=[
-                                        TextComponent(text='PM10\n懸浮微粒', weight='bold', size='lg', wrap=True, flex=1, gravity='center', color="#336699" if "一氧化碳" in arg['Pollutant'] else"#444444")
-                                    ],
-                                ),
-                                BoxComponent(
-                                    layout='vertical', flex=2,
-                                    contents=[
-                                        TextComponent(text='8小時\n移動平均', size='sm', wrap=True, flex=1, gravity='center', align="end"),
-                                        TextComponent(text='小時濃度', size='sm', wrap=True, flex=1, gravity='center', align="end")
-                                    ],
-                                ),
-                                BoxComponent(
-                                    layout='vertical', flex=2,
-                                    contents=[
-                                        TextComponent(text=arg['CO_8hr'], weight='bold', size='xxl', wrap=True, flex=1, gravity='center', align="end"),
-                                        TextComponent(text=arg['CO'], weight='bold', size='xxl', wrap=True, flex=1, gravity='center', align="end")
-                                    ],
-                                )
-                            ],
-                        ),
-                        # SO2 二氧化硫
-                        SeparatorComponent(margin='md'),
-                        BoxComponent(
-                            layout='horizontal',
-                            margin='md',
-                            contents=[
-                                BoxComponent(
-                                    layout='vertical', flex=3,
-                                    contents=[
-                                        TextComponent(text='SO2\n二氧化硫', weight='bold', size='lg', wrap=True, flex=1, gravity='center', color="#336699" if "二氧化硫" in arg['Pollutant'] else"#444444")
-                                    ],
-                                ),
-                                BoxComponent(
-                                    layout='vertical', flex=2,
-                                    contents=[
-                                        TextComponent(text='移動平均', size='sm', wrap=True, flex=1, gravity='center', align="end"),
-                                        TextComponent(text='小時濃度', size='sm', wrap=True, flex=1, gravity='center', align="end")
-                                    ],
-                                ),
-                                BoxComponent(
-                                    layout='vertical', flex=2,
-                                    contents=[
-                                        TextComponent(text=arg['SO2_AVG'], weight='bold', size='xxl', wrap=True, flex=1, gravity='center', align="end"),
-                                        TextComponent(text=arg['SO2'], weight='bold', size='xxl', wrap=True, flex=1, gravity='center', align="end")
-                                    ],
-                                )
-                            ],
-                        ),
-                        # NO2 二氧化氮
-                        SeparatorComponent(margin='md'),
-                        BoxComponent(
-                            layout='horizontal',
-                            margin='md',
-                            contents=[
-                                BoxComponent(
-                                    layout='vertical', flex=3,
-                                    contents=[
-                                        TextComponent(text='NO2\n二氧化氮', weight='bold', size='lg', wrap=True, flex=1, gravity='center', color="#336699" if "二氧化氮" in arg['Pollutant'] else"#444444")
-                                    ],
-                                ),
-                                BoxComponent(
-                                    layout='vertical', flex=2,
-                                    contents=[
-                                        TextComponent(text='小時濃度', size='sm', wrap=True, flex=1, gravity='center', align="end")
-                                    ],
-                                ),
-                                BoxComponent(
-                                    layout='vertical', flex=2,
-                                    contents=[
-                                        TextComponent(text=arg['NO2'], weight='bold', size='xxl', wrap=True, flex=1, gravity='center', align="end")
-                                    ],
-                                )
-                            ],
-                        ),
-                        # 時間
-                        SeparatorComponent(margin='md'),
-                        BoxComponent(
-                            layout='vertical',
-                            margin='xs',
-                            contents=[
-                                TextComponent(
-                                    text='截至'+arg['timeStr'],
-                                    color='#aaaaaa',
-                                    size='xs',
-                                    align='end'
-                                )
-                            ],
-                        )
-                    ],
-                ),
-            )
+    return {
+        "type": "bubble", "direction": "ltr",
+        "body": {
+            "type": "box", "layout": "vertical",
+            "contents": [
+                # title
+                { "type": "text", "text": arg['Status'], "weight": "bold", "size": "sm", "color": AQIcolor },
+                {
+                    "type": "box", "layout": "horizontal", "margin": "md",
+                    "contents": [
+                        {
+                            "type": "box", "layout": "vertical", "flex": 5,
+                            "contents": [
+                                { "type": "text", "text": arg['SiteName'], "size": "xxl", "weight": "bold" },
+                                { "type": "text", "text": arg['County'], "size": "lg", "weight": "bold", "color": "#333399" }
+                            ]
+                        },
+                        {
+                            "type": "box", "layout": "vertical", "flex": 3,
+                            "contents": [
+                                { "type": "text", "text": "AQI", "size": "lg", "align": "end", "color": AQIcolor  },
+                                { "type": "text", "text": arg['AQI'] if arg['AQI']!='-1' else 'NA', "size": "4xl", "weight": "bold", "color": AQIcolor, "align": "end" }
+                            ]
+                        }
+                    ]
+                },
+                { "type": "separator", "margin": "md" },
+                # O3 臭氧
+                {
+                    "type": "box", "layout": "horizontal", "margin": "md",
+                    "contents": [
+                        {
+                            "type": "box", "layout": "vertical", "flex": 3,
+                            "contents": [ { "type": "text", "text": "O3\n臭氧", "weight": "bold", "size": "lg", "wrap": True, "flex": 1, "align": "start", "color": "#336699" if "臭氧" in arg['Pollutant'] else "#444444", "gravity": "center" } ]
+                        },
+                        {
+                            "type": "box", "layout": "vertical", "flex": 2,
+                            "contents": [
+                                { "type": "text", "text": "8小時\n移動平均", "size": "sm", "wrap": True, "flex": 1, "align": "end", "gravity": "center" },
+                                { "type": "text", "text": "小時濃度", "size": "sm", "wrap": true, "flex": 1, "align": "end", "gravity": "center" }
+                            ]
+                        },
+                        {
+                            "type": "box", "layout": "vertical", "flex": 2,
+                            "contents": [
+                                { "type": "text", "text": arg['O3_8hr'], "size": "xxl", "wrap": True, "flex": 1, "align": "end", "gravity": "center", "weight": "bold" },
+                                { "type": "text", "text": arg['O3'], "size": "xxl", "wrap": True, "flex": 1, "align": "end", "gravity": "center", "weight": "bold" }
+                            ]
+                        }
+                    ]
+                },
+                { "type": "separator", "margin": "md" },
+                # PM2.5 細懸浮微粒
+                {
+                    "type": "box", "layout": "horizontal", "margin": "md",
+                    "contents": [
+                        {
+                            "type": "box", "layout": "vertical", "flex": 3,
+                            "contents": [ { "type": "text", "text": "PM2.5\n細懸浮微粒", "weight": "bold", "size": "lg", "wrap": True, "flex": 1, "align": "start", "color": "#336699" if "細懸浮微粒" in arg['Pollutant'] else "#444444", "gravity": "center" } ]
+                        },
+                        {
+                            "type": "box", "layout": "vertical", "flex": 2,
+                            "contents": [
+                                { "type": "text", "text": "移動平均", "size": "sm", "wrap": True, "flex": 1, "align": "end", "gravity": "center" },
+                                { "type": "text", "text": "小時濃度", "size": "sm", "wrap": true, "flex": 1, "align": "end", "gravity": "center" }
+                            ]
+                        },
+                        {
+                            "type": "box", "layout": "vertical", "flex": 2,
+                            "contents": [
+                                { "type": "text", "text": arg['PM2.5_AVG'], "size": "xxl", "wrap": True, "flex": 1, "align": "end", "gravity": "center", "weight": "bold" },
+                                { "type": "text", "text": arg['PM2.5'], "size": "xxl", "wrap": True, "flex": 1, "align": "end", "gravity": "center", "weight": "bold" }
+                            ]
+                        }
+                    ]
+                },
+                { "type": "separator", "margin": "md" },
+                # PM10 懸浮微粒
+                {
+                    "type": "box", "layout": "horizontal", "margin": "md",
+                    "contents": [
+                        {
+                            "type": "box", "layout": "vertical", "flex": 3,
+                            "contents": [ { "type": "text", "text": "PM10\n懸浮微粒", "weight": "bold", "size": "lg", "wrap": True, "flex": 1, "align": "start", "color": "#336699" if "懸浮微粒" in arg['Pollutant'].replace("細懸浮微粒","") else "#444444", "gravity": "center" } ]
+                        },
+                        {
+                            "type": "box", "layout": "vertical", "flex": 2,
+                            "contents": [
+                                { "type": "text", "text": "移動平均", "size": "sm", "wrap": True, "flex": 1, "align": "end", "gravity": "center" },
+                                { "type": "text", "text": "小時濃度", "size": "sm", "wrap": true, "flex": 1, "align": "end", "gravity": "center" }
+                            ]
+                        },
+                        {
+                            "type": "box", "layout": "vertical", "flex": 2,
+                            "contents": [
+                                { "type": "text", "text": arg['PM10_AVG'], "size": "xxl", "wrap": True, "flex": 1, "align": "end", "gravity": "center", "weight": "bold" },
+                                { "type": "text", "text": arg['PM10'], "size": "xxl", "wrap": True, "flex": 1, "align": "end", "gravity": "center", "weight": "bold" }
+                            ]
+                        }
+                    ]
+                },
+                { "type": "separator", "margin": "md" },
+                # CO 一氧化碳
+                {
+                    "type": "box", "layout": "horizontal", "margin": "md",
+                    "contents": [
+                        {
+                            "type": "box", "layout": "vertical", "flex": 3,
+                            "contents": [ { "type": "text", "text": "CO\n一氧化碳", "weight": "bold", "size": "lg", "wrap": True, "flex": 1, "align": "start", "color": "#336699" if "一氧化碳" in arg['Pollutant'] else "#444444", "gravity": "center" } ]
+                        },
+                        {
+                            "type": "box", "layout": "vertical", "flex": 2,
+                            "contents": [
+                                { "type": "text", "text": "8小時\n移動平均", "size": "sm", "wrap": True, "flex": 1, "align": "end", "gravity": "center" },
+                                { "type": "text", "text": "小時濃度", "size": "sm", "wrap": true, "flex": 1, "align": "end", "gravity": "center" }
+                            ]
+                        },
+                        {
+                            "type": "box", "layout": "vertical", "flex": 2,
+                            "contents": [
+                                { "type": "text", "text": arg['CO_8hr'], "size": "xxl", "wrap": True, "flex": 1, "align": "end", "gravity": "center", "weight": "bold" },
+                                { "type": "text", "text": arg['CO'], "size": "xxl", "wrap": True, "flex": 1, "align": "end", "gravity": "center", "weight": "bold" }
+                            ]
+                        }
+                    ]
+                },
+                { "type": "separator", "margin": "md" },
+                # SO2 二氧化硫
+                {
+                    "type": "box", "layout": "horizontal", "margin": "md",
+                    "contents": [
+                        {
+                            "type": "box", "layout": "vertical", "flex": 3,
+                            "contents": [ { "type": "text", "text": "SO2\n二氧化硫", "weight": "bold", "size": "lg", "wrap": True, "flex": 1, "align": "start", "color": "#336699" if "二氧化硫" in arg['Pollutant'] else "#444444", "gravity": "center" } ]
+                        },
+                        {
+                            "type": "box", "layout": "vertical", "flex": 2,
+                            "contents": [
+                                { "type": "text", "text": "移動平均", "size": "sm", "wrap": True, "flex": 1, "align": "end", "gravity": "center" },
+                                { "type": "text", "text": "小時濃度", "size": "sm", "wrap": true, "flex": 1, "align": "end", "gravity": "center" }
+                            ]
+                        },
+                        {
+                            "type": "box", "layout": "vertical", "flex": 2,
+                            "contents": [
+                                { "type": "text", "text": arg['SO2_AVG'], "size": "xxl", "wrap": True, "flex": 1, "align": "end", "gravity": "center", "weight": "bold" },
+                                { "type": "text", "text": arg['SO2'], "size": "xxl", "wrap": True, "flex": 1, "align": "end", "gravity": "center", "weight": "bold" }
+                            ]
+                        }
+                    ]
+                },
+                { "type": "separator", "margin": "md" },
+                # NO2 二氧化氮
+                {
+                    "type": "box", "layout": "horizontal", "margin": "md",
+                    "contents": [
+                        {
+                            "type": "box", "layout": "vertical", "flex": 3,
+                            "contents": [ { "type": "text", "text": "NO2\n二氧化氮", "weight": "bold", "size": "lg", "wrap": True, "flex": 1, "align": "start", "color": "#336699" if "二氧化氮" in arg['Pollutant'] else "#444444", "gravity": "center" } ]
+                        },
+                        {
+                            "type": "box", "layout": "vertical", "flex": 2,
+                            "contents": [ { "type": "text", "text": "小時濃度", "size": "sm", "wrap": true, "flex": 1, "align": "end", "gravity": "center" } ]
+                        },
+                        {
+                            "type": "box", "layout": "vertical", "flex": 2,
+                            "contents": [ { "type": "text", "text": arg['NO2'], "size": "xxl", "wrap": True, "flex": 1, "align": "end", "gravity": "center", "weight": "bold" } ]
+                        }
+                    ]
+                },
+                { "type": "separator", "margin": "md" },
+                { "type": "text", "text": '截至'+arg['timeStr'], "margin": "xs", "size": "xs", "color": "#aaaaaa", "align": "end" }
+            ]
+        }
+    }
 
 ##目前天氣
 def flexWeather(arg={}):
