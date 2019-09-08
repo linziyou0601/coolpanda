@@ -1053,27 +1053,46 @@ def flexDevinate(arg):
         'https://i.imgur.com/cm5pdAg.png', 'https://i.imgur.com/1tYF5LW.png'
     ]
     res = ['笑筊', '聖筊', '聖筊', '陰筊']
-    return BubbleContainer(
-                direction='ltr',
-                hero=ImageComponent(
-                    url=img[arg],
-                    size='full',
-                    aspect_ratio='20:13',
-                    aspect_mode='cover'
-                ),
-                body=BoxComponent(
-                    layout='vertical',
-                    backgroundColor='#c4241b',
-                    ##新API開放後再改背景色
-                    contents=[
-                        TextComponent(text=res[arg], size='4xl', weight='bold', align='center', color='#ffffff'),
-                        SeparatorComponent(margin='md', color='#ffffff'),
-                        ButtonComponent(
-                            style='link',
-                            color='#ffffff',
-                            action=MessageAction(label='再擲一次', text='擲筊'),
-                        )
-                    ],
-                ),
-            )
+    return {
+        "type": "bubble",
+        "size": "kilo",
+        "direction": "ltr",
+        "hero": {
+            "type": "image",
+            "url": img[arg],
+            "size": "full",
+            "aspectMode": "cover",
+            "aspectRatio": "20:13"
+        },
+        "body": {
+            "type": "box",
+            "layout": "vertical",
+            "contents": [
+            {
+                "type": "text",
+                "text": res[arg],
+                "size": "4xl",
+                "color": "#ffffff",
+                "weight": "bold",
+                "align": "center"
+            },
+            {
+                "type": "separator",
+                "color": "#ffffff",
+                "margin": "md"
+            },
+            {
+                "type": "button",
+                "action": {
+                "type": "message",
+                "label": "再擲一次",
+                "text": "擲筊"
+                },
+                "style": "link",
+                "color": "#ffffff"
+            }
+            ],
+            "backgroundColor": "#c4241b"
+        }
+    }
 
