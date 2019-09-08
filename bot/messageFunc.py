@@ -1063,13 +1063,14 @@ def flexDevinate(arg):
                 ),
                 body=BoxComponent(
                     layout='vertical',
+                    backgroundColor='#c4241b'
                     ##新API開放後再改背景色
                     contents=[
-                        TextComponent(text=res[arg], size='4xl', weight='bold', align='center', color='#c4241b'),
-                        SeparatorComponent(margin='md'),
+                        TextComponent(text=res[arg], size='4xl', weight='bold', align='center', color='#ffffff'),
+                        SeparatorComponent(margin='md', color='#ffffff'),
                         ButtonComponent(
                             style='link',
-                            color='#c4241b',
+                            color='#ffffff',
                             action=MessageAction(label='再擲一次', text='擲筊'),
                         )
                     ],
