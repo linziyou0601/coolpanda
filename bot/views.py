@@ -128,17 +128,17 @@ def keyRes(msg, channelId, event):
     if re.search(getReg('aqi'), msg) and re.split(getReg('aqi'), msg)[0]!="": 
         key = AQI(re.split(getReg('aqi'), msg)[0].replace("台","臺"))
         if key!="":
-            replyList = FlexSendMessage(alt_text="空氣品質", contents=flexAQI(key))
+            replyList = flexAQI(key)
             return True
     #天氣狀況
     elif re.search(getReg('weather'), msg) and re.split(getReg('weather'), msg)[0]!="": 
         key = Weather(re.split(getReg('weather'), msg)[0].replace("台","臺"))
         if key[0]!="":
-            replyList = FlexSendMessage(alt_text="天氣狀況", contents=flexWeather(key[0]) if key[1] else flexWeather72HR(key[0]))
+            replyList = flexWeather(key[0]) if key[1] else flexWeather72HR(key[0])
             return True
     #擲筊
     elif msg == getReg('divinate'): 
-        replyList = FlexSendMessage(alt_text="擲筊結果", contents=flexDevinate(DevinateRes()))
+        replyList = flexDevinate(DevinateRes())
         return True
     return False
 
@@ -173,10 +173,10 @@ def handle_message(event):
             replyList = FlexSendMessage(alt_text="我會哪些技能", contents=flexTeaching())
             content=[lineMessage, 0, 'flex']
         elif lineMessage == "目前狀態":
-            replyList = FlexSendMessage(alt_text="目前狀態", contents=flexStatusMenu(currentStatus(channelId)))
+            replyList = flexStatusMenu(currentStatus(channelId))
             content=[lineMessage, 0, 'flex']
         elif lineMessage=="牛批貓會說什麼": #本聊天窗所有教過的東西
-            replyList = FlexSendMessage(alt_text="我會說什麼", contents=flexWhatCanSay(allLearn(channelId)))
+            replyList = flexWhatCanSay(allLearn(channelId))
             content=[lineMessage, 0, 'flex']
         elif "說別人教的話" in lineMessage: #回話資料庫開關
             replyList = TextSendMessage(text=globaltalk(lineMessage, channelId))

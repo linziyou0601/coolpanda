@@ -242,7 +242,7 @@ def autoIfEmptyStatements():
     if not len(c.fetchall()):
         with open('bot/initKeyword.json', 'r', encoding='utf-8') as f:
             data = json.load(f)
-        for k, v in data:
+        for k, v in data.items():
             for x in v:
                 c.execute('INSERT INTO statements(keyword, response, create_at, channel_id, channel_type, priority) VALUES(%s,%s,%s,%s,%s,%s)',
                 [k, x, str(datetime.now(pytz.timezone("Asia/Taipei"))), 'cowpi', 'autoLearn', 10])

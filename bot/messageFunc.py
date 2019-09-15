@@ -239,7 +239,7 @@ def flexTeaching(arg=[]):
 
 ##狀態選單
 def flexStatusMenu(arg=[]):
-    return {
+    return FlexSendMessage(alt_text="目前狀態：\n說話模式："+arg[0]+"\n聊天狀態："+arg[1], contents={
         "type": "bubble", "direction": "ltr",
         "body": {
             "type": "box", "layout": "vertical",
@@ -259,7 +259,7 @@ def flexStatusMenu(arg=[]):
                         {
                             "type": "box", "layout": "baseline",
                             "contents": [
-                                { "type": "text", "text": "目前狀態", "flex": 2, "color": "#AAAAAA" },
+                                { "type": "text", "text": "聊天狀態", "flex": 2, "color": "#AAAAAA" },
                                 { "type": "text", "text": arg[1], "flex": 4, "color": "#666666", "wrap": True }
                             ]
                         }
@@ -285,14 +285,16 @@ def flexStatusMenu(arg=[]):
                 }
             ]
         }
-    }
+    })
 
 ##會說什麼
 def flexWhatCanSay(arg=[]):
     #整理資料格式
     keywordObj=[]
+    rslString=""
     if arg[5]!="Null":
         for k, v in arg[5].items():
+            rslString = rslString + k + ' ↓\n' + '\n'.join(v) + '\n----------\n'
             if len(keywordObj): keywordObj.append({ "type": "separator", "margin": "md" })
             keywordObj.append(
                 {
@@ -310,7 +312,7 @@ def flexWhatCanSay(arg=[]):
             )
     if not len(keywordObj): keywordObj.append({ "type": "filler" })
     #建立容器
-    return {
+    return FlexSendMessage(alt_text="我會說什麼：\n" + rslString, contents={
         "type": "bubble", "direction": "ltr",
         "body": {
             "type": "box", "layout": "vertical",
@@ -343,7 +345,7 @@ def flexWhatCanSay(arg=[]):
                 { "type": "text", "text": '截至'+arg[4], "size": "xs", "color": "#aaaaaa", "margin": "md", "align": "end" }
             ]
         }
-    }
+    })
 
 ##空氣品質
 def flexAQI(arg={}):
@@ -355,181 +357,185 @@ def flexAQI(arg={}):
     AQIList = [[-1,"#888888"], [0,"#339933"], [51,"#EECC33"], [101,"#EE9933"], [151,"#DD3333"], [201,"#996699"], [301,"#990066"]]
     AQIcolor = list(filter(lambda x: int(arg['AQI'])>=x[0], AQIList))[::-1][0][1]
     #建立容器
-    return {
-        "type": "bubble", "direction": "ltr",
-        "body": {
-            "type": "box", "layout": "vertical",
-            "contents": [
-                # title
-                { "type": "text", "text": arg['Status'], "weight": "bold", "size": "sm", "color": AQIcolor },
-                {
-                    "type": "box", "layout": "horizontal", "margin": "md",
-                    "contents": [
-                        {
-                            "type": "box", "layout": "vertical", "flex": 5,
-                            "contents": [
-                                { "type": "text", "text": arg['SiteName'], "size": "xxl", "weight": "bold" },
-                                { "type": "text", "text": arg['County'], "size": "lg", "weight": "bold", "color": "#333399" }
-                            ]
-                        },
-                        {
-                            "type": "box", "layout": "vertical", "flex": 3,
-                            "contents": [
-                                { "type": "text", "text": "AQI", "size": "lg", "align": "end", "color": AQIcolor  },
-                                { "type": "text", "text": arg['AQI'] if arg['AQI']!='-1' else 'NA', "size": "4xl", "weight": "bold", "color": AQIcolor, "align": "end" }
-                            ]
-                        }
-                    ]
-                },
-                { "type": "separator", "margin": "md" },
-                # O3 臭氧
-                {
-                    "type": "box", "layout": "horizontal", "margin": "md",
-                    "contents": [
-                        {
-                            "type": "box", "layout": "vertical", "flex": 3,
-                            "contents": [ { "type": "text", "text": "O3\n臭氧", "weight": "bold", "size": "lg", "wrap": True, "flex": 1, "align": "start", "color": "#336699" if "臭氧" in arg['Pollutant'] else "#444444", "gravity": "center" } ]
-                        },
-                        {
-                            "type": "box", "layout": "vertical", "flex": 2,
-                            "contents": [
-                                { "type": "text", "text": "8小時\n移動平均", "size": "sm", "wrap": True, "flex": 1, "align": "end", "gravity": "center" },
-                                { "type": "text", "text": "小時濃度", "size": "sm", "wrap": True, "flex": 1, "align": "end", "gravity": "center" }
-                            ]
-                        },
-                        {
-                            "type": "box", "layout": "vertical", "flex": 2,
-                            "contents": [
-                                { "type": "text", "text": arg['O3_8hr'], "size": "xxl", "wrap": True, "flex": 1, "align": "end", "gravity": "center", "weight": "bold" },
-                                { "type": "text", "text": arg['O3'], "size": "xxl", "wrap": True, "flex": 1, "align": "end", "gravity": "center", "weight": "bold" }
-                            ]
-                        }
-                    ]
-                },
-                { "type": "separator", "margin": "md" },
-                # PM2.5 細懸浮微粒
-                {
-                    "type": "box", "layout": "horizontal", "margin": "md",
-                    "contents": [
-                        {
-                            "type": "box", "layout": "vertical", "flex": 3,
-                            "contents": [ { "type": "text", "text": "PM2.5\n細懸浮微粒", "weight": "bold", "size": "lg", "wrap": True, "flex": 1, "align": "start", "color": "#336699" if "細懸浮微粒" in arg['Pollutant'] else "#444444", "gravity": "center" } ]
-                        },
-                        {
-                            "type": "box", "layout": "vertical", "flex": 2,
-                            "contents": [
-                                { "type": "text", "text": "移動平均", "size": "sm", "wrap": True, "flex": 1, "align": "end", "gravity": "center" },
-                                { "type": "text", "text": "小時濃度", "size": "sm", "wrap": True, "flex": 1, "align": "end", "gravity": "center" }
-                            ]
-                        },
-                        {
-                            "type": "box", "layout": "vertical", "flex": 2,
-                            "contents": [
-                                { "type": "text", "text": arg['PM2.5_AVG'], "size": "xxl", "wrap": True, "flex": 1, "align": "end", "gravity": "center", "weight": "bold" },
-                                { "type": "text", "text": arg['PM2.5'], "size": "xxl", "wrap": True, "flex": 1, "align": "end", "gravity": "center", "weight": "bold" }
-                            ]
-                        }
-                    ]
-                },
-                { "type": "separator", "margin": "md" },
-                # PM10 懸浮微粒
-                {
-                    "type": "box", "layout": "horizontal", "margin": "md",
-                    "contents": [
-                        {
-                            "type": "box", "layout": "vertical", "flex": 3,
-                            "contents": [ { "type": "text", "text": "PM10\n懸浮微粒", "weight": "bold", "size": "lg", "wrap": True, "flex": 1, "align": "start", "color": "#336699" if "懸浮微粒" in arg['Pollutant'].replace("細懸浮微粒","") else "#444444", "gravity": "center" } ]
-                        },
-                        {
-                            "type": "box", "layout": "vertical", "flex": 2,
-                            "contents": [
-                                { "type": "text", "text": "移動平均", "size": "sm", "wrap": True, "flex": 1, "align": "end", "gravity": "center" },
-                                { "type": "text", "text": "小時濃度", "size": "sm", "wrap": True, "flex": 1, "align": "end", "gravity": "center" }
-                            ]
-                        },
-                        {
-                            "type": "box", "layout": "vertical", "flex": 2,
-                            "contents": [
-                                { "type": "text", "text": arg['PM10_AVG'], "size": "xxl", "wrap": True, "flex": 1, "align": "end", "gravity": "center", "weight": "bold" },
-                                { "type": "text", "text": arg['PM10'], "size": "xxl", "wrap": True, "flex": 1, "align": "end", "gravity": "center", "weight": "bold" }
-                            ]
-                        }
-                    ]
-                },
-                { "type": "separator", "margin": "md" },
-                # CO 一氧化碳
-                {
-                    "type": "box", "layout": "horizontal", "margin": "md",
-                    "contents": [
-                        {
-                            "type": "box", "layout": "vertical", "flex": 3,
-                            "contents": [ { "type": "text", "text": "CO\n一氧化碳", "weight": "bold", "size": "lg", "wrap": True, "flex": 1, "align": "start", "color": "#336699" if "一氧化碳" in arg['Pollutant'] else "#444444", "gravity": "center" } ]
-                        },
-                        {
-                            "type": "box", "layout": "vertical", "flex": 2,
-                            "contents": [
-                                { "type": "text", "text": "8小時\n移動平均", "size": "sm", "wrap": True, "flex": 1, "align": "end", "gravity": "center" },
-                                { "type": "text", "text": "小時濃度", "size": "sm", "wrap": True, "flex": 1, "align": "end", "gravity": "center" }
-                            ]
-                        },
-                        {
-                            "type": "box", "layout": "vertical", "flex": 2,
-                            "contents": [
-                                { "type": "text", "text": arg['CO_8hr'], "size": "xxl", "wrap": True, "flex": 1, "align": "end", "gravity": "center", "weight": "bold" },
-                                { "type": "text", "text": arg['CO'], "size": "xxl", "wrap": True, "flex": 1, "align": "end", "gravity": "center", "weight": "bold" }
-                            ]
-                        }
-                    ]
-                },
-                { "type": "separator", "margin": "md" },
-                # SO2 二氧化硫
-                {
-                    "type": "box", "layout": "horizontal", "margin": "md",
-                    "contents": [
-                        {
-                            "type": "box", "layout": "vertical", "flex": 3,
-                            "contents": [ { "type": "text", "text": "SO2\n二氧化硫", "weight": "bold", "size": "lg", "wrap": True, "flex": 1, "align": "start", "color": "#336699" if "二氧化硫" in arg['Pollutant'] else "#444444", "gravity": "center" } ]
-                        },
-                        {
-                            "type": "box", "layout": "vertical", "flex": 2,
-                            "contents": [
-                                { "type": "text", "text": "移動平均", "size": "sm", "wrap": True, "flex": 1, "align": "end", "gravity": "center" },
-                                { "type": "text", "text": "小時濃度", "size": "sm", "wrap": True, "flex": 1, "align": "end", "gravity": "center" }
-                            ]
-                        },
-                        {
-                            "type": "box", "layout": "vertical", "flex": 2,
-                            "contents": [
-                                { "type": "text", "text": arg['SO2_AVG'], "size": "xxl", "wrap": True, "flex": 1, "align": "end", "gravity": "center", "weight": "bold" },
-                                { "type": "text", "text": arg['SO2'], "size": "xxl", "wrap": True, "flex": 1, "align": "end", "gravity": "center", "weight": "bold" }
-                            ]
-                        }
-                    ]
-                },
-                { "type": "separator", "margin": "md" },
-                # NO2 二氧化氮
-                {
-                    "type": "box", "layout": "horizontal", "margin": "md",
-                    "contents": [
-                        {
-                            "type": "box", "layout": "vertical", "flex": 3,
-                            "contents": [ { "type": "text", "text": "NO2\n二氧化氮", "weight": "bold", "size": "lg", "wrap": True, "flex": 1, "align": "start", "color": "#336699" if "二氧化氮" in arg['Pollutant'] else "#444444", "gravity": "center" } ]
-                        },
-                        {
-                            "type": "box", "layout": "vertical", "flex": 2,
-                            "contents": [ { "type": "text", "text": "小時濃度", "size": "sm", "wrap": True, "flex": 1, "align": "end", "gravity": "center" } ]
-                        },
-                        {
-                            "type": "box", "layout": "vertical", "flex": 2,
-                            "contents": [ { "type": "text", "text": arg['NO2'], "size": "xxl", "wrap": True, "flex": 1, "align": "end", "gravity": "center", "weight": "bold" } ]
-                        }
-                    ]
-                },
-                { "type": "separator", "margin": "md" },
-                { "type": "text", "text": '截至'+arg['timeStr'], "margin": "xs", "size": "xs", "color": "#aaaaaa", "align": "end" }
-            ]
+    return FlexSendMessage(
+        alt_text = arg['County'] + arg['SiteName'] + "空氣品質：\n" + \
+                   "AQI指數：" + arg['AQI'] if arg['AQI']!='-1' else 'NA' + " " +arg['Status'],
+        contents = {
+            "type": "bubble", "direction": "ltr",
+            "body": {
+                "type": "box", "layout": "vertical",
+                "contents": [
+                    # title
+                    { "type": "text", "text": arg['Status'], "weight": "bold", "size": "sm", "color": AQIcolor },
+                    {
+                        "type": "box", "layout": "horizontal", "margin": "md",
+                        "contents": [
+                            {
+                                "type": "box", "layout": "vertical", "flex": 5,
+                                "contents": [
+                                    { "type": "text", "text": arg['SiteName'], "size": "xxl", "weight": "bold" },
+                                    { "type": "text", "text": arg['County'], "size": "lg", "weight": "bold", "color": "#333399" }
+                                ]
+                            },
+                            {
+                                "type": "box", "layout": "vertical", "flex": 3,
+                                "contents": [
+                                    { "type": "text", "text": "AQI", "size": "lg", "align": "end", "color": AQIcolor  },
+                                    { "type": "text", "text": arg['AQI'] if arg['AQI']!='-1' else 'NA', "size": "4xl", "weight": "bold", "color": AQIcolor, "align": "end" }
+                                ]
+                            }
+                        ]
+                    },
+                    { "type": "separator", "margin": "md" },
+                    # O3 臭氧
+                    {
+                        "type": "box", "layout": "horizontal", "margin": "md",
+                        "contents": [
+                            {
+                                "type": "box", "layout": "vertical", "flex": 3,
+                                "contents": [ { "type": "text", "text": "O3\n臭氧", "weight": "bold", "size": "lg", "wrap": True, "flex": 1, "align": "start", "color": "#336699" if "臭氧" in arg['Pollutant'] else "#444444", "gravity": "center" } ]
+                            },
+                            {
+                                "type": "box", "layout": "vertical", "flex": 2,
+                                "contents": [
+                                    { "type": "text", "text": "8小時\n移動平均", "size": "sm", "wrap": True, "flex": 1, "align": "end", "gravity": "center" },
+                                    { "type": "text", "text": "小時濃度", "size": "sm", "wrap": True, "flex": 1, "align": "end", "gravity": "center" }
+                                ]
+                            },
+                            {
+                                "type": "box", "layout": "vertical", "flex": 2,
+                                "contents": [
+                                    { "type": "text", "text": arg['O3_8hr'], "size": "xxl", "wrap": True, "flex": 1, "align": "end", "gravity": "center", "weight": "bold" },
+                                    { "type": "text", "text": arg['O3'], "size": "xxl", "wrap": True, "flex": 1, "align": "end", "gravity": "center", "weight": "bold" }
+                                ]
+                            }
+                        ]
+                    },
+                    { "type": "separator", "margin": "md" },
+                    # PM2.5 細懸浮微粒
+                    {
+                        "type": "box", "layout": "horizontal", "margin": "md",
+                        "contents": [
+                            {
+                                "type": "box", "layout": "vertical", "flex": 3,
+                                "contents": [ { "type": "text", "text": "PM2.5\n細懸浮微粒", "weight": "bold", "size": "lg", "wrap": True, "flex": 1, "align": "start", "color": "#336699" if "細懸浮微粒" in arg['Pollutant'] else "#444444", "gravity": "center" } ]
+                            },
+                            {
+                                "type": "box", "layout": "vertical", "flex": 2,
+                                "contents": [
+                                    { "type": "text", "text": "移動平均", "size": "sm", "wrap": True, "flex": 1, "align": "end", "gravity": "center" },
+                                    { "type": "text", "text": "小時濃度", "size": "sm", "wrap": True, "flex": 1, "align": "end", "gravity": "center" }
+                                ]
+                            },
+                            {
+                                "type": "box", "layout": "vertical", "flex": 2,
+                                "contents": [
+                                    { "type": "text", "text": arg['PM2.5_AVG'], "size": "xxl", "wrap": True, "flex": 1, "align": "end", "gravity": "center", "weight": "bold" },
+                                    { "type": "text", "text": arg['PM2.5'], "size": "xxl", "wrap": True, "flex": 1, "align": "end", "gravity": "center", "weight": "bold" }
+                                ]
+                            }
+                        ]
+                    },
+                    { "type": "separator", "margin": "md" },
+                    # PM10 懸浮微粒
+                    {
+                        "type": "box", "layout": "horizontal", "margin": "md",
+                        "contents": [
+                            {
+                                "type": "box", "layout": "vertical", "flex": 3,
+                                "contents": [ { "type": "text", "text": "PM10\n懸浮微粒", "weight": "bold", "size": "lg", "wrap": True, "flex": 1, "align": "start", "color": "#336699" if "懸浮微粒" in arg['Pollutant'].replace("細懸浮微粒","") else "#444444", "gravity": "center" } ]
+                            },
+                            {
+                                "type": "box", "layout": "vertical", "flex": 2,
+                                "contents": [
+                                    { "type": "text", "text": "移動平均", "size": "sm", "wrap": True, "flex": 1, "align": "end", "gravity": "center" },
+                                    { "type": "text", "text": "小時濃度", "size": "sm", "wrap": True, "flex": 1, "align": "end", "gravity": "center" }
+                                ]
+                            },
+                            {
+                                "type": "box", "layout": "vertical", "flex": 2,
+                                "contents": [
+                                    { "type": "text", "text": arg['PM10_AVG'], "size": "xxl", "wrap": True, "flex": 1, "align": "end", "gravity": "center", "weight": "bold" },
+                                    { "type": "text", "text": arg['PM10'], "size": "xxl", "wrap": True, "flex": 1, "align": "end", "gravity": "center", "weight": "bold" }
+                                ]
+                            }
+                        ]
+                    },
+                    { "type": "separator", "margin": "md" },
+                    # CO 一氧化碳
+                    {
+                        "type": "box", "layout": "horizontal", "margin": "md",
+                        "contents": [
+                            {
+                                "type": "box", "layout": "vertical", "flex": 3,
+                                "contents": [ { "type": "text", "text": "CO\n一氧化碳", "weight": "bold", "size": "lg", "wrap": True, "flex": 1, "align": "start", "color": "#336699" if "一氧化碳" in arg['Pollutant'] else "#444444", "gravity": "center" } ]
+                            },
+                            {
+                                "type": "box", "layout": "vertical", "flex": 2,
+                                "contents": [
+                                    { "type": "text", "text": "8小時\n移動平均", "size": "sm", "wrap": True, "flex": 1, "align": "end", "gravity": "center" },
+                                    { "type": "text", "text": "小時濃度", "size": "sm", "wrap": True, "flex": 1, "align": "end", "gravity": "center" }
+                                ]
+                            },
+                            {
+                                "type": "box", "layout": "vertical", "flex": 2,
+                                "contents": [
+                                    { "type": "text", "text": arg['CO_8hr'], "size": "xxl", "wrap": True, "flex": 1, "align": "end", "gravity": "center", "weight": "bold" },
+                                    { "type": "text", "text": arg['CO'], "size": "xxl", "wrap": True, "flex": 1, "align": "end", "gravity": "center", "weight": "bold" }
+                                ]
+                            }
+                        ]
+                    },
+                    { "type": "separator", "margin": "md" },
+                    # SO2 二氧化硫
+                    {
+                        "type": "box", "layout": "horizontal", "margin": "md",
+                        "contents": [
+                            {
+                                "type": "box", "layout": "vertical", "flex": 3,
+                                "contents": [ { "type": "text", "text": "SO2\n二氧化硫", "weight": "bold", "size": "lg", "wrap": True, "flex": 1, "align": "start", "color": "#336699" if "二氧化硫" in arg['Pollutant'] else "#444444", "gravity": "center" } ]
+                            },
+                            {
+                                "type": "box", "layout": "vertical", "flex": 2,
+                                "contents": [
+                                    { "type": "text", "text": "移動平均", "size": "sm", "wrap": True, "flex": 1, "align": "end", "gravity": "center" },
+                                    { "type": "text", "text": "小時濃度", "size": "sm", "wrap": True, "flex": 1, "align": "end", "gravity": "center" }
+                                ]
+                            },
+                            {
+                                "type": "box", "layout": "vertical", "flex": 2,
+                                "contents": [
+                                    { "type": "text", "text": arg['SO2_AVG'], "size": "xxl", "wrap": True, "flex": 1, "align": "end", "gravity": "center", "weight": "bold" },
+                                    { "type": "text", "text": arg['SO2'], "size": "xxl", "wrap": True, "flex": 1, "align": "end", "gravity": "center", "weight": "bold" }
+                                ]
+                            }
+                        ]
+                    },
+                    { "type": "separator", "margin": "md" },
+                    # NO2 二氧化氮
+                    {
+                        "type": "box", "layout": "horizontal", "margin": "md",
+                        "contents": [
+                            {
+                                "type": "box", "layout": "vertical", "flex": 3,
+                                "contents": [ { "type": "text", "text": "NO2\n二氧化氮", "weight": "bold", "size": "lg", "wrap": True, "flex": 1, "align": "start", "color": "#336699" if "二氧化氮" in arg['Pollutant'] else "#444444", "gravity": "center" } ]
+                            },
+                            {
+                                "type": "box", "layout": "vertical", "flex": 2,
+                                "contents": [ { "type": "text", "text": "小時濃度", "size": "sm", "wrap": True, "flex": 1, "align": "end", "gravity": "center" } ]
+                            },
+                            {
+                                "type": "box", "layout": "vertical", "flex": 2,
+                                "contents": [ { "type": "text", "text": arg['NO2'], "size": "xxl", "wrap": True, "flex": 1, "align": "end", "gravity": "center", "weight": "bold" } ]
+                            }
+                        ]
+                    },
+                    { "type": "separator", "margin": "md" },
+                    { "type": "text", "text": '截至'+arg['timeStr'], "margin": "xs", "size": "xs", "color": "#aaaaaa", "align": "end" }
+                ]
+            }
         }
-    }
+    )
 
 ##目前天氣
 def flexWeather(arg={}):
@@ -538,81 +544,85 @@ def flexWeather(arg={}):
     arg['Humd'] = str(round(float(arg['Humd'])*1000+0.5)/10) if arg['Humd']!='-99' else 'N/A'
     arg['24R'] = str(round(float(arg['24R'])*10+0.5)/10) if arg['24R']!='-99' else 'N/A'
     #建立容器
-    return {
-        "type": "bubble", "direction": "ltr",
-        "body": {
-            "type": "box", "layout": "vertical",
-            "contents": [
-                #溫度
-                { "type": "text", "text": arg['Temp']+'°', "color": "#990066", "size": "5xl", "align": "center" },
-                { "type": "text", "text": arg['Wx'], "color": "#990066", "size": "lg", "weight": "bold", "align": "center" },
-                #目前天氣
-                {
-                    "type": "box", "layout": "horizontal", "margin": "xxl",
-                    "contents": [
-                        #地區
-                        {
-                            "type": "box", "layout": "vertical", "flex": 5,
-                            "contents": [
-                                { "type": "text", "text": arg['locationName'], "size": "xxl", "weight": "bold", "wrap": True },
-                                { "type": "text", "text": arg['City']+' '+arg['Town'], "weight": "bold", "size": "sm", "color": "#0D8186" }
-                            ]
-                        },
-                        #降雨率
-                        {
-                            "type": "box", "layout": "vertical", "flex": 4,
-                            "contents": [
-                                {
-                                    "type": "box", "layout": "baseline",
-                                    "contents": [
-                                        { "type": "text", "text": "降雨率", "flex": 2, "size": "sm", "weight": "bold" },
-                                        { "type": "text", "text": str(arg['PoP6h'])+'%', "flex": 3, "weight": "bold", "size": "xl", "color": "#0D8186" }
-                                    ]
-                                },
-                                {
-                                    "type": "box", "layout": "vertical", "height": "15px", "margin": "sm",
-                                    "backgroundColor": "#9FD8E3", "cornerRadius": "10px",
-                                    "contents": [
-                                        {
-                                            "type": "box", "layout": "vertical", "height": "15px",
-                                            "backgroundColor": "#0D8186", "width": str(arg['PoP6h'])+'%', "cornerRadius": "10px",
-                                            "contents": [ { "type": "filler" } ]
-                                        }
-                                    ]
-                                }
-                            ]
-                        }
-                    ]
-                },
-                { "type": "separator", "margin": "md" },
-                #濕度、雨量
-                {
-                    "type": "box", "layout": "horizontal", "margin": "md",
-                    "contents": [
-                        {
-                            "type": "box", "layout": "vertical",
-                            "contents": [
-                                { "type": "text", "text": "濕度", "size": "sm", "align": "center" },
-                                { "type": "text", "text": arg['Humd']+'%', "weight": "bold", "size": "lg", "color": "#990066", "align": "center" }
-                            ]
-                        },
-                        {
-                            "type": "box", "layout": "vertical",
-                            "contents": [
-                                { "type": "text", "text": "日積雨量", "size": "sm", "align": "center" },
-                                { "type": "text", "text": arg['24R']+' mm', "weight": "bold", "size": "lg", "color": "#990066", "align": "center" }
-                            ]
-                        }
-                    ]
-                },
-                { "type": "separator", "margin": "md" },
-                {
-                    "type": "box", "layout": "vertical", "margin": "md",
-                    "contents": [ { "type": "text", "text": '截至'+arg['TimeString'], "size": "sm", "color": "#AAAAAA", "align": "end" } ]
-                }
-            ]
+    return FlexSendMessage(
+        alt_text = arg['locationName'] + "/" + arg['City'] + arg['Town'] + "目前天氣：\n" + arg['Temp'] + '° ' + arg['Wx'] + \
+                   "\n降雨率 " + str(arg['PoP6h']) + "%\n濕度 " + str(arg['PoP6h']) + '%',
+        contents = {
+            "type": "bubble", "direction": "ltr",
+            "body": {
+                "type": "box", "layout": "vertical",
+                "contents": [
+                    #溫度
+                    { "type": "text", "text": arg['Temp']+'°', "color": "#990066", "size": "5xl", "align": "center" },
+                    { "type": "text", "text": arg['Wx'], "color": "#990066", "size": "lg", "weight": "bold", "align": "center" },
+                    #目前天氣
+                    {
+                        "type": "box", "layout": "horizontal", "margin": "xxl",
+                        "contents": [
+                            #地區
+                            {
+                                "type": "box", "layout": "vertical", "flex": 5,
+                                "contents": [
+                                    { "type": "text", "text": arg['locationName'], "size": "xxl", "weight": "bold", "wrap": True },
+                                    { "type": "text", "text": arg['City']+' '+arg['Town'], "weight": "bold", "size": "sm", "color": "#0D8186" }
+                                ]
+                            },
+                            #降雨率
+                            {
+                                "type": "box", "layout": "vertical", "flex": 4,
+                                "contents": [
+                                    {
+                                        "type": "box", "layout": "baseline",
+                                        "contents": [
+                                            { "type": "text", "text": "降雨率", "flex": 2, "size": "sm", "weight": "bold" },
+                                            { "type": "text", "text": str(arg['PoP6h'])+'%', "flex": 3, "weight": "bold", "size": "xl", "color": "#0D8186" }
+                                        ]
+                                    },
+                                    {
+                                        "type": "box", "layout": "vertical", "height": "15px", "margin": "sm",
+                                        "backgroundColor": "#9FD8E3", "cornerRadius": "10px",
+                                        "contents": [
+                                            {
+                                                "type": "box", "layout": "vertical", "height": "15px",
+                                                "backgroundColor": "#0D8186", "width": str(arg['PoP6h'])+'%', "cornerRadius": "10px",
+                                                "contents": [ { "type": "filler" } ]
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    { "type": "separator", "margin": "md" },
+                    #濕度、雨量
+                    {
+                        "type": "box", "layout": "horizontal", "margin": "md",
+                        "contents": [
+                            {
+                                "type": "box", "layout": "vertical",
+                                "contents": [
+                                    { "type": "text", "text": "濕度", "size": "sm", "align": "center" },
+                                    { "type": "text", "text": arg['Humd']+'%', "weight": "bold", "size": "lg", "color": "#990066", "align": "center" }
+                                ]
+                            },
+                            {
+                                "type": "box", "layout": "vertical",
+                                "contents": [
+                                    { "type": "text", "text": "日積雨量", "size": "sm", "align": "center" },
+                                    { "type": "text", "text": arg['24R']+' mm', "weight": "bold", "size": "lg", "color": "#990066", "align": "center" }
+                                ]
+                            }
+                        ]
+                    },
+                    { "type": "separator", "margin": "md" },
+                    {
+                        "type": "box", "layout": "vertical", "margin": "md",
+                        "contents": [ { "type": "text", "text": '截至'+arg['TimeString'], "size": "sm", "color": "#AAAAAA", "align": "end" } ]
+                    }
+                ]
+            }
         }
-    }
+    )
 
 ##未來天氣
 def flexWeather72HR(arg):
@@ -664,7 +674,7 @@ def flexWeather72HR(arg):
         )
     
     #建立容器
-    return { "type": "carousel", "contents": WeatherList }
+    return FlexSendMessage(alt_text=arg[0]['locationName']+"一週天氣", contents={ "type": "carousel", "contents": WeatherList })
 
 ##擲筊
 def flexDevinate(arg):
@@ -673,7 +683,7 @@ def flexDevinate(arg):
         'https://i.imgur.com/cm5pdAg.png', 'https://i.imgur.com/1tYF5LW.png'
     ]
     res = ['笑筊', '聖筊', '聖筊', '陰筊']
-    return {
+    return FlexSendMessage(alt_text="擲筊結果："+res[arg], contents={
         "type": "bubble",
         "size": "kilo",
         "direction": "ltr",
@@ -714,5 +724,5 @@ def flexDevinate(arg):
                 }
             ]
         }
-    }
+    })
 
