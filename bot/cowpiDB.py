@@ -1,7 +1,7 @@
 ##########聊天機器人，資料庫存取##########
 from django.conf import settings
 from datetime import datetime
-import psycopg2, pytz
+import psycopg2, pytz, json
 
 def getConnect():
     conn = psycopg2.connect(database="d6tkud0mtknjov", user="ifvbkjtshpsxqj", password="4972b22ed367ed7346b0107d3c3e97db14fac1dde628cd6d7f08cf502c927ee1", host="ec2-50-16-197-244.compute-1.amazonaws.com", port="5432")
@@ -170,18 +170,20 @@ def resStatement(key, channelId, rand):
     conn = getConnect()
     c = conn.cursor()
     #若關閉可以說其他人教過的話的功能，則以限制channelId的方式查詢
-    strGlobaltalk = 'likestrong>' if queryUser(channelId)[2] else 'channel_id=%s and likestrong>'
-    strRandomreply = '0 and priority>=5 ORDER BY RANDOM() limit 1' if rand else '0 ORDER BY likestrong DESC, priority DESC, id DESC limit 1'
+    strGlobaltalk = '' if queryUser(channelId)[2] else ' and channel_id=%s'
+    strRandomreply = ' and priority>=5 ORDER BY RANDOM() limit 1' if rand else ' ORDER BY likestrong DESC, priority DESC, id DESC limit 1'
     c.execute('''
         SELECT response FROM ( SELECT *,
                                 CASE
-                                    WHEN keyword = %s THEN 3 
+                                    WHEN keyword = %s THEN 5 
+                                    WHEN %s LIKE '_' || keyword || '_' THEN 4
+                                    WHEN %s LIKE '%' || keyword || '%' THEN 3
                                     WHEN keyword LIKE %s THEN 2
                                     WHEN keyword LIKE %s THEN 1
                                     ELSE 0 
                                 END as likestrong
-                        FROM statements) as foo Where ''' + strGlobaltalk + strRandomreply, 
-        [key, '_'+key+'_', '%'+key+'%'] if queryUser(channelId)[2] else [key, '_'+key+'_', '%'+key+'%', channelId]
+                        FROM statements) as foo Where likestrong>1''' + strGlobaltalk + strRandomreply, 
+        [key, key, key, '_'+key+'_', '%'+key+'%'] if queryUser(channelId)[2] else [key, key, key, '_'+key+'_', '%'+key+'%', channelId]
     )
     data = c.fetchall()
     #找不到的話找找看自動學習的語料
@@ -189,13 +191,15 @@ def resStatement(key, channelId, rand):
         c.execute('''
             SELECT response FROM ( SELECT *,
                                     CASE
-                                        WHEN keyword = %s THEN 3 
+                                        WHEN keyword = %s THEN 5 
+                                        WHEN %s LIKE '_' || keyword || '_' THEN 4
+                                        WHEN %s LIKE '%' || keyword || '%' THEN 3
                                         WHEN keyword LIKE %s THEN 2
                                         WHEN keyword LIKE %s THEN 1
                                         ELSE 0 
                                     END as likestrong
-                            FROM statements) as foo Where channel_id='cowpi' and likestrong>0 ORDER BY RANDOM() limit 1''', 
-            [key, '_'+key+'_', '%'+key+'%']
+                            FROM statements) as foo Where likestrong>0 and channel_id='cowpi' and priority>=5 ORDER BY RANDOM() limit 1''', 
+            [key, key, key, '_'+key+'_', '%'+key+'%']
         )
         data = c.fetchall()
     conn.close()
@@ -236,10 +240,10 @@ def autoIfEmptyStatements():
     c = conn.cursor()
     c.execute('SELECT * FROM statements')
     if not len(c.fetchall()):
-        data=[
-            ['你好', '嗨'],['Hello', 'Hi'],['你好', '哈囉'],['Hello', '你好'],['安安', 'こんにちは'],['吃飽沒', '還沒吃'],['你是誰', '我是牛批貓'],['讚哦', '謝謝誇獎'],['狂', '948794狂'],['我難過', 'https://www.youtube.com/watch?v=T0LfHEwEXXw'],['七彩的微風', '側著臉輕輕吹拂'],['並沒有', '對阿才沒有'],['wwwww', '哈哈哈哈哈'],['XDDD', '哈哈哈哈哈'],['23333', '哈哈哈哈哈'],['66666', '遛遛遛遛遛狗'],['哈哈', '哈哈哈哈哈密瓜'],['生氣', 'https://i.imgur.com/mmMC1Nm.jpg'],['我很氣', 'https://i.imgur.com/mmMC1Nm.jpg'],['洗澡', 'https://i.imgur.com/hOFXGAn.jpg'],['我去洗澡', 'https://i.imgur.com/hOFXGAn.jpg'],['起床', 'https://i.imgur.com/CiVXtz9.jpg'],['想睡覺', 'https://i.imgur.com/CiVXtz9.jpg'],['QQ', '不哭不哭你是豬'],['謝謝', '不客氣'],['早安', '早安安'],['午安', '午安安'],['晚安', '晚安安'],['這東西', '真無趣'],['靠北', '怎麼'],['幹', '嘴巴放乾淨一點哦！'],['假的', 'https://vignette.wikia.nocookie.net/pttpedia/images/e/e5/Maxresdefault.jpg/revision/latest/scale-to-width-down/1000?cb=20160809082939&path-prefix=zh'],['開學', '世界末日！'],['乾', '濕'],['三小', '尛啦']
-        ]
-        for x in data:
-            c.execute('INSERT INTO statements(keyword, response, create_at, channel_id, channel_type, priority) VALUES(%s,%s,%s,%s,%s,%s)',
-            [x[0], x[1], str(datetime.now(pytz.timezone("Asia/Taipei"))), 'cowpi', 'autoLearn', 10])
+        with open('initKeyword.json', 'r', encoding='utf-8') as f:
+            data = json.load(f)
+        for k, v in data:
+            for x in v:
+                c.execute('INSERT INTO statements(keyword, response, create_at, channel_id, channel_type, priority) VALUES(%s,%s,%s,%s,%s,%s)',
+                [k, x, str(datetime.now(pytz.timezone("Asia/Taipei"))), 'cowpi', 'autoLearn', 10])
     conn.close()

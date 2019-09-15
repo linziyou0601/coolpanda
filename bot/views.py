@@ -115,9 +115,9 @@ def autoLearnModel(msg, content, channelId, event):
 #關鍵字正則
 def getReg(msg):
     RegDict = {
-        "aqi":"(空[氣汙]|空氣(品質|如何)|PM2.5|pm2.5)$",
-        "weather":"(天氣|天氣(狀況|如何)|會下雨嗎)$",
-        "divinate":"擲筊",
+        "aqi":"(空[氣汙]|空氣(品質|如何|怎樣)|PM2.5|pm2.5)$",
+        "weather":"(天氣|天氣(狀況|如何)|(會|有)下雨嗎)$",
+        "divinate":"擲筊"
     }
     return RegDict[msg]
 
