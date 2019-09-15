@@ -628,7 +628,9 @@ def flexWeather(arg={}):
 def flexWeather72HR(arg):
     #整理資料格式
     WeatherList=[]
+    rslString=""
     for x in arg:
+        rslString=x['locationName']
         WeatherList.append(
             {
                 "type": "bubble", "size": "micro", "direction": "ltr",
@@ -674,7 +676,7 @@ def flexWeather72HR(arg):
         )
     
     #建立容器
-    return FlexSendMessage(alt_text=arg[0]['locationName']+"一週天氣", contents={ "type": "carousel", "contents": WeatherList })
+    return FlexSendMessage(alt_text=rslString+"一週天氣", contents={ "type": "carousel", "contents": WeatherList })
 
 ##擲筊
 def flexDevinate(arg):
