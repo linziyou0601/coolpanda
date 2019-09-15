@@ -183,7 +183,7 @@ def resStatement(key, channelId, rand):
                                     ELSE 0 
                                 END as likestrong
                         FROM statements) as foo Where likestrong>1''' + strGlobaltalk + strRandomreply, 
-        [key, key, key, '_'+key+'_', '%'+key+'%'] if queryUser(channelId)[2] else [key, key, key, '_'+key+'_', '%'+key+'%', channelId]
+        [key, key, key, '_'+key+'_', '%'+key+'%']
     )
     data = c.fetchall()
     #找不到的話找找看自動學習的語料
