@@ -177,13 +177,13 @@ def resStatement(key, channelId, rand):
                                 CASE
                                     WHEN keyword = %s THEN 5 
                                     WHEN %s LIKE '_' || keyword || '_' THEN 4
-                                    WHEN %s LIKE '%' || keyword || '%' THEN 3
+                                    WHEN %s LIKE '%%' || keyword || '%%' THEN 3
                                     WHEN keyword LIKE %s THEN 2
                                     WHEN keyword LIKE %s THEN 1
                                     ELSE 0 
                                 END as likestrong
                         FROM statements) as foo Where likestrong>1''' + strGlobaltalk + strRandomreply, 
-        [key, key, key, '_'+key+'_', '%'+key+'%']
+        [key, key, key, '_'+key+'_', '%'+key+'%'] if queryUser(channelId)[2] else [key, key, key, '_'+key+'_', '%'+key+'%', channelId]
     )
     data = c.fetchall()
     #找不到的話找找看自動學習的語料
@@ -193,7 +193,7 @@ def resStatement(key, channelId, rand):
                                     CASE
                                         WHEN keyword = %s THEN 5 
                                         WHEN %s LIKE '_' || keyword || '_' THEN 4
-                                        WHEN %s LIKE '%' || keyword || '%' THEN 3
+                                        WHEN %s LIKE '%%' || keyword || '%%' THEN 3
                                         WHEN keyword LIKE %s THEN 2
                                         WHEN keyword LIKE %s THEN 1
                                         ELSE 0 
