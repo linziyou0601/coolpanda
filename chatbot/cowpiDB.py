@@ -19,7 +19,7 @@ def createTable():
             "channel_id" TEXT NOT NULL,
             "globaltalk" INTEGER NOT NULL DEFAULT 1,
             "mute" INTEGER NOT NULL DEFAULT 0,
-            "allowpush" INTEGER NOT NULL DEFAULT 0,
+            "allowpush" INTEGER NOT NULL DEFAULT 0
         )
     ''')
     c.execute('''
