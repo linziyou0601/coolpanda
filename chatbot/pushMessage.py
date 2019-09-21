@@ -44,6 +44,7 @@ def pushToLine(type, title, content):
     data = c.fetchall()
     conn.close()
     users = [x[0] for x in data] if len(data) else []
+    print(users)
     message = []
     if type == 'text':
         message = TextSendMessage(text='【' + title + '】\n' + content)
