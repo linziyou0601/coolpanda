@@ -51,7 +51,7 @@ class pushView(TemplateView):
             createAt = str(datetime.now(pytz.timezone("Asia/Taipei")))
             conn = getConnect()
             c = conn.cursor()
-            c.execute('INSERT INTO pushMessages(message_type, message_title, message_content, create_at) VALUES(%s,%s,%s,%s)', 
+            c.execute('INSERT INTO "pushMessages" (message_type, message_title, message_content, create_at) VALUES(%s,%s,%s,%s)', 
                       [messageType, messageTitle, messageContent, createAt])
             conn.close()
             form = pushForm()
