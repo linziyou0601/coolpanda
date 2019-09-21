@@ -13,7 +13,7 @@ import psycopg2, pytz, json
 line_bot_api = LineBotApi('HRWbC4w2S3J3JvFAQQkQnp4gxXVWtCwLWgrdanU72Y26+hwAoZvdiwhjyLPuIPdYLaqqy4ZDIC48EDGEo9FDp0VhS453OJfXEfFCwoFhZxhIFy6ESVLFr7fPuythQb4WA4gvEHkCjJ+yuMJDgzeR8gdB04t89/1O/w1cDnyilFU=')
 
 class pushForm(forms.Form):  
-    messageType = forms.ChoiceField()
+    messageType = forms.ChoiceField(choices=[('text', '文字'), ('flex', 'Flex'), ('image', '圖片')])
     messageTitle = forms.CharField()
     messageContent = forms.CharField()
 
@@ -37,9 +37,10 @@ def initalization():
     conn.close()
 
 def pushToLine(type, title, content):
+    global line_bot_api
     conn = getConnect()
     c = conn.cursor()
-    c.execute('SELECT * FROM users Where allowpush=1')
+    c.execute('SELECT channel_id FROM users Where allowpush=1')
     data = c.fetchall()
     conn.close()
     users = data[0] if len(data) else []
