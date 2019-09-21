@@ -288,7 +288,7 @@ def flexStatusMenu(arg=[]):
                 },
                 {
                     "type": "button", "height": "sm", "style": "link",
-                    "action": { "type": "message", "label": "切換目前狀態", "text": '牛批貓關閉推播' if arg[5] else '牛批貓開啟推播' }
+                    "action": { "type": "message", "label": "切換推播狀態", "text": '牛批貓關閉推播' if arg[5] else '牛批貓開啟推播' }
                 },
                 {
                     "type": "button", "height": "sm", "style": "link",

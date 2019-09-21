@@ -67,8 +67,8 @@ def mute(lineMessage, channelId):
     elif any(s in lineMessage for s in ["牛批貓安靜", "牛批貓閉嘴"]): editChannelMute(channelId, 1)
     return "好哦的喵～"
 def allowpush(lineMessage, channelId):
-    if any(s in lineMessage for s in ["牛批貓可以推播","牛批貓開啟推播"]): editChannelAllowPush(channelId, 0)
-    elif any(s in lineMessage for s in ["牛批貓不行推播", "牛批貓關閉推播"]): editChannelAllowPush(channelId, 1)
+    if any(s in lineMessage for s in ["牛批貓可以推播","牛批貓開啟推播"]): editChannelAllowPush(channelId, 1)
+    elif any(s in lineMessage for s in ["牛批貓不行推播", "牛批貓關閉推播"]): editChannelAllowPush(channelId, 0)
     return "好哦的喵～"
 def currentStatus(channelId):
     status = queryUser(channelId)
