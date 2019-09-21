@@ -43,7 +43,7 @@ def pushToLine(type, title, content):
     c.execute('SELECT channel_id FROM users Where allowpush=1')
     data = c.fetchall()
     conn.close()
-    users = data[0] if len(data) else []
+    users = list(data[0]) if len(data) else []
     message = []
     if type == 'text':
         message = TextSendMessage(text='【' + title + '】\n' + content)
