@@ -15,5 +15,5 @@ class PushMessages(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'pushmessages'
+        db_table = 'pushMessages'
         app_label = 'pushMessage'
