@@ -239,7 +239,7 @@ def flexTeaching(arg=[]):
 
 ##狀態選單
 def flexStatusMenu(arg=[]):
-    return FlexSendMessage(alt_text="目前狀態：\n說話模式："+arg[0]+"\n聊天狀態："+arg[1], contents={
+    return FlexSendMessage(alt_text="目前狀態：\n說話模式："+arg[0]+"\n聊天狀態："+arg[1]+"\n推播狀態："+arg[2], contents={
         "type": "bubble", "direction": "ltr",
         "body": {
             "type": "box", "layout": "vertical",
