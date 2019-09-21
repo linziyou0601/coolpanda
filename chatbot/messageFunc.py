@@ -262,6 +262,13 @@ def flexStatusMenu(arg=[]):
                                 { "type": "text", "text": "聊天狀態", "flex": 2, "color": "#AAAAAA" },
                                 { "type": "text", "text": arg[1], "flex": 4, "color": "#666666", "wrap": True }
                             ]
+                        },
+                        {
+                            "type": "box", "layout": "baseline",
+                            "contents": [
+                                { "type": "text", "text": "推播狀態", "flex": 2, "color": "#AAAAAA" },
+                                { "type": "text", "text": arg[2], "flex": 4, "color": "#666666", "wrap": True }
+                            ]
                         }
                     ]
                 }
@@ -273,11 +280,15 @@ def flexStatusMenu(arg=[]):
                 { "type": "separator" },
                 {
                     "type": "button", "height": "sm", "style": "link",
-                    "action": { "type": "message", "label": "切換說話模式", "text": '不可以說別人教的話' if arg[2] else '可以說別人教的話' }
+                    "action": { "type": "message", "label": "切換說話模式", "text": '不可以說別人教的話' if arg[3] else '可以說別人教的話' }
                 },
                 {
                     "type": "button", "height": "sm", "style": "link",
-                    "action": { "type": "message", "label": "切換目前狀態", "text": '牛批貓講話' if arg[3] else '牛批貓安靜' }
+                    "action": { "type": "message", "label": "切換目前狀態", "text": '牛批貓講話' if arg[4] else '牛批貓安靜' }
+                },
+                {
+                    "type": "button", "height": "sm", "style": "link",
+                    "action": { "type": "message", "label": "切換目前狀態", "text": '牛批貓關閉推播' if arg[5] else '牛批貓開啟推播' }
                 },
                 {
                     "type": "button", "height": "sm", "style": "link",

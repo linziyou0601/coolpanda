@@ -8,6 +8,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">推播訊息</h5>
+        <p class="text-danger">{{ validStr }}</p>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -18,11 +19,19 @@
             {% csrf_token %}
             <div class="form-group">
                 <label for="{{ form.messageTitle.id_for_label }}">訊息標題</label>
-                <input type="text" name="{{ form.messageTitle.html_name }}" class="form-control" id="{{ form.messageTitle.id_for_label }}">
+                <input type="text" name="{{ form.messageTitle.html_name }}" class="form-control" id="{{ form.messageTitle.id_for_label }}" required>
+            </div>
+            <div class="form-group">
+                <label for="{{ form.messageType.id_for_label }}">訊息類型</label>
+                <select class="form-control" id="{{ form.messageType.id_for_label }}">
+                  <option value="text" selected>文字</option>
+                  <option value="flex">Flex</option>
+                  <option value="image">圖片</option>
+                </select>
             </div>
             <div class="form-group">
                 <label for="{{ form.messageContent.id_for_label }}">內容</label>
-                <textarea rows="5" name="{{ form.messageContent.html_name }}" class="form-control" id="{{ form.messageContent.id_for_label }}"></textarea>
+                <textarea rows="5" name="{{ form.messageContent.html_name }}" class="form-control" id="{{ form.messageContent.id_for_label }}" placeholder="文字訊息請直接輸入&#10;Flex訊息請輸入JSON格式文字&#10;圖片訊息請貼上'https://'網址" required></textarea>
             </div>
 
             <input type="submit" class="btn btn-info my-2 mx-2" value="發送" />

@@ -150,5 +150,5 @@ STATIC_URL = '/static/'
 IMPORT_EXPORT_USE_TRANSACTIONS = True
 
 # Configure Django App for Heroku.
-import django_heroku
-django_heroku.settings(locals())
+#import django_heroku
+#django_heroku.settings(locals())

@@ -17,8 +17,9 @@ def createTable():
         CREATE TABLE IF NOT EXISTS "users" (
             "id" SERIAL PRIMARY KEY,
             "channel_id" TEXT NOT NULL,
-            "globaltalk" INTEGER NOT NULL DEFAULT 0,
-            "mute" INTEGER NOT NULL DEFAULT 0
+            "globaltalk" INTEGER NOT NULL DEFAULT 1,
+            "mute" INTEGER NOT NULL DEFAULT 0,
+            "allowpush" INTEGER NOT NULL DEFAULT 0,
         )
     ''')
     c.execute('''
@@ -80,6 +81,11 @@ def editChannelMute(channelId, value):
     conn = getConnect()
     c = conn.cursor()
     c.execute('UPDATE users SET mute=%s Where channel_id=%s', [value, channelId])
+    conn.close()
+def editChannelAllowPush(channelId, value):
+    conn = getConnect()
+    c = conn.cursor()
+    c.execute('UPDATE users SET allowpush=%s Where channel_id=%s', [value, channelId])
     conn.close()
 ##查詢頻道功能狀態
 def queryUser(channelId):

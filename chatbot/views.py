@@ -6,12 +6,13 @@ from linebot import LineBotApi, WebhookParser, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
 from linebot.models import *
 import os, json, codecs, re
-from .flexmessageFunc import *
+from .messageFunc import *
 from .chatterFunc import *
 from .cowpiDB import *
 
 line_bot_api = LineBotApi('HRWbC4w2S3J3JvFAQQkQnp4gxXVWtCwLWgrdanU72Y26+hwAoZvdiwhjyLPuIPdYLaqqy4ZDIC48EDGEo9FDp0VhS453OJfXEfFCwoFhZxhIFy6ESVLFr7fPuythQb4WA4gvEHkCjJ+yuMJDgzeR8gdB04t89/1O/w1cDnyilFU=')
 parser = WebhookParser('4abb8726ea0ae9dc4a91154ce6fecb60')
+handler = WebhookHandler('4abb8726ea0ae9dc4a91154ce6fecb60')
 
 @csrf_exempt
 def callback(request):
@@ -182,6 +183,9 @@ def handle_message(event):
             content=[lineMessage, 0, 'text']
         elif any(s == lineMessage for s in ["牛批貓說話","牛批貓講話","牛批貓安靜", "牛批貓閉嘴"]): #安靜開關
             replyList = TextSendMessage(text=mute(lineMessage, channelId))
+            content=[lineMessage, 0, 'text']
+        elif any(s == lineMessage for s in ["牛批貓可以推播","牛批貓開啟推播","牛批貓不行推播", "牛批貓關閉推播"]): #安靜開關
+            replyList = TextSendMessage(text=allowpush(lineMessage, channelId))
             content=[lineMessage, 0, 'text']
         elif not queryUser(channelId)[3]: #非安靜狀態
             #####聊天回答第二階段#####關鍵字類型

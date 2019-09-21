@@ -24,9 +24,9 @@ class PushMessagesResource(resources.ModelResource):
 
 # ImportExportModelAdmin
 class UsersAdmin(ImportExportModelAdmin):
-    list_display = ('id', 'channel_id', 'globaltalk', 'mute')
-    list_filter = ('globaltalk', 'mute',)
-    search_fields = ['channel_id', 'globaltalk', 'mute']
+    list_display = ('id', 'channel_id', 'globaltalk', 'mute', 'allowpush')
+    list_filter = ('globaltalk', 'mute', 'allowpush')
+    search_fields = ['channel_id', 'globaltalk', 'mute', 'allowpush']
 class StatementsAdmin(ImportExportModelAdmin):
     list_display = ('id', 'keyword', 'response', 'create_at', 'channel_id', 'channel_type', 'priority')
     list_filter = ('keyword', 'response', 'create_at', 'channel_id', 'channel_type', 'priority',)

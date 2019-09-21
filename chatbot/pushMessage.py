@@ -13,6 +13,7 @@ import psycopg2, pytz, json
 line_bot_api = LineBotApi('HRWbC4w2S3J3JvFAQQkQnp4gxXVWtCwLWgrdanU72Y26+hwAoZvdiwhjyLPuIPdYLaqqy4ZDIC48EDGEo9FDp0VhS453OJfXEfFCwoFhZxhIFy6ESVLFr7fPuythQb4WA4gvEHkCjJ+yuMJDgzeR8gdB04t89/1O/w1cDnyilFU=')
 
 class pushForm(forms.Form):  
+    messageType = forms.ChoiceField()
     messageTitle = forms.CharField()
     messageContent = forms.CharField()
 
@@ -35,6 +36,30 @@ def initalization():
     ''')
     conn.close()
 
+def pushToLine(type, title, content):
+    conn = getConnect()
+    c = conn.cursor()
+    c.execute('SELECT * FROM users Where allowpush=1')
+    data = c.fetchall()
+    conn.close()
+    users = data[0] if len(data) else []
+    message = []
+    if type == 'text':
+        message = TextSendMessage(text='【' + title + '】\n' + content)
+    elif type == 'flex':
+        try:
+            obj = json.loads(content)
+            message = FlexSendMessage(alt_text=title, contents=obj)
+        except:
+            return False
+    else:
+        if 'https://' in content and any(x in content for x in ['.jpg','.jpeg','.png']):
+            message = ImageSendMessage(original_content_url=content, preview_image_url=content)
+        else:
+            return False
+    line_bot_api.push_message(users, message)
+    return True
+
 # Create your views here.
 @method_decorator(login_required, name='dispatch')
 class pushView(TemplateView):
@@ -44,23 +69,26 @@ class pushView(TemplateView):
         initalization() 
         form = pushForm()
         allPushes= PushMessages.objects.all()[:5]
-        args = {'form': form, 'allPushes':allPushes}    
+        args = {'form': form, 'allPushes': allPushes, 'validStr': ""}
         return render( request, self.template_name, args)
 
     def post(self, request):    
-        form = pushForm(request.POST)  
+        form = pushForm(request.POST)
+        validStr = "" 
         if form.is_valid():
-            messageType = 'text'
+            messageType = form.cleaned_data['messageType']
             messageTitle = form.cleaned_data['messageTitle']
             messageContent = form.cleaned_data['messageContent']
             createAt = str(datetime.now(pytz.timezone("Asia/Taipei")))
-            conn = getConnect()
-            c = conn.cursor()
-            c.execute('INSERT INTO "pushMessages" (message_type, message_title, message_content, create_at) VALUES(%s,%s,%s,%s)', 
-                      [messageType, messageTitle, messageContent, createAt])
-            conn.close()
+            if pushToLine(messageType, messageTitle, messageContent):
+                conn = getConnect()
+                c = conn.cursor()
+                c.execute('INSERT INTO "pushMessages" (message_type, message_title, message_content, create_at) VALUES(%s,%s,%s,%s)', 
+                        [messageType, messageTitle, messageContent, createAt])
+                conn.close()
+            else:
+                validStr = "訊息格式有誤。"
             form = pushForm()
-            line_bot_api.push_message('Ua1dafba273c36c5ae0a879a3ed682a77', TextSendMessage(text=messageContent))
         allPushes= PushMessages.objects.all()[:5]
-        args = {'form': form, 'allPushes':allPushes}      
+        args = {'form': form, 'allPushes': allPushes, 'validStr': validStr}      
         return render(request, self.template_name, args)

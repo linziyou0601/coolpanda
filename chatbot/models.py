@@ -51,6 +51,7 @@ class Users(models.Model):
     channel_id = models.TextField()
     globaltalk = models.IntegerField()
     mute = models.IntegerField()
+    allowpush = models.IntegerField()
 
     class Meta:
         managed = False
