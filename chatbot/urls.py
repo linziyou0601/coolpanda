@@ -5,4 +5,5 @@ from . import views, pushMessage
 urlpatterns = [
     path('callback/', views.callback),
     path('pushMessage/', pushMessage.pushView.as_view(), name="pushMessage"),
+    path('pushMessage/jsonData/', pushMessage.getPushMsgJSON),
 ]

@@ -45,32 +45,32 @@
 <div class="jumbotron">
   <div class="container">
     <h1 class="display-3 mt-3">推播訊息</h1>
-    <p class="text-danger">{{ validStr }}</p>
+    <h3 class="text-danger">{{ validStr }}</h3>
     <p><a class="btn btn-primary btn-lg" href="JavaScript:Void(0)" role="button" onclick="$('#newPushMsg').modal('show')">新增訊息 &raquo;</a></p>
   </div>
 </div>
 
 <div class="container">
-  <h2>近5筆推播訊息</h2>
-  <table class="table">
+  <h2>歷史推播訊息</h2>
+  <table 
+    data-toggle="table"
+    data-url="jsonData/"
+    data-pagination="true"
+    data-search="true"
+    data-sort-name="id"
+    data-sort-order="desc"
+    data-page-size="10"
+    data-show-toggle="true"
+    data-show-refresh="true">
     <thead>
       <tr>
-        <th scope="col">#</th>
-        <th scope="col">類型</th>
-        <th scope="col">標題</th>
-        <th scope="col">內容</th>
-        <th scope="col">建立時間</th>
+        <th data-field="id" data-sortable="true">#</th>
+        <th data-field="message_type" data-sortable="true">類型</th>
+        <th data-field="message_title" data-sortable="true">標題</th>
+        <th data-field="message_content" data-sortable="true">內容</th>
+        <th data-field="create_at" data-sortable="true">建立時間</th>
       </tr>
     </thead>
-    {% for item in allPushes %}
-      <tr>
-        <td scope="row">{{ item.id }}</td>
-        <td>{{ item.message_type }}</td>
-        <td>{{ item.message_title }}</td>
-        <td>{{ item.message_content }}</td>
-        <td>{{ item.create_at }}</td>
-      </tr>
-    {% endfor %}
   </table>
   <hr>
 </div> <!-- /container -->

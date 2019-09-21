@@ -2,10 +2,10 @@ from django.shortcuts import render
 from django.views.generic import TemplateView
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
+from django.http import JsonResponse
 from django import forms
 from .models import PushMessages
-from linebot import LineBotApi, WebhookParser, WebhookHandler
-from linebot.exceptions import InvalidSignatureError
+from linebot import LineBotApi, WebhookParser
 from linebot.models import *
 from datetime import datetime
 import psycopg2, pytz, json
@@ -64,6 +64,14 @@ def pushToLine(type, title, content):
     
     return True
 
+def getPushMsgJSON(request=None):
+    conn = getConnect()
+    c = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    c.execute('SELECT * FROM "pushMessages"')
+    data = [{k: v for k, v in i.items()} for i in c.fetchall()]
+    conn.close()
+    return JsonResponse(data, safe=False)
+
 # Create your views here.
 @method_decorator(login_required, name='dispatch')
 class pushView(TemplateView):
@@ -72,8 +80,7 @@ class pushView(TemplateView):
     def get(self, request):
         initalization() 
         form = pushForm()
-        allPushes= PushMessages.objects.all()[:5]
-        args = {'form': form, 'allPushes': allPushes, 'validStr': ""}
+        args = {'form': form, 'validStr': ""}
         return render( request, self.template_name, args)
 
     def post(self, request):    
@@ -93,6 +100,5 @@ class pushView(TemplateView):
             else:
                 validStr = "訊息格式有誤。"
             form = pushForm()
-        allPushes= PushMessages.objects.all()[:5]
-        args = {'form': form, 'allPushes': allPushes, 'validStr': validStr}      
+        args = {'form': form, 'validStr': validStr}      
         return render(request, self.template_name, args)
