@@ -37,14 +37,13 @@ def initalization():
     conn.close()
 
 def pushToLine(type, title, content):
-    global line_bot_api
     conn = getConnect()
     c = conn.cursor()
     c.execute('SELECT channel_id FROM users Where allowpush=1')
     data = c.fetchall()
     conn.close()
     users = [x[0] for x in data] if len(data) else []
-    print(users)
+
     message = []
     if type == 'text':
         message = TextSendMessage(text='【' + title + '】\n' + content)
@@ -59,7 +58,10 @@ def pushToLine(type, title, content):
             message = ImageSendMessage(original_content_url=content, preview_image_url=content)
         else:
             return False
-    line_bot_api.push_message(users, message)
+
+    for uid in users:
+        line_bot_api.push_message(uid, message)
+    
     return True
 
 # Create your views here.
