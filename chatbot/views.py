@@ -12,7 +12,6 @@ from .cowpiDB import *
 
 line_bot_api = LineBotApi('HRWbC4w2S3J3JvFAQQkQnp4gxXVWtCwLWgrdanU72Y26+hwAoZvdiwhjyLPuIPdYLaqqy4ZDIC48EDGEo9FDp0VhS453OJfXEfFCwoFhZxhIFy6ESVLFr7fPuythQb4WA4gvEHkCjJ+yuMJDgzeR8gdB04t89/1O/w1cDnyilFU=')
 parser = WebhookParser('4abb8726ea0ae9dc4a91154ce6fecb60')
-handler = WebhookHandler('4abb8726ea0ae9dc4a91154ce6fecb60')
 
 @csrf_exempt
 def callback(request):

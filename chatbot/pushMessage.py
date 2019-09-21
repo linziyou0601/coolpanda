@@ -4,8 +4,13 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django import forms
 from .models import PushMessages
+from linebot import LineBotApi, WebhookParser, WebhookHandler
+from linebot.exceptions import InvalidSignatureError
+from linebot.models import *
 from datetime import datetime
 import psycopg2, pytz, json
+
+line_bot_api = LineBotApi('HRWbC4w2S3J3JvFAQQkQnp4gxXVWtCwLWgrdanU72Y26+hwAoZvdiwhjyLPuIPdYLaqqy4ZDIC48EDGEo9FDp0VhS453OJfXEfFCwoFhZxhIFy6ESVLFr7fPuythQb4WA4gvEHkCjJ+yuMJDgzeR8gdB04t89/1O/w1cDnyilFU=')
 
 class pushForm(forms.Form):  
     messageTitle = forms.CharField()
@@ -55,6 +60,7 @@ class pushView(TemplateView):
                       [messageType, messageTitle, messageContent, createAt])
             conn.close()
             form = pushForm()
+            line_bot_api.push_message('Ua1dafba273c36c5ae0a879a3ed682a77', TextSendMessage(text=messageContent))
         allPushes= PushMessages.objects.all()[:5]
         args = {'form': form, 'allPushes':allPushes}      
         return render(request, self.template_name, args)
