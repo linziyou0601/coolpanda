@@ -6,7 +6,7 @@ from linebot import LineBotApi, WebhookParser, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
 from linebot.models import *
 import os, json, codecs, re
-from .messageFunc import *
+from .flexmessageFunc import *
 from .chatterFunc import *
 from .cowpiDB import *
 
