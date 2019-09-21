@@ -56,3 +56,14 @@ class Users(models.Model):
         managed = False
         db_table = 'users'
         app_label = 'chatbot'
+
+class PushMessages(models.Model):
+    message_type = models.TextField()
+    message_title = models.TextField()
+    message_content = models.TextField()
+    create_at = models.TextField()
+
+    class Meta:
+        managed = False
+        db_table = 'pushMessages'
+        app_label = 'chatbot'

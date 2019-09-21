@@ -38,7 +38,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'chatbot',
-    'pushMessage',
     'import_export',
 ]
 
@@ -106,7 +105,7 @@ DATABASES = {
 # use multi-database in django
 # add by WeizhongTu
 DATABASE_ROUTERS = ['linebotProject.database_router.DatabaseAppsRouter']
-DATABASE_APPS_MAPPING = {'chatbot': 'linebot', 'pushMessage': 'linebot',}
+DATABASE_APPS_MAPPING = {'chatbot': 'linebot',}
 
 
 # Password validation
@@ -151,5 +150,5 @@ STATIC_URL = '/static/'
 IMPORT_EXPORT_USE_TRANSACTIONS = True
 
 # Configure Django App for Heroku.
-import django_heroku
-django_heroku.settings(locals())
+#import django_heroku
+#django_heroku.settings(locals())

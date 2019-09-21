@@ -19,7 +19,6 @@ import views
 
 urlpatterns = [
     path('', views.index, name='index'),
-    path('pushMessage/', include('pushMessage.urls')),
     path('admin/', admin.site.urls),
     path('chatbot/', include('chatbot.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
