@@ -32,7 +32,7 @@
                         {% if user.is_superuser %}
                             <li class="nav-item"><a class="nav-link" href="{% url 'admin:index' %}">Django後台</a></li>
                         {% endif %}
-                        <li class="nav-item disabled"><a class="nav-link">使用者名稱: {{ user.get_username }}</a></li>
+                        <li class="nav-item disabled"><a class="nav-link">使用者: {{ user.get_username }}</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'logout'%}?next={{request.path}}">登出</a></li>
                         <!-- next={{request.path}可以讓使用者在登出之後，回到當初同一個畫面 --> 
                     {% else %}
