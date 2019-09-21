@@ -72,4 +72,4 @@ def allowpush(lineMessage, channelId):
     return "好哦的喵～"
 def currentStatus(channelId):
     status = queryUser(channelId)
-    return ["所有人教的" if status[2] else "這裡教的", "安靜" if status[3] else "可以說話", "開啟推播" if status[3] else "關閉推播", status[2], status[3], status[4]]
+    return ["所有人教的" if status[2] else "這裡教的", "安靜" if status[3] else "可以說話", "開啟推播" if status[4] else "關閉推播", status[2], status[3], status[4]]
