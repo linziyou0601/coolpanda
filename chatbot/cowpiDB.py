@@ -240,7 +240,7 @@ def autoIfEmptyStatements():
     c = conn.cursor()
     c.execute('SELECT * FROM statements')
     if not len(c.fetchall()):
-        with open('bot/initKeyword.json', 'r', encoding='utf-8') as f:
+        with open('chatbot/initKeyword.json', 'r', encoding='utf-8') as f:
             data = json.load(f)
         for k, v in data.items():
             for x in v:

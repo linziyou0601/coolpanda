@@ -1,4 +1,4 @@
-"""linechatbot URL Configuration
+"""linebotProject URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/2.2/topics/http/urls/
@@ -15,8 +15,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
+import views
 
 urlpatterns = [
+    path('', views.index, name='index'),
+    path('pushMessage/', include('pushMessage.urls')),
     path('admin/', admin.site.urls),
-    path('bot/', include('bot.urls')),
+    path('chatbot/', include('chatbot.urls')),
+    path('accounts/', include('django.contrib.auth.urls')),
 ]

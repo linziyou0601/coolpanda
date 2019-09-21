@@ -1,8 +1,25 @@
 from django.contrib import admin
+from import_export import resources
 from import_export.admin import ImportExportModelAdmin
 from .models import Users, Statements, Received, Reply
 
 # Register your models here.
+
+# import-export resource book model
+class UsersResource(resources.ModelResource):
+    class Meta:
+        model = Users
+class StatementsResource(resources.ModelResource):
+    class Meta:
+        model = Statements
+class ReceivedResource(resources.ModelResource):
+    class Meta:
+        model = Received
+class ReplyResource(resources.ModelResource):
+    class Meta:
+        model = Reply
+
+# ImportExportModelAdmin
 class UsersAdmin(ImportExportModelAdmin):
     list_display = ('id', 'channel_id', 'globaltalk', 'mute')
     list_filter = ('globaltalk', 'mute',)

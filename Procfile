@@ -1,1 +1,1 @@
-web: gunicorn linechatbot.wsgi
+web: gunicorn linebotProject.wsgi

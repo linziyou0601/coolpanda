@@ -17,7 +17,7 @@ class Received(models.Model):
     class Meta:
         managed = False
         db_table = 'received'
-        app_label = 'bot'
+        app_label = 'chatbot'
 
 
 class Reply(models.Model):
@@ -30,7 +30,7 @@ class Reply(models.Model):
     class Meta:
         managed = False
         db_table = 'reply'
-        app_label = 'bot'
+        app_label = 'chatbot'
 
 
 class Statements(models.Model):
@@ -44,7 +44,7 @@ class Statements(models.Model):
     class Meta:
         managed = False
         db_table = 'statements'
-        app_label = 'bot'
+        app_label = 'chatbot'
 
 
 class Users(models.Model):
@@ -55,4 +55,4 @@ class Users(models.Model):
     class Meta:
         managed = False
         db_table = 'users'
-        app_label = 'bot'
+        app_label = 'chatbot'
