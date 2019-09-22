@@ -15,7 +15,7 @@ def flexMainMenu(arg=[]):
                     "type": "box", "layout": "baseline", "margin": "lg",
                     "contents": [
                         { "type": "text", "text": "功能", "size": "sm", "flex": 2, "color": "#aaaaaa" },
-                        { "type": "text", "text": "胡言亂語、抽籤、擲筊、查氣象、查時間", "wrap": True, "flex": 4, "size": "sm", "color": "#666666" }
+                        { "type": "text", "text": "胡言亂語、抽籤、擲筊、查氣象", "wrap": True, "flex": 4, "size": "sm", "color": "#666666" }
                     ]
                 },
                 {
