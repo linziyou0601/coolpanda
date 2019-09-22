@@ -17,11 +17,11 @@
           <!-- 防止csrf攻擊 -->
           {% csrf_token %}
           <div class="form-group">
-              <label for="{{ form.messageTitle.id_for_label }}">訊息標題</label>
-              <input type="text" name="{{ form.messageTitle.html_name }}" class="form-control" id="{{ form.messageTitle.id_for_label }}" required>
+              <label for="{{ form.messageTitle.id_for_label }}">標題</label>
+              <textarea rows="1" name="{{ form.messageTitle.html_name }}" class="form-control" id="{{ form.messageTitle.id_for_label }}" required></textarea>
           </div>
           <div class="form-group">
-              <label for="{{ form.messageType.id_for_label }}">訊息類型</label>
+              <label for="{{ form.messageType.id_for_label }}">類型</label>
               <select class="form-control" name="{{ form.messageType.html_name }}" id="{{ form.messageType.id_for_label }}">
               {% for x, y in form.messageType.field.choices %}
                 <option value="{{ x }}"{% ifequal x 'text' %} selected{% endifequal %}>{{ y }}</option>
