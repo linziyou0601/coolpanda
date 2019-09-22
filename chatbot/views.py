@@ -213,7 +213,7 @@ def handle_message(event):
                     if content[2]=='image':
                         replyList = ImageSendMessage(original_content_url=content[0], preview_image_url=content[0])
                     else:
-                        replyList = TextSendMessage(text=content[0])
+                        replyList = TextSendMessage(text=content[0]) if content[0]!='窩聽不懂啦！' else []
                 
         ##自動學習
         autoLearnModel(lineMessage, content, channelId, event)
