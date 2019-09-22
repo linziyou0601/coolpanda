@@ -19,6 +19,9 @@ import views
 
 urlpatterns = [
     path('', views.index, name='index'),
+    path('infoChatter/', views.infoChatter, name='infoChatter'),
+    path('infoLottery/', views.infoLottery, name='infoLottery'),
+    path('infoWeather/', views.infoWeather, name='infoWeather'),
     path('admin/', admin.site.urls),
     path('chatbot/', include('chatbot.urls')),
     path('accounts/', include('django.contrib.auth.urls')),

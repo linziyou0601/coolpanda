@@ -1,0 +1,238 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}牛批熊貓 - 查氣象說明{% endblock %}
+{% block navInfoWeather %}active{% endblock %}
+{% block content %}
+
+<div class="jumbotron" style="background-color: #e0efff;">
+  <div class="col-md-5 py-2 px-5 my-2" style=" z-index:2;">
+    <h1 class="display-4 font-weight-normal">查氣象功能說明</h1>
+    <p class="font-weight-normal">本喵可以查天氣和空氣，地名+關鍵字「天氣、會下雨嗎…」可以查目前天氣；關鍵字「明天、後天、一週天氣…」可以查一週天氣之逐三小時預報；關鍵字「空氣、空汙」可以查測站空氣品質。</p>
+    <a class="btn btn-outline-dark" href="{% url 'infoChatter' %}">回首頁</a>
+  </div>
+  <div class="" style="position: absolute; right: 10%; bottom: 50%; z-index:1;"><img width="200" src="{% static 'images/weather_decorator.svg' %}" /></div>
+</div>
+
+<div class="container">
+  <div class="row justify-content-center text-center">
+    <div class="col-md-6 col-lg-4 my-4 pb-5 px-2 col-md-border-right col-lg-border-right col-sm-border-bottom">
+      <h2 class="my-3 font-weight-bold">目前天氣</h2>
+      <!--對話區-->
+      <div class="mx-auto text-left" style="max-width: 400px;">
+        <div class="row justify-content-end m-2">
+          <div class="col-auto bg-lightgreen px-3 py-2 rounded-pill">東沙島有下雨嗎</div>
+        </div>
+        <!--天氣區-->
+        <div class="row m-2" style="max-width: 280px;">
+          <div class="col-12 border px-3 py-2 rounded-lg">
+            <h1 class="text-purple mb-0 text-center">27.2°</h1>
+            <p class="text-purple mb-0 text-center">多雲</p>
+            <div class="row mt-2">
+              <div class="col-6">
+                <h3 class="mb-0">東沙島</h3><p class="text-info mb-0">高雄市 旗津區</p>
+              </div>
+              <div class="col-6">
+                <p class="mb-0">降雨率 <span class="text-info mb-0" style="font-size:1.25rem;">25%</span></p>
+                <div class="bg-lightgray mt-2 rounded-pill"><div class="bg-info rounded-pill w-25" style="height:15px;">&nbsp;</div></div>
+              </div>
+            </div>
+            <hr class="m-1">
+            <div class="row text-center" style="font-size:0.8rem;">
+              <div class="col-6">
+                <p class="m-0">濕度</p>
+                <p class="text-purple m-0">81.0%</p>
+              </div>
+              <div class="col-6">
+                <p class="m-0">日積雨量</p>
+                <p class="text-purple m-0">0.0mm</p>
+              </div>
+            </div>
+            <hr class="mt-1 mb-0">
+            <p class="m-0 text-secondary text-right" style="font-size:0.8rem;">截止20XX年10月01日 23:59</p>
+          </div>
+        </div>
+        <!---->
+      </div>
+      <!---->
+    </div><!-- /.col-lg-4 -->
+
+    <div class="col-md-6 col-lg-4 my-4 pb-5 px-2 col-lg-border-right col-sm-border-bottom">
+      <h2 class="my-3 font-weight-bold">一週天氣</h2>
+      <!--對話區-->
+      <div class="mx-auto text-left" style="max-width: 400px;">
+        <div class="row justify-content-end m-2">
+          <div class="col-auto bg-lightgreen px-3 py-2 rounded-pill">後龍一週天氣</div>
+        </div>
+        <!--天氣區-->
+        <div class="row m-2 flex-row flex-nowrap overflow-auto" style="width: 300px;">
+          <div class="col-12 border mr-2 px-3 py-2 rounded-lg" style="max-width: 180px;">
+            <p class="mb-0 text-center text-info">苗栗縣　<span class="text-success" style="font-size:0.9rem;">22日18時</span></p>
+            <h2 class="text-purple mb-0 text-center">25°</h2>
+            <p class="text-purple mb-0 text-center" style="font-size:0.9rem;">多雲</p>
+            <hr class="my-1">
+            <div class="row text-center">
+              <div class="col-6 border-right">
+                <p class="m-0" style="font-size:0.8rem;">降雨率</p>
+                <h6 class="text-info m-0">10%</h6>
+              </div>
+              <div class="col-6">
+                <p class="m-0" style="font-size:0.8rem;">舒適度</p>
+                <h6 class="text-info m-0">舒適</h6>
+              </div>
+            </div>
+            <hr class="mt-1 mb-0">
+          </div>
+          <div class="col-12 border mr-2 px-3 py-2 rounded-lg" style="max-width: 180px;">
+            <p class="mb-0 text-center text-info">苗栗縣　<span class="text-success" style="font-size:0.9rem;">22日21時</span></p>
+            <h2 class="text-purple mb-0 text-center">24°</h2>
+            <p class="text-purple mb-0 text-center" style="font-size:0.9rem;">多雲</p>
+            <hr class="my-1">
+            <div class="row text-center">
+              <div class="col-6 border-right">
+                <p class="m-0" style="font-size:0.8rem;">降雨率</p>
+                <h6 class="text-info m-0">0%</h6>
+              </div>
+              <div class="col-6">
+                <p class="m-0" style="font-size:0.8rem;">舒適度</p>
+                <h6 class="text-info m-0">舒適</h6>
+              </div>
+            </div>
+            <hr class="mt-1 mb-0">
+          </div>
+          <div class="col-12 border mr-2 px-3 py-2 rounded-lg" style="max-width: 180px;">
+            <p class="mb-0 text-center text-info">苗栗縣　<span class="text-success" style="font-size:0.9rem;">23日00時</span></p>
+            <h2 class="text-purple mb-0 text-center">25°</h2>
+            <p class="text-purple mb-0 text-center" style="font-size:0.9rem;">多雲</p>
+            <hr class="my-1">
+            <div class="row text-center">
+              <div class="col-6 border-right">
+                <p class="m-0" style="font-size:0.8rem;">降雨率</p>
+                <h6 class="text-info m-0">10%</h6>
+              </div>
+              <div class="col-6">
+                <p class="m-0" style="font-size:0.8rem;">舒適度</p>
+                <h6 class="text-info m-0">舒適</h6>
+              </div>
+            </div>
+            <hr class="mt-1 mb-0">
+          </div>
+        </div>
+        <!---->
+      </div>
+      <!---->
+    </div><!-- /.col-lg-4 -->
+
+    <div class="col-md-6 col-lg-4 my-4 pb-5 px-2 col-md-border-right col-sm-border-bottom">
+      <h2 class="my-3 font-weight-bold">查空氣</h2>
+      <!--對話區-->
+      <div class="mx-auto text-left" style="max-width: 400px;">
+        <div class="row justify-content-end m-2">
+          <div class="col-auto bg-lightgreen px-3 py-2 rounded-pill">麥寮空氣</div>
+        </div>
+        <!--天氣區-->
+        <div class="row m-2" style="max-width: 280px;">
+          <div class="col-12 border px-3 py-2 rounded-lg">
+            <p class="mb-0 text-warning" style="font-size:0.9rem;">對敏感族群不建康</p>
+            <div class="row mt-2">
+              <div class="col-6">
+                <h3 class="m-0">麥寮</h3><h6 class="text-primary m-0">雲林縣</h6>
+              </div>
+              <div class="col-6 text-right">
+                <h7 class="text-warning m-0">AQI</h7><h1 class="text-warning m-0">132</h1>
+              </div>
+            </div>
+            <hr class="my-1">
+            <div class="row align-items-center text-center">
+              <div class="col-5 text-primary text-left">
+                <h6 class="m-0">O3<br>臭氧</h6>
+              </div>
+              <div class="col-4 text-right" style="font-size:0.7rem;">
+                <p class="m-0">8小時<br>移動平均</p>
+                <p class="m-0">小時濃度</p>
+              </div>
+              <div class="col-3 text-right">
+                <h5 class="m-0">80</h5>
+                <h5 class="m-0">64</h5>
+              </div>
+            </div>
+            <hr class="my-1">
+            <div class="row align-items-center text-center">
+              <div class="col-5 text-left">
+                <h6 class="m-0">PM2.5<br>細懸浮微粒</h6>
+              </div>
+              <div class="col-4 text-right" style="font-size:0.7rem;">
+                <p class="m-0">移動平均</p>
+                <p class="m-0">小時濃度</p>
+              </div>
+              <div class="col-3 text-right">
+                <h5 class="m-0">24</h5>
+                <h5 class="m-0">14</h5>
+              </div>
+            </div>
+            <hr class="my-1">
+            <div class="row align-items-center text-center">
+              <div class="col-5 text-left">
+                <h6 class="m-0">PM10<br>懸浮微粒</h6>
+              </div>
+              <div class="col-4 text-right" style="font-size:0.7rem;">
+                <p class="m-0">移動平均</p>
+                <p class="m-0">小時濃度</p>
+              </div>
+              <div class="col-3 text-right">
+                <h5 class="m-0">73</h5>
+                <h5 class="m-0">39</h5>
+              </div>
+            </div>
+            <hr class="my-1">
+            <div class="row align-items-center text-center">
+              <div class="col-5 text-left">
+                <h6 class="m-0">CO<br>一氧化碳</h6>
+              </div>
+              <div class="col-4 text-right" style="font-size:0.7rem;">
+                <p class="m-0">8小時<br>移動平均</p>
+                <p class="m-0">小時濃度</p>
+              </div>
+              <div class="col-3 text-right">
+                <h5 class="m-0">0.2</h5>
+                <h5 class="m-0">0.23</h5>
+              </div>
+            </div>
+            <hr class="my-1">
+            <div class="row align-items-center text-center">
+              <div class="col-5 text-left">
+                <h6 class="m-0">SO2<br>二氧化硫</h6>
+              </div>
+              <div class="col-4 text-right" style="font-size:0.7rem;">
+                <p class="m-0">移動平均</p>
+                <p class="m-0">小時濃度</p>
+              </div>
+              <div class="col-3 text-right">
+                <h5 class="m-0">2</h5>
+                <h5 class="m-0">2.8</h5>
+              </div>
+            </div>
+            <hr class="my-1">
+            <div class="row align-items-center text-center">
+              <div class="col-5 text-left">
+                <h6 class="m-0">NO2<br>二氧化氮</h6>
+              </div>
+              <div class="col-4 text-right" style="font-size:0.7rem;">
+                <p class="m-0">小時濃度</p>
+              </div>
+              <div class="col-3 text-right">
+                <h5 class="m-0">9.3</h5>
+              </div>
+            </div>
+            <hr class="my-1">
+            <p class="m-0 text-secondary text-right" style="font-size:0.8rem;">截止20XX年10月01日 23:59</p>
+          </div>
+        </div>
+        <!---->
+      </div>
+      <!---->
+    </div><!-- /.col-lg-4 -->
+  </div><!-- /.row -->
+  
+  <hr>
+</div> <!-- /container -->
+{% endblock %}

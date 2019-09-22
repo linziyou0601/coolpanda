@@ -1,0 +1,153 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}牛批熊貓 - 聊天說明{% endblock %}
+{% block navInfoChatter %}active{% endblock %}
+{% block content %}
+
+<div class="jumbotron" style="background-color: #c9f0de;">
+  <div class="col-md-5 py-2 px-5 my-2" style=" z-index:2;">
+    <h1 class="display-4 font-weight-normal">聊天功能說明</h1>
+    <p class="font-weight-normal">本喵可以學說話，也會按一定規則自動學習詞條！本頁示範如何手動學說話、刪詞條、降低優先度及查詢目前聊天室說過的話。</p>
+    <a class="btn btn-outline-dark" href="{% url 'infoChatter' %}">回首頁</a>
+  </div>
+  <div class="" style="position: absolute; right: 10%; bottom: 50%; z-index:1;"><img width="200" src="{% static 'images/chatter_decorator.svg' %}" /></div>
+</div>
+
+<div class="container">
+  <div class="row justify-content-center text-center">
+    <div class="col-md-6 col-lg-4 my-2 pb-5 px-2 col-md-border-right col-lg-border-right col-sm-border-bottom">
+      <h2 class="my-3 font-weight-bold">學說話</h2>
+      <!--對話區-->
+      <div class="mx-auto text-left" style="max-width: 400px;">
+        <div class="row justify-content-end m-2">
+          <div class="col-auto bg-lightgreen px-3 py-2 rounded-pill">學說話；你是誰；我是牛批熊貓！</div>
+        </div>
+        <div class="row m-2">
+          <div class="col-auto bg-lightgray px-3 py-2 rounded-pill">好哦的喵～</div>
+        </div>
+        <div class="row justify-content-end m-2">
+          <div class="col-auto bg-lightgreen px-3 py-2 rounded-pill">你是誰？</div>
+        </div>
+        <div class="row m-2">
+          <div class="col-auto bg-lightgray px-3 py-2 rounded-pill">我是牛批熊貓！</div>
+        </div>
+      </div>
+      <!---->
+    </div><!-- /.col-lg-4 -->
+
+    <div class="col-md-6 col-lg-4 my-2 pb-5 px-2 col-lg-border-right col-sm-border-bottom">
+      <h2 class="my-3 font-weight-bold">大量學</h2>
+      <!--對話區-->
+      <div class="mx-auto text-left" style="max-width: 400px;">
+        <div class="row justify-content-end m-2">
+          <div class="col-auto bg-lightgreen px-3 py-2 rounded-pill">學說話；你好；哈囉；Hi；こんにちわ</div>
+        </div>
+        <div class="row m-2">
+          <div class="col-auto bg-lightgray px-3 py-2 rounded-pill">好哦的喵～</div>
+        </div>
+        <div class="row justify-content-end m-2">
+          <div class="col-auto bg-lightgreen px-3 py-2 rounded-pill">你好</div>
+        </div>
+        <div class="row m-2">
+          <div class="col-auto bg-lightgray px-3 py-2 rounded-pill">哈囉</div>
+        </div>
+        <div class="row justify-content-end m-2">
+          <div class="col-auto bg-lightgreen px-3 py-2 rounded-pill">你好</div>
+        </div>
+        <div class="row m-2">
+          <div class="col-auto bg-lightgray px-3 py-2 rounded-pill">こんにちわ</div>
+        </div>
+      </div>
+      <!---->
+    </div><!-- /.col-lg-4 -->
+
+    <div class="col-md-6 col-lg-4 my-2 pb-5 px-2 col-md-border-right col-sm-border-bottom">
+      <h2 class="my-3 font-weight-bold">刪詞條</h2>
+      <!--對話區-->
+      <div class="mx-auto text-left" style="max-width: 400px;">
+        <div class="row justify-content-end m-2">
+          <div class="col-auto bg-lightgreen px-3 py-2 rounded-pill">忘記；你好；哈囉</div>
+        </div>
+        <div class="row m-2">
+          <div class="col-auto bg-lightgray px-3 py-2 rounded-pill">好哦的喵～</div>
+        </div>
+      </div>
+      <!---->
+    </div><!-- /.col-lg-4 -->
+
+    <div class="col-md-6 col-lg-4 my-2 pb-5 px-2 col-lg-border-right col-sm-border-bottom">
+      <h2 class="my-3 font-weight-bold">大量刪</h2>
+      <!--對話區-->
+      <div class="mx-auto text-left" style="max-width: 400px;">
+        <div class="row justify-content-end m-2">
+          <div class="col-auto bg-lightgreen px-3 py-2 rounded-pill">忘記；你好；Hi；こんにちわ</div>
+        </div>
+        <div class="row m-2">
+          <div class="col-auto bg-lightgray px-3 py-2 rounded-pill">好哦的喵～</div>
+        </div>
+      </div>
+      <!---->
+    </div><!-- /.col-lg-4 -->
+
+    <div class="col-md-6 col-lg-4 my-2 pb-5 px-2 col-md-border-right col-lg-border-right col-sm-border-bottom">
+      <h2 class="my-3 font-weight-bold">降低詞條優先度</h2>
+      <!--對話區-->
+      <div class="mx-auto text-left" style="max-width: 400px;">
+        <div class="row justify-content-end m-2">
+          <div class="col-auto bg-lightgreen px-3 py-2 rounded-pill">你好</div>
+        </div>
+        <div class="row m-2">
+          <div class="col-auto bg-lightgray px-3 py-2 rounded-pill">哈囉</div>
+        </div>
+        <div class="row justify-content-end m-2">
+          <div class="col-auto bg-lightgreen px-3 py-2 rounded-pill">壞壞</div>
+        </div>
+        <div class="row m-2">
+          <div class="col-auto bg-lightgray px-3 py-2 rounded-pill">好哦的喵～</div>
+        </div>
+      </div>
+      <!---->
+    </div><!-- /.col-lg-4 -->
+
+    <div class="col-md-6 col-lg-4 my-2 pb-5 px-2 col-md-border-right col-sm-border-bottom">
+      <h2 class="my-3 font-weight-bold">聊天室教我說什麼</h2>
+      <!--對話區-->
+      <div class="mx-auto text-left" style="max-width: 400px;">
+        <div class="row justify-content-end m-2">
+          <div class="col-auto bg-lightgreen px-3 py-2 rounded-pill">牛批貓會說什麼</div>
+        </div>
+        <!--詞條-->
+        <div class="row m-2" style="max-width: 280px;">
+          <div class="col-12 border px-3 py-2 rounded-lg">
+            <p class="mb-0 text-success" style="font-size:0.9rem;">詞條</p>
+            <h4 class="my-1">這裡教我說的話</h4>
+            <p class="m-0 text-secondary" style="font-size:0.8rem;">說話模式：所有人教的</p>
+            <p class="m-0 text-secondary" style="font-size:0.8rem;">聊天狀態：可以說話</p>
+            <p class="m-0 text-secondary" style="font-size:0.8rem;">推播狀態：開啟推播</p>
+            <hr class="my-2">
+            <div class="row">
+              <div class="col-5 text-danger font-weight-bold">你好</div>
+              <div class="col-7 text-right">哈囉<br>Hi<br>こんにちわ</div>
+            </div>
+            <hr class="my-2">
+            <div class="row text-secondary">
+              <div class="col-5">關鍵字數量</div>
+              <div class="col-7 text-right">1</div>
+            </div>
+            <div class="row text-secondary">
+              <div class="col-5">詞條數量</div>
+              <div class="col-7 text-right">3</div>
+            </div>
+            <hr class="mt-2">
+            <p class="m-0 text-secondary text-right" style="font-size:0.8rem;">截止20XX年01月01日 23:59</p>
+          </div>
+        </div>
+        <!---->
+      </div>
+      <!---->
+    </div><!-- /.col-lg-4 -->
+  </div><!-- /.row -->
+  
+  <hr>
+</div> <!-- /container -->
+{% endblock %}

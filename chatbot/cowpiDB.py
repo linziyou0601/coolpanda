@@ -231,6 +231,7 @@ def allStatement(channelId):
     return [
         "所有人教的" if status[2] else "這裡教的",
         "安靜" if status[3] else "可以說話",
+        "開啟推播" if status[4] else "關閉推播",
         keyCount,
         ResCount,
         datetime.strftime(dt, '%Y{y}%m{m}%d{d} %H:%M').format(y='年', m='月', d='日'),

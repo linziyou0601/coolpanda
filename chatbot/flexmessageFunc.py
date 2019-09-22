@@ -303,8 +303,8 @@ def flexWhatCanSay(arg=[]):
     #整理資料格式
     keywordObj=[]
     rslString=""
-    if arg[5]!="Null":
-        for k, v in arg[5].items():
+    if arg[6]!="Null":
+        for k, v in arg[6].items():
             rslString = rslString + k + ' ↓\n' + '\n'.join(v) + '\n----------\n'
             if len(keywordObj): keywordObj.append({ "type": "separator", "margin": "md" })
             keywordObj.append(
@@ -332,6 +332,7 @@ def flexWhatCanSay(arg=[]):
                 { "type": "text", "text": "這裡教我說的話", "margin": "md", "size": "xl", "weight": "bold" },
                 { "type": "text", "text": '說話模式：'+arg[0], "size": "xs", "color": "#AAAAAA" },
                 { "type": "text", "text": '目前狀態：'+arg[1], "size": "xs", "color": "#AAAAAA" },
+                { "type": "text", "text": '目前狀態：'+arg[2], "size": "xs", "color": "#AAAAAA" },
                 { "type": "separator", "margin": "md" },
                 {
                     "type": "box", "layout": "vertical", "margin": "md",
@@ -342,18 +343,18 @@ def flexWhatCanSay(arg=[]):
                     "type": "box", "layout": "horizontal", "margin": "md",
                     "contents": [
                         { "type": "text", "text": "關鍵字數量", "size": "sm", "color": "#aaaaaa" },
-                        { "type": "text", "text": str(arg[2]), "size": "sm", "color": "#aaaaaa", "align": "end" }
+                        { "type": "text", "text": str(arg[3]), "size": "sm", "color": "#aaaaaa", "align": "end" }
                     ]
                 },
                 {
                     "type": "box", "layout": "horizontal", "margin": "md",
                     "contents": [
                         { "type": "text", "text": "詞條數量", "size": "sm", "color": "#aaaaaa" },
-                        { "type": "text", "text": str(arg[3]), "size": "sm", "color": "#aaaaaa", "align": "end" }
+                        { "type": "text", "text": str(arg[4]), "size": "sm", "color": "#aaaaaa", "align": "end" }
                     ]
                 },
                 { "type": "separator", "margin": "md" },
-                { "type": "text", "text": '截至'+arg[4], "size": "xs", "color": "#aaaaaa", "margin": "md", "align": "end" }
+                { "type": "text", "text": '截至'+arg[5], "size": "xs", "color": "#aaaaaa", "margin": "md", "align": "end" }
             ]
         }
     })
