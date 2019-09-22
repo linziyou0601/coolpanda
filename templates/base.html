@@ -15,8 +15,27 @@
         <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.15.4/dist/bootstrap-table.min.css">
         <script src="https://unpkg.com/bootstrap-table@1.15.4/dist/bootstrap-table.min.js"></script>
         <script src="https://unpkg.com/bootstrap-table@1.15.4/dist/locale/bootstrap-table-zh-TW.min.js"></script>
+        
 
         <title>{% block title %}{% endblock %}</title>
+
+        <style>
+        #mainCarousel .carousel-item {
+            height: calc(75vh - 56px);
+            min-height: 350px;
+            background: no-repeat center center fixed;
+            background-size: cover;
+        }
+        .bg-lightgreen {
+            background-color: #65E683;
+        }
+        .bg-lightgray {
+            background-color: #E4E8EB;
+        }
+        .text-purple {
+            color: #990066;
+        }
+        </style>
     </head>
     <body>
         {% block navbar %}
@@ -50,7 +69,7 @@
         </nav>
         {% endblock %}
 
-        <main role="main">
+        <main role="main" style="padding-top: 55px;">
             {% block content %}{% endblock %}
             
         </main>
