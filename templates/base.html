@@ -15,6 +15,8 @@
         <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.15.4/dist/bootstrap-table.min.css">
         <script src="https://unpkg.com/bootstrap-table@1.15.4/dist/bootstrap-table.min.js"></script>
         <script src="https://unpkg.com/bootstrap-table@1.15.4/dist/locale/bootstrap-table-zh-TW.min.js"></script>
+        <script src="https://unpkg.com/tableexport.jquery.plugin/tableExport.min.js"></script>
+        <script src="https://unpkg.com/bootstrap-table@1.15.4/dist/extensions/export/bootstrap-table-export.min.js"></script>
         
 
         <title>{% block title %}{% endblock %}</title>
@@ -70,6 +72,7 @@
                 <div>
                     <ul class="navbar-nav"> 
                     {% if user.is_authenticated %}
+                        <li class="nav-item {% block navDB %}{% endblock %}"><a class="nav-link" href="{% url 'dataBase' %}">檢視資料庫</a></li>
                         <li class="nav-item {% block navPush %}{% endblock %}"><a class="nav-link" href="{% url 'pushMessage' %}">推播訊息</a></li>
                         {% if user.is_superuser %}
                             <li class="nav-item"><a class="nav-link" href="{% url 'admin:index' %}">Django後台</a></li>

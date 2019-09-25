@@ -12,16 +12,40 @@ import psycopg2, pytz, json
 
 line_bot_api = LineBotApi('HRWbC4w2S3J3JvFAQQkQnp4gxXVWtCwLWgrdanU72Y26+hwAoZvdiwhjyLPuIPdYLaqqy4ZDIC48EDGEo9FDp0VhS453OJfXEfFCwoFhZxhIFy6ESVLFr7fPuythQb4WA4gvEHkCjJ+yuMJDgzeR8gdB04t89/1O/w1cDnyilFU=')
 
-class pushForm(forms.Form):  
-    messageType = forms.ChoiceField(choices=[('text', '文字'), ('flex', 'Flex'), ('image', '圖片')])
-    messageTitle = forms.CharField()
-    messageContent = forms.CharField()
-
 def getConnect():
     conn = psycopg2.connect(database="d6tkud0mtknjov", user="ifvbkjtshpsxqj", password="4972b22ed367ed7346b0107d3c3e97db14fac1dde628cd6d7f08cf502c927ee1", host="ec2-50-16-197-244.compute-1.amazonaws.com", port="5432")
     conn.autocommit = True
     return conn
 
+########################################
+#                                      #
+#         Get JSON File Function       #
+#                                      #
+########################################
+def getJSON(request, tableName):
+    conn = getConnect()
+    c = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    c.execute("SELECT * FROM \"%s\"" % tableName)
+    data = [{k: v for k, v in i.items()} for i in c.fetchall()]
+    conn.close()
+    return JsonResponse(data, safe=False)
+
+########################################
+#                                      #
+#         View DataBase Function       #
+#                                      #
+########################################
+#檢視資料表頁面
+@method_decorator(login_required, name='dispatch')
+class dataBaseView(TemplateView):
+    template_name = 'mod/dataBase.html'
+
+########################################
+#                                      #
+#         Push Message Function        #
+#                                      #
+########################################
+#初始化資料表
 def initalization():
     conn = getConnect()
     c = conn.cursor()
@@ -36,6 +60,7 @@ def initalization():
     ''')
     conn.close()
 
+#發送推播
 def pushToLine(type, title, content):
     conn = getConnect()
     c = conn.cursor()
@@ -60,31 +85,29 @@ def pushToLine(type, title, content):
             return False
 
     for uid in users:
-        line_bot_api.push_message(uid, message)
-    
+        line_bot_api.push_message(uid , message)
     return True
 
-def getPushMsgJSON(request=None):
-    conn = getConnect()
-    c = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-    c.execute('SELECT * FROM "pushMessages"')
-    data = [{k: v for k, v in i.items()} for i in c.fetchall()]
-    conn.close()
-    return JsonResponse(data, safe=False)
+#推播表格資訊
+class pushMessageForm(forms.Form):  
+    messageType = forms.ChoiceField(choices=[('text', '文字'), ('flex', 'Flex'), ('image', '圖片')])
+    messageTitle = forms.CharField()
+    messageContent = forms.CharField()
 
-# Create your views here.
+#推播訊息頁面
 @method_decorator(login_required, name='dispatch')
-class pushView(TemplateView):
-    template_name = 'pushMessage/pushMessage.html'
+class pushMessageView(TemplateView):
+    template_name = 'mod/pushMessage.html'
 
     def get(self, request):
         initalization() 
-        form = pushForm()
+        form = pushMessageForm()
         args = {'form': form, 'validStr': ""}
         return render( request, self.template_name, args)
 
+    #post推播內容
     def post(self, request):    
-        form = pushForm(request.POST)
+        form = pushMessageForm(request.POST)
         validStr = "" 
         if form.is_valid():
             messageType = form.cleaned_data['messageType']
@@ -99,6 +122,6 @@ class pushView(TemplateView):
                 conn.close()
             else:
                 validStr = "訊息格式有誤。"
-            form = pushForm()
+            form = pushMessageForm()
         args = {'form': form, 'validStr': validStr}      
         return render(request, self.template_name, args)
