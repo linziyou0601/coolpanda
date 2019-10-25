@@ -176,7 +176,7 @@ def resStatement(key, channelId, rand):
     conn = getConnect()
     c = conn.cursor()
     #若關閉可以說其他人教過的話的功能，則以限制channelId的方式查詢
-    strGlobaltalk = '' if queryUser(channelId)[2] else ' and channel_id=%s'
+    strGlobaltalk = " and channel_id!='cowpi'" if queryUser(channelId)[2] else " and channel_id=%s and channel_id!='cowpi'"
     strRandomreply = ' and priority>=5 ORDER BY RANDOM() limit 1' if rand else ' ORDER BY likestrong DESC, priority DESC, id DESC limit 1'
     c.execute('''
         SELECT response FROM ( SELECT *,
