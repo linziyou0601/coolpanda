@@ -11,8 +11,6 @@ from model import *
 #導入Others
 from Others.flexMessageJSON import *
 
-line_bot_api = LineBotApi(GET_SECRET("ACCESS_TOKEN"))
-
 #################### 金鑰相關 ####################
 #取得金鑰
 def GET_SECRET(name):
@@ -117,6 +115,8 @@ def get_replied(channelId, num):
     return dataRow if len(dataRow) else []
 
 #################### 推播相關 ####################
+line_bot_api = LineBotApi(GET_SECRET("ACCESS_TOKEN"))
+
 #一般推播處理
 def pushing_process(type, title, content, channelId):
 

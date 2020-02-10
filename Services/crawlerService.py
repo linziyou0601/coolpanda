@@ -13,6 +13,8 @@ from Controllers.chatterController import *
 #導入Services
 from Services.geocodingService import *
 
+GEOCODING_API_KEY = GET_SECRET("Geocoding API")
+
 ## 取得天氣資訊
 def getWeather(lat, lng, site, future=False):
     #=========================== 取得所有測站資料 [↓] ===========================#
@@ -52,7 +54,7 @@ def getWeather(lat, lng, site, future=False):
             lat = ALL_LOCATION[addr_format(site)]["lat"]
             lng = ALL_LOCATION[addr_format(site)]["lng"]
         else:
-            url = "https://maps.googleapis.com/maps/api/geocode/json?address="+addr_format(site)+"&key="+GET_SECRET("Geocoding API")
+            url = "https://maps.googleapis.com/maps/api/geocode/json?address="+addr_format(site)+"&key="+GEOCODING_API_KEY
             json_r = json.loads(requests.get(url).text)
             if json_r['status'] == "OK":
                 location = json_r['results'][0]['geometry']['location']
@@ -123,7 +125,7 @@ def getAQI(lat, lng, site):
             lat = ALL_LOCATION[addr_format(site)]["lat"]
             lng = ALL_LOCATION[addr_format(site)]["lng"]
         else:
-            url = "https://maps.googleapis.com/maps/api/geocode/json?address="+addr_format(site)+"&key="+GET_SECRET("Geocoding API")
+            url = "https://maps.googleapis.com/maps/api/geocode/json?address="+addr_format(site)+"&key="+GEOCODING_API_KEY
             json_r = json.loads(requests.get(url).text)
             if json_r['status'] == "OK":
                 location = json_r['results'][0]['geometry']['location']
@@ -157,7 +159,7 @@ def getMask(lat, lng, site):
                 lng_temp = ALL_LOCATION[addr_format(row[2])]["lng"]
             #取[經度,緯度] from GOOGLE
             else:
-                url = "https://maps.googleapis.com/maps/api/geocode/json?address="+addr_format(row[2])+"&key="+GET_SECRET("Geocoding API")
+                url = "https://maps.googleapis.com/maps/api/geocode/json?address="+addr_format(row[2])+"&key="+GEOCODING_API_KEY
                 json_r = json.loads(requests.get(url).text)
                 if json_r['status'] == "OK":
                     location = json_r['results'][0]['geometry']['location']
@@ -176,7 +178,7 @@ def getMask(lat, lng, site):
             lat = ALL_LOCATION[addr_format(site)]["lat"]
             lng = ALL_LOCATION[addr_format(site)]["lng"]
         else:
-            url = "https://maps.googleapis.com/maps/api/geocode/json?address="+addr_format(site)+"&key="+GET_SECRET("Geocoding API")
+            url = "https://maps.googleapis.com/maps/api/geocode/json?address="+addr_format(site)+"&key="+GEOCODING_API_KEY
             json_r = json.loads(requests.get(url).text)
             if json_r['status'] == "OK":
                 location = json_r['results'][0]['geometry']['location']
