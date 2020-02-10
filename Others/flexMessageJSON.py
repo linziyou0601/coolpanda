@@ -1822,7 +1822,7 @@ def templateEarthquake(location = '', M = '0'):
                     "color": "#666666",
                     "size": "sm",
                     "align": "start",
-                    "wrap": true,
+                    "wrap": True,
                     "flex": 4
                 },
                 {
@@ -1832,7 +1832,7 @@ def templateEarthquake(location = '', M = '0'):
                     "color": "#1DB446",
                     "size": "sm",
                     "align": "start",
-                    "wrap": true,
+                    "wrap": True,
                     "weight": "bold",
                     "flex": 5,
                     "gravity": "center"
