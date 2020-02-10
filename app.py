@@ -129,7 +129,7 @@ def get_event_obj(event):
         "lineMessageType": event.message.type if hasattr(event, 'message') else None,
         "level": int(int(userData['exp'])/10) if userData else int(int(channelData['exp'])/10),     #等級
         "exp": int(userData['exp'])%10 if userData else int(channelData['exp'])%10,          #經驗值每+10升一級
-        "nickname": channelData['nickname'] if channelId[0]=='U' and int(int(channelData['exp'])/10)>=2 else profileName,
+        "nickname": userData['nickname'] if userData and int(int(userData['exp'])/10)>=2 and userData['nickname'] else profileName,
         "mute": channelData['mute'],
         "global_talk": channelData['global_talk'],
         "replyList": [],                                #初始化傳送內容（可為List或單一Message Object）
@@ -348,7 +348,7 @@ def handle_message(event):
         GET_EVENT["replyList"] = FlexSendMessage(alt_text= "如何指定暱稱", contents=flexTeachNickname())
         GET_EVENT["replyLog"] = [GET_EVENT["lineMessage"], 0, 'flex']
     #等級說明選單 [個人, 等級0+]
-    elif key(GET_EVENT["lineMessage"])=="等級說明" and GET_EVENT["channelId"][0]=='U':
+    elif key(GET_EVENT["lineMessage"])=="等級說明":
         GET_EVENT["replyList"] = FlexSendMessage(alt_text= "等級（經驗值）說明", contents=flexTeachLevel())
         GET_EVENT["replyLog"] = [GET_EVENT["lineMessage"], 0, 'flex']
     #查氣象教學選單 [不限個人, 等級0+] 
