@@ -23,8 +23,8 @@ from Services.geocodingService import *
 
 app = Flask(__name__)
 
-line_bot_api = LineBotApi(ENV("ACCESS_TOKEN"))
-handler = WebhookHandler(ENV("API_SECRET"))
+line_bot_api = LineBotApi(GET_SECRET("ACCESS_TOKEN")) 
+handler = WebhookHandler(GET_SECRET("API_SECRET"))
 
 ####################檢查uWSGI->Flask是否正常運作####################
 @app.route("/")

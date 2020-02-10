@@ -11,7 +11,15 @@ from model import *
 #導入Others
 from Others.flexMessageJSON import *
 
-line_bot_api = LineBotApi(ENV("ACCESS_TOKEN"))
+line_bot_api = LineBotApi(GET_SECRET("ACCESS_TOKEN"))
+
+#################### 金鑰相關 ####################
+#取得金鑰
+def GET_SECRET(name):
+    query = """SELECT * FROM api_key WHERE name = %s"""
+    values = (name,)
+    dataRow = selectDB(query, values)
+    return dataRow[0]['secret'] if len(dataRow) else ""
 
 #################### 使用者相關 ####################
 #建立新使用者
