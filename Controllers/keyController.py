@@ -3,16 +3,6 @@ import os, sys, json, codecs, re
 from linebot import (LineBotApi, WebhookHandler)
 from linebot.models import *
 
-#前往上層目錄
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-#導入Others
-from Others.flexMessageJSON import *
-#導入Controllers
-from Controllers.normalController import *
-from Controllers.chatterController import *
-#導入Services
-from Services.crawlerService import *
-
 #關鍵字正則（優先度：1）
 regDict1 = {
     # [教學/選單]
