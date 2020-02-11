@@ -107,7 +107,7 @@ def importStatement():
 def getStatementJSON():
     data = json.loads(request.get_data())
     channel_id = data["channel_id"] if data["channel_id"] and data["channel_id"]!="ALL" else "ALL"
-    return json.dumps(get_line_statement_table(channelId))
+    return json.dumps(get_line_statement_table(channel_id))
 
 ####################取得EVENT物件、發送訊息####################
 def get_event_obj(event):
