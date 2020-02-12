@@ -60,9 +60,9 @@ def adjust_priority(case, keyword, response, channelId=''):
         create_statement(keyword, [response], "autoLearn", "autoLearn")
 
 ##調整詞條黑名單
-def block_statement(action, adjust, statement_id):
-    if action == "suspect":
-        query = "UPDATE line_statement SET checked='suspect' WHERE id=%s and (checked IS NULL OR checked!='checked')"
+def operate_statement(action, adjust, statement_id):
+    if action == "delete":
+        query = "DELETE FROM line_statement WHERE id=%s"
         for id in statement_id:
             values = (id,)
             operateDB(query, values)

@@ -85,13 +85,13 @@ def getUserId(event):
 
 ####################[匯入, 拉黑, JSON]: [詞條]####################
 #詞條拉黑
-@app.route("/blockStatement", methods=['POST'])
-def blockStatement():
+@app.route("/operateStatement", methods=['POST'])
+def operateStatement():
     data = json.loads(request.get_data())
     action = data["action"]
     adjust = data["adjust"]
     statement_id = data["statement_id"]
-    block_statement(action, adjust, statement_id)
+    operate_statement(action, adjust, statement_id)
     return json.dumps({'msg': 'ok'})
 
 #匯入詞條
