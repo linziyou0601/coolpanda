@@ -109,6 +109,11 @@ def getStatementJSON():
     channel_id = data["channel_id"] if data["channel_id"] and data["channel_id"]!="ALL" else "ALL"
     return json.dumps(get_line_statement_table(channel_id))
 
+#推播紀錄轉JSON
+@app.route("/getPushedJSON", methods=['POST'])
+def getPushedJSON():
+    return json.dumps(get_line_pushed_table())
+
 ####################取得EVENT物件、發送訊息####################
 def get_event_obj(event):
     ##取得頻道及使用者ID

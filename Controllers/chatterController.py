@@ -192,6 +192,12 @@ def get_line_statement_table(userId=None):
     dataRow = selectDB(query, None)
     return dataRow if len(dataRow) else []
 
+##取得所有推播紀錄
+def get_line_pushed_table():
+    query = """SELECT id, type, title, message, channel_id FROM line_pushed"""
+    dataRow = selectDB(query, None)
+    return dataRow if len(dataRow) else []
+
 #後綴字詞
 def get_postfix():
     query = """SELECT content FROM line_postfix WHERE CURRENT_TIMESTAMP()>=start_date and CURRENT_TIMESTAMP()<=last_date ORDER BY RAND() limit 1"""
