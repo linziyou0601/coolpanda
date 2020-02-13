@@ -214,7 +214,7 @@ def getTarot(num):
             cardId = cardList[i][1] * 2 + position_delta
             #取牌
             card = TAROT[str(cardId)]
-            card['id'] = cardId
+            card['id'] = str(cardId)
             result.append(card)
         return result
 
