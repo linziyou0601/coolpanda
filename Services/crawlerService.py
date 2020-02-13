@@ -205,7 +205,7 @@ def getTarot(num):
     #卡片洗牌
     random.shuffle(cardList)
     #讀入卡片資料
-    with open('tarot_info.json', 'r', encoding="UTF-8") as json_file:
+    with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'tarot_info.json'), 'r', encoding="UTF-8") as json_file:
         TAROT = json.load(json_file)
         #取牌
         result = []
@@ -221,6 +221,6 @@ def getTarot(num):
 ## 取得塔羅牌義
 def getTarot(id):
     #讀入卡片資料
-    with open('tarot_info.json', 'r', encoding="UTF-8") as json_file:
+    with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'tarot_info.json'), 'r', encoding="UTF-8") as json_file:
         TAROT = json.load(json_file)
         return TAROT[id]
