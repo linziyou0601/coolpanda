@@ -213,8 +213,8 @@ def getTarot(num):
             position_delta = 0 if cardList[i][0]%2 == 0 else 1
             cardId = cardList[i][1] * 2 + position_delta
             #取牌
-            card = TAROT[cardId]
-            card['id'] = cardId
+            card = TAROT[str(cardId)]
+            card['id'] = str(cardId)
             result.append(card)
         return result
 
