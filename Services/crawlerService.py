@@ -210,7 +210,7 @@ def getTarot(num):
         #取牌
         result = []
         for i in range(num):
-            position_delta = 0 if cardList[i][0]%2 == 0 else 1
+            position_delta = cardList[i][0]%2
             cardId = cardList[i][1] * 2 + position_delta
             #取牌
             card = TAROT[str(cardId)]
