@@ -223,4 +223,4 @@ def getTarot(id):
     #讀入卡片資料
     with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'tarot_info.json'), 'r', encoding="UTF-8") as json_file:
         TAROT = json.load(json_file)
-        return TAROT[id]
+        return TAROT[str(id)]
