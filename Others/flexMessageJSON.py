@@ -68,7 +68,7 @@ def flexMainMenu(channelId, level):
         "direction": "ltr",
         "hero": {
             "type": "image",
-            "url": "https://i.imgur.com/RhKFyv5.png",
+            "url": "https://linziyou.nctu.me/u/ln/cover/flexMessageCover_MENU.png",
             "size": "full",
             "aspectRatio": "20:13",
             "aspectMode": "cover"
@@ -103,7 +103,7 @@ def flexMainMenu(channelId, level):
 
 ##你會做什麼
 def flexHowDo(channelId, level):
-    content = [flexTeachChat(), flexTeachMask(), flexTeachMeteorology(), flexTeachDevinate()]
+    content = [flexTeachChat(), flexTeachMask(), flexTeachMeteorology(), flexTeachLottery()]
     if channelId[0]=='U' and level>=2: content.append(flexTeachLv2())
     content.append(flexTeachLevel())
     return {
@@ -253,75 +253,6 @@ def flexNicknameMenu(nickname):
 
 
 #==============================================#
-#                     綁定類                    #
-#==============================================#
-##解除綁定確認
-def flexCheckUnbind(channelId):
-    return {
-        "type": "bubble",
-        "direction": "ltr",
-        "body": {
-            "type": "box",
-            "layout": "vertical",
-            "contents": [
-            {
-                "type": "text",
-                "text": "解除綁定",
-                "color": "#1DB446",
-                "size": "sm",
-                "weight": "bold"
-            },
-            {
-                "type": "text",
-                "text": "確定要解除綁定？",
-                "margin": "md",
-                "size": "xxl",
-                "weight": "bold"
-            },
-            {
-                "type": "text",
-                "text": "日後仍可以重新綁定！",
-                "color": "#AAAAAA",
-                "size": "sm"
-            }
-            ]
-        },
-        "footer": {
-            "type": "box",
-            "layout": "vertical",
-            "contents": [
-            {
-                "type": "separator",
-                "margin": "xxl"
-            },
-            {
-                "type": "button",
-                "height": "sm",
-                "action": {
-                "type": "postback",
-                "label": "解除綁定",
-                "data": "action=check_unbind&channelId="+channelId
-                },
-                "color": "#EE6633",
-                "style": "primary",
-                "margin": "xxl"
-            },
-            {
-                "type": "button",
-                "height": "sm",
-                "style": "link",
-                "action": {
-                "type": "message",
-                "label": "主選單",
-                "text": "主選單"
-                }
-            }
-            ]
-        }
-    }
-
-
-#==============================================#
 #                     聊天類                    #
 #==============================================#
 #==========教學==========#
@@ -405,7 +336,7 @@ def flexTeachChat():
                 "action": {
                 "type": "message",
                 "label": "怎麼隨機回答",
-                "text": "怎麼隨機回答"
+                "text": "抽籤式回答教學"
                 }
             },
             {
@@ -514,37 +445,7 @@ def flexTeachLearn():
                 }
                 ],
                 "margin": "sm"
-            },
-            #{
-            #    "type": "separator",
-            #    "margin": "lg"
-            #},
-            #{
-            #    "type": "text",
-            #    "text": "指定話題",
-            #    "size": "md",
-            #    "weight": "bold",
-            #    "color": "#825d5c",
-            #    "margin": "lg"
-            #},
-            #{
-            #    "type": "text",
-            #    "text": "如果有針對目前頻道「指定話題」，則詞條學習時會自動標註話題。",
-            #     "color": "#AAAAAA",
-            #     "size": "sm",
-            #     "flex": 2,
-            #     "margin": "sm",
-            #     "wrap": True
-            # },
-            # {
-            #     "type": "text",
-            #     "text": "可使用「目前狀態」指令查詢本頻道有無指定話題。",
-            #     "color": "#AAAAAA",
-            #     "size": "sm",
-            #     "flex": 2,
-            #     "margin": "sm",
-            #     "wrap": True
-            # }
+            }
             ]
         },
         "footer": {
@@ -599,8 +500,8 @@ def flexTeachLearn():
         }
     }
 
-##抽籤式回應教學
-def flexTeachLottery():
+##抽籤式回答教學 [機率運勢類] [聊天類] 共同
+def flexTeachChatRandom():
     return {
         "type": "bubble",
         "direction": "ltr",
@@ -617,7 +518,7 @@ def flexTeachLottery():
             },
             {
                 "type": "text",
-                "text": "抽籤式回覆",
+                "text": "抽籤式回答",
                 "margin": "md",
                 "size": "xxl",
                 "weight": "bold"
@@ -1741,7 +1642,7 @@ def templateAnnouncement(title = '', content = '', date = ''):
         "direction": "ltr",
         "hero": {
             "type": "image",
-            "url": "https://i.imgur.com/V5bvHg2.png",
+            "url": "https://linziyou.nctu.me/u/ln/cover/flexMessageCover_ANNOUNCE.png",
             "size": "full",
             "aspectRatio": "20:13",
             "aspectMode": "cover"
@@ -1802,7 +1703,7 @@ def templateEarthquake(location = '', M = '0'):
         "direction": "ltr",
         "hero": {
             "type": "image",
-            "url": "https://i.imgur.com/vmPjFac.png",
+            "url": "https://linziyou.nctu.me/u/ln/cover/flexMessageCover_BREAKING.png",
             "size": "full",
             "aspectRatio": "20:13",
             "aspectMode": "cover"
@@ -1880,6 +1781,7 @@ def templateEarthquake(location = '', M = '0'):
             ]
         }
     }
+
 
 #==============================================#
 #                   爬蟲關鍵類                  #
@@ -2448,85 +2350,6 @@ def flexTeachMask():
         }
     }
 
-##擲筊教學
-def flexTeachDevinate():
-    return {
-        "type": "bubble",
-        "direction": "ltr",
-        "body": {
-            "type": "box",
-            "layout": "vertical",
-            "contents": [
-            {
-                "type": "text",
-                "text": "教學",
-                "color": "#1DB446",
-                "size": "sm",
-                "weight": "bold"
-            },
-            {
-                "type": "text",
-                "text": "擲筊功能",
-                "margin": "md",
-                "size": "xxl",
-                "weight": "bold"
-            },
-            {
-                "type": "separator",
-                "margin": "lg"
-            },
-            {
-                "type": "text",
-                "text": "指令",
-                "size": "md",
-                "weight": "bold",
-                "color": "#825d5c",
-                "margin": "lg"
-            },
-            {
-                "type": "text",
-                "text": "擲筊、我要擲筊、搏杯......",
-                "color": "#AAAAAA",
-                "size": "sm",
-                "flex": 2,
-                "margin": "sm",
-                "wrap": True
-            }
-            ]
-        },
-        "footer": {
-            "type": "box",
-            "layout": "vertical",
-            "contents": [
-            {
-                "type": "separator",
-                "margin": "sm"
-            },
-            {
-                "type": "button",
-                "color": "#BB3333",
-                "action": {
-                "type": "message",
-                "label": "馬上擲筊",
-                "text": "擲筊"
-                },
-                "style": "primary",
-                "height": "sm"
-            },
-            {
-                "type": "button",
-                "style": "link",
-                "height": "sm",
-                "action": {
-                "type": "message",
-                "label": "主選單",
-                "text": "主選單"
-                }
-            }
-            ]
-        }
-    }
-
 #==========功能==========#
 ##告訴我位置
 def flexTellMeLocation():
@@ -3058,11 +2881,300 @@ def flexWhereMask(mask_list):
         "contents": content
     }
 
-##擲筊
+
+#==============================================#
+#                   機率運勢類                  #
+#==============================================#
+#==========教學==========#
+##抽籤教學
+def flexTeachLottery():
+    return {
+        "type": "bubble",
+        "direction": "ltr",
+        "body": {
+            "type": "box",
+            "layout": "vertical",
+            "contents": [
+            {
+                "type": "text",
+                "text": "教學",
+                "color": "#1DB446",
+                "size": "sm",
+                "weight": "bold"
+            },
+            {
+                "type": "text",
+                "text": "抽籤功能",
+                "margin": "md",
+                "size": "xxl",
+                "weight": "bold"
+            },
+            {
+                "type": "separator",
+                "margin": "lg"
+            },
+            {
+                "type": "text",
+                "text": "說明",
+                "size": "md",
+                "weight": "bold",
+                "color": "#825d5c",
+                "margin": "lg"
+            },
+            {
+                "type": "text",
+                "text": "目前抽籤式的功能有「抽籤式回答」、「擲筊」、「抽塔羅」等，點擊下方按鈕查看詳細說明",
+                "color": "#AAAAAA",
+                "size": "sm",
+                "flex": 2,
+                "margin": "sm",
+                "wrap": True
+            }
+            ]
+        },
+        "footer": {
+            "type": "box",
+            "layout": "vertical",
+            "contents": [
+            {
+                "type": "separator",
+                "margin": "sm"
+            },
+            {
+                "type": "button",
+                "style": "link",
+                "height": "sm",
+                "action": {
+                "type": "message",
+                "label": "怎麼抽籤式回答",
+                "text": "抽籤式回答教學"
+                }
+            },
+            {
+                "type": "button",
+                "style": "link",
+                "height": "sm",
+                "action": {
+                "type": "message",
+                "label": "怎麼擲筊",
+                "text": "擲筊教學"
+                }
+            },
+            {
+                "type": "button",
+                "style": "link",
+                "height": "sm",
+                "action": {
+                "type": "message",
+                "label": "怎麼抽塔羅",
+                "text": "抽塔羅教學"
+                }
+            },
+            {
+                "type": "button",
+                "style": "link",
+                "height": "sm",
+                "action": {
+                "type": "message",
+                "label": "主選單",
+                "text": "主選單"
+                }
+            }
+            ]
+        }
+    }
+
+#==========選單==========#
+##擲筊選單
+def flexMenuDevinate():
+    return {
+        "type": "bubble",
+        "direction": "ltr",
+        "body": {
+            "type": "box",
+            "layout": "vertical",
+            "contents": [
+            {
+                "type": "text",
+                "text": "教學",
+                "color": "#1DB446",
+                "size": "sm",
+                "weight": "bold"
+            },
+            {
+                "type": "text",
+                "text": "擲筊功能",
+                "margin": "md",
+                "size": "xxl",
+                "weight": "bold"
+            },
+            {
+                "type": "separator",
+                "margin": "lg"
+            },
+            {
+                "type": "text",
+                "text": "說明",
+                "size": "md",
+                "weight": "bold",
+                "color": "#825d5c",
+                "margin": "lg"
+            },
+            {
+                "type": "text",
+                "text": "按下下方擲筊鈕，即可擲筊",
+                "color": "#AAAAAA",
+                "size": "sm",
+                "flex": 2,
+                "margin": "sm",
+                "wrap": True
+            }
+            ]
+        },
+        "footer": {
+            "type": "box",
+            "layout": "vertical",
+            "contents": [
+            {
+                "type": "separator",
+                "margin": "sm"
+            },
+            {
+                "type": "button",
+                "action": {
+                "type": "postback",
+                "label": "馬上擲筊",
+                "data": "action=devinate"
+                },
+                "style": "primary",
+                "height": "sm",
+                "color": "#BB3333",
+                "margin": "md"
+            },
+            {
+                "type": "button",
+                "style": "link",
+                "height": "sm",
+                "action": {
+                "type": "message",
+                "label": "主選單",
+                "text": "主選單"
+                }
+            }
+            ]
+        }
+    }
+
+##抽塔羅
+def flexMenuTarot():
+    return {
+        "type": "bubble",
+        "direction": "ltr",
+        "body": {
+            "type": "box",
+            "layout": "vertical",
+            "contents": [
+            {
+                "type": "text",
+                "text": "抽塔羅",
+                "color": "#1DB446",
+                "size": "sm",
+                "weight": "bold"
+            },
+            {
+                "type": "text",
+                "text": "抽塔羅功能",
+                "margin": "md",
+                "size": "xxl",
+                "weight": "bold"
+            },
+            {
+                "type": "separator",
+                "margin": "lg"
+            },
+            {
+                "type": "text",
+                "text": "說明",
+                "size": "md",
+                "weight": "bold",
+                "color": "#825d5c",
+                "margin": "lg"
+            },
+            {
+                "type": "text",
+                "text": "可以下方按鈕選擇抽1、3、5張牌。",
+                "color": "#AAAAAA",
+                "size": "sm",
+                "flex": 2,
+                "margin": "sm",
+                "wrap": True
+            }
+            ]
+        },
+        "footer": {
+            "type": "box",
+            "layout": "vertical",
+            "contents": [
+            {
+                "type": "separator",
+                "margin": "sm"
+            },
+            {
+                "type": "button",
+                "action": {
+                "type": "postback",
+                "label": "抽一張",
+                "data": "action=draw_tarot&num=1"
+                },
+                "style": "primary",
+                "height": "sm",
+                "color": "#9778d6"
+            },
+            {
+                "type": "button",
+                "action": {
+                "type": "postback",
+                "label": "抽三張",
+                "data": "action=draw_tarot&num=3"
+                },
+                "style": "primary",
+                "height": "sm",
+                "color": "#7b60b3",
+                "margin": "md"
+            },
+            {
+                "type": "button",
+                "action": {
+                "type": "postback",
+                "label": "抽五張",
+                "data": "action=draw_tarot&num=5"
+                },
+                "style": "primary",
+                "height": "sm",
+                "color": "#64499e",
+                "margin": "md"
+            },
+            {
+                "type": "button",
+                "style": "link",
+                "height": "sm",
+                "action": {
+                "type": "message",
+                "label": "主選單",
+                "text": "主選單"
+                },
+                "margin": "md"
+            }
+            ]
+        }
+    }
+
+#==========功能==========#
+##擲筊結果
 def flexDevinate(devinate):
     img = [
-        'https://i.imgur.com/D0GE3Vf.png', 'https://i.imgur.com/cm5pdAg.png',
-        'https://i.imgur.com/cm5pdAg.png', 'https://i.imgur.com/1tYF5LW.png'
+        'https://linziyou.nctu.me/u/ln/divinationblocks/00.png', 'https://linziyou.nctu.me/u/ln/divinationblocks/01.png',
+        'https://linziyou.nctu.me/u/ln/divinationblocks/10.png', 'https://linziyou.nctu.me/u/ln/divinationblocks/11.png'
     ]
     res = ['笑筊', '聖筊', '聖筊', '陰筊']
     return [
@@ -3098,15 +3210,242 @@ def flexDevinate(devinate):
                     },
                     {
                         "type": "button",
-                        "style": "link",
-                        "color": "#ffffff",
                         "action": {
-                            "type": "message",
-                            "label": "再擲一次",
-                            "text": "擲筊"
-                        }
+                        "type": "postback",
+                        "label": "再擲一次",
+                        "data": "action=devinate"
+                        },
+                        "style": "primary",
+                        "height": "sm",
+                        "color": "#BB3333",
+                        "margin": "md"
                     }
                 ]
+            }
+        }
+    ]
+
+##抽塔羅結果
+def flexTarot(tarot_list):
+    alt = ""
+    content = []
+    for tarot in tarot_list:
+        alt += "[" + tarot['position'] + "] " + tarot['cht'] + " " + tarot['eng'] + "\n"
+        content.append(
+            {
+            "type": "bubble",
+            "size": "kilo",
+            "body": {
+                "type": "box",
+                "layout": "vertical",
+                "contents": [
+                {
+                    "type": "image",
+                    "url": "https://linziyou.nctu.me/u/ln/tarot/"+tarot['url'],
+                    "size": "full",
+                    "aspectMode": "cover",
+                    "aspectRatio": "1:2",
+                    "gravity": "top"
+                },
+                {
+                    "type": "box",
+                    "layout": "vertical",
+                    "contents": [
+                    {
+                        "type": "box",
+                        "layout": "vertical",
+                        "contents": [
+                        {
+                            "type": "text",
+                            "text": tarot['cht'],
+                            "size": "xxl",
+                            "color": "#ffffff",
+                            "weight": "bold"
+                        }
+                        ]
+                    },
+                    {
+                        "type": "box",
+                        "layout": "baseline",
+                        "contents": [
+                        {
+                            "type": "text",
+                            "text": tarot['eng'],
+                            "size": "sm",
+                            "flex": 0,
+                            "color": "#FFFFFF",
+                            "weight": "bold"
+                        }
+                        ],
+                        "spacing": "lg"
+                    },
+                    {
+                        "type": "box",
+                        "layout": "vertical",
+                        "contents": [
+                        {
+                            "type": "button",
+                            "action": {
+                            "type": "postback",
+                            "label": "查看牌義",
+                            "data": "action=meaning_tarot&id="+str(tarot['id'])
+                            },
+                            "style": "primary",
+                            "color": "#FFFFFF00",
+                            "height": "sm"
+                        }
+                        ],
+                        "borderWidth": "2px",
+                        "cornerRadius": "10px",
+                        "borderColor": "#ffffff",
+                        "margin": "md"
+                    }
+                    ],
+                    "position": "absolute",
+                    "offsetBottom": "0px",
+                    "offsetStart": "0px",
+                    "offsetEnd": "0px",
+                    "backgroundColor": "#807467DD",
+                    "paddingAll": "20px",
+                    "paddingTop": "18px"
+                },
+                {
+                    "type": "box",
+                    "layout": "vertical",
+                    "contents": [
+                    {
+                        "type": "text",
+                        "text": tarot['position'],
+                        "color": "#ffffff",
+                        "align": "center",
+                        "size": "xs",
+                        "offsetTop": "3px"
+                    }
+                    ],
+                    "position": "absolute",
+                    "cornerRadius": "20px",
+                    "offsetTop": "18px",
+                    "backgroundColor": "#807467CC",
+                    "offsetStart": "18px",
+                    "height": "25px",
+                    "paddingStart": "10px",
+                    "paddingEnd": "10px",
+                    "width": "50px"
+                }
+                ],
+                "paddingAll": "0px"
+            }
+            }
+        )
+    
+    return [
+        alt, 
+        {
+            "type": "carousel",
+            "contents": content
+        }
+    ]
+
+##塔羅牌義
+def flexMeaningTarot(tarot):
+    return [
+        "[" + tarot['position'] + "] " + tarot['cht'] + " " + tarot['eng'] + "\n---------------\n" + tarot['meaning'], 
+        {
+            "type": "bubble",
+            "body": {
+                "type": "box",
+                "layout": "vertical",
+                "contents": [
+                {
+                    "type": "image",
+                    "url": "https://linziyou.nctu.me/u/ln/tarot/"+tarot['url'],
+                    "size": "full",
+                    "aspectMode": "cover",
+                    "aspectRatio": "1:2",
+                    "gravity": "top"
+                },
+                {
+                    "type": "box",
+                    "layout": "vertical",
+                    "contents": [
+                    {
+                        "type": "separator"
+                    },
+                    {
+                        "type": "text",
+                        "text": tarot['meaning'],
+                        "size": "sm",
+                        "color": "#FFFFFF",
+                        "wrap": True,
+                        "margin": "lg"
+                    }
+                    ],
+                    "position": "absolute",
+                    "offsetBottom": "0px",
+                    "offsetStart": "0px",
+                    "offsetEnd": "0px",
+                    "backgroundColor": "#03303Acc",
+                    "paddingAll": "15px",
+                    "paddingTop": "70px",
+                    "offsetTop": "0px"
+                },
+                {
+                    "type": "box",
+                    "layout": "vertical",
+                    "contents": [
+                    {
+                        "type": "box",
+                        "layout": "horizontal",
+                        "contents": [
+                        {
+                            "type": "box",
+                            "layout": "vertical",
+                            "contents": [
+                            {
+                                "type": "text",
+                                "text": tarot['position'],
+                                "color": "#ffffff",
+                                "align": "center",
+                                "size": "xs",
+                                "offsetTop": "3px"
+                            }
+                            ],
+                            "cornerRadius": "20px",
+                            "backgroundColor": "#807467CC",
+                            "height": "25px",
+                            "width": "50px"
+                        },
+                        {
+                            "type": "box",
+                            "layout": "vertical",
+                            "contents": [
+                            {
+                                "type": "text",
+                                "text": tarot['cht'],
+                                "size": "xl",
+                                "color": "#ffffff",
+                                "weight": "bold"
+                            },
+                            {
+                                "type": "text",
+                                "text": tarot['eng'],
+                                "size": "xxs",
+                                "color": "#FFFFFF",
+                                "weight": "bold"
+                            }
+                            ],
+                            "offsetStart": "10px"
+                        }
+                        ]
+                    }
+                    ],
+                    "offsetTop": "15px",
+                    "position": "absolute",
+                    "offsetStart": "15px",
+                    "offsetEnd": "15px"
+                }
+                ],
+                "paddingAll": "0px"
             }
         }
     ]

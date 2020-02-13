@@ -1,6 +1,6 @@
 ##########聊天機器人，爬蟲、資料取得##########
 from datetime import datetime, timedelta
-import os, sys, pytz, urllib.request, requests, csv, json, math
+import os, sys, pytz, urllib.request, requests, csv, json, math, random
 import numpy as np
 
 #前往上層目錄
@@ -193,3 +193,34 @@ def getMask(lat, lng, site):
         return result
     return []
     #=========================== 取得資料 [↑] ===========================#
+
+## 抽塔羅牌
+def getTarot(num):
+    #正逆位隨機
+    pList = list(range(100))
+    random.shuffle(pList)
+    #正逆位綁卡片上
+    cardList = list(range(100))
+    cardList = list(zip(pList[:78], cardList))
+    #卡片洗牌
+    random.shuffle(cardList)
+    #讀入卡片資料
+    with open('tarot_info.json', 'r', encoding="UTF-8") as json_file:
+        TAROT = json.load(json_file)
+        #取牌
+        result = []
+        for i in range(num):
+            position_delta = 0 if cardList[i][0]%2 == 0 else 1
+            cardId = cardList[i][1] * 2 + position_delta
+            #取牌
+            card = TAROT[cardId]
+            card['id'] = cardId
+            result.append(card)
+        return result
+
+## 取得塔羅牌義
+def getTarot(id):
+    #讀入卡片資料
+    with open('tarot_info.json', 'r', encoding="UTF-8") as json_file:
+        TAROT = json.load(json_file)
+        return TAROT[id]

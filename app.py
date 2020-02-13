@@ -206,6 +206,18 @@ def handle_postback(event):
     ##傳送地點內容
     if data['action'][0]=='get_map':
         GET_EVENT["replyList"] = LocationSendMessage(title=data['title'][0], address=data['addr'][0], latitude=data['lat'][0], longitude=data['lng'][0])
+    ##擲筊
+    if data['action'][0]=='devinate':
+        flexObject = flexDevinate(int(random.random()*4))
+        GET_EVENT["replyList"] = FlexSendMessage(alt_text = flexObject[0], contents = flexObject[1])
+    ##抽塔羅
+    if data['action'][0]=='draw_tarot':
+        flexObject = flexTarot(getTarot(int(data['num'][0]))
+        GET_EVENT["replyList"] = FlexSendMessage(alt_text = flexObject[0], contents = flexObject[1])
+    ##塔羅牌義
+    if data['action'][0]=='meaning_tarot':
+        flexObject = flexMeaningTarot(getMeaningTarot(int(data['id'][0]))
+        GET_EVENT["replyList"] = FlexSendMessage(alt_text = flexObject[0], contents = flexObject[1])
     ##發送回覆
     send_reply(GET_EVENT, False)
 
@@ -315,14 +327,18 @@ def handle_message(event):
                 ]
                 GET_EVENT["replyLog"] = ["特約藥局查詢結果", 0, 'flex']
     
-    #擲筊 [不限個人, 等級0+]
-    elif key(GET_EVENT["lineMessage"])=="擲筊":
-        flexObject = flexDevinate(int(random.random()*4))
-        GET_EVENT["replyList"] = FlexSendMessage(alt_text = flexObject[0], contents = flexObject[1])
-        GET_EVENT["replyLog"] = [flexObject[0], 0, 'text']
+    ## ==================== 機率運勢 ==================== ##
+    #擲筊選單 [不限個人, 等級0+] 
+    elif key(GET_EVENT["lineMessage"])=="擲筊": 
+        GET_EVENT["replyList"] = FlexSendMessage(alt_text= "擲筊選單", contents=flexMenuDevinate())
+        GET_EVENT["replyLog"] = [GET_EVENT["lineMessage"], 0, 'flex']
+    #抽塔羅選單 [不限個人, 等級0+]
+    elif key(GET_EVENT["lineMessage"])=="抽塔羅":
+        GET_EVENT["replyList"] = FlexSendMessage(alt_text= "抽塔羅選單", contents=flexMenuTarot())
+        GET_EVENT["replyLog"] = [GET_EVENT["lineMessage"], 0, 'flex']
     
     
-    ## ==================== 教學/選單 ==================== ##
+    ## ==================== 教學選單 ==================== ##
     #主選單 [不限個人, 等級0+]
     elif key(GET_EVENT["lineMessage"])=="主選單":
         GET_EVENT["replyList"] = FlexSendMessage(alt_text = "主選單", contents = flexMainMenu(GET_EVENT["channelId"], GET_EVENT["level"]))
@@ -335,19 +351,25 @@ def handle_message(event):
     elif key(GET_EVENT["lineMessage"])=="怎麼聊天": 
         GET_EVENT["replyList"] = FlexSendMessage(alt_text= "怎麼和我聊天", contents=flexTeachChat())
         GET_EVENT["replyLog"] = [GET_EVENT["lineMessage"], 0, 'flex']
+    #抽籤教學選單 [不限個人, 等級0+] 
+    elif key(GET_EVENT["lineMessage"])=="怎麼抽籤": 
+        GET_EVENT["replyList"] = FlexSendMessage(alt_text= "怎麼抽籤", contents=flexTeachLottery())
+        GET_EVENT["replyLog"] = [GET_EVENT["lineMessage"], 0, 'flex']
+
     #學說話教學選單 [不限個人, 等級0+] 
     elif key(GET_EVENT["lineMessage"])=="怎麼學說話": 
         GET_EVENT["replyList"] = FlexSendMessage(alt_text= "怎麼教我說話", contents=flexTeachLearn())
-        GET_EVENT["replyLog"] = [GET_EVENT["lineMessage"], 0, 'flex']
-    #抽籤教學選單 [不限個人, 等級0+]
-    elif key(GET_EVENT["lineMessage"])=="怎麼隨機抽回答":
-        GET_EVENT["replyList"] = FlexSendMessage(alt_text= "怎麼隨機抽回答", contents=flexTeachLottery())
         GET_EVENT["replyLog"] = [GET_EVENT["lineMessage"], 0, 'flex']
     #本聊天窗所有教過的東西 [不限個人, 等級0+]
     elif key(GET_EVENT["lineMessage"])=="學過的話":
         flexObject = flexWhatCanSay(chat_all_learn(GET_EVENT["channelId"], GET_EVENT["nickname"]))
         GET_EVENT["replyList"] = FlexSendMessage(alt_text= flexObject[0], contents=flexObject[1])
         GET_EVENT["replyLog"] = [flexObject[0], 0, 'flex']
+    #抽籤式回答教學選單 [不限個人, 等級0+]
+    elif key(GET_EVENT["lineMessage"])=="怎麼抽籤式回答":
+        GET_EVENT["replyList"] = FlexSendMessage(alt_text= "怎麼抽籤式回答", contents=flexTeachChatRandom())
+        GET_EVENT["replyLog"] = [GET_EVENT["lineMessage"], 0, 'flex']
+
     #暱稱教學選單 [個人, 等級2+]
     elif key(GET_EVENT["lineMessage"])=="怎麼指定暱稱" and GET_EVENT["channelId"][0]=='U' and GET_EVENT["level"]>=2:
         GET_EVENT["replyList"] = FlexSendMessage(alt_text= "如何指定暱稱", contents=flexTeachNickname())
@@ -356,6 +378,7 @@ def handle_message(event):
     elif key(GET_EVENT["lineMessage"])=="等級說明":
         GET_EVENT["replyList"] = FlexSendMessage(alt_text= "等級（經驗值）說明", contents=flexTeachLevel())
         GET_EVENT["replyLog"] = [GET_EVENT["lineMessage"], 0, 'flex']
+
     #查氣象教學選單 [不限個人, 等級0+] 
     elif key(GET_EVENT["lineMessage"])=="怎麼查氣象": 
         GET_EVENT["replyList"] = FlexSendMessage(alt_text= "怎麼查氣象", contents=flexTeachMeteorology())
@@ -371,10 +394,6 @@ def handle_message(event):
     #查藥局教學選單 [不限個人, 等級0+] 
     elif key(GET_EVENT["lineMessage"])=="怎麼查藥局": 
         GET_EVENT["replyList"] = FlexSendMessage(alt_text= "怎麼查藥局", contents=flexTeachMask())
-        GET_EVENT["replyLog"] = [GET_EVENT["lineMessage"], 0, 'flex']
-    #擲筊教學選單 [不限個人, 等級0+] 
-    elif key(GET_EVENT["lineMessage"])=="怎麼擲筊": 
-        GET_EVENT["replyList"] = FlexSendMessage(alt_text= "怎麼擲筊", contents=flexTeachDevinate())
         GET_EVENT["replyLog"] = [GET_EVENT["lineMessage"], 0, 'flex']
     
 
