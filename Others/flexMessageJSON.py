@@ -3349,7 +3349,7 @@ def flexTarot(tarot_list):
 ##塔羅牌義
 def flexMeaningTarot(tarot):
     return [
-        "[" + tarot['position'] + "] " + tarot['cht'] + " " + tarot['eng'] + "\n---------------\n" + tarot['meaning'], 
+        "[" + tarot['position'] + "] " + tarot['cht'] + " " + tarot['eng'] + " 牌義查詢", 
         {
             "type": "bubble",
             "body": {
