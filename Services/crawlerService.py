@@ -219,7 +219,7 @@ def getTarot(num):
         return result
 
 ## 取得塔羅牌義
-def getTarot(id):
+def getMeaningTarot(id):
     #讀入卡片資料
     with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'tarot_info.json'), 'r', encoding="UTF-8") as json_file:
         TAROT = json.load(json_file)
