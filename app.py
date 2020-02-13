@@ -212,11 +212,11 @@ def handle_postback(event):
         GET_EVENT["replyList"] = FlexSendMessage(alt_text = flexObject[0], contents = flexObject[1])
     ##抽塔羅
     if data['action'][0]=='draw_tarot':
-        flexObject = flexTarot(getTarot(int(data['num'][0]))
+        flexObject = flexTarot(getTarot(int(data['num'][0])))
         GET_EVENT["replyList"] = FlexSendMessage(alt_text = flexObject[0], contents = flexObject[1])
     ##塔羅牌義
     if data['action'][0]=='meaning_tarot':
-        flexObject = flexMeaningTarot(getMeaningTarot(int(data['id'][0]))
+        flexObject = flexMeaningTarot(getMeaningTarot(int(data['id'][0])))
         GET_EVENT["replyList"] = FlexSendMessage(alt_text = flexObject[0], contents = flexObject[1])
     ##發送回覆
     send_reply(GET_EVENT, False)
