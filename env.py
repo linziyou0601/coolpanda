@@ -2,7 +2,7 @@ CONFIG = {
     "DB_HOST": "127.0.0.1",
     "DB_USER": "root",
     "DB_PASSWORD": "Mm552288369@",
-    "DB_DATABASE": "linechatbot0",
+    "DB_DATABASE": "coolpanda",
 
     "DB_CREATE_TABLE": '''
     CREATE TABLE IF NOT EXISTS line_user (
