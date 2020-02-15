@@ -2996,7 +2996,7 @@ def flexMenuDevinate():
             "contents": [
             {
                 "type": "text",
-                "text": "教學",
+                "text": "擲筊",
                 "color": "#1DB446",
                 "size": "sm",
                 "weight": "bold"
@@ -3172,20 +3172,15 @@ def flexMenuTarot():
 #==========功能==========#
 ##擲筊結果
 def flexDevinate(devinate):
-    img = [
-        'https://linziyou.nctu.me/u/ln/divinationblocks/00.png', 'https://linziyou.nctu.me/u/ln/divinationblocks/01.png',
-        'https://linziyou.nctu.me/u/ln/divinationblocks/10.png', 'https://linziyou.nctu.me/u/ln/divinationblocks/11.png'
-    ]
-    res = ['笑筊', '聖筊', '聖筊', '陰筊']
     return [
-        "擲筊結果："+res[devinate],
+        "擲筊結果：" + devinate['text'],
         {
             "type": "bubble",
             "size": "kilo",
             "direction": "ltr",
             "hero": {
                 "type": "image",
-                "url": img[devinate],
+                "url": "https://linziyou.nctu.me/u/ln/" + devinate['url'],
                 "size": "full",
                 "aspectMode": "cover",
                 "aspectRatio": "20:13"
@@ -3197,7 +3192,7 @@ def flexDevinate(devinate):
                 "contents": [
                     {
                         "type": "text",
-                        "text": res[devinate],
+                        "text": devinate['text'],
                         "size": "4xl",
                         "color": "#ffffff",
                         "weight": "bold",

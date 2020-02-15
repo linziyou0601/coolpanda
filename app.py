@@ -18,6 +18,7 @@ from Controllers.chatterController import *
 from Controllers.keyController import *
 #導入Services
 from Services.crawlerService import *
+from Services.lotteryService import *
 from Services.autoLearnService import *
 from Services.geocodingService import *
 
@@ -203,12 +204,14 @@ def handle_postback(event):
         if temp_statement:
             delete_temp_statement(data['id'][0])
             GET_EVENT["replyList"] = TextSendMessage(text="已放棄新增～"+GET_EVENT['postfix'])
+    
     ##傳送地點內容
     if data['action'][0]=='get_map':
         GET_EVENT["replyList"] = LocationSendMessage(title=data['title'][0], address=data['addr'][0], latitude=data['lat'][0], longitude=data['lng'][0])
+    
     ##擲筊
     if data['action'][0]=='devinate':
-        flexObject = flexDevinate(int(random.random()*4))
+        flexObject = flexDevinate(getDevinate())
         GET_EVENT["replyList"] = FlexSendMessage(alt_text = flexObject[0], contents = flexObject[1])
     ##抽塔羅
     if data['action'][0]=='draw_tarot':
@@ -218,6 +221,7 @@ def handle_postback(event):
     if data['action'][0]=='meaning_tarot':
         flexObject = flexMeaningTarot(getMeaningTarot(int(data['id'][0])))
         GET_EVENT["replyList"] = FlexSendMessage(alt_text = flexObject[0], contents = flexObject[1])
+    
     ##發送回覆
     send_reply(GET_EVENT, False)
 
@@ -326,7 +330,8 @@ def handle_message(event):
                     FlexSendMessage(alt_text="以下是距離最近的10間藥局", contents = flexWhereMask(mask_list))
                 ]
                 GET_EVENT["replyLog"] = ["特約藥局查詢結果", 0, 'flex']
-    
+
+
     ## ==================== 機率運勢 ==================== ##
     #擲筊選單 [不限個人, 等級0+] 
     elif key(GET_EVENT["lineMessage"])=="擲筊": 
