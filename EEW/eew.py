@@ -3,7 +3,7 @@ import sys, os, requests, json
 #with open(os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), 'eew_report.txt'), "w+", encoding="UTF-8") as f:
 #    f.write('震度：'+sys.argv[1]+'\n秒數：'+sys.argv[2])
 
-location = "宜蘭縣冬山鄉"
+location = "雲林縣斗六市"
 M = str(sys.argv[1]).replace("+", "強").replace("-", "弱")
 data = {  
     "type": None,
