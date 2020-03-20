@@ -4,7 +4,7 @@ import os, sys, json, math, random
 ## 擲筊
 def getDevinate():
     num = int(random.random()*4)
-    img = ['divinationblocks/00.png', 'divinationblocks/01.png', 'divinationblocks/10.png', 'divinationblocks/11.png']
+    img = ['divinationblocks/00.png', 'divinationblocks/01.png', 'divinationblocks/01.png', 'divinationblocks/11.png']
     res = ['笑筊', '聖筊', '聖筊', '陰筊']
     return {"url": img[num], "text": res[num]}
 
