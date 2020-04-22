@@ -126,7 +126,7 @@ def get_event_obj(event):
     ##取得頻道資料
     channelData = get_channel(channelId)
     userData = get_channel(userId) if userId else None
-    profileName = line_bot_api.get_profile(userId).display_name if userId else ""
+    profileName = line_bot_api.get_profile(userId).display_name if get_channel(userId) else ""
     return {
         "reply_token": event.reply_token,
         "channelId": channelId,
