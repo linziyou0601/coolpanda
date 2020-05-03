@@ -35,7 +35,7 @@ def auto_learn_model(GET_EVENT):
     channelId = GET_EVENT["channelId"]
     if replyLog[1]:
         #【加權模型】若 本次回答==valid 則學習 [文字A → 文字回答A／關鍵字回答A／圖片回答A]
-        rand = 1 if message[0:2] in ['茄爸', '抽籤'] else 0
+        rand = 1 if message[0:2] in ['熊貓', '抽籤'] else 0
         firstIndex = 0 if not rand else 2
         chat_valid_reply(message[firstIndex:], replyLog[0]) 
 
