@@ -3660,7 +3660,7 @@ def flexMeaningFortuneStick(fortuneStick):
                 "flex": 1
             }
         )
-        if i%2==1:
+        if i%2==1 or i==28:
             result["body"]["contents"].append(box)
             box = {
                 "type": "box", "layout": "horizontal", "contents": [], "margin": "md"
