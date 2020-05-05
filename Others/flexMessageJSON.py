@@ -3634,31 +3634,6 @@ def flexMeaningFortuneStick(fortuneStick):
                 "color": "#FFFFFF",
                 "size": "sm",
                 "margin": "lg"
-            },
-            {
-                "type": "box",
-                "layout": "horizontal",
-                "contents": [
-                {
-                    "type": "text",
-                    "text": "【作事】\n春成美。冬不佳。",
-                    "size": "sm",
-                    "color": "#FFFFFF",
-                    "wrap": True,
-                    "margin": "sm",
-                    "flex": 1
-                },
-                {
-                    "type": "text",
-                    "text": "【作事】\n春成美。冬不佳。",
-                    "size": "sm",
-                    "color": "#FFFFFF",
-                    "wrap": True,
-                    "margin": "sm",
-                    "flex": 1
-                }
-                ],
-                "margin": "md"
             }
             ],
             "offsetBottom": "0px",
@@ -3674,29 +3649,11 @@ def flexMeaningFortuneStick(fortuneStick):
         "type": "box",
         "layout": "horizontal",
         "contents": [
-        {
-            "type": "text",
-            "text": "【作事】\n春成美。冬不佳。",
-            "size": "sm",
-            "color": "#FFFFFF",
-            "wrap": True,
-            "margin": "sm",
-            "flex": 1
-        },
-        {
-            "type": "text",
-            "text": "【作事】\n春成美。冬不佳。",
-            "size": "sm",
-            "color": "#FFFFFF",
-            "wrap": True,
-            "margin": "sm",
-            "flex": 1
-        }
         ],
         "margin": "md"
     }
     for i, sol in enumerate(fortuneStick["solve"]):
-        box["contents"].append({
+        box["contents"].append(
             {
                 "type": "text",
                 "text": "【" + sol["key"] + "】\n" + sol["value"],
@@ -3706,7 +3663,7 @@ def flexMeaningFortuneStick(fortuneStick):
                 "margin": "sm",
                 "flex": 1
             }
-        })
+        )
         if i%2==1:
             result["contents"].append(box)
             box["contents"]=[]
