@@ -3665,8 +3665,8 @@ def flexMeaningFortuneStick(fortuneStick):
             }
         )
         if i%2==1:
-            result["contents"].append(box)
-            box["body"]["contents"]=[]
+            result["body"]["contents"].append(box)
+            box["contents"]=[]
     
     return [
         "第"+str(fortuneStick["id"])+"籤（" + fortuneStick['sexagenary']+"）\n"+fortuneStick['poem']+"\n【語譯】\n"+fortuneStick["explanation"], 
