@@ -3646,11 +3646,7 @@ def flexMeaningFortuneStick(fortuneStick):
         }
     }
     box = {
-        "type": "box",
-        "layout": "horizontal",
-        "contents": [
-        ],
-        "margin": "md"
+        "type": "box", "layout": "horizontal", "contents": [], "margin": "md"
     }
     for i, sol in enumerate(fortuneStick["solve"]):
         box["contents"].append(
@@ -3666,7 +3662,9 @@ def flexMeaningFortuneStick(fortuneStick):
         )
         if i%2==1:
             result["body"]["contents"].append(box)
-            box["contents"]=[]
+            box = {
+                "type": "box", "layout": "horizontal", "contents": [], "margin": "md"
+            }
     
     return [
         "第"+str(fortuneStick["id"])+"籤（" + fortuneStick['sexagenary']+"）\n"+fortuneStick['poem']+"\n【語譯】\n"+fortuneStick["explanation"], 
