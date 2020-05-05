@@ -2923,7 +2923,7 @@ def flexTeachLottery():
             },
             {
                 "type": "text",
-                "text": "目前抽籤式的功能有「抽籤式回答」、「擲筊」、「抽塔羅」等，點擊下方按鈕查看詳細說明",
+                "text": "目前抽籤式的功能有「抽籤式回答」、「擲筊」、「抽塔羅」、「抽籤詩」等，點擊下方按鈕查看詳細說明",
                 "color": "#AAAAAA",
                 "size": "sm",
                 "flex": 2,
@@ -2958,6 +2958,16 @@ def flexTeachLottery():
                 "type": "message",
                 "label": "怎麼擲筊",
                 "text": "擲筊教學"
+                }
+            },
+            {
+                "type": "button",
+                "style": "link",
+                "height": "sm",
+                "action": {
+                "type": "message",
+                "label": "怎麼抽籤詩",
+                "text": "抽籤詩教學"
                 }
             },
             {
@@ -3045,6 +3055,86 @@ def flexMenuDevinate():
                 "type": "postback",
                 "label": "馬上擲筊",
                 "data": "action=devinate"
+                },
+                "style": "primary",
+                "height": "sm",
+                "color": "#BB3333",
+                "margin": "md"
+            },
+            {
+                "type": "button",
+                "style": "link",
+                "height": "sm",
+                "action": {
+                "type": "message",
+                "label": "主選單",
+                "text": "主選單"
+                }
+            }
+            ]
+        }
+    }
+
+##擲筊選單
+def flexMenuFortuneStick():
+    return {
+        "type": "bubble",
+        "direction": "ltr",
+        "body": {
+            "type": "box",
+            "layout": "vertical",
+            "contents": [
+            {
+                "type": "text",
+                "text": "擲筊",
+                "color": "#1DB446",
+                "size": "sm",
+                "weight": "bold"
+            },
+            {
+                "type": "text",
+                "text": "抽籤詩功能",
+                "margin": "md",
+                "size": "xxl",
+                "weight": "bold"
+            },
+            {
+                "type": "separator",
+                "margin": "lg"
+            },
+            {
+                "type": "text",
+                "text": "說明",
+                "size": "md",
+                "weight": "bold",
+                "color": "#825d5c",
+                "margin": "lg"
+            },
+            {
+                "type": "text",
+                "text": "按下下方抽籤詩鈕，即可抽取",
+                "color": "#AAAAAA",
+                "size": "sm",
+                "flex": 2,
+                "margin": "sm",
+                "wrap": True
+            }
+            ]
+        },
+        "footer": {
+            "type": "box",
+            "layout": "vertical",
+            "contents": [
+            {
+                "type": "separator",
+                "margin": "sm"
+            },
+            {
+                "type": "button",
+                "action": {
+                "type": "postback",
+                "label": "抽籤詩",
+                "data": "action=fortuneStick"
                 },
                 "style": "primary",
                 "height": "sm",
@@ -3443,4 +3533,185 @@ def flexMeaningTarot(tarot):
                 "paddingAll": "0px"
             }
         }
+    ]
+
+##抽籤詩結果
+def flexFortuneStick(fortuneStick):
+    return [
+        "第"+str(fortuneStick["id"])+"籤（" + fortuneStick['sexagenary']+"）\n"+fortuneStick['poem'],
+        {
+            "type": "bubble",
+            "size": "kilo",
+            "body": {
+                "type": "box",
+                "layout": "vertical",
+                "contents": [
+                {
+                    "type": "image",
+                    "url": "https://linziyou.nctu.me/u/ln/fortunestick/"+str(fortuneStick["id"])+".jpg",
+                    "size": "full",
+                    "aspectMode": "cover",
+                    "aspectRatio": "480:655",
+                    "gravity": "top"
+                }
+                ],
+                "paddingAll": "0px"
+            },
+            "footer": {
+                "type": "box",
+                "layout": "vertical",
+                "contents": [
+                {
+                    "type": "button",
+                    "action": {
+                    "type": "postback",
+                    "label": "查看解釋",
+                    "data": "action=meaning_fortuneStick&id="+str(fortuneStick["id"])
+                    },
+                    "style": "primary",
+                    "color": "#FFFFFF00",
+                    "height": "sm"
+                },
+                {
+                    "type": "separator",
+                    "color": "#ffffff",
+                    "margin": "md"
+                },
+                {
+                    "type": "button",
+                    "action": {
+                    "type": "postback",
+                    "label": "擲筊",
+                    "data": "action=devinate"
+                    },
+                    "style": "primary",
+                    "color": "#FFFFFF00",
+                    "height": "sm",
+                    "margin": "md"
+                }
+                ],
+                "cornerRadius": "10px",
+                "margin": "md"
+            },
+            "styles": {
+                "footer": {
+                "backgroundColor": "#c4241b"
+                }
+            }
+        }
+    ]
+
+##塔羅牌義
+def flexMeaningFortuneStick(fortuneStick):
+    result = {
+        "type": "bubble",
+        "body": {
+            "type": "box",
+            "layout": "vertical",
+            "contents": [
+            {
+                "type": "text",
+                "text": "【語譯】",
+                "color": "#FFFFFF",
+                "size": "sm",
+                "margin": "md"
+            },
+            {
+                "type": "text",
+                "text": fortuneStick["explanation"],
+                "size": "sm",
+                "color": "#FFFFFF",
+                "wrap": True,
+                "margin": "md"
+            },
+            {
+                "type": "separator",
+                "margin": "lg"
+            },
+            {
+                "type": "text",
+                "text": "【籤解】",
+                "color": "#FFFFFF",
+                "size": "sm",
+                "margin": "lg"
+            },
+            {
+                "type": "box",
+                "layout": "horizontal",
+                "contents": [
+                {
+                    "type": "text",
+                    "text": "【作事】\n春成美。冬不佳。",
+                    "size": "sm",
+                    "color": "#FFFFFF",
+                    "wrap": True,
+                    "margin": "sm",
+                    "flex": 1
+                },
+                {
+                    "type": "text",
+                    "text": "【作事】\n春成美。冬不佳。",
+                    "size": "sm",
+                    "color": "#FFFFFF",
+                    "wrap": True,
+                    "margin": "sm",
+                    "flex": 1
+                }
+                ],
+                "margin": "md"
+            }
+            ],
+            "offsetBottom": "0px",
+            "offsetStart": "0px",
+            "offsetEnd": "0px",
+            "backgroundColor": "#210207cc",
+            "paddingAll": "15px",
+            "paddingTop": "20px",
+            "offsetTop": "0px"
+        }
+    }
+    box = {
+        "type": "box",
+        "layout": "horizontal",
+        "contents": [
+        {
+            "type": "text",
+            "text": "【作事】\n春成美。冬不佳。",
+            "size": "sm",
+            "color": "#FFFFFF",
+            "wrap": True,
+            "margin": "sm",
+            "flex": 1
+        },
+        {
+            "type": "text",
+            "text": "【作事】\n春成美。冬不佳。",
+            "size": "sm",
+            "color": "#FFFFFF",
+            "wrap": True,
+            "margin": "sm",
+            "flex": 1
+        }
+        ],
+        "margin": "md"
+    }
+    for i, sol in enumerate(fortuneStick["solve"]):
+        box["contents"].append({
+            {
+                "type": "text",
+                "text": "【" + sol["key"] + "】\n" + sol["value"],
+                "size": "sm",
+                "color": "#FFFFFF",
+                "wrap": True,
+                "margin": "sm",
+                "flex": 1
+            }
+        })
+        if i%2==1:
+            result["contents"].append(box)
+            box["contents"]=[]
+    
+    return [
+        "第"+str(fortuneStick["id"])+"籤（" + fortuneStick['sexagenary']+"）\n"+fortuneStick['poem']+"\n【語譯】\n"+fortuneStick["explanation"], 
+        result
     ]

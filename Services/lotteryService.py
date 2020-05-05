@@ -38,3 +38,18 @@ def getMeaningTarot(id):
     with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'tarot_info.json'), 'r', encoding="UTF-8") as json_file:
         TAROT = json.load(json_file)
         return TAROT[str(id)]
+
+## 抽籤詩
+def getFortuneStick():
+    num = int(random.random()*60)
+    #讀入卡片資料
+    with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'fortune_stick.json'), 'r', encoding="UTF-8") as json_file:
+        FORTUNE_STICK = json.load(json_file)
+        return FORTUNE_STICK[num]
+
+## 取得籤解
+def getMeaningFortuneStick(id):
+    #讀入卡片資料
+    with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'fortune_stick.json'), 'r', encoding="UTF-8") as json_file:
+        FORTUNE_STICK = json.load(json_file)
+        return FORTUNE_STICK[id]

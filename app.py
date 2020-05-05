@@ -217,6 +217,14 @@ def handle_postback(event):
     if data['action'][0]=='devinate':
         flexObject = flexDevinate(getDevinate())
         GET_EVENT["replyList"] = FlexSendMessage(alt_text = flexObject[0], contents = flexObject[1])
+    ##抽籤詩
+    if data['action'][0]=='fortuneStick':
+        flexObject = flexFortuneStick(getFortuneStick())
+        GET_EVENT["replyList"] = FlexSendMessage(alt_text = flexObject[0], contents = flexObject[1]) 
+    ##籤解
+    if data['action'][0]=='meaning_fortuneStick':
+        flexObject = flexMeaningFortuneStick(getMeaningFortuneStick(int(data['id'][0])))
+        GET_EVENT["replyList"] = FlexSendMessage(alt_text = flexObject[0], contents = flexObject[1])
     ##抽塔羅
     if data['action'][0]=='draw_tarot':
         flexObject = flexTarot(getTarot(int(data['num'][0])))
@@ -340,6 +348,10 @@ def handle_message(event):
     #擲筊選單 [不限個人, 等級0+] 
     elif key(GET_EVENT["lineMessage"])=="擲筊": 
         GET_EVENT["replyList"] = FlexSendMessage(alt_text= "擲筊選單", contents=flexMenuDevinate())
+        GET_EVENT["replyLog"] = [GET_EVENT["lineMessage"], 0, 'flex']
+    #抽籤詩選單 [不限個人, 等級0+]
+    elif key(GET_EVENT["lineMessage"])=="抽籤詩":
+        GET_EVENT["replyList"] = FlexSendMessage(alt_text= "抽籤詩選單", contents=flexMenuFortuneStick())
         GET_EVENT["replyLog"] = [GET_EVENT["lineMessage"], 0, 'flex']
     #抽塔羅選單 [不限個人, 等級0+]
     elif key(GET_EVENT["lineMessage"])=="抽塔羅":
