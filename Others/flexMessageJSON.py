@@ -38,17 +38,17 @@ def flexMainMenu(channelId, level):
             "text": "目前等級"
             },
             "margin": "md"
-        },
-        {
-            "type": "button",
-            "height": "sm",
-            "action": {
-            "type": "message",
-            "label": "口罩在哪買",
-            "text": "查詢特約藥局"
-            },
-            "margin": "md"
-        } 
+        }
+        # ,{
+        #     "type": "button",
+        #     "height": "sm",
+        #     "action": {
+        #     "type": "message",
+        #     "label": "口罩在哪買",
+        #     "text": "查詢特約藥局"
+        #     },
+        #     "margin": "md"
+        # } 
     ]
     if channelId[0]=='U' and level>=2:
         content += [
@@ -2229,126 +2229,126 @@ def flexTeachAQI():
     }
 
 ##查藥局教學
-def flexTeachMask():
-    return {
-        "type": "bubble",
-        "direction": "ltr",
-        "body": {
-            "type": "box",
-            "layout": "vertical",
-            "contents": [
-            {
-                "type": "text",
-                "text": "教學",
-                "color": "#1DB446",
-                "size": "sm",
-                "weight": "bold"
-            },
-            {
-                "type": "text",
-                "text": "查口罩功能",
-                "margin": "md",
-                "size": "xxl",
-                "weight": "bold"
-            },
-            {
-                "type": "separator",
-                "margin": "lg"
-            },
-            {
-                "type": "text",
-                "text": "指令",
-                "size": "md",
-                "weight": "bold",
-                "color": "#825d5c",
-                "margin": "lg"
-            },
-            {
-                "type": "box",
-                "layout": "horizontal",
-                "margin": "sm",
-                "contents": [
-                {
-                    "type": "text",
-                    "text": "查詢指令：",
-                    "color": "#AAAAAA",
-                    "size": "sm",
-                    "flex": 2
-                },
-                {
-                    "type": "text",
-                    "text": "查詢藥局、口罩查詢、",
-                    "wrap": True,
-                    "flex": 4,
-                    "size": "sm",
-                    "color": "#825d5c"
-                }
-                ]
-            },
-            {
-                "type": "box",
-                "layout": "horizontal",
-                "margin": "sm",
-                "contents": [
-                {
-                    "type": "text",
-                    "color": "#AAAAAA",
-                    "size": "sm",
-                    "flex": 2,
-                    "text": " "
-                },
-                {
-                    "type": "text",
-                    "text": "附近的藥局、剩餘口罩",
-                    "wrap": True,
-                    "flex": 4,
-                    "size": "sm",
-                    "color": "#825d5c"
-                }
-                ]
-            },
-            {
-                "type": "text",
-                "text": "啟動後，請依提示文字輸入想查詢的「位置資訊」。",
-                "color": "#AAAAAA",
-                "size": "sm",
-                "flex": 2,
-                "margin": "sm",
-                "wrap": True
-            }
-            ]
-        },
-        "footer": {
-            "type": "box",
-            "layout": "vertical",
-            "contents": [
-            {
-                "type": "separator",
-                "margin": "sm"
-            },
-            {
-                "type": "button",
-                "style": "link",
-                "height": "sm",
-                "action": {
-                "type": "message",
-                "label": "查詢藥局",
-                "text": "查詢藥局"
-                }
-            },
-            {
-                "type": "button",
-                "style": "link",
-                "height": "sm",
-                "action": {
-                "type": "message",
-                "label": "主選單",
-                "text": "主選單"
-                }
-            }
-            ]
-        }
-    }
+# def flexTeachMask():
+#     return {
+#         "type": "bubble",
+#         "direction": "ltr",
+#         "body": {
+#             "type": "box",
+#             "layout": "vertical",
+#             "contents": [
+#             {
+#                 "type": "text",
+#                 "text": "教學",
+#                 "color": "#1DB446",
+#                 "size": "sm",
+#                 "weight": "bold"
+#             },
+#             {
+#                 "type": "text",
+#                 "text": "查口罩功能",
+#                 "margin": "md",
+#                 "size": "xxl",
+#                 "weight": "bold"
+#             },
+#             {
+#                 "type": "separator",
+#                 "margin": "lg"
+#             },
+#             {
+#                 "type": "text",
+#                 "text": "指令",
+#                 "size": "md",
+#                 "weight": "bold",
+#                 "color": "#825d5c",
+#                 "margin": "lg"
+#             },
+#             {
+#                 "type": "box",
+#                 "layout": "horizontal",
+#                 "margin": "sm",
+#                 "contents": [
+#                 {
+#                     "type": "text",
+#                     "text": "查詢指令：",
+#                     "color": "#AAAAAA",
+#                     "size": "sm",
+#                     "flex": 2
+#                 },
+#                 {
+#                     "type": "text",
+#                     "text": "查詢藥局、口罩查詢、",
+#                     "wrap": True,
+#                     "flex": 4,
+#                     "size": "sm",
+#                     "color": "#825d5c"
+#                 }
+#                 ]
+#             },
+#             {
+#                 "type": "box",
+#                 "layout": "horizontal",
+#                 "margin": "sm",
+#                 "contents": [
+#                 {
+#                     "type": "text",
+#                     "color": "#AAAAAA",
+#                     "size": "sm",
+#                     "flex": 2,
+#                     "text": " "
+#                 },
+#                 {
+#                     "type": "text",
+#                     "text": "附近的藥局、剩餘口罩",
+#                     "wrap": True,
+#                     "flex": 4,
+#                     "size": "sm",
+#                     "color": "#825d5c"
+#                 }
+#                 ]
+#             },
+#             {
+#                 "type": "text",
+#                 "text": "啟動後，請依提示文字輸入想查詢的「位置資訊」。",
+#                 "color": "#AAAAAA",
+#                 "size": "sm",
+#                 "flex": 2,
+#                 "margin": "sm",
+#                 "wrap": True
+#             }
+#             ]
+#         },
+#         "footer": {
+#             "type": "box",
+#             "layout": "vertical",
+#             "contents": [
+#             {
+#                 "type": "separator",
+#                 "margin": "sm"
+#             },
+#             {
+#                 "type": "button",
+#                 "style": "link",
+#                 "height": "sm",
+#                 "action": {
+#                 "type": "message",
+#                 "label": "查詢藥局",
+#                 "text": "查詢藥局"
+#                 }
+#             },
+#             {
+#                 "type": "button",
+#                 "style": "link",
+#                 "height": "sm",
+#                 "action": {
+#                 "type": "message",
+#                 "label": "主選單",
+#                 "text": "主選單"
+#                 }
+#             }
+#             ]
+#         }
+#     }
 
 #==========功能==========#
 ##告訴我位置
@@ -2740,146 +2740,146 @@ def flexAQI(aqi):
     ]
 
 #口罩藥局
-def flexWhereMask(mask_list):
-    content = []
-    for item in mask_list:
-        content.append(
-            {
-                "type": "bubble",
-                "size": "kilo",
-                "direction": "ltr",
-                "body": {
-                    "type": "box",
-                    "layout": "vertical",
-                    "contents": [
-                    {
-                        "type": "text",
-                        "text": "特約藥局",
-                        "color": "#1DB446",
-                        "size": "sm",
-                        "weight": "bold"
-                    },
-                    {
-                        "type": "text",
-                        "text": item['name'],
-                        "margin": "md",
-                        "size": "xl",
-                        "weight": "bold",
-                        "wrap": True
-                    },
-                    {
-                        "type": "text",
-                        "text": item['tel'],
-                        "flex": 4,
-                        "wrap": True,
-                        "margin": "xs",
-                        "color": "#999999",
-                        "size": "sm"
-                    },
-                    {
-                        "type": "separator",
-                        "margin": "md"
-                    },
-                    {
-                        "type": "box",
-                        "layout": "horizontal",
-                        "contents": [
-                        {
-                            "type": "text",
-                            "text": "成人：",
-                            "flex": 2,
-                            "wrap": True,
-                            "size": "md"
-                        },
-                        {
-                            "type": "text",
-                            "text": str(item['adult']) if item['adult'] else "售罄",
-                            "flex": 6,
-                            "wrap": True,
-                            "size": "md",
-                            "weight": "bold",
-                            "color": "#209799" if item['adult'] else "#ba5145"
-                        }
-                        ],
-                        "margin": "md"
-                    },
-                    {
-                        "type": "box",
-                        "layout": "horizontal",
-                        "contents": [
-                        {
-                            "type": "text",
-                            "text": "兒童：",
-                            "flex": 2,
-                            "wrap": True,
-                            "size": "md"
-                        },
-                        {
-                            "type": "text",
-                            "text": str(item['child']) if item['child'] else "售罄",
-                            "flex": 6,
-                            "wrap": True,
-                            "size": "md",
-                            "weight": "bold",
-                            "color": "#209799" if item['child'] else "#ba5145"
-                        }
-                        ],
-                        "margin": "md"
-                    },
-                    {
-                        "type": "separator",
-                        "margin": "md"
-                    },
-                    {
-                        "type": "text",
-                        "text": item['addr'],
-                        "flex": 4,
-                        "wrap": True,
-                        "margin": "md",
-                        "color": "#999999",
-                        "size": "sm"
-                    },
-                    {
-                        "type": "separator",
-                        "margin": "md"
-                    },
-                    {
-                        "type": "text",
-                        "text": "更新時間："+item['datetime'],
-                        "flex": 4,
-                        "wrap": True,
-                        "margin": "md",
-                        "color": "#999999",
-                        "size": "xs",
-                        "align": "end"
-                    }
-                    ]
-                },
-                "footer": {
-                    "type": "box",
-                    "layout": "vertical",
-                    "contents": [
-                    {
-                        "type": "button",
-                        "height": "sm",
-                        "action": {
-                        "type": "postback",
-                        "label": "查看地圖",
-                        "data": "action=get_map&lat="+str(item['lat'])+"&lng="+str(item['lng'])+"&title="+item['name']+"&addr="+item['addr']
-                        },
-                        "color": "#209799",
-                        "margin": "md",
-                        "style": "primary"
-                    }
-                    ]
-                }
-            }
-        )
+# def flexWhereMask(mask_list):
+#     content = []
+#     for item in mask_list:
+#         content.append(
+#             {
+#                 "type": "bubble",
+#                 "size": "kilo",
+#                 "direction": "ltr",
+#                 "body": {
+#                     "type": "box",
+#                     "layout": "vertical",
+#                     "contents": [
+#                     {
+#                         "type": "text",
+#                         "text": "特約藥局",
+#                         "color": "#1DB446",
+#                         "size": "sm",
+#                         "weight": "bold"
+#                     },
+#                     {
+#                         "type": "text",
+#                         "text": item['name'],
+#                         "margin": "md",
+#                         "size": "xl",
+#                         "weight": "bold",
+#                         "wrap": True
+#                     },
+#                     {
+#                         "type": "text",
+#                         "text": item['tel'],
+#                         "flex": 4,
+#                         "wrap": True,
+#                         "margin": "xs",
+#                         "color": "#999999",
+#                         "size": "sm"
+#                     },
+#                     {
+#                         "type": "separator",
+#                         "margin": "md"
+#                     },
+#                     {
+#                         "type": "box",
+#                         "layout": "horizontal",
+#                         "contents": [
+#                         {
+#                             "type": "text",
+#                             "text": "成人：",
+#                             "flex": 2,
+#                             "wrap": True,
+#                             "size": "md"
+#                         },
+#                         {
+#                             "type": "text",
+#                             "text": str(item['adult']) if item['adult'] else "售罄",
+#                             "flex": 6,
+#                             "wrap": True,
+#                             "size": "md",
+#                             "weight": "bold",
+#                             "color": "#209799" if item['adult'] else "#ba5145"
+#                         }
+#                         ],
+#                         "margin": "md"
+#                     },
+#                     {
+#                         "type": "box",
+#                         "layout": "horizontal",
+#                         "contents": [
+#                         {
+#                             "type": "text",
+#                             "text": "兒童：",
+#                             "flex": 2,
+#                             "wrap": True,
+#                             "size": "md"
+#                         },
+#                         {
+#                             "type": "text",
+#                             "text": str(item['child']) if item['child'] else "售罄",
+#                             "flex": 6,
+#                             "wrap": True,
+#                             "size": "md",
+#                             "weight": "bold",
+#                             "color": "#209799" if item['child'] else "#ba5145"
+#                         }
+#                         ],
+#                         "margin": "md"
+#                     },
+#                     {
+#                         "type": "separator",
+#                         "margin": "md"
+#                     },
+#                     {
+#                         "type": "text",
+#                         "text": item['addr'],
+#                         "flex": 4,
+#                         "wrap": True,
+#                         "margin": "md",
+#                         "color": "#999999",
+#                         "size": "sm"
+#                     },
+#                     {
+#                         "type": "separator",
+#                         "margin": "md"
+#                     },
+#                     {
+#                         "type": "text",
+#                         "text": "更新時間："+item['datetime'],
+#                         "flex": 4,
+#                         "wrap": True,
+#                         "margin": "md",
+#                         "color": "#999999",
+#                         "size": "xs",
+#                         "align": "end"
+#                     }
+#                     ]
+#                 },
+#                 "footer": {
+#                     "type": "box",
+#                     "layout": "vertical",
+#                     "contents": [
+#                     {
+#                         "type": "button",
+#                         "height": "sm",
+#                         "action": {
+#                         "type": "postback",
+#                         "label": "查看地圖",
+#                         "data": "action=get_map&lat="+str(item['lat'])+"&lng="+str(item['lng'])+"&title="+item['name']+"&addr="+item['addr']
+#                         },
+#                         "color": "#209799",
+#                         "margin": "md",
+#                         "style": "primary"
+#                     }
+#                     ]
+#                 }
+#             }
+#         )
     
-    return {
-        "type": "carousel",
-        "contents": content
-    }
+#     return {
+#         "type": "carousel",
+#         "contents": content
+#     }
 
 
 #==============================================#

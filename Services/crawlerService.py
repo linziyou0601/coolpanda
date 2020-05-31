@@ -144,52 +144,52 @@ def getAQI(lat, lng, site):
 
 
 ## 取得口罩資訊
-def getMask(lat, lng, site):
-    #=========================== 取得所有藥局資料 [↓] ===========================#
-    maskALL_info = []       #所有藥局資訊
-    maskALL_location = []   #所有藥局經緯度
-    ALL_LOCATION = get_all_location()   #取得已有紀錄的地址:經緯資訊
-    with urllib.request.urlopen("http://data.nhi.gov.tw/Datasets/Download.ashx?rid=A21030000I-D50001-001&l=https://data.nhi.gov.tw/resource/mask/maskdata.csv") as url:        
-        #讀藥局清單
-        rows = list(csv.reader(url.read().decode().splitlines()))
-        for row in rows[1:]:
-            #取[經度,緯度] from JSON
-            if addr_format(row[2]) in ALL_LOCATION: 
-                lat_temp = ALL_LOCATION[addr_format(row[2])]["lat"]
-                lng_temp = ALL_LOCATION[addr_format(row[2])]["lng"]
-            #取[經度,緯度] from GOOGLE
-            else:
-                url = "https://maps.googleapis.com/maps/api/geocode/json?address="+addr_format(row[2])+"&key="+GEOCODING_API_KEY
-                json_r = json.loads(requests.get(url).text)
-                if json_r['status'] == "OK":
-                    location = json_r['results'][0]['geometry']['location']
-                    lat_temp = location["lat"]
-                    lng_temp = location["lng"]
-                    create_location(addr_format(row[2]), lat_temp, lng_temp)
-            #存[經度,緯度,藥局資訊]
-            info = {"code": row[0], "name": row[1], "addr": addr_format(row[2]), "tel": row[3], "adult": int(row[4]), "child": int(row[5]), "datetime": row[6], "lat": lat_temp, "lng": lng_temp}
-            maskALL_location.append([lat_temp, lng_temp])
-            maskALL_info.append(info)
-    #=========================== 取得所有藥局資料 [↑] ===========================#
+# def getMask(lat, lng, site):
+#     #=========================== 取得所有藥局資料 [↓] ===========================#
+#     maskALL_info = []       #所有藥局資訊
+#     maskALL_location = []   #所有藥局經緯度
+#     ALL_LOCATION = get_all_location()   #取得已有紀錄的地址:經緯資訊
+#     with urllib.request.urlopen("http://data.nhi.gov.tw/Datasets/Download.ashx?rid=A21030000I-D50001-001&l=https://data.nhi.gov.tw/resource/mask/maskdata.csv") as url:        
+#         #讀藥局清單
+#         rows = list(csv.reader(url.read().decode().splitlines()))
+#         for row in rows[1:]:
+#             #取[經度,緯度] from JSON
+#             if addr_format(row[2]) in ALL_LOCATION: 
+#                 lat_temp = ALL_LOCATION[addr_format(row[2])]["lat"]
+#                 lng_temp = ALL_LOCATION[addr_format(row[2])]["lng"]
+#             #取[經度,緯度] from GOOGLE
+#             else:
+#                 url = "https://maps.googleapis.com/maps/api/geocode/json?address="+addr_format(row[2])+"&key="+GEOCODING_API_KEY
+#                 json_r = json.loads(requests.get(url).text)
+#                 if json_r['status'] == "OK":
+#                     location = json_r['results'][0]['geometry']['location']
+#                     lat_temp = location["lat"]
+#                     lng_temp = location["lng"]
+#                     create_location(addr_format(row[2]), lat_temp, lng_temp)
+#             #存[經度,緯度,藥局資訊]
+#             info = {"code": row[0], "name": row[1], "addr": addr_format(row[2]), "tel": row[3], "adult": int(row[4]), "child": int(row[5]), "datetime": row[6], "lat": lat_temp, "lng": lng_temp}
+#             maskALL_location.append([lat_temp, lng_temp])
+#             maskALL_info.append(info)
+#     #=========================== 取得所有藥局資料 [↑] ===========================#
 
-    #=========================== 取得資料 [↓] ===========================#
-    if (not lat or not lng):
-        if addr_format(site) in ALL_LOCATION:
-            lat = ALL_LOCATION[addr_format(site)]["lat"]
-            lng = ALL_LOCATION[addr_format(site)]["lng"]
-        else:
-            url = "https://maps.googleapis.com/maps/api/geocode/json?address="+addr_format(site)+"&key="+GEOCODING_API_KEY
-            json_r = json.loads(requests.get(url).text)
-            if json_r['status'] == "OK":
-                location = json_r['results'][0]['geometry']['location']
-                lat = location["lat"]
-                lng = location["lng"]
-                create_location(addr_format(site), lat, lng)
-    if (lat and lng):
-        find_loc = np.matrix([[lat, lng]])                                                  #使用者經緯度資料
-        disALLDict = np_getDistance(np.matrix(maskALL_location), find_loc, maskALL_info)    # 全部距離+資料
-        disAll = list(disALLDict.keys())                                                    # 全部距離
-        result = [disALLDict[dis] for dis in disAll[0:10]]
-        return result
-    return []
-    #=========================== 取得資料 [↑] ===========================#
+#     #=========================== 取得資料 [↓] ===========================#
+#     if (not lat or not lng):
+#         if addr_format(site) in ALL_LOCATION:
+#             lat = ALL_LOCATION[addr_format(site)]["lat"]
+#             lng = ALL_LOCATION[addr_format(site)]["lng"]
+#         else:
+#             url = "https://maps.googleapis.com/maps/api/geocode/json?address="+addr_format(site)+"&key="+GEOCODING_API_KEY
+#             json_r = json.loads(requests.get(url).text)
+#             if json_r['status'] == "OK":
+#                 location = json_r['results'][0]['geometry']['location']
+#                 lat = location["lat"]
+#                 lng = location["lng"]
+#                 create_location(addr_format(site), lat, lng)
+#     if (lat and lng):
+#         find_loc = np.matrix([[lat, lng]])                                                  #使用者經緯度資料
+#         disALLDict = np_getDistance(np.matrix(maskALL_location), find_loc, maskALL_info)    # 全部距離+資料
+#         disAll = list(disALLDict.keys())                                                    # 全部距離
+#         result = [disALLDict[dis] for dis in disAll[0:10]]
+#         return result
+#     return []
+#     #=========================== 取得資料 [↑] ===========================#

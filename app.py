@@ -330,18 +330,18 @@ def handle_message(event):
                 GET_EVENT["replyLog"] = [flexObject[0], 0, 'flex']
 
     #特約藥局查詢 [不限個人, 等級0+]
-    elif any(key(s['message'])=="特約藥局查詢" for s in last_receives[0:1]) or key(GET_EVENT["lineMessage"])=="特約藥局查詢":
-        if key(GET_EVENT["lineMessage"])=="特約藥局查詢": 
-            GET_EVENT["replyList"] = FlexSendMessage(alt_text = "請輸入要查詢的位址，或傳送位址訊息", contents = flexTellMeLocation())
-            GET_EVENT["replyLog"] = ["要查詢的地點是？", 0, 'flex']
-        else:
-            mask_list = getMask(None, None, GET_EVENT["lineMessage"])
-            if mask_list:
-                GET_EVENT["replyList"] = [
-                    TextSendMessage(text="以下是距離最近的10間藥局"),
-                    FlexSendMessage(alt_text="以下是距離最近的10間藥局", contents = flexWhereMask(mask_list))
-                ]
-                GET_EVENT["replyLog"] = ["特約藥局查詢結果", 0, 'flex']
+    # elif any(key(s['message'])=="特約藥局查詢" for s in last_receives[0:1]) or key(GET_EVENT["lineMessage"])=="特約藥局查詢":
+    #     if key(GET_EVENT["lineMessage"])=="特約藥局查詢": 
+    #         GET_EVENT["replyList"] = FlexSendMessage(alt_text = "請輸入要查詢的位址，或傳送位址訊息", contents = flexTellMeLocation())
+    #         GET_EVENT["replyLog"] = ["要查詢的地點是？", 0, 'flex']
+    #     else:
+    #         mask_list = getMask(None, None, GET_EVENT["lineMessage"])
+    #         if mask_list:
+    #             GET_EVENT["replyList"] = [
+    #                 TextSendMessage(text="以下是距離最近的10間藥局"),
+    #                 FlexSendMessage(alt_text="以下是距離最近的10間藥局", contents = flexWhereMask(mask_list))
+    #             ]
+    #             GET_EVENT["replyLog"] = ["特約藥局查詢結果", 0, 'flex']
 
 
     ## ==================== 機率運勢 ==================== ##
@@ -413,9 +413,9 @@ def handle_message(event):
         GET_EVENT["replyList"] = FlexSendMessage(alt_text= "怎麼查空汙", contents=flexTeachAQI())
         GET_EVENT["replyLog"] = [GET_EVENT["lineMessage"], 0, 'flex']
     #查藥局教學選單 [不限個人, 等級0+] 
-    elif key(GET_EVENT["lineMessage"])=="怎麼查藥局": 
-        GET_EVENT["replyList"] = FlexSendMessage(alt_text= "怎麼查藥局", contents=flexTeachMask())
-        GET_EVENT["replyLog"] = [GET_EVENT["lineMessage"], 0, 'flex']
+    # elif key(GET_EVENT["lineMessage"])=="怎麼查藥局": 
+    #     GET_EVENT["replyList"] = FlexSendMessage(alt_text= "怎麼查藥局", contents=flexTeachMask())
+    #     GET_EVENT["replyLog"] = [GET_EVENT["lineMessage"], 0, 'flex']
     
 
     ## ==================== 功能設定 ==================== ##
@@ -506,13 +506,13 @@ def handle_location_message(event):
         GET_EVENT["replyLog"] = [flexObject[0], 0, 'flex']
     
     ##特約藥局查詢 [不限個人, 等級0+]
-    elif any(key(s['message'])=="特約藥局查詢" for s in last_receives[0:1]):
-        mask_list = getMask(LOCATION_INFO["lat"], LOCATION_INFO["lng"], None)
-        GET_EVENT["replyList"] = [
-            TextSendMessage(text="以下是距離最近的10間藥局"),
-            FlexSendMessage(alt_text="以下是距離最近的10間藥局", contents = flexWhereMask(mask_list))
-        ]
-        GET_EVENT["replyLog"] = ["特約藥局查詢", 0, 'flex']
+    # elif any(key(s['message'])=="特約藥局查詢" for s in last_receives[0:1]):
+    #     mask_list = getMask(LOCATION_INFO["lat"], LOCATION_INFO["lng"], None)
+    #     GET_EVENT["replyList"] = [
+    #         TextSendMessage(text="以下是距離最近的10間藥局"),
+    #         FlexSendMessage(alt_text="以下是距離最近的10間藥局", contents = flexWhereMask(mask_list))
+    #     ]
+    #     GET_EVENT["replyLog"] = ["特約藥局查詢", 0, 'flex']
 
     ##發送
     send_reply(GET_EVENT, True)
