@@ -3,6 +3,7 @@ from datetime import datetime
 
 from env import *
 
+#################### DB操作相關 ####################
 def getMydb():
     mydb = mysql.connector.connect(
         host = ENV("DB_HOST"),

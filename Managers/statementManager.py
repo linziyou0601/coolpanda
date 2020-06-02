@@ -4,51 +4,49 @@ import os, sys, json, codecs, re, random
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))) 
 #導入env, model
 from model import *
-#導入Controllers
-from Controllers.normalController import *
+#導入Managers
+from Managers.channelManager import *
+from Managers.messageManager import *
 
-#################### [查詢, 新增, 刪除, 調整權重, 取得回覆]: [詞條] ####################
+#################### [查詢, 新增, 刪除, 調整權重, 取得回覆, 學過的詞]: [詞條] ####################
 #查詢詞條
-def get_statements(response, keyword='', channelId=''):
+def get_statements(response, keyword='', channelPK=None):
     values = [response]
     hasKeyword = ''
-    hasChannelId = ''
+    hasChannelPK = ''
     if keyword!="":
         hasKeyword = ' and keyword=%s'
         values.append(keyword)
-    if channelId!="":
-        hasChannelId = ' and channel_id=%s'
-        values.append(channelId)
+    if channelPK!=None:
+        hasChannelPK = ' and channel_pk=%s'
+        values.append(channelPK)
 
-    query = """SELECT * FROM line_statement WHERE response=%s""" +hasKeyword +hasChannelId
+    query = """SELECT * FROM line_statement WHERE response=%s""" +hasKeyword +hasChannelPK
     dataRow = selectDB(query, tuple(values))
     return dataRow if len(dataRow) else None
 
 ##新增詞條
-def create_statement(keyword, responses, channelId, userId):
+def create_statement(keyword, responses, channelPK, userPK):
     for response in responses:
         #若詞條不存在於當前聊天室，才新增詞條
-        if get_statements(response, keyword, channelId)==None:
-            query = "INSERT INTO line_statement(keyword, response, channel_id, user_id) VALUES(%s,%s,%s,%s)"
-            values = (keyword, response, channelId, userId,)
+        if get_statements(response, keyword, channelPK)==None:
+            query = "INSERT INTO line_statement(keyword, response, channel_pk, user_pk) VALUES(%s,%s,%s,%s)"
+            values = (keyword, response, channelPK, userPK,)
             operateDB(query, values)
         #若詞條存在於當前聊天室，則權重+1
         else:
-            adjust_priority(1, keyword, response, channelId)
+            adjust_priority(1, keyword, response, channelPK)
 ##刪除詞條
-def delete_statement(keyword, responses, channelId):
+def delete_statement(keyword, responses, channelPK):
     for response in responses:
-        query = """DELETE FROM line_statement WHERE keyword=%s and response=%s and channel_id=%s"""
-        values = (keyword, response, channelId,)
+        query = """DELETE FROM line_statement WHERE keyword=%s and response=%s and channel_pk=%s"""
+        values = (keyword, response, channelPK,)
         operateDB(query, values)
 
 ##調整詞條權重
-def adjust_priority(case, keyword, response, channelId=''):
-    hasKeyword = keyword
-    hasChannelId = channelId if channelId else ""   #是否要指定channel_id
-    
+def adjust_priority(case, keyword, response, channelPK=None):    
     #若詞條找不到，表示此句為自動接話模型、或廣泛搜尋模型，則增加一句自動學習詞條
-    dataRow = get_statements(response, hasKeyword, hasChannelId)
+    dataRow = get_statements(response, keyword, channelPK)
     if dataRow!=None:
         for data in dataRow:
             query = """UPDATE line_statement SET priority=%s WHERE id=%s"""
@@ -57,32 +55,12 @@ def adjust_priority(case, keyword, response, channelId=''):
             values = (new_priority, data['id'],)
             operateDB(query, values)
     else:
-        create_statement(keyword, [response], "autoLearn", "autoLearn")
-
-##調整詞條黑名單
-def operate_statement(action, adjust, statement_id):
-    if action == "delete":
-        query = "DELETE FROM line_statement WHERE id=%s"
-        for id in statement_id:
-            values = (id,)
-            operateDB(query, values)
-    elif action == "checked":
-        for id in statement_id:
-            #取原權重
-            query = """SELECT priority FROM line_statement WHERE id=%s"""
-            dataRow = selectDB(query, (id,))
-            iniPriority = dataRow[0]['priority']
-            #if 指定權重 -> 指定權重； else if 無指定權重但原權重<0 -> 指定權重為5； else 不指定權重
-            strPriority = ", priority='"+str(adjust)+"'" if adjust else ", priority='4'" if iniPriority<0 else ""
-            query = "UPDATE line_statement SET checked='checked'"+strPriority+" WHERE id=%s"
-            values = (id,)
-            operateDB(query, values)
-
+        create_statement(keyword, [response], 0, 0)
 
 ##取得詞條回覆
-def get_statement_response(keyword, channelId, rand):
+def get_statement_response(keyword, channelPK, globalTalk, rand):
     #若關閉可以說其他人教過的話的功能，則以限制channelId的方式查詢
-    strGlobalTalk = " and channel_id!='autoLearn'" if get_channel(channelId)['global_talk'] else " and channel_id=%s and channel_id!='autoLearn'"
+    strGlobalTalk = " and channel_pk!=0" if globalTalk else " and channel_pk=%s and channel_pk!=0"
     strRandomReply = ' and priority>=4 ORDER BY RAND() limit 1' if rand else ' and priority>0 ORDER BY likestrong DESC, RAND() DESC'
     
     query = """
@@ -104,7 +82,7 @@ def get_statement_response(keyword, channelId, rand):
                                 ELSE 0 
                             END AS likestrong
                     FROM line_statement) AS foo WHERE likestrong>0""" + strGlobalTalk + strRandomReply
-    values = [keyword for i in range(0,13)] if get_channel(channelId)['global_talk'] else [keyword for i in range(0,13)] + [channelId]
+    values = [keyword for i in range(0,13)] if globalTalk else [keyword for i in range(0,13)] + [channelPK]
     dataRow = selectDB(query, tuple(values))
 
     #找不到的話找找看自動學習的語料
@@ -127,7 +105,7 @@ def get_statement_response(keyword, channelId, rand):
                       			WHEN UPPER(keyword) LIKE CONCAT('__',UPPER(%s),'__') THEN 1	# .input. == keyword (keyword頭尾各去兩個字==input)
                                 ELSE 0 
                                 END AS likestrong
-                        FROM line_statement) AS foo WHERE likestrong>0 and channel_id='autoLearn' and priority>2 """
+                        FROM line_statement) AS foo WHERE likestrong>0 and channel_pk=0 and priority>2 """
         query = query + " ORDER BY likestrong DESC, RAND() DESC"
         values = [keyword for i in range(0,13)]
         dataRow = selectDB(query, tuple(values))
@@ -148,9 +126,9 @@ def get_statement_response(keyword, channelId, rand):
         return "我聽不懂啦！"
 
 ##取得所有學過的詞
-def get_all_statement(channelId, nickname):
-    query = """SELECT keyword, response FROM line_statement WHERE channel_id=%s and priority>=0 ORDER BY keyword"""
-    values = (channelId,)
+def get_all_statement(channelPK, nickname):
+    query = """SELECT keyword, response FROM line_statement WHERE channel_pk=%s and priority>=0 ORDER BY keyword"""
+    values = (channelPK,)
     dataRow = selectDB(query, values)
     
     #建立回傳物件
@@ -168,7 +146,7 @@ def get_all_statement(channelId, nickname):
     dataRow = selectDB(query, None)
     count_statement = dataRow[0]['all_statement'] if len(dataRow) else 0
 
-    query = """SELECT count(*) AS all_channel FROM line_statement WHERE priority>=0 GROUP BY channel_id"""
+    query = """SELECT count(*) AS all_channel FROM line_statement WHERE priority>=0 GROUP BY channel_pk"""
     dataRow = selectDB(query, None)
     count_channel = len(dataRow)
     
@@ -180,21 +158,16 @@ def get_all_statement(channelId, nickname):
         "resData": resData if len(resData) else None,
         "count_statement": count_statement,
         "count_channel": count_channel,
-        "nickname": "這裡" if channelId[0]!='U' else nickname if nickname else "你"
+        "nickname": nickname
     }
 
 ##取得所有學過的詞
 def get_line_statement_table(userId=None):
     if not userId:
         return []
-    strUserId = "" if userId=="ALL" else " WHERE user_id='"+userId+"'"
-    query = """SELECT id, keyword, response, channel_id, user_id, checked, priority FROM line_statement""" + strUserId
-    dataRow = selectDB(query, None)
-    return dataRow if len(dataRow) else []
-
-##取得所有推播紀錄
-def get_line_pushed_table():
-    query = """SELECT id, type, title, message, channel_id FROM line_pushed"""
+    userPK = get_pk_by_channel_id(userId)
+    strUserPK = "" if userId=="ALL" else " WHERE user_pk='"+userPK+"'"
+    query = """SELECT id, keyword, response, channel_pk, user_pk, checked, priority FROM line_statement""" + strUserPK
     dataRow = selectDB(query, None)
     return dataRow if len(dataRow) else []
 
@@ -204,11 +177,32 @@ def get_postfix():
     dataRow = selectDB(query, None)
     return dataRow[0]['content'] if len(dataRow) else None
 
+
+#################### 依詞條ID進行操作 ####################
+##調整詞條黑名單
+def operate_statement(action, adjust, statement_id):
+    if action == "delete":
+        query = "DELETE FROM line_statement WHERE id=%s"
+        for id in statement_id:
+            values = (id,)
+            operateDB(query, values)
+    elif action == "checked":
+        for id in statement_id:
+            #取原權重
+            query = """SELECT priority FROM line_statement WHERE id=%s"""
+            dataRow = selectDB(query, (id,))
+            iniPriority = dataRow[0]['priority']
+            #if 指定權重 -> 指定權重； else if 無指定權重但原權重<0 -> 指定權重為5； else 不指定權重
+            strPriority = ", priority='"+str(adjust)+"'" if adjust else ", priority='4'" if iniPriority<0 else ""
+            query = "UPDATE line_statement SET checked='checked'"+strPriority+" WHERE id=%s"
+            values = (id,)
+            operateDB(query, values)
+
 #################### 主聊天功能 ####################
 ##學說話暫存詞條
-def create_temp_statement(keyword, response, channelId, userId):
-    query = "INSERT INTO line_temp_statement(keyword, response, channel_id, user_id) VALUES(%s,%s,%s,%s)"
-    values = (keyword, response, channelId, userId)
+def create_temp_statement(keyword, response, channelPK, userPK):
+    query = "INSERT INTO line_temp_statement(keyword, response, channel_pk, user_pk) VALUES(%s,%s,%s,%s)"
+    values = (keyword, response, channelPK, userPK)
     id = operateDB(query, values)
     return id
 
@@ -223,62 +217,3 @@ def get_temp_statement(id):
 def delete_temp_statement(id):
     query = """DELETE FROM line_temp_statement WHERE id=%s"""
     operateDB(query, (id,))
-
-##壞壞，批次降低資料庫內本次回話的關鍵字權重
-def chat_bad(channelId):
-    dataReceived = get_received(channelId, 1)
-    dataReplied = get_replied(channelId, 1)
-    adjust_priority(-3, None, dataReceived[0]['message'], dataReplied[0]['message'])
-    return "下次不會了～"
-##回覆(隨機回覆)
-def chat_response(lineMessage, channelId):
-    rand = 1 if lineMessage[0:2] in ['熊貓', '抽籤'] else 0
-    firstIndex = 0 if not rand else 2
-    response = get_statement_response(lineMessage[firstIndex:], channelId, rand)
-    valid = 0 if response=="我聽不懂啦！" else 2
-    type = 'image' if response[0:8]=='https://' and any(x in str.lower(response) for x in ['.jpg','.jpeg','.png']) else 'text'
-    return [response, valid, type]
-##成功回話時增加權重或加入新詞
-def chat_valid_reply(lineMessage, reply):
-    adjust_priority(1, lineMessage, reply)
-##回話失敗時減少權重
-def chat_invalid_reply(lineMessage, reply):
-    adjust_priority(-3, lineMessage, reply)
-##齊推
-def chat_echo2(lineMessage, channelId):
-    if not get_received(channelId, 3) or all(lineMessage!=msg['message'] or msg['type']!='text' for msg in get_received(channelId, 3)): return False
-    elif not get_replied(channelId, 1) or get_replied(channelId, 1)[0]['message']==lineMessage: return False
-    else: return True
-##你會說什麼
-def chat_all_learn(channelId, nickname=None):
-    return get_all_statement(channelId, nickname)
-
-#################### 聊天功能開關 ####################
-##修改說話狀態
-def edit_channel_global_talk(channelId, value):
-    query = """UPDATE line_user SET global_talk=%s WHERE channel_id=%s"""
-    values = (value, channelId,)
-    operateDB(query, values)
-##修改安靜狀態
-def edit_channel_mute(channelId, value):
-    query = """UPDATE line_user SET mute=%s WHERE channel_id=%s"""
-    values = (value, channelId,)
-    operateDB(query, values)
-##說話狀態開關
-def global_talk(lineMessage, channelId):
-    if any((s+"說別人教的話") in lineMessage for s in ["不可以", "不能", "不行", "不要", "不准"]): edit_channel_global_talk(channelId, 0)
-    elif "說別人教的話" in lineMessage: edit_channel_global_talk(channelId, 1)
-    return "好哦～"
-##安靜狀態開關
-def mute(lineMessage, channelId):
-    if any(s in lineMessage for s in ["熊貓說話", "熊貓講話"]): edit_channel_mute(channelId, 0)
-    elif any(s in lineMessage for s in ["熊貓安靜", "熊貓閉嘴"]): edit_channel_mute(channelId, 1)
-    return "好哦～"
-##取得目前狀態
-def current_status(channel):
-    return {
-        "global_talk_text": "所有人教的" if channel['global_talk'] else "本頻道教的", 
-        "mute_text": "安靜" if channel['mute'] else "可以說話", 
-        "global_talk": channel['global_talk'], 
-        "mute": channel['mute']
-    }

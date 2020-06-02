@@ -7,9 +7,10 @@ import numpy as np
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))) 
 #導入Others
 from Others.flexMessageJSON import *
-#導入Controllers
-from Controllers.normalController import *
-from Controllers.chatterController import *
+#導入Managers
+from Managers.channelManager import *
+from Managers.geocodingManager import *
+from Managers.statementManager import *
 #導入Services
 from Services.geocodingService import *
 
