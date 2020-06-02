@@ -20,8 +20,8 @@ CONFIG = {
         id INT AUTO_INCREMENT PRIMARY KEY,
         keyword TEXT NOT NULL COMMENT "關鍵字",
         response TEXT NOT NULL COMMENT "回覆內容",
-        channel_id TEXT COMMENT "建立者頻道 ID",
-        user_id TEXT COMMENT "建立者 ID",
+        channel_pk INT COMMENT "建立者頻道 ID",
+        user_pk INT COMMENT "建立者 ID",
         checked TEXT COMMENT "可疑詞標記",
         priority INT DEFAULT 4 COMMENT "詞條優先度",
         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -33,7 +33,7 @@ CONFIG = {
         type TEXT NOT NULL COMMENT "訊息種類",
         message TEXT NOT NULL COMMENT "訊息內容",
         valid TINYINT NOT NULL COMMENT "0=功能型, 1=關鍵字, 2=一般型",
-        channel_id TEXT NOT NULL COMMENT "發送至頻道 ID",
+        channel_pk INT NOT NULL COMMENT "發送至頻道 ID",
         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
         create_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
@@ -42,8 +42,8 @@ CONFIG = {
         id INT AUTO_INCREMENT PRIMARY KEY,
         type TEXT NOT NULL COMMENT "訊息種類",
         message TEXT NOT NULL COMMENT "訊息內容",
-        channel_id TEXT NOT NULL COMMENT "發送者頻道 ID",
-        user_id TEXT NOT NULL COMMENT "發送者 ID",
+        channel_pk INT NOT NULL COMMENT "發送者頻道 ID",
+        user_pk INT NOT NULL COMMENT "發送者 ID",
         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
         create_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
@@ -71,8 +71,8 @@ CONFIG = {
         id INT AUTO_INCREMENT PRIMARY KEY,
         keyword TEXT NOT NULL COMMENT "關鍵字",
         response TEXT NOT NULL COMMENT "回覆內容",
-        channel_id TEXT COMMENT "建立者頻道 ID",
-        user_id TEXT COMMENT "建立者 ID",
+        channel_pk INT TEXT COMMENT "建立者頻道 ID",
+        user_pk INT TEXT COMMENT "建立者 ID",
         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
         create_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
@@ -93,6 +93,8 @@ CONFIG = {
         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
         create_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
+    INSERT INTO line_user (id, channel_id) VALUES (0, "autoLearn");
+    UPDATE line_user SET id = '0' WHERE line_user.channel_id = "autoLearn";
     '''
 }
 

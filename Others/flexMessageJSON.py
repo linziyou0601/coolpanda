@@ -103,7 +103,8 @@ def flexMainMenu(channelId, level):
 
 ##你會做什麼
 def flexHowDo(channelId, level):
-    content = [flexTeachChat(), flexTeachMask(), flexTeachMeteorology(), flexTeachLottery()]
+    #flexTeachMask(), 
+    content = [flexTeachChat(), flexTeachMeteorology(), flexTeachLottery()]
     if channelId[0]=='U' and level>=2: content.append(flexTeachLv2())
     content.append(flexTeachLevel())
     return {
