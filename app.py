@@ -163,7 +163,12 @@ def send_reply(GET_EVENT, STORE_LOG = False):
 def handle_follow(event):
     ##取得EVENT物件
     GET_EVENT = get_event_obj(event)
-    flexObject = flexStatusMenu(current_status(GET_EVENT))
+    flexObject = flexStatusMenu({
+        "global_talk_text": "所有人教的" if GET_EVENT['global_talk'] else "本頻道教的", 
+        "mute_text": "安靜" if GET_EVENT['mute'] else "可以說話", 
+        "global_talk": GET_EVENT['global_talk'], 
+        "mute": GET_EVENT['mute']
+    })
     GET_EVENT["replyList"] = [
         TextSendMessage(text=GET_EVENT["nickname"] + "，歡迎您成為本熊貓的好友！" + sticon(u"\U00100097")),
         FlexSendMessage(alt_text = "主選單", contents = flexMainMenu(GET_EVENT["channelId"], GET_EVENT["level"])),
@@ -175,7 +180,12 @@ def handle_follow(event):
 def handle_join(event):
     ##取得EVENT物件
     GET_EVENT = get_event_obj(event)
-    flexObject = flexStatusMenu(current_status(GET_EVENT))
+    flexObject = flexStatusMenu({
+        "global_talk_text": "所有人教的" if GET_EVENT['global_talk'] else "本頻道教的", 
+        "mute_text": "安靜" if GET_EVENT['mute'] else "可以說話", 
+        "global_talk": GET_EVENT['global_talk'], 
+        "mute": GET_EVENT['mute']
+    })
     GET_EVENT["replyList"] = [
         TextSendMessage(text="大家好我叫酷熊貓" + sticon(u"\U00100097")),
         FlexSendMessage(alt_text = "主選單", contents = flexMainMenu(GET_EVENT["channelId"], GET_EVENT["level"])),

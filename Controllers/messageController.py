@@ -52,7 +52,8 @@ def edit_nickname_function(GET_EVENT):
 
 #[對答] 解除指定暱稱
 def cancel_nickname_function(GET_EVENT):
-    GET_EVENT["replyList"] = TextSendMessage(text=edit_channel_nickname(None, GET_EVENT["channelId"])+GET_EVENT["postfix"])
+    edit_channel_nickname(GET_EVENT["channelId"], None)
+    GET_EVENT["replyList"] = TextSendMessage(text="好哦～"+GET_EVENT["postfix"])
     GET_EVENT["replyLog"] = ["好哦～", 0, 'text']
     return GET_EVENT
 
@@ -180,7 +181,7 @@ def chat_function(GET_EVENT):
     res_type = 'image' if response[0:8]=='https://' and any(x in str.lower(response) for x in ['.jpg','.jpeg','.png']) else 'text'
     GET_EVENT["replyLog"] = [response, valid, res_type]
     #齊推
-    if not GET_EVENT["replyLog"][1] and chat_echo2(GET_EVENT["lineMessage"], GET_EVENT["channelId"]):
+    if not GET_EVENT["replyLog"][1] and chat_echo2(GET_EVENT["lineMessage"], GET_EVENT["channelPK"]):
         GET_EVENT["replyLog"] = [GET_EVENT["lineMessage"], 0, 'text']
     #本次要回的話
     if GET_EVENT["replyLog"][2]=='image':
@@ -261,7 +262,7 @@ def message_processer(GET_EVENT):
     elif key(GET_EVENT["lineMessage"])=="學過的話":
         ##你會說什麼
         nickname = "這裡" if GET_EVENT["channelId"][0]!='U' else GET_EVENT["nickname"] if GET_EVENT["nickname"] else "你"
-        flexObject = flexWhatCanSay(get_all_statement(GET_EVENT["channelPK"], GET_EVENT["nickname"]))
+        flexObject = flexWhatCanSay(get_all_statement(GET_EVENT["channelPK"], nickname))
         GET_EVENT["replyList"] = FlexSendMessage(alt_text= flexObject[0], contents=flexObject[1])
         GET_EVENT["replyLog"] = [flexObject[0], 0, 'flex']
     #抽籤式回答教學選單 [不限個人, 等級0+]
