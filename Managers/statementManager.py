@@ -201,6 +201,7 @@ def operate_statement(action, adjust, statement_id):
 #################### 主聊天功能 ####################
 ##學說話暫存詞條
 def create_temp_statement(keyword, response, channelPK, userPK):
+    delete_expired_temp_statement() #先刪除暫存詞條
     query = "INSERT INTO line_temp_statement(keyword, response, channel_pk, user_pk) VALUES(%s,%s,%s,%s)"
     values = (keyword, response, channelPK, userPK)
     id = operateDB(query, values)
@@ -217,3 +218,8 @@ def get_temp_statement(id):
 def delete_temp_statement(id):
     query = """DELETE FROM line_temp_statement WHERE id=%s"""
     operateDB(query, (id,))
+
+##刪除3天以上沒人按的暫存詞條
+def delete_expired_temp_statement():
+    query = """DELETE FROM line_temp_statement WHERE create_at < DATE_SUB(NOW(), INTERVAL 3 DAY)"""
+    operateDB(query)
