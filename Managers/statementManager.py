@@ -222,4 +222,4 @@ def delete_temp_statement(id):
 ##刪除3天以上沒人按的暫存詞條
 def delete_expired_temp_statement():
     query = """DELETE FROM line_temp_statement WHERE create_at < DATE_SUB(NOW(), INTERVAL 3 DAY)"""
-    operateDB(query)
+    operateDB(query, None)
