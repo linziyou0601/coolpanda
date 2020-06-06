@@ -38,11 +38,10 @@ def feedback_learn_model(key, res):
 
 ##手動反饋學習
 def feedback_abandon_model(key, res):
-    return False
     #降權重 [key → 文字res／關鍵字res／圖片res]
-    # rand = 1 if res in ['樹懶', '抽籤'] else 0
-    # firstIndex = 0 if not rand else 2
-    # adjust_priority(-3, key[firstIndex:], res)
+    rand = 1 if res in ['樹懶', '抽籤'] else 0
+    firstIndex = 0 if not rand else 2
+    adjust_priority(-2, key[firstIndex:], res)
 
 ##自動學習模型
 # def auto_learn_model(GET_EVENT):
