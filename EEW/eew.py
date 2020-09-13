@@ -7,7 +7,7 @@ location = "雲林縣斗六市"
 M = str(sys.argv[1]).replace("+", "強").replace("-", "弱")
 data = {  
     "type": None,
-    "title": "【地震速報】\n所在地："+location+"\n預估震度："+M,
+    "title": "【地震速報】\n警報器所在地："+location+"\n預估震度："+M,
     "message": {
         "location": location,
         "M": M

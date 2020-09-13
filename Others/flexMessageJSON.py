@@ -1859,7 +1859,7 @@ def templateEarthquake(location = '', M = '0'):
                 "contents": [
                 {
                     "type": "text",
-                    "text": "速報所在地\n（非震央）",
+                    "text": "警報器所在地\n（非震央）",
                     "margin": "lg",
                     "color": "#666666",
                     "size": "sm",
@@ -1911,7 +1911,7 @@ def templateEarthquake(location = '', M = '0'):
             },
             {
                 "type": "text",
-                "text": "本速報震度係以「"+location+"」為依據，與您所在位置實際震度可能有落差！\n正確資料依「中央氣象局」為準。",
+                "text": "本速報震度係以警報器所在地「"+location+"」為依據，與您所在位置實際震度可能有落差！\n正確資料依「中央氣象局」為準。",
                 "margin": "lg",
                 "color": "#999999",
                 "size": "sm",

@@ -327,6 +327,11 @@ def message_processer(GET_EVENT):
                 ImageSendMessage(original_content_url=GET_EVENT["replyLog"][0], preview_image_url=GET_EVENT["replyLog"][0]),
                 FlexSendMessage(alt_text="這則回應對你有幫助嗎？", contents=flexResponseOnlyFeedback(temp_id))
             ]
+        elif any(s in GET_EVENT["replyLog"][0] for s in ['https://', 'http://']):
+            GET_EVENT["replyList"] = [
+                TextSendMessage(text=GET_EVENT["replyLog"][0]+GET_EVENT["postfix"]),
+                FlexSendMessage(alt_text="這則回應對你有幫助嗎？", contents=flexResponseOnlyFeedback(temp_id))
+            ]
         else:
             GET_EVENT["replyList"] = FlexSendMessage(
                 alt_text=(GET_EVENT["replyLog"][0]+GET_EVENT["postfix"])[0:400], 
