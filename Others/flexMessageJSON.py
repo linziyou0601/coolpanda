@@ -67,7 +67,7 @@ def flexMainMenu(channelId, level):
         "direction": "ltr",
         "hero": {
             "type": "image",
-            "url": "https://linziyou.nctu.me/u/ln/cover/flexMessageCover_MENU.png",
+            "url": "https://linziyou.info/u/ln/cover/flexMessageCover_MENU.png",
             "size": "full",
             "aspectRatio": "20:13",
             "aspectMode": "cover"
@@ -1783,7 +1783,7 @@ def templateAnnouncement(title = '', content = '', date = ''):
         "direction": "ltr",
         "hero": {
             "type": "image",
-            "url": "https://linziyou.nctu.me/u/ln/cover/flexMessageCover_ANNOUNCE.png",
+            "url": "https://linziyou.info/u/ln/cover/flexMessageCover_ANNOUNCE.png",
             "size": "full",
             "aspectRatio": "20:13",
             "aspectMode": "cover"
@@ -1844,7 +1844,7 @@ def templateEarthquake(location = '', M = '0'):
         "direction": "ltr",
         "hero": {
             "type": "image",
-            "url": "https://linziyou.nctu.me/u/ln/cover/flexMessageCover_BREAKING.png",
+            "url": "https://linziyou.info/u/ln/cover/flexMessageCover_BREAKING.png",
             "size": "full",
             "aspectRatio": "20:13",
             "aspectMode": "cover"
@@ -3411,7 +3411,7 @@ def flexDevinate(devinate):
             "direction": "ltr",
             "hero": {
                 "type": "image",
-                "url": "https://linziyou.nctu.me/u/ln/" + devinate['url'],
+                "url": "https://linziyou.info/u/ln/" + devinate['url'],
                 "size": "full",
                 "aspectMode": "cover",
                 "aspectRatio": "20:13"
@@ -3467,7 +3467,7 @@ def flexTarot(tarot_list):
                 "contents": [
                 {
                     "type": "image",
-                    "url": "https://linziyou.nctu.me/u/ln/tarot/"+tarot['url'],
+                    "url": "https://linziyou.info/u/ln/tarot/"+tarot['url'],
                     "size": "full",
                     "aspectMode": "cover",
                     "aspectRatio": "1:2",
@@ -3584,7 +3584,7 @@ def flexMeaningTarot(tarot):
                 "contents": [
                 {
                     "type": "image",
-                    "url": "https://linziyou.nctu.me/u/ln/tarot/"+tarot['url'],
+                    "url": "https://linziyou.info/u/ln/tarot/"+tarot['url'],
                     "size": "full",
                     "aspectMode": "cover",
                     "aspectRatio": "1:2",
@@ -3689,7 +3689,7 @@ def flexFortuneStick(fortuneStick):
                 "contents": [
                 {
                     "type": "image",
-                    "url": "https://linziyou.nctu.me/u/ln/fortunestick/"+str(fortuneStick["id"])+".jpg",
+                    "url": "https://linziyou.info/u/ln/fortunestick/"+str(fortuneStick["id"])+".jpg",
                     "size": "full",
                     "aspectMode": "cover",
                     "aspectRatio": "480:655",

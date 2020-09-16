@@ -17,4 +17,4 @@ data = {
 }
 
 #=============== Main Function ===============#
-r = requests.post('https://linziyou.nctu.me:4567/pushing', json = data)
+r = requests.post('https://linziyou.info:4567/pushing', json = data)
