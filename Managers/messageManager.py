@@ -118,7 +118,8 @@ def pushing_to_all(type, title, message, record):
         dataRow = selectDB(query, None)
         datas = dataRow if len(dataRow) else []
         for data in datas:
-            line_bot_api.push_message(data["channel_id"], message)
+            if data["channel_id"]!="autoLearn":
+                line_bot_api.push_message(data["channel_id"], message)
         store_pushed(type, title, record, "ALL")
         return 'ok'
     except:
